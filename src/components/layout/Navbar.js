@@ -1,20 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import SignedOutLinks from "./SignedOutLinks.js";
-
-const Navbar = () => {
-  return (
-    <nav className="nav-wrapper grey darken-3">
-      <center>
-        <div className="container">
-          <Link to="/" className="brand-logo">
-            hugobot
-          </Link>
-          <SignedOutLinks />
-        </div>
-      </center>
-    </nav>
-  );
-};
-
-export default Navbar;
+// import React from "react";
+// import {Link, NavLink} from "react-router-dom";
+//
+// const Navbar = () => {
+//   return (
+//     <nav className="navbar bg-dark">
+//         <ul className="navbar-nav">
+//             <li className="nav-item">
+//                 <NavLink className="nav-link" to="/">Signup</NavLink>
+//             </li>
+//             <li className="nav-item">
+//                 <NavLink className="nav-link" to="/">Login</NavLink>
+//             </li>
+//             <li className="nav-item">
+//                 <NavLink className="nav-link" to="/">tutorial</NavLink>
+//             </li>
+//         </ul>
+//         {/*<SignedOutLinks />*/}
+//     </nav>
+//   );
+// };
+//
+// export default Navbar;

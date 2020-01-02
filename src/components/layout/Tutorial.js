@@ -1,16 +1,13 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, {Component} from "react";
+import {Link} from "react-router-dom";
 
-const Tutorial = () => {
-  return (
-    <div>
-      <ul>
-        <li>
-          <NavLink to="/">tutorial</NavLink>
-        </li>
-      </ul>
-    </div>
-  );
-};
-
+class Tutorial extends Component {
+    render() {
+        return (
+            <Link to="/">
+                Tutorial
+            </Link>
+        );
+    }
+}
 export default Tutorial;
