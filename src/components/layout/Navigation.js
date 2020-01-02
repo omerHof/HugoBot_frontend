@@ -11,23 +11,21 @@ class Navigation extends Component{
     render() {
         return (
             <Navbar bg={"dark"} variant={"dark"}>
-                <Nav>
+                <div className={"row"}>
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link href="/">Tutorial</Nav.Link>
-                </Nav>
-                <Navbar.Brand>
-                    <Nav.Link href="/">
-                        Hugobot
-                    </Nav.Link>
-                </Navbar.Brand>
-                <Nav className="justify-content-end">
+                </div>
+                <div className={"row justify-content-center"}>
+                    <Navbar.Brand>
+                        <Nav.Link href="/">
+                            Hugobot
+                        </Nav.Link>
+                    </Navbar.Brand>
+                </div>
+                <div className={"row"}>
                     <Nav.Link href="/">Account</Nav.Link>
                     <Nav.Link href="/">Sign Out</Nav.Link>
-                </Nav>
-                {/*<Home/>*/}
-                {/*<Tutorial/>*/}
-                {/*<ManageAcc/>*/}
-                {/*<SignOut/>*/}
+                </div>
             </Navbar>
         );
     }
