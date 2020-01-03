@@ -10,8 +10,12 @@ class Navigation extends Component{
             <Router>
                 <Navbar className={"bg-hugobot"} variant={"dark"}>
                     <div className={"navbar navbar-left"}>
-                        <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/">Tutorial</Nav.Link>
+                        <Nav.Link href="/">
+                            <i className="fas fa-home"/> Home
+                        </Nav.Link>
+                        <Nav.Link href="/">
+                            <i className="fas fa-book-open"/> Tutorial
+                        </Nav.Link>
                     </div>
                     <div className={"row justify-content-center"}>
                         <Navbar.Brand>
@@ -21,8 +25,12 @@ class Navigation extends Component{
                         </Navbar.Brand>
                     </div>
                     <div className={"navbar navbar-right"}>
-                        <Nav.Link href="/">Account</Nav.Link>
-                        <Nav.Link href="/">Sign Out</Nav.Link>
+                        <Nav.Link href="/">
+                            <i className="fas fa-lock"/> Account
+                        </Nav.Link>
+                        <Nav.Link href="/">
+                            <i className="fas fa-sign-out-alt"/> Sign Out
+                        </Nav.Link>
                     </div>
                 </Navbar>
             </Router>
