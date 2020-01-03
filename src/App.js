@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Navigation from "./components/layout/Navigation";
 import Workflow from "./components/layout/Workflow";
-import Content from "./components/Content";
+import Content from "./components/content/Content";
 
 class App extends Component {
 

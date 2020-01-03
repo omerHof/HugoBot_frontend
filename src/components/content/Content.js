@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import MyHomeTable from "./tables/DisplayTableHome.js";
 import PostData from "./tables/Sample-JSON.json";
-import './layout/colors.css';
+import '../layout/colors.css';
 
 class Content extends Component{
     state = {
