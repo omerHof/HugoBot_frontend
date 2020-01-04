@@ -40,12 +40,12 @@ class Content extends Component{
                             />
                         </Container>
                     </Route>
-                    <Route path="/tutorial">
+                    <Route path="/Tutorial">
                         <Container>
                             <Tutorial/>
                         </Container>
                     </Route>
-                    <Route path="/manage">
+                    <Route path="/Manage">
                         <Container>
                             <Manage/>
                         </Container>

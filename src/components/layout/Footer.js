@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import './colors.css';
 import Row from "react-bootstrap/Row";
-import Nav from "react-bootstrap/Nav";
 
 class Footer extends Component{
     render() {
         return (
             <Navbar fixed="bottom" className={"bg-hugobot"}>
                 <Row>
-                    Contact us: Raz <Nav.Link>hhh</Nav.Link> Jonathan <Nav.Link>hhh</Nav.Link>
+                    Contact us: Raz: &nbsp; <code>razsht@post.bgu.ac.il</code>, &nbsp;
+                    Jonathan: &nbsp; <code>shayay@post.bgu.ac.il</code>
                 </Row>
             </Navbar>
         );

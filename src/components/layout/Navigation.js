@@ -10,7 +10,7 @@ function Navigation(){
                 <Nav.Link href={"/"}>
                     <i className="fas fa-home"/> Home
                 </Nav.Link>
-                <Nav.Link href={"/tutorial"}>
+                <Nav.Link href={"/Tutorial"}>
                     <i className="fas fa-book-open"/> Tutorial
                 </Nav.Link>
             </div>
@@ -22,7 +22,7 @@ function Navigation(){
                 </Navbar.Brand>
             </div>
             <div className={"navbar navbar-right"}>
-                <Nav.Link href="/manage">
+                <Nav.Link href="/Manage">
                     <i className="fas fa-user-lock"/> Account
                 </Nav.Link>
                 <Nav.Link href="/">
