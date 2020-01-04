@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Table from "react-bootstrap/Table";
-
 class DisplayTableHome extends Component {
+
 
     renderTableData=()=> {
         return this.props.HomeTable.rows.map((iter) => {
             return (
-                <tr>
+                <tr onClick={event =>  window.location.href='/Tutorial'}>
                     <td>{iter.UserID}</td>
                     <td>{iter.DatasetName}</td>
                     <td>{iter.Category}</td>
