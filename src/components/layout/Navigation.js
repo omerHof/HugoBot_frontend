@@ -5,7 +5,7 @@ import './colors.css';
 
 function Navigation(){
     return(
-        <Navbar className={"bg-hugobot"} variant={"dark"}>
+        <Navbar fixed={"top"} className={"bg-hugobot"} variant={"dark"}>
             <div className={"navbar navbar-left"}>
                 <Nav.Link href={"/"}>
                     <i className="fas fa-home"/> Home

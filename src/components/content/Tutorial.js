@@ -3,12 +3,10 @@ import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
-
-function importAll(r) {
-    return r.keys().map(r);
-}
-
-const images = importAll(require.context('../../resources', false, /\.(png|jpe?g|svg)$/));
+import Pic1 from "../../resources/1_toy_example.png";
+import Pic2 from "../../resources/2_toy_vmap.png";
+import Pic3 from "../../resources/3_toy_hugo_example.png";
+import Pic4 from "../../resources/4_Toy_Entity.png";
 
 class Tutorial extends Component{
 
@@ -36,7 +34,7 @@ class Tutorial extends Component{
                 A feasible representation of the data might be as follows:
                 <br/>
                 <br/>
-                <Image src={images[0]}/>
+                <Image src={Pic1}/>
                 <br/>
                 <br/>
                 To transition to HugoBot’s format, we must dissect our data
@@ -90,7 +88,7 @@ class Tutorial extends Component{
                 so we’ll use the following mapping:
                 <br/>
                 <br/>
-                <Image src={images[1]}/>
+                <Image src={Pic2}/>
                 <br/>
                 <br/>
                 In addition to being helpful for us to keep record of our mapping,
@@ -117,7 +115,7 @@ class Tutorial extends Component{
                 For our toy dataset, this should be the final result:
                 <br/>
                 <br/>
-                <Image src={images[2]}/>
+                <Image src={Pic3}/>
                 <br/>
                 <br/>
                 Now, after registering and being approved we can upload our dataset for discretization!
@@ -129,7 +127,7 @@ class Tutorial extends Component{
                 where the first column is the id column. For example:
                 <br/>
                 <br/>
-                <Image src={images[3]}/>
+                <Image src={Pic4}/>
                 <br/>
                 <br/>
                 can be representative of our dataset.

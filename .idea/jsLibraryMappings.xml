@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{materialize, react-bootstrap}" />
+    <file url="PROJECT" libraries="{all, materialize, react-bootstrap, react-dom.development, react-dom.production, react.development, react.production}" />
   </component>
 </project>

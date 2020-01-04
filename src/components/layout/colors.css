@@ -2,10 +2,7 @@
     background-color:#2d3e50
 }
 
-.btn-arrow-first {
-    color: aquamarine;
-}
-
-.btn-arrow {
-    color: aquamarine;
+.footer-hugobot {
+    max-height: 35px;
+    min-height: 30px;
 }
