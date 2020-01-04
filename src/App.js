@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Navigation from "./components/layout/Navigation";
-import Workflow from "./components/layout/Workflow";
 import Content from "./components/content/Content";
+import Footer from "./components/layout/Footer";
 
 class App extends Component {
 
@@ -11,9 +11,9 @@ class App extends Component {
                 <Navigation />
                 <br/>
                 <br/>
-                <Workflow/>
-                <br/>
                 <Content/>
+                <br/>
+                <Footer/>
             </div>
         );
     }

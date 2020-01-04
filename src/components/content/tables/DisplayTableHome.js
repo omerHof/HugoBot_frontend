@@ -20,9 +20,9 @@ class DisplayTableHome extends Component {
 
     render() {
         return (
-            <Table striped={true} bordered={true} hover={true} size={"md"}>
+            <Table striped={true} bordered={true} hover={true}>
                 <tbody>
-                {this.renderTableData()}
+                    {this.renderTableData()}
                 </tbody>
             </Table>
         )
