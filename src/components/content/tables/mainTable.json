@@ -1,7 +1,7 @@
 {
   "rows": [
     {
-      "UserID": 1,
+      "UserID": "1",
       "DatasetName": "Sepsis",
       "Category": "Medical",
       "Size": "2.444MB",
@@ -9,7 +9,7 @@
       "PublicPrivate": "Public"
     },
     {
-      "UserID": 2,
+      "UserID": "2",
       "DatasetName": "Diabetes",
       "Category": "Medical",
       "Size": "11.371MB",
@@ -17,7 +17,7 @@
       "PublicPrivate": "Public"
     },
     {
-      "UserID": 3,
+      "UserID": "3",
       "DatasetName": "Hepatitis",
       "Category": "Medical",
       "Size": "4.007MB",
@@ -25,7 +25,7 @@
       "PublicPrivate": "Public"
     },
     {
-      "UserID": 4,
+      "UserID": "4",
       "DatasetName": "Gesture",
       "Category": "Behavior",
       "Size": "26.288MB",
@@ -33,7 +33,7 @@
       "PublicPrivate": "Public"
     },
     {
-      "UserID": 5,
+      "UserID": "5",
       "DatasetName": "FAGender",
       "Category": "Medical",
       "Size": "12.166MB",

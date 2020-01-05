@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import Table from "react-bootstrap/Table";
 class DisplayTableHome extends Component {
 
-
     renderTableData=()=> {
         return this.props.HomeTable.rows.map((iter) => {
             return (
-                <tr onClick={event =>  window.location.href='/Tutorial'}>
+                <tr key={iter.DatasetName} onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
+                >
                     <td>{iter.UserID}</td>
                     <td>{iter.DatasetName}</td>
                     <td>{iter.Category}</td>
@@ -18,11 +18,17 @@ class DisplayTableHome extends Component {
         })
     };
 
+    //CollectData=(e,id) =>{
+    // window.location.href='/Tutorial'
+    // this.props.collectDate.bind(this, id);
+
+    // }
+
     render() {
         return (
             <Table striped={true} bordered={true} hover={true}>
                 <tbody>
-                    {this.renderTableData()}
+                {this.renderTableData()}
                 </tbody>
             </Table>
         )

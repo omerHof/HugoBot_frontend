@@ -1,0 +1,22 @@
+{
+  "rows": [
+    {
+      "MethodOfDiscretization": "Equal Frequency",
+      "BinsNumber": "1",
+      "InterpolationGap": "1",
+      "PAAWindowSize": "1"
+    },
+    {
+      "MethodOfDiscretization": "Sax",
+      "BinsNumber": "2",
+      "InterpolationGap": "1",
+      "PAAWindowSize": "1"
+    },
+    {
+      "MethodOfDiscretization": "Equal Width",
+      "BinsNumber": "3",
+      "InterpolationGap": "1",
+      "PAAWindowSize": "1"
+    }
+  ]
+}
