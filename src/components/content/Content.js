@@ -31,6 +31,7 @@ class Content extends Component{
             <Router>
                 <Switch>
                     <Route exact={true} path={"/"}>
+                        <br/>
                         <Workflow/>
                         <br/>
                         <br/>

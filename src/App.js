@@ -11,6 +11,7 @@ class App extends Component {
                 <Navigation />
                 <br/>
                 <br/>
+                <br/>
                 <Content/>
                 <br/>
                 <Footer/>

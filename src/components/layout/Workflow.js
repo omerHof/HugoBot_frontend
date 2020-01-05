@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import './colors.css';
 import './workflow.css';
+import Container from "react-bootstrap/Container";
 
 class Workflow extends Component{
     render() {
         return (
-            <div className={"container"}>
+            <Container>
                 <a href="/" className="btn bg-hugobot btn-arrow-right">Dataset Upload</a>
                 <a href="/" className="btn bg-hugobot btn-arrow-right">Temporal Abstraction</a>
                 <a href="/" className="btn bg-hugobot btn-arrow-right">Time Interval Mining</a>
                 <a href="/" className="btn bg-hugobot btn-arrow-right">Visualization</a>
-            </div>
+            </Container>
         );
     }
 }
