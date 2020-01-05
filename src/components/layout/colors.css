@@ -2,6 +2,10 @@
     background-color:#2d3e50
 }
 
+.text-hugobot {
+    color: white;
+}
+
 .footer-hugobot {
     max-height: 35px;
     min-height: 30px;
