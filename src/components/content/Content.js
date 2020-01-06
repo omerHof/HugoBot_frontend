@@ -1,15 +1,17 @@
 import React, { Component } from "react";
-import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
+import { Router, Redirect, Route, Switch} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Tutorial from "./Tutorial";
 import Manage from "./Manage";
 import TableContent from "./tables/TableContent"
 import '../layout/colors.css';
+import history from "./tables/History";
+
 
 class Content extends Component{
     render(){
         return (
-            <Router>
+            <Router history={history}>
                 <Switch>
                     <Route path={"/Home"}>
                         <TableContent/>
