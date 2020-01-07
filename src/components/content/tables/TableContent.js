@@ -17,6 +17,11 @@ import TIMData from "./TIMData";
 import Workflow from "./Workflow";
 import { Link} from "react-router-dom";
 
+import InfoCard from "./infoComponents/InfoCard";
+import StatsCard from "./infoComponents/StatsCard";
+import VMapCard from "./infoComponents/VMapCard";
+import AddConfigCard from "./discComponents/AddConfigCard";
+
 class TableContent extends Component{
     state = {
         HomeTable: [],
@@ -50,7 +55,6 @@ class TableContent extends Component{
                 <br/>
                 <Workflow/>
                 <br/>
-                <br/>
                 <Container>
                     <Route exact={true} path={"/Home"}>
                         <MyHomeTable
@@ -59,9 +63,13 @@ class TableContent extends Component{
                         />
                     </Route>
                     <Route path={"/Home/Info"}>
-                        <InfoTable
-                            InfoTable={this.state.InfoTable}
-                        />
+                        {/*<InfoCard/>*/}
+                        {/*<StatsCard/>*/}
+                        <VMapCard/>
+                        {/*<AddConfigCard/>*/}
+                        {/*<InfoTable*/}
+                        {/*    InfoTable={this.state.InfoTable}*/}
+                        {/*/>*/}
                     </Route>
                     <Route path={"/Home/Disc"}>
                         <DiscretizationTable
