@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import Table from "react-bootstrap/Table";
 
-class DiscretizationTable extends Component {
+class InfoTable extends Component {
 
     renderTableData=()=> {
         return this.props.InfoTable.rows.map((iter) => {
             return (
-                <tr key={iter.VariableID}
+               <tr
                 >
-                    <td>{iter.VariableID}</td>
-                    <td>{iter.VariableName}</td>
-                    <td>{iter.Description}</td>
+                    <td>{"iter.VariableID"}</td>
+                    <td>{"iter.VariableName"}</td>
+                    <td>{"iter.Description"}</td>
                 </tr>
             )
         })
@@ -27,4 +27,4 @@ class DiscretizationTable extends Component {
     }
 }
 
-export default DiscretizationTable ;
+export default InfoTable ;

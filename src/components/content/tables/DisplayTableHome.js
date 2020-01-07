@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import Table from "react-bootstrap/Table";
 class DisplayTableHome extends Component {
 
+
+   // onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
+
     renderTableData=()=> {
         return this.props.HomeTable.rows.map((iter) => {
             return (
-                <tr key={iter.DatasetName} onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
+                <tr onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
                 >
                     <td>{iter.UserID}</td>
                     <td>{iter.DatasetName}</td>
@@ -17,6 +20,8 @@ class DisplayTableHome extends Component {
             )
         })
     };
+
+
 
     //CollectData=(e,id) =>{
     // window.location.href='/Tutorial'

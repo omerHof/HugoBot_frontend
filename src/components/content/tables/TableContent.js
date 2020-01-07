@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import { Router, Route} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 
 import MyHomeTable from "./DisplayTableHome";
@@ -7,12 +7,15 @@ import InfoTable from "./InfoTable";
 import DiscretizationTable from "./DiscretizationTable";
 import TIMTable from "./TIMTable";
 
+import history from "./History";
+
 import HomeData from "./mainTable";
 import InfoData from "./infoData";
 import DiscretizationData from "./DiscretizationData";
 import TIMData from "./TIMData";
 
 import Workflow from "./Workflow";
+import { Link} from "react-router-dom";
 
 class TableContent extends Component{
     state = {
@@ -26,24 +29,24 @@ class TableContent extends Component{
         super(props);
         // Don't call this.setState() here!
         this.state = {  HomeTable: HomeData,
-                        InfoTable: HomeData,
-                        DiscretizationTable: HomeData,
-                        TIMTable: HomeData};
+                        }
+    }
+
+    componentWillUnmount(){
+        console.log("hey");
     }
 
     CollectData=(id) =>
     {
-        this.setState({InfoTable : InfoData});
-        this.setState({DiscretizationTable : DiscretizationData});
-        this.setState({TIMTable : TIMData});
+        this.setState({DiscretizationTable : DiscretizationData, InfoTable : DiscretizationData, TIMTable: DiscretizationData});
         //console.log(this.state.TemporalAbstractionTable);
         //alert(id);
-        window.location.href='/Home/Info';
+        history.push("/Home/Disc");
     }
 
     render() {
         return (
-            <Router>
+            <Router history={history}>
                 <br/>
                 <Workflow/>
                 <br/>
@@ -63,11 +66,12 @@ class TableContent extends Component{
                     <Route path={"/Home/Disc"}>
                         <DiscretizationTable
                             DiscretizationTable={this.state.DiscretizationTable}
+
                         />
                     </Route>
                     <Route path={"/Home/TIM"}>
                         <TIMTable
-                            TIMTable={this.state.TIMTable}
+                            TIM={this.state.TIMTable}
                         />
                     </Route>
                 </Container>

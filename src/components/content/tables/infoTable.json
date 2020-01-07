@@ -1,0 +1,29 @@
+{
+  "rows": [
+    {
+      "VariableID": 1,
+      "VariableName": "raz",
+      "Description": "guy"
+    },
+    {
+      "VariableID": 2,
+      "VariableName": "yonatan",
+      "Description": "eran"
+    },
+    {
+      "VariableID": 3,
+      "VariableName": "mich",
+      "Description": "noa"
+    },
+    {
+      "VariableID": 4,
+      "VariableName": "dvir",
+      "Description": "moshe"
+    },
+    {
+      "VariableID": 5,
+      "VariableName": "oded",
+      "Description": "aviv"
+    }
+  ]
+}

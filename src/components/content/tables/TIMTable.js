@@ -5,7 +5,7 @@ class TIMTable extends Component {
     renderTableData=()=> {
         return this.props.TIM.rows.map((iter) => {
             return (
-                <tr key={iter.PAAWindowSize.concat(iter.MethodOfDiscretization,iter.BinsNumber,iter.InterpolationGap)}
+                <tr
                 >
                     <td>{iter.MethodOfDiscretization}</td>
                     <td>{iter.BinsNumber}</td>
