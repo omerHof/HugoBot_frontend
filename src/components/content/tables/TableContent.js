@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Router, Route} from "react-router-dom";
 import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
 
 import MyHomeTable from "./DisplayTableHome";
 import InfoTable from "./InfoTable";
@@ -21,6 +22,7 @@ import InfoCard from "./infoComponents/InfoCard";
 import StatsCard from "./infoComponents/StatsCard";
 import VMapCard from "./infoComponents/VMapCard";
 import AddConfigCard from "./discComponents/AddConfigCard";
+import Row from "react-bootstrap/Row";
 
 class TableContent extends Component{
     state = {
@@ -43,10 +45,10 @@ class TableContent extends Component{
 
     CollectData=(id) =>
     {
-        this.setState({DiscretizationTable : DiscretizationData, InfoTable : DiscretizationData, TIMTable: DiscretizationData});
+        this.setState({DiscretizationTable : DiscretizationData, InfoTable : InfoTable, TIMTable: TIMTable});
         //console.log(this.state.TemporalAbstractionTable);
         //alert(id);
-        history.push("/Home/Disc");
+        history.push("/Home/Info");
     }
 
     render() {
@@ -63,13 +65,20 @@ class TableContent extends Component{
                         />
                     </Route>
                     <Route path={"/Home/Info"}>
-                        {/*<InfoCard/>*/}
-                        {/*<StatsCard/>*/}
-                        <VMapCard/>
-                        {/*<AddConfigCard/>*/}
-                        {/*<InfoTable*/}
-                        {/*    InfoTable={this.state.InfoTable}*/}
-                        {/*/>*/}
+                        <Container fluid={true}>
+                            <Row>
+                                <Col md={4}>
+                                    <InfoCard/>
+                                    <StatsCard/>
+                                    {/*<Link to={"/Home/Info"}>*/}
+                                    {/*    Download Dataset Files*/}
+                                    {/*</Link>*/}
+                                </Col>
+                                <Col md={8}>
+                                    <VMapCard/>
+                                </Col>
+                            </Row>
+                        </Container>
                     </Route>
                     <Route path={"/Home/Disc"}>
                         <DiscretizationTable
