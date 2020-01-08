@@ -3,7 +3,7 @@ import Table from "react-bootstrap/Table";
 class TIMTable extends Component {
 
     renderTableData=()=> {
-        return this.props.TIM.rows.map((iter) => {
+        return this.props.TIMTable.rows.map((iter) => {
             return (
                 <tr
                 >

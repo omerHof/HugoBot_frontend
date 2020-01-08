@@ -35,17 +35,13 @@ class TableContent extends Component{
     constructor(props) {
         super(props);
         // Don't call this.setState() here!
-        this.state = {  HomeTable: HomeData,
+        this.state = {  HomeTable: HomeData
                         }
-    }
-
-    componentWillUnmount(){
-        console.log("hey");
     }
 
     CollectData=(id) =>
     {
-        this.setState({DiscretizationTable : DiscretizationData, InfoTable : InfoTable, TIMTable: TIMTable});
+        this.setState({DiscretizationTable : DiscretizationData ,InfoTable : InfoTable, TIMTable: TIMData});
         //console.log(this.state.TemporalAbstractionTable);
         //alert(id);
         history.push("/Home/Info");
@@ -83,12 +79,11 @@ class TableContent extends Component{
                     <Route path={"/Home/Disc"}>
                         <DiscretizationTable
                             DiscretizationTable={this.state.DiscretizationTable}
-
                         />
                     </Route>
                     <Route path={"/Home/TIM"}>
                         <TIMTable
-                            TIM={this.state.TIMTable}
+                            TIMTable={this.state.TIMTable}
                         />
                     </Route>
                 </Container>
