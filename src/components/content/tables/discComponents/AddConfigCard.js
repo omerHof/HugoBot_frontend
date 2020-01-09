@@ -75,8 +75,8 @@ class AddConfigCard extends Component{
                     </Col>
                 </Form.Row>
                 <Row className={"justify-content-center"}>
-                    <Button className={"bg-hugobot"} type="submit">
-                        <i className="fas fa-plus"/>Add Configuration
+                    <Button className="bg-hugobot" type="submit">
+                        <i className="fas fa-plus"/> Add Configuration
                     </Button>
                 </Row>
             </Container>

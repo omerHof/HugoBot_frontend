@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Table from "react-bootstrap/Table";
+import {Button} from "react-bootstrap";
 class DiscretizationTable extends Component {
 
     toDelete=()=>{
@@ -9,13 +10,24 @@ class DiscretizationTable extends Component {
     renderTableData=()=> {
         return this.props.DiscretizationTable.rows.map((iter) => {
             return (
-                <tr
-                >
-                    <td>{iter.MethodOfDiscretization}</td>
-                    <td>{iter.BinsNumber}</td>
-                    <td>{iter.InterpolationGap}</td>
-                    <td>{iter.PAAWindowSize}</td>
-                    <td>{<button className="DownLoadBTN" onClick={this.toDelete}>Download</button>}</td>
+                <tr>
+                    <td>
+                        {iter.MethodOfDiscretization}
+                    </td>
+                    <td>
+                        {iter.BinsNumber}
+                    </td>
+                    <td>
+                        {iter.InterpolationGap}
+                    </td>
+                    <td>
+                        {iter.PAAWindowSize}
+                    </td>
+                    <td>
+                        {<Button className="bg-hugobot" onClick={this.toDelete}>
+                            <i className="fas fa-download"/> Download
+                        </Button>}
+                    </td>
                 </tr>
             )
         })

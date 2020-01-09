@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Container from "react-bootstrap/Container";
 import '../../layout/colors.css';
 import './workflow.css';
-import Nav from "react-bootstrap/Nav";
 import {Link, Router} from "react-router-dom";
 import History from "./History";
 

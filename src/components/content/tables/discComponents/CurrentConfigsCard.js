@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import {Container, Row, Col, Form, Card, Table} from "react-bootstrap"
+import {Card, Table} from "react-bootstrap"
 import "../../../layout/colors.css"
-import DiscretizationTable from "../DiscretizationTable";
 class CurrentConfigsCard extends Component{
 
     // state = {

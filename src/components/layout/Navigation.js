@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import Navbar from "react-bootstrap/Navbar";
 import History from "../content/tables/History";
-import Nav from "react-bootstrap/Nav";
 import './colors.css';
 import {Link, Router} from "react-router-dom";
 
