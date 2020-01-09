@@ -5,10 +5,32 @@ class DiscretizationTable extends Component {
 
     toDelete=()=>{
 
-    }
+    };
+
+    renderTableHeader = () => {
+        return (
+          <tr>
+              <td>
+                  Method Of Discretization
+              </td>
+              <td>
+                  Bins Number
+              </td>
+              <td>
+                  Interpolation Gap
+              </td>
+              <td>
+                  PAA Window Size
+              </td>
+              <td>
+                  Status/Download Link
+              </td>
+          </tr>
+        );
+    };
 
     renderTableData=()=> {
-        return this.props.DiscretizationTable.rows.map((iter) => {
+        return JSON.parse(sessionStorage.DiscretizationTable).rows.map((iter) => {
             return (
                 <tr>
                     <td>
@@ -37,6 +59,7 @@ class DiscretizationTable extends Component {
         return (
             <Table striped={true} bordered={true} hover={true}>
                 <tbody>
+                {this.renderTableHeader()}
                 {this.renderTableData()}
                 </tbody>
             </Table>

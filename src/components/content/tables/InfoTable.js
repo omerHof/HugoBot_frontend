@@ -4,10 +4,9 @@ import Table from "react-bootstrap/Table";
 class InfoTable extends Component {
 
     renderTableData=()=> {
-        return this.props.InfoTable.rows.map((iter) => {
+        return JSON.parse(sessionStorage.InfoTable).rows.map((iter) => {
             return (
-               <tr
-                >
+               <tr>
                     <td>{"iter.VariableID"}</td>
                     <td>{"iter.VariableName"}</td>
                     <td>{"iter.Description"}</td>

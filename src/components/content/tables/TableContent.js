@@ -44,12 +44,13 @@ class TableContent extends Component{
 
     CollectData=(id) =>
     {
-        this.setState({DiscretizationTable : DiscretizationData, InfoTable : InfoTable, TIMTable: TIMTable});
-        //console.log(this.state.TemporalAbstractionTable);
-        //alert(id);
+        sessionStorage.setItem('DiscretizationTable', JSON.stringify(DiscretizationData));
+        sessionStorage.setItem('TIMTable', JSON.stringify(TIMData));
+        sessionStorage.setItem('InfoTable', JSON.stringify(InfoData));
         history.push("/Home/Info");
     }
 
+    //<editor-fold desc="Sub-Components">
     Info = (
         <Container fluid={true}>
             <Row>
@@ -74,6 +75,15 @@ class TableContent extends Component{
             </Card.Text>
         </Card.Header>
     );
+
+    CurrTIMHeadElement = (
+        <Card.Header className={"bg-hugobot"}>
+            <Card.Text className={"text-hugobot"}>
+                Discovered Patterns
+            </Card.Text>
+        </Card.Header>
+    );
+    //</editor-fold>
 
     render() {
         return (
@@ -103,9 +113,16 @@ class TableContent extends Component{
                         </Card>
                     </Route>
                     <Route path={"/Home/TIM"}>
-                        <TIMTable
-                            TIM={this.state.TIMTable}
-                        />
+                        <small>
+                            <Card style={{ width: 'auto' }}>
+                                {this.CurrTIMHeadElement}
+                                <Card.Body>
+                                    <TIMTable
+                                        TIM={this.state.TIMTable}
+                                    />
+                                </Card.Body>
+                            </Card>
+                        </small>
                     </Route>
                 </Container>
             </Router>
