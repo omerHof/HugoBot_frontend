@@ -9,23 +9,23 @@ class DiscretizationTable extends Component {
 
     renderTableHeader = () => {
         return (
-          <tr>
-              <td>
-                  Method Of Discretization
-              </td>
-              <td>
-                  Bins Number
-              </td>
-              <td>
-                  Interpolation Gap
-              </td>
-              <td>
-                  PAA Window Size
-              </td>
-              <td>
-                  Status/Download Link
-              </td>
-          </tr>
+            <tr>
+                <td>
+                    PAA Window Size
+                </td>
+                <td>
+                    Method Of Discretization
+                </td>
+                <td>
+                    Bins Number
+                </td>
+                <td>
+                    Interpolation Gap
+                </td>
+                <td>
+                    Status/Download Link
+                </td>
+            </tr>
         );
     };
 
@@ -34,6 +34,9 @@ class DiscretizationTable extends Component {
             return (
                 <tr>
                     <td>
+                        {iter.PAAWindowSize}
+                    </td>
+                    <td>
                         {iter.MethodOfDiscretization}
                     </td>
                     <td>
@@ -41,9 +44,6 @@ class DiscretizationTable extends Component {
                     </td>
                     <td>
                         {iter.InterpolationGap}
-                    </td>
-                    <td>
-                        {iter.PAAWindowSize}
                     </td>
                     <td>
                         {<Button className="bg-hugobot" onClick={this.toDelete}>

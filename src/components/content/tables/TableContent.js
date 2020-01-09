@@ -75,14 +75,6 @@ class TableContent extends Component{
             </Card.Text>
         </Card.Header>
     );
-
-    CurrTIMHeadElement = (
-        <Card.Header className={"bg-hugobot"}>
-            <Card.Text className={"text-hugobot"}>
-                Discovered Patterns
-            </Card.Text>
-        </Card.Header>
-    );
     //</editor-fold>
 
     render() {
@@ -106,23 +98,12 @@ class TableContent extends Component{
                         <Card style={{ width: 'auto' }}>
                             {this.CurrConfigHeadElement}
                             <Card.Body>
-                                <DiscretizationTable
-                                    DiscretizationTable={this.state.DiscretizationTable}
-                                />
+                                <DiscretizationTable/>
                             </Card.Body>
                         </Card>
                     </Route>
                     <Route path={"/Home/TIM"}>
-                        <small>
-                            <Card style={{ width: 'auto' }}>
-                                {this.CurrTIMHeadElement}
-                                <Card.Body>
-                                    <TIMTable
-                                        TIM={this.state.TIMTable}
-                                    />
-                                </Card.Body>
-                            </Card>
-                        </small>
+                        <TIMTable/>
                     </Route>
                 </Container>
             </Router>
