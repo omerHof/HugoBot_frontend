@@ -12,7 +12,7 @@ class Navigation extends Component{
                 <Navbar fixed={"top"} className={"bg-hugobot"} variant={"dark"}>
                     <div className={"navbar navbar-left"}>
                         <Link to={"/"}>
-                            <i className="fas fa-home"/> Home
+                            <i className="fas fa-home"/> Home &nbsp;
                         </Link>
                         <Link to={"/Tutorial"}>
                             <i className="fas fa-book-open"/> Tutorial
@@ -27,7 +27,7 @@ class Navigation extends Component{
                     </div>
                     <div className={"navbar navbar-right"}>
                         <Link to={"/Manage"}>
-                            <i className="fas fa-user-lock"/> Account
+                            <i className="fas fa-user-lock"/> Account &nbsp;
                         </Link>
                         <Link to={"/"}>
                             <i className="fas fa-sign-out-alt"/> Sign Out

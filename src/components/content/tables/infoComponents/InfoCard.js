@@ -19,7 +19,7 @@ class InfoCard extends Component{
                         <b>Category:</b> Medical
                     </Card.Text>
                     <Card.Text>
-                        <b>Owner:</b> sharongrinberg
+                        <b>Owner:</b> razshtrauchler
                     </Card.Text>
                     <Card.Text>
                         <b>Source:</b> Unknown

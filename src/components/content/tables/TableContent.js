@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Router, Route} from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
+import {Card, Col, Container, Row} from "react-bootstrap";
 
 import MyHomeTable from "./DisplayTableHome";
 import InfoTable from "./InfoTable";
@@ -22,7 +21,7 @@ import InfoCard from "./infoComponents/InfoCard";
 import StatsCard from "./infoComponents/StatsCard";
 import VMapCard from "./infoComponents/VMapCard";
 import AddConfigCard from "./discComponents/AddConfigCard";
-import Row from "react-bootstrap/Row";
+import CurrentConfigsCard from "./discComponents/CurrentConfigsCard";
 
 class TableContent extends Component{
     state = {
@@ -51,6 +50,31 @@ class TableContent extends Component{
         history.push("/Home/Info");
     }
 
+    Info = (
+        <Container fluid={true}>
+            <Row>
+                <Col md={4}>
+                    <InfoCard/>
+                    <StatsCard/>
+                    {/*<Link to={"/Home/Info"}>*/}
+                    {/*    Download Dataset Files*/}
+                    {/*</Link>*/}
+                </Col>
+                <Col md={8}>
+                    <VMapCard/>
+                </Col>
+            </Row>
+        </Container>
+    );
+
+    CurrConfigHeadElement = (
+        <Card.Header className={"bg-hugobot"}>
+            <Card.Text className={"text-hugobot"}>
+                Use an Existing Configuration
+            </Card.Text>
+        </Card.Header>
+    );
+
     render() {
         return (
             <Router history={history}>
@@ -65,26 +89,18 @@ class TableContent extends Component{
                         />
                     </Route>
                     <Route path={"/Home/Info"}>
-                        <Container fluid={true}>
-                            <Row>
-                                <Col md={4}>
-                                    <InfoCard/>
-                                    <StatsCard/>
-                                    {/*<Link to={"/Home/Info"}>*/}
-                                    {/*    Download Dataset Files*/}
-                                    {/*</Link>*/}
-                                </Col>
-                                <Col md={8}>
-                                    <VMapCard/>
-                                </Col>
-                            </Row>
-                        </Container>
+                        {this.Info}
                     </Route>
                     <Route path={"/Home/Disc"}>
-                        <DiscretizationTable
-                            DiscretizationTable={this.state.DiscretizationTable}
-
-                        />
+                        <AddConfigCard/>
+                        <Card style={{ width: 'auto' }}>
+                            {this.CurrConfigHeadElement}
+                            <Card.Body>
+                                <DiscretizationTable
+                                    DiscretizationTable={this.state.DiscretizationTable}
+                                />
+                            </Card.Body>
+                        </Card>
                     </Route>
                     <Route path={"/Home/TIM"}>
                         <TIMTable
