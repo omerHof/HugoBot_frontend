@@ -3,6 +3,31 @@ import Table from "react-bootstrap/Table";
 import {Button, Card, Form} from "react-bootstrap";
 class TIMTable extends Component {
 
+    handleSubmit = (EpsilonInput,MaxGapInput,MinVerticalSupportInput) => {
+
+        let disc = JSON.parse(sessionStorage.DiscretizationTable);
+
+        let x= JSON.parse(sessionStorage.TIMTable);
+
+        if (EpsilonInput) {
+            // window.alert(EpsilonInput.value);
+
+            let y = {
+                "MethodOfDiscretization": disc.MethodOfDiscretization,
+                "BinsNumber": disc.BinsNumber,
+                "InterpolationGap": disc.InterpolationGap,
+                "PAAWindowSize": disc.PAAWindowSize,
+                "epsilon": EpsilonInput.value,
+                "MaxGap": MaxGapInput.value,
+                "VerticalSupport": MinVerticalSupportInput.value
+            };
+            x.rows.push(y);
+
+            sessionStorage.setItem('TIMTable', JSON.stringify(x));
+            this.forceUpdate();
+        }
+    };
+
     //<editor-fold desc="Sub-elements">
     AddRunHeadElement = (
         <Card.Header className={"bg-hugobot"}>
@@ -54,7 +79,12 @@ class TIMTable extends Component {
     };
 
     renderAddRunData = () => {
-        return JSON.parse(sessionStorage.TIMTable).rows.map((iter) => {
+        let nm = 0;
+        return JSON.parse(sessionStorage.DiscretizationTable).rows.map((iter) => {
+            nm++;
+            let EpsilonInput = "EpsilonInput" + nm;
+            let MaxGapInput = "MaxGapInput" + nm;
+            let MinVSInput = "MinVSInput" + nm;
             return (
                 <tr>
                     <td>
@@ -70,21 +100,25 @@ class TIMTable extends Component {
                         {iter.PAAWindowSize}
                     </td>
                     <td>
-                        <Form.Control type={"text"}>
+                        <Form.Control id={EpsilonInput} type={"text"}>
                         </Form.Control>
                     </td>
                     <td>
-                        <Form.Control type={"text"}>
+                        <Form.Control id={MaxGapInput} type={"text"}>
                         </Form.Control>
                     </td>
                     <td>
-                        <Form.Control type={"text"}>
+                        <Form.Control id={MinVSInput} type={"text"}>
                         </Form.Control>
                     </td>
                     <td>
-                        {<Button className="bg-hugobot" onClick={this.toDelete}>
-                            <i className="fas fa-play"/> Discover Patterns
-                        </Button>}
+                        <Button className="bg-hugobot"
+                                 onClick={() => this.handleSubmit(
+                                     document.getElementById(EpsilonInput),
+                                     document.getElementById(MaxGapInput),
+                                     document.getElementById(MinVSInput))}>
+                            <i className="fas fa-play"/>Mine
+                        </Button>
                     </td>
                 </tr>
             )
@@ -164,12 +198,12 @@ class TIMTable extends Component {
                 <Card style={{ width: 'auto' }}>
                     {this.AddRunHeadElement}
                     <Card.Body>
-                        <Table hover>
-                            {this.renderAddRunHeader()}
-                            <tbody>
-                                {this.renderAddRunData()}
-                            </tbody>
-                        </Table>
+                            <Table hover>
+                                {this.renderAddRunHeader()}
+                                <tbody>
+                                        {this.renderAddRunData()}
+                                </tbody>
+                            </Table>
                     </Card.Body>
                 </Card>
                 <Card style={{ width: 'auto' }}>

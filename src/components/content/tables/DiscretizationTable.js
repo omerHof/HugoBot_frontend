@@ -56,6 +56,8 @@ class DiscretizationTable extends Component {
     };
 
     render() {
+        let  that = this;
+        window.addEventListener("ReloadTable", function(){that.forceUpdate()});
         return (
             <Table striped={true} bordered={true} hover={true}>
                 <tbody>

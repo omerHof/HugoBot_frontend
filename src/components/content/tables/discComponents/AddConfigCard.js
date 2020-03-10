@@ -1,8 +1,33 @@
 import React, { Component } from "react";
 import {Container, Row, Col, Form, Card, Button} from "react-bootstrap"
 import "../../../layout/colors.css"
+import {fireEvent} from "@testing-library/react";
+import triggerBrowserReflow from "react-bootstrap/cjs/triggerBrowserReflow";
 
 class AddConfigCard extends Component{
+
+    handleSubmit = (event) => {
+
+        event.preventDefault();
+
+        let x= JSON.parse(sessionStorage.DiscretizationTable);
+
+        let y={
+            "MethodOfDiscretization": event.target.AbMethodInput.value,
+            "BinsNumber": event.target.NumStatesInput.value,
+            "InterpolationGap": event.target.InterpolationInput.value,
+            "PAAWindowSize": event.target.PAAInput.value
+        };
+
+        x.rows.push(y);
+
+        sessionStorage.setItem('DiscretizationTable', JSON.stringify(x));
+
+        window.dispatchEvent(new Event("ReloadTable"));
+        //this.forceUpdate();
+    };
+
+
 
     //<editor-fold desc="Sub-components">
 
@@ -20,7 +45,7 @@ class AddConfigCard extends Component{
                 <Form.Label className={"font-weight-bold"}>
                     PAA Window Size
                 </Form.Label>
-                <Form.Control type={"text"} placeholder="1" />
+                <Form.Control name="PAAInput" type={"text"} placeholder="1" />
                 <Form.Text className="text-muted">
                     Window size must be at least 1
                 </Form.Text>
@@ -34,11 +59,11 @@ class AddConfigCard extends Component{
                 <Form.Label className={"font-weight-bold"}>
                     Abstraction Method
                 </Form.Label>
-                <Form.Control type={"text"} placeholder="" />
+                <Form.Control name="AbMethodInput" type={"text"} placeholder="" />
                 <Form.Label className={"font-weight-bold"}>
                     Number of States
                 </Form.Label>
-                <Form.Control type={"text"} placeholder="2" />
+                <Form.Control name="NumStatesInput" type={"text"} placeholder="2" />
                 <Form.Text className="text-muted">
                     Number of states must be at least 2
                 </Form.Text>
@@ -52,7 +77,7 @@ class AddConfigCard extends Component{
                 <Form.Label className={"font-weight-bold"}>
                     Interpolation Gap
                 </Form.Label>
-                <Form.Control type={"text"} placeholder="1" />
+                <Form.Control name="InterpolationInput" type={"text"} placeholder="1" />
                 <Form.Text className="text-muted">
                     Interpolation gap must be at least 1
                 </Form.Text>
@@ -61,7 +86,7 @@ class AddConfigCard extends Component{
     );
 
     ConfigurationForm = (
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
             <Container fluid={true}>
                 <Form.Row>
                     <Col md={4}>
