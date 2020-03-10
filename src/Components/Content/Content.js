@@ -3,9 +3,9 @@ import { Router, Redirect, Route, Switch} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Tutorial from "./Tutorial";
 import Manage from "./Manage";
-import TableContent from "./tables/TableContent"
-import '../layout/colors.css';
-import history from "./tables/History";
+import TableContent from "./Tables/TableContent"
+import '../../resources/style/colors.css';
+import history from "./Tables/History";
 
 
 class Content extends Component{

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
-import "../../../layout/colors.css"
+import "../../../../resources/style/colors.css"
 
 class InfoCard extends Component{
     render() {

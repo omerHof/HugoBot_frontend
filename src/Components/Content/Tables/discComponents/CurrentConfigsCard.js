@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {Card, Table} from "react-bootstrap"
-import "../../../layout/colors.css"
+import "../../../../resources/style/colors.css"
 class CurrentConfigsCard extends Component{
 
     // state = {
@@ -14,7 +14,7 @@ class CurrentConfigsCard extends Component{
     //     }
     // }
 
-    //<editor-fold desc="Sub-components">
+    //<editor-fold desc="Sub-Components">
 
     CurrConfigHeadElement = (
         <Card.Header className={"bg-hugobot"}>

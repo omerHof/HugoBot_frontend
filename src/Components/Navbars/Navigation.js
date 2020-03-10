@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Navbar from "react-bootstrap/Navbar";
-import History from "../content/tables/History";
-import './colors.css';
+import History from "../Content/Tables/History";
+import '../../resources/style/colors.css';
 import {Link, Router} from "react-router-dom";
 
 class Navigation extends Component{
@@ -17,7 +17,7 @@ class Navigation extends Component{
                             <i className="fas fa-book-open"/> Tutorial
                         </Link>
                     </div>
-                    <div className={"row justify-content-center"}>
+                    <div className={"row justify-Content-center"}>
                         <Navbar.Brand>
                             <Link to={"/"}>
                                 <h4>HugoBot</h4>

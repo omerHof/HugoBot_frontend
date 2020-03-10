@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {Container, Row, Col, Form, Card, Button} from "react-bootstrap"
-import "../../../layout/colors.css"
+import "../../../../resources/style/colors.css"
 // import {fireEvent} from "@testing-library/react";
 // import triggerBrowserReflow from "react-bootstrap/cjs/triggerBrowserReflow";
 
@@ -29,7 +29,7 @@ class AddConfigCard extends Component{
 
 
 
-    //<editor-fold desc="Sub-components">
+    //<editor-fold desc="Sub-Components">
 
     HeadElement = (
         <Card.Header className={"bg-hugobot"}>
@@ -99,7 +99,7 @@ class AddConfigCard extends Component{
                         {this.InterpolationElement}
                     </Col>
                 </Form.Row>
-                <Row className={"justify-content-center"}>
+                <Row className={"justify-Content-center"}>
                     <Button className="bg-hugobot" type="submit">
                         <i className="fas fa-plus"/> Add Configuration
                     </Button>
