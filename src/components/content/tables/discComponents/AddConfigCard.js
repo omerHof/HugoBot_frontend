@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import {Container, Row, Col, Form, Card, Button} from "react-bootstrap"
 import "../../../layout/colors.css"
-import {fireEvent} from "@testing-library/react";
-import triggerBrowserReflow from "react-bootstrap/cjs/triggerBrowserReflow";
+// import {fireEvent} from "@testing-library/react";
+// import triggerBrowserReflow from "react-bootstrap/cjs/triggerBrowserReflow";
 
 class AddConfigCard extends Component{
 

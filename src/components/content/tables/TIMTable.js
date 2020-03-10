@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import Table from "react-bootstrap/Table";
 import {Button, Card, Form} from "react-bootstrap";
-import {createBrowserHistory} from "history";
+//import {createBrowserHistory} from "history";
 class TIMTable extends Component {
 
     handleSubmit = (MoD,BinNo,IPGap,PAAWin,EpsilonInput,MaxGapInput,MinVerticalSupportInput) => {
-
-        let disc = JSON.parse(sessionStorage.DiscretizationTable);
 
         let x= JSON.parse(sessionStorage.TIMTable);
 
