@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import Table from "react-bootstrap/Table";
 import {Button, Card, Form} from "react-bootstrap";
+import {createBrowserHistory} from "history";
 class TIMTable extends Component {
 
-    handleSubmit = (EpsilonInput,MaxGapInput,MinVerticalSupportInput) => {
+    handleSubmit = (MoD,BinNo,IPGap,PAAWin,EpsilonInput,MaxGapInput,MinVerticalSupportInput) => {
 
         let disc = JSON.parse(sessionStorage.DiscretizationTable);
 
@@ -13,10 +14,10 @@ class TIMTable extends Component {
             // window.alert(EpsilonInput.value);
 
             let y = {
-                "MethodOfDiscretization": disc.MethodOfDiscretization,
-                "BinsNumber": disc.BinsNumber,
-                "InterpolationGap": disc.InterpolationGap,
-                "PAAWindowSize": disc.PAAWindowSize,
+                "MethodOfDiscretization": MoD.innerText,
+                "BinsNumber": BinNo.innerText,
+                "InterpolationGap": IPGap.innerText,
+                "PAAWindowSize": PAAWin.innerText,
                 "epsilon": EpsilonInput.value,
                 "MaxGap": MaxGapInput.value,
                 "VerticalSupport": MinVerticalSupportInput.value
@@ -82,21 +83,25 @@ class TIMTable extends Component {
         let nm = 0;
         return JSON.parse(sessionStorage.DiscretizationTable).rows.map((iter) => {
             nm++;
+            let MoD = "MethodOfDiscretization" + nm;
+            let BinNo = "BinsNumber" + nm;
+            let IPGap = "InterpolationGap" + nm;
+            let PAAWin = "PAAWindowSize" + nm;
             let EpsilonInput = "EpsilonInput" + nm;
             let MaxGapInput = "MaxGapInput" + nm;
             let MinVSInput = "MinVSInput" + nm;
             return (
                 <tr>
-                    <td>
+                    <td id={MoD}>
                         {iter.MethodOfDiscretization}
                     </td>
-                    <td>
+                    <td id={BinNo}>
                         {iter.BinsNumber}
                     </td>
-                    <td>
+                    <td id={IPGap}>
                         {iter.InterpolationGap}
                     </td>
-                    <td>
+                    <td id={PAAWin}>
                         {iter.PAAWindowSize}
                     </td>
                     <td>
@@ -114,6 +119,10 @@ class TIMTable extends Component {
                     <td>
                         <Button className="bg-hugobot"
                                  onClick={() => this.handleSubmit(
+                                     document.getElementById(MoD),
+                                     document.getElementById(BinNo),
+                                     document.getElementById(IPGap),
+                                     document.getElementById(PAAWin),
                                      document.getElementById(EpsilonInput),
                                      document.getElementById(MaxGapInput),
                                      document.getElementById(MinVSInput))}>
