@@ -1,47 +1,8 @@
 import React, { Component } from "react";
 import {Container, Row, Col, Form, Button} from "react-bootstrap"
 import '../../resources/style/colors.css';
-
-function FormElement(props) {
-    return(
-        <Row>
-            <Col md={5}>
-                {props.name} {props.warningText}
-                {/*<Form.Text className={"text-danger"}>*/}
-                {/*    {props.warningText}*/}
-                {/*</Form.Text>*/}
-                <Form.Control id={props.name} type={props.type}/>
-            </Col>
-            <Col md={7}>
-                {/*feedback*/}
-            </Col>
-        </Row>
-    )
-}
-
-FormElement.defaultProps = {
-    type:"text"
-};
-
-function DegreeSelect() {
-    return(
-        <Row>
-            <Col md={4}>
-                <Form.Text>
-                    Degree
-                </Form.Text><br/>
-                <select id={"Degree"} className={"form-control"}>
-                    <option>B.Sc</option>
-                    <option>M.Sc</option>
-                    <option>Ph.D</option>
-                </select>
-            </Col>
-            <Col md={8}>
-                {/*feedback*/}
-            </Col>
-        </Row>
-    )
-}
+import FormElement from "./FormElement";
+import DegreeSelect from "./DegreeSelect";
 
 class Register extends Component{
 
