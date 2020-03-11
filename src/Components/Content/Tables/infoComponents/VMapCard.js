@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import Card from "react-bootstrap/Card";
+
+import {Card, Table} from "react-bootstrap";
+
 import "../../../../resources/style/colors.css"
-import Table from "react-bootstrap/Table";
 
 class VMapCard extends Component{
     render() {

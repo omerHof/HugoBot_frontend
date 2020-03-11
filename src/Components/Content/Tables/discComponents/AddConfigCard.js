@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import {Container, Row, Col, Form, Card, Button} from "react-bootstrap"
+
+import {Button, Card, Col, Container, Form, Row} from "react-bootstrap"
+
 import "../../../../resources/style/colors.css"
 // import {fireEvent} from "@testing-library/react";
 // import triggerBrowserReflow from "react-bootstrap/cjs/triggerBrowserReflow";

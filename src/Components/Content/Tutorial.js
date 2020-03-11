@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import Container from "react-bootstrap/Container";
-import Image from "react-bootstrap/Image";
-import ListGroup from "react-bootstrap/ListGroup";
-import ListGroupItem from "react-bootstrap/ListGroupItem";
+
+import {Container, Image, ListGroup, ListGroupItem} from "react-bootstrap";
+
 import Pic1 from "../../resources/1_toy_example.png";
 import Pic2 from "../../resources/2_toy_vmap.png";
 import Pic3 from "../../resources/3_toy_hugo_example.png";

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import Navbar from "react-bootstrap/Navbar";
+
+import {Navbar, Row} from "react-bootstrap";
+
 import '../../resources/style/colors.css';
-import Row from "react-bootstrap/Row";
 
 class Footer extends Component{
     render() {

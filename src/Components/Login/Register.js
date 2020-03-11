@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import {Container, Row, Col, Form, Button} from "react-bootstrap"
-import '../../resources/style/colors.css';
-import FormElement from "./FormElement";
+
+import {Button, Container, Form} from "react-bootstrap"
+
 import DegreeSelect from "./DegreeSelect";
+import FormElement from "./FormElement";
+import '../../resources/style/colors.css';
 
 class Register extends Component{
 

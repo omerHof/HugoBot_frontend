@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import '../../resources/style/colors.css';
+
 import {Button, Container, Form} from "react-bootstrap";
+
 import FormElement from "./FormElement";
+import '../../resources/style/colors.css';
 
 class Login extends Component{
     handleSubmit = (email,pass) => {

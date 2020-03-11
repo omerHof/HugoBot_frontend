@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Router, Route} from "react-router-dom";
+
 import {Card, Col, Container, Row} from "react-bootstrap";
+import { Router, Route} from "react-router-dom";
 
 import MyHomeTable from "./DisplayTableHome";
 import InfoTable from "./InfoTable";
@@ -15,7 +16,6 @@ import DiscretizationData from "./DiscretizationData";
 import TIMData from "./TIMData";
 
 import Workflow from "./Workflow";
-import { Link} from "react-router-dom";
 
 import InfoCard from "./infoComponents/InfoCard";
 import StatsCard from "./infoComponents/StatsCard";

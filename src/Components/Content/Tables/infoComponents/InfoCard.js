@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import Card from "react-bootstrap/Card";
+
+import {Card} from "react-bootstrap";
+
 import "../../../../resources/style/colors.css"
 
 class InfoCard extends Component{

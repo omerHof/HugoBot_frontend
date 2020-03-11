@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Table from "react-bootstrap/Table";
-import {Button} from "react-bootstrap";
+
+import {Button, Table} from "react-bootstrap";
+
 class DiscretizationTable extends Component {
 
     toDelete=()=>{

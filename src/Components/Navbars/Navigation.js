@@ -1,8 +1,10 @@
 import React, {Component} from "react";
+
 import Navbar from "react-bootstrap/Navbar";
+import {Link, Router} from "react-router-dom";
+
 import History from "../Content/Tables/History";
 import '../../resources/style/colors.css';
-import {Link, Router} from "react-router-dom";
 
 class Navigation extends Component{
     render(){

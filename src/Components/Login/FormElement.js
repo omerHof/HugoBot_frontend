@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+
+import {Col, Form, Row} from "react-bootstrap";
+
 import '../../resources/style/colors.css';
-import {Col, Row, Form} from "react-bootstrap";
 
 class FormElement extends Component{
 
