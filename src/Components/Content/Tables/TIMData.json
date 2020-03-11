@@ -1,0 +1,32 @@
+{
+  "rows": [
+    {
+      "MethodOfDiscretization": "Equal Frequency",
+      "BinsNumber": "1",
+      "InterpolationGap": "1",
+      "PAAWindowSize": "1",
+      "epsilon": "1",
+      "MaxGap": "1",
+      "VerticalSupport": "44"
+    },
+    {
+      "MethodOfDiscretization": "Sax",
+      "BinsNumber": "2",
+      "InterpolationGap": "1",
+      "PAAWindowSize": "1",
+      "epsilon": "1",
+      "MaxGap": "2",
+      "VerticalSupport": "38"
+    },
+    {
+      "MethodOfDiscretization": "Equal Width",
+      "BinsNumber": "3",
+      "InterpolationGap": "1",
+      "PAAWindowSize": "1",
+      "epsilon": "1",
+      "MaxGap": "3",
+      "VerticalSupport": "29"
+    }
+
+  ]
+}

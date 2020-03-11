@@ -6,6 +6,8 @@ import Manage from "./Manage";
 import TableContent from "./Tables/TableContent"
 import '../../resources/style/colors.css';
 import history from "./Tables/History";
+import Register from "../Login/Register";
+import Login from "../Login/Login";
 
 
 class Content extends Component{
@@ -24,6 +26,16 @@ class Content extends Component{
                     <Route path="/Manage">
                         <Container>
                             <Manage/>
+                        </Container>
+                    </Route>
+                    <Route path="/Register">
+                        <Container>
+                            <Register/>
+                        </Container>
+                    </Route>
+                    <Route path="/Login">
+                        <Container>
+                            <Login/>
                         </Container>
                     </Route>
                     <Redirect from={"/"} to={"/Home"}/>

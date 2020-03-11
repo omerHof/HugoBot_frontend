@@ -25,11 +25,17 @@ class Navigation extends Component{
                         </Navbar.Brand>
                     </div>
                     <div className={"navbar navbar-right"}>
-                        <Link to={"/Manage"}>
-                            <i className="fas fa-user-lock"/> Account &nbsp;
+                        {/*<Link to={"/Manage"}>*/}
+                        {/*    <i className="fas fa-user-lock"/> Account &nbsp;*/}
+                        {/*</Link>*/}
+                        {/*<Link to={"/"}>*/}
+                        {/*    <i className="fas fa-sign-out-alt"/> Sign Out*/}
+                        {/*</Link>*/}
+                        <Link to={"/Register"}>
+                            <i className="fas fa-user-plus"/> Sign Up &nbsp;
                         </Link>
-                        <Link to={"/"}>
-                            <i className="fas fa-sign-out-alt"/> Sign Out
+                        <Link to={"/Login"}>
+                            <i className="fas fa-sign-in-alt"/> Sign In
                         </Link>
                     </div>
                 </Navbar>
