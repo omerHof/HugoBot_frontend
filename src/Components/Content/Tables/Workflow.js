@@ -12,8 +12,8 @@ class Workflow extends Component{
         return (
             <Container>
                 <Router history={History}>
-                    <Link to={"/Home/Info"} className="btn bg-hugobot btn-arrow-right">
-                        Dataset Upload
+                    <Link to={"/Upload"} className="btn bg-hugobot btn-arrow-right">
+                        Upload Dataset
                     </Link>
                     <Link to={"/Home/Disc"} className="btn bg-hugobot btn-arrow-right">
                         Temporal Abstraction

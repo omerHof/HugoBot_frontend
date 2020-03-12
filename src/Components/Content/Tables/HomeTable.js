@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import {Table} from "react-bootstrap";
 
-class DisplayTableHome extends Component {
+class HomeTable extends Component {
 
 
    // onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
@@ -42,4 +42,4 @@ class DisplayTableHome extends Component {
     }
 }
 
-export default DisplayTableHome ;
+export default HomeTable ;

@@ -10,6 +10,7 @@ import Register from "../Login/Register";
 import TableContent from "./Tables/TableContent"
 import Tutorial from "./Tutorial";
 import '../../resources/style/colors.css';
+import UploadDataset from "./UploadDataset/UploadDataset";
 
 class Content extends Component{
     render(){
@@ -37,6 +38,11 @@ class Content extends Component{
                     <Route path="/Login">
                         <Container>
                             <Login/>
+                        </Container>
+                    </Route>
+                    <Route path="/Upload">
+                        <Container>
+                            <UploadDataset/>
                         </Container>
                     </Route>
                     <Redirect from={"/"} to={"/Home"}/>

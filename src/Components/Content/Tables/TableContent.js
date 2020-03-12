@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import {Card, Col, Container, Row} from "react-bootstrap";
 import { Router, Route} from "react-router-dom";
 
-import MyHomeTable from "./DisplayTableHome";
+import HomeTable from "./HomeTable";
 import InfoTable from "./InfoTable";
 import DiscretizationTable from "./DiscretizationTable";
 import TIMTable from "./TIMTable";
@@ -75,6 +75,8 @@ class TableContent extends Component{
             </Card.Text>
         </Card.Header>
     );
+
+
     //</editor-fold>
 
     render() {
@@ -85,7 +87,7 @@ class TableContent extends Component{
                 <br/>
                 <Container>
                     <Route exact={true} path={"/Home"}>
-                        <MyHomeTable
+                        <HomeTable
                             HomeTable={this.state.HomeTable}
                             CollectData={ this.CollectData}
                         />
