@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import {Button, Container, Form} from "react-bootstrap"
 
-import DegreeSelect from "./DegreeSelect";
+import SelectElement from "./SelectElement";
 import FormElement from "./FormElement";
 import '../../resources/style/colors.css';
 
@@ -33,7 +33,7 @@ class Register extends Component{
                     <FormElement name={"First Name"}/>
                     <FormElement name={"Last Name"}/>
                     <FormElement name={"Institute"}/>
-                    <DegreeSelect/>
+                    <SelectElement name={"Degree"} options={["B.Sc","M.Sc","Ph.D"]} />
                     <FormElement name={"Email"} type={"email"}/>
                     <FormElement name={"Password"} type={"password"}
                                  warningText={" (not your organizational password)"}/>

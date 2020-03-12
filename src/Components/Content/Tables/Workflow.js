@@ -12,7 +12,7 @@ class Workflow extends Component{
         return (
             <Container>
                 <Router history={History}>
-                    <Link to={"/Upload"} className="btn bg-hugobot btn-arrow-right">
+                    <Link to={"/Upload/Metadata"} className="btn bg-hugobot btn-arrow-right">
                         Upload Dataset
                     </Link>
                     <Link to={"/Home/Disc"} className="btn bg-hugobot btn-arrow-right">
