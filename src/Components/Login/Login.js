@@ -3,18 +3,17 @@ import React, { Component } from "react";
 import {Button, Container, Form} from "react-bootstrap";
 
 import FormElement from "./FormElement";
+import history from '../../History';
+import { login } from "../../services/authService";
+import UserContext from "../../contexts/userContext";
+
 import '../../resources/style/colors.css';
 
 class Login extends Component{
-    handleSubmit = (email,pass) => {
-        //check validity on the client side
-        if (email && pass) {
-            let user = {
-                "Email": email,
-                "Password": pass
-            };
-        }
-        //send http POST to the server with the new user. does he exist?
+    handleSubmit = async (email,pass) => {
+        const user = await login(email, pass);
+        this.context.setUser(user);
+        history.push('/Home');
     };
 
     render() {
@@ -38,4 +37,7 @@ class Login extends Component{
         );
     }
 }
+
+Login.contextType = UserContext;
+
 export default Login;

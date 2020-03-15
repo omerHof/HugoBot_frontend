@@ -2,26 +2,20 @@ import React, { Component } from "react";
 
 import {Button, Container, Form} from "react-bootstrap"
 
+import history from '../../History';
+
 import SelectElement from "./SelectElement";
 import FormElement from "./FormElement";
+import { register } from "../../services/authService";
 import '../../resources/style/colors.css';
 
 class Register extends Component{
 
-    handleSubmit = (firstName,lastName,institute,degree,email,pass,cpass) => {
-        //check validity on the client side
-        if (firstName) {
-            let user = {
-                "FirstName": firstName,
-                "LastName": lastName,
-                "Institute": institute,
-                "Degree": degree,
-                "Email": email,
-                "Password": pass,
-                "Confirm Password": cpass
-            };
+    handleSubmit = async (firstName,lastName,institute,degree,email,pass,cpass) => {
+        const success = await register(firstName, lastName, institute, degree, email, pass, cpass);
+        if (success) {
+            history.push('/Login');
         }
-        //send http POST to the server with the new user. is he unique?
     };
 
     render() {
