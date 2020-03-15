@@ -1,0 +1,15 @@
+.btn-hugobot, .btn-hugobot:visited{
+    background-color: white;
+    border-color: #2d3e50;
+    border-radius: 5px;
+    color: #2d3e50;
+}
+
+.btn-hugobot:active, .btn-hugobot:hover{
+    background-color: #2d3e50;
+    color: white;
+}
+
+.btn-upload{
+    padding-bottom: 12%;
+}

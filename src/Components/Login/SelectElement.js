@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import {Col, Form, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 
 import '../../resources/style/colors.css';
 

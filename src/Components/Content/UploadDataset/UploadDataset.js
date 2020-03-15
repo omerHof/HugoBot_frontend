@@ -17,17 +17,15 @@ class UploadDataset extends Component{
                 <br/>
                 <UploadWorkflow/>
                 <br/>
-                <Container>
-                    <Route path={"/Upload/Metadata"}>
-                        <Metadata/>
-                    </Route>
-                    <Route path={"/Upload/VMap"}>
-                        <VMapFile/>
-                    </Route>
-                    <Route path={"/Upload/Entities"}>
-                        <EntitiesFile/>
-                    </Route>
-                </Container>
+                <Route path={"/Upload/Metadata"}>
+                    <Metadata/>
+                </Route>
+                <Route path={"/Upload/VMap"}>
+                    <VMapFile/>
+                </Route>
+                <Route path={"/Upload/Entities"}>
+                    <EntitiesFile/>
+                </Route>
             </Router>
         );
     }
