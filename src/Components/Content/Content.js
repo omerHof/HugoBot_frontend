@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import {Container} from "react-bootstrap";
 import { Router, Redirect, Route, Switch} from "react-router-dom";
 
-import history from "./Tables/History";
+import history from "../../History";
 import Login from "../Login/Login";
 import Manage from "./Manage";
 import Register from "../Login/Register";

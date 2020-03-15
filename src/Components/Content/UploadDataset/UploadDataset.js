@@ -5,7 +5,7 @@ import {Route, Router} from "react-router-dom";
 
 import '../../../resources/style/colors.css';
 import UploadWorkflow from "./UploadWorkflow";
-import history from "../Tables/History";
+import history from "../../../History";
 import Metadata from "./Metadata";
 import VMapFile from "./VMapFile";
 import EntitiesFile from "./EntitiesFile";

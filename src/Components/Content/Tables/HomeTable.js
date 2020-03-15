@@ -1,16 +1,26 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 import {Table} from "react-bootstrap";
 
+import UserContext from '../../../contexts/userContext'
+import history from '../../../History'
+
 class HomeTable extends Component {
 
+    componentDidMount() {
+        if (!this.context.user) {
+            history.push('/Login');
+        }
+    }
 
-   // onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
+    // onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
 
-    renderTableData=()=> {
+    renderTableData = () => {
         return this.props.HomeTable.rows.map((iter) => {
             return (
-                <tr onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
+                <tr onClick={(e) => {
+                    this.props.CollectData(iter.DatasetName);
+                }}
                 >
                     <td>{iter.UserID}</td>
                     <td>{iter.DatasetName}</td>
@@ -22,7 +32,6 @@ class HomeTable extends Component {
             )
         })
     };
-
 
 
     //CollectData=(e,id) =>{
@@ -42,4 +51,6 @@ class HomeTable extends Component {
     }
 }
 
-export default HomeTable ;
+HomeTable.contextType = UserContext;
+
+export default HomeTable;

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import {Container} from "react-bootstrap";
 import {Link, Router} from "react-router-dom";
 
-import History from "./History";
+import History from "../../../History";
 import '../../../resources/style/colors.css';
 import '../../../resources/style/workflow.css';
 

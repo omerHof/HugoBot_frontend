@@ -3,10 +3,21 @@ import React, {Component} from "react";
 import Navbar from "react-bootstrap/Navbar";
 import {Link, Router} from "react-router-dom";
 
-import History from "../Content/Tables/History";
+import History from "../../History";
+
+import UserContext from '../../contexts/userContext';
+
 import '../../resources/style/colors.css';
+import Login from "../Login/Login";
+import {login} from "../../services/authService";
 
 class Navigation extends Component{
+
+    handleSubmit =  () => {
+        this.context.setUser(null)
+    };
+
+
     render(){
         return(
             <Router history={History}>
@@ -27,18 +38,33 @@ class Navigation extends Component{
                         </Navbar.Brand>
                     </div>
                     <div className={"navbar navbar-right"}>
-                        {/*<Link to={"/Manage"}>*/}
-                        {/*    <i className="fas fa-user-lock"/> Account &nbsp;*/}
-                        {/*</Link>*/}
-                        {/*<Link to={"/"}>*/}
-                        {/*    <i className="fas fa-sign-out-alt"/> Sign Out*/}
-                        {/*</Link>*/}
-                        <Link to={"/Register"}>
-                            <i className="fas fa-user-plus"/> Sign Up &nbsp;
-                        </Link>
-                        <Link to={"/Login"}>
-                            <i className="fas fa-sign-in-alt"/> Sign In
-                        </Link>
+                        <UserContext.Consumer>
+                            {({user}) => {
+                                if (user) {
+                                    return (
+                                        <>
+                                            <Link to={"/Manage"} >
+                                                <i className="fas fa-user-lock"/> Account &nbsp;
+                                            </Link>
+                                            <Link to={"/Login"} onClick={this.handleSubmit}>
+                                                <i className="fas fa-sign-out-alt"/> Sign Out
+                                            </Link>
+                                        </>
+                                    );
+                                }
+
+                                return (
+                                    <>
+                                        <Link to={"/Register"}>
+                                            <i className="fas fa-user-plus"/> Sign Up &nbsp;
+                                        </Link>
+                                        <Link to={"/Login"}>
+                                            <i className="fas fa-sign-in-alt"/> Sign In
+                                        </Link>
+                                    </>
+                                )
+                            }}
+                        </UserContext.Consumer>
                     </div>
                 </Navbar>
             </Router>
@@ -46,4 +72,5 @@ class Navigation extends Component{
     }
 }
 
+Navigation.contextType = UserContext;
 export default Navigation;

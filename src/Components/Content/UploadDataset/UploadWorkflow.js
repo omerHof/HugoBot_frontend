@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {ButtonGroup, Container} from "react-bootstrap";
 import {Link, Router} from "react-router-dom";
-import History from "../Tables/History";
+import History from "../../../History";
 
 class UploadWorkflow extends Component{
     render() {

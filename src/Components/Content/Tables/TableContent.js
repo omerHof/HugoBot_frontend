@@ -8,7 +8,7 @@ import InfoTable from "./InfoTable";
 import DiscretizationTable from "./DiscretizationTable";
 import TIMTable from "./TIMTable";
 
-import history from "./History";
+import history from "../../../History";
 
 import HomeData from "./mainTable";
 import InfoData from "./infoData";
@@ -36,10 +36,6 @@ class TableContent extends Component{
         // Don't call this.setState() here!
         this.state = {  HomeTable: HomeData,
                         }
-    }
-
-    componentWillUnmount(){
-        console.log("hey");
     }
 
     CollectData=(id) =>
