@@ -5,7 +5,7 @@ import { Router, Redirect, Route, Switch} from "react-router-dom";
 
 import history from "../../History";
 import Login from "../Login/Login";
-import Manage from "./Manage";
+import Manage from "./Manage/Manage";
 import Register from "../Login/Register";
 import TableContent from "./Tables/TableContent"
 import Tutorial from "./Tutorial";
