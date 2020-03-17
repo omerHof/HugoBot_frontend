@@ -10,17 +10,17 @@ import '../../../resources/style/upload_workflow.css'
 class UploadWorkflow extends Component{
     render() {
         return (
-            <Container>
+            <Container fluid={true}>
                 <Router history={History}>
-                    <ButtonGroup>
-                        <Link to={"/Upload/Metadata"} className="btn btn-rounded btn-upload bg-hugobot">
-                            Step 1 <br/> Upload Dataset File
+                    <ButtonGroup  size={"lg"}>
+                        <Link to={"/Upload/Metadata"} className="btn btn-upload btn-hugobot">
+                            Step-1 Upload Dataset File
                         </Link>
-                        <Link to={"/Upload/VMap"} className="btn btn-rounded btn-upload bg-hugobot">
-                            Step 2 <br/> Upload VMap File
+                        <Link to={"/Upload/VMap"} className="btn btn-upload btn-hugobot">
+                            Step-2 Upload VMap File
                         </Link>
-                        <Link to={"/Upload/Entities"} className="btn btn-rounded btn-upload bg-hugobot">
-                            Step 3 <br/> Upload Entities File
+                        <Link to={"/Upload/Entities"} className="btn btn-upload btn-hugobot">
+                            Step-3 Upload Entities File
                         </Link>
                     </ButtonGroup>
                 </Router>
