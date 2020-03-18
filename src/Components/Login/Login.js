@@ -30,7 +30,7 @@ class Login extends Component{
                         document.getElementById("Email").value,
                         document.getElementById("Password").value
                     )}
-                    >Register</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    >Login</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                     <Button className={"bg-hugobot"} type={"reset"}>Clear</Button>
                 </Form>
                 <br/>

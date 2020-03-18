@@ -42,7 +42,7 @@ class Workflow extends Component{
                     ) : (
                         <div>
                             <Link className="btn bg-hugobot btn-arrow-right">
-                                Upload Dataset
+                                Info
                             </Link>
                             <Link className="btn bg-hugobot btn-arrow-right">
                                 Temporal Abstraction
