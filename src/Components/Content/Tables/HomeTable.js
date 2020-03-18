@@ -8,7 +8,6 @@ import history from '../../../History'
 class HomeTable extends Component {
     
      state={
-        filterUserID: null,
         filterDatasetName: null,
         filterCategory: null,
         filterSize: null,
@@ -17,13 +16,12 @@ class HomeTable extends Component {
     }
 
 
-   filter = (UserID, DatasetName, Category, Size, Owner, PublicPrivate) => {
-        this.state.filterCategory=Category;
-        this.state.filterDatasetName= DatasetName;
-        this.state.filterUserID= UserID;
-        this.state.filterSize= Size;
-        this.state.filterOwner= Owner;
-        this.state.filterPublicPrivate=PublicPrivate;
+    filter = (UserID, DatasetName, Category, Size, Owner, PublicPrivate) => {
+        this.state.filterCategory = document.getElementById("category").value;
+        this.state.filterDatasetName = document.getElementById("datasetName").value;
+        this.state.filterSize = document.getElementById("size").value;
+        this.state.filterOwner = document.getElementById("owner").value;
+        this.state.filterPublicPrivate = document.getElementById("publicPrivate").value;
         this.forceUpdate();
     };
 
@@ -42,32 +40,31 @@ class HomeTable extends Component {
                     Filters
                 </td>
                 <td>
-                    <Form.Control onChange={this.reRender} placeholder={"Dataset Name"} type={"text"}/>
+                    <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
                 </td>
                 <td>
-                    <Form.Control onChange={this.reRender} placeholder={"Category"} type={"text"}/>
+                    <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
                 </td>
                 <td>
-                    <Form.Control onChange={this.reRender} placeholder={"Size"} type={"text"}/>
+                    <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
                 </td>
                 <td>
-                    <Form.Control onChange={this.reRender} placeholder={"Owner"} type={"text"}/>
+                    <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
                 </td>
                 <td>
-                    <Form.Control onChange={this.reRender} placeholder={"Public/Private"} type={"text"}/>
+                    <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
                 </td>
             </thead>
         );
     };
-renderTableData = () => {
+        renderTableData = () => {
         return this.props.HomeTable.rows.map((iter) => {
-            console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)==0);
+            console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
             if((this.state.filterSize==null||parseFloat(this.state.filterSize)>parseFloat(iter.Size))
-                &&(this.state.filterDatasetName==null||(this.state.filterDatasetName.localeCompare(iter.DatasetName)==0))
-                &&(this.state.filterUserID==null||this.state.filterUserID.localeCompare(iter.UserID)==0)
-                &&(this.state.filterCategory==null||this.state.filterCategory.localeCompare(iter.Category)==0)
-                &&(this.state.filterOwner==null||this.state.filterOwner.localeCompare(iter.Owner)==0)
-                &&(this.state.filterPublicPrivate==null||this.state.filterPublicPrivate.localeCompare(iter.PublicPrivate)==0))
+                &&(this.state.filterDatasetName==null||(this.state.filterDatasetName.localeCompare(iter.DatasetName)===0))
+                &&(this.state.filterCategory==null||this.state.filterCategory.localeCompare(iter.Category)===0)
+                &&(this.state.filterOwner==null||this.state.filterOwner.localeCompare(iter.Owner)===0)
+                &&(this.state.filterPublicPrivate==null||this.state.filterPublicPrivate.localeCompare(iter.PublicPrivate)===0))
                 {
                 return (
                     <tr onClick={(e) => {
