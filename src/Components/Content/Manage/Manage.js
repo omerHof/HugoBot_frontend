@@ -16,7 +16,7 @@ class Manage extends Component{
 
     render() {
         return (
-            <Container>
+            <Container fluid={true}>
                 <br/>
                 <br/>
                 <Nav variant={"tabs"}>
@@ -28,12 +28,12 @@ class Manage extends Component{
                             Shared with me
                         </Link>
                         <Link to={"/Manage"} className={"nav-link btn-hugobot"}>
-                            Pending
+                            Pending Approval
                         </Link>
                     </Router>
                 </Nav>
                 <br/>
-
+                {/*here we need to render the table according to the button pressed*/}
             </Container>
         );
     }
