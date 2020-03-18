@@ -27,7 +27,7 @@ class Workflow extends Component{
                     {sessionStorage.getItem("dataSet").localeCompare("true")==0 ? (
                         <div>
                             <Link to={"/Upload/Metadata"} className="btn bg-hugobot btn-arrow-right">
-                                Upload Dataset
+                                Info
                             </Link>
                             <Link to={"/Home/Disc"} className="btn bg-hugobot btn-arrow-right">
                                 Temporal Abstraction
@@ -35,7 +35,7 @@ class Workflow extends Component{
                             <Link to={"/Home/TIM"} className="btn bg-hugobot btn-arrow-right">
                                 Time Interval Mining
                             </Link>
-                            <Link to={"/"} className="btn bg-hugobot btn-arrow-right">
+                            <Link to={"/Home/Visualization"} className="btn bg-hugobot btn-arrow-right">
                                 Visualization
                             </Link>
                         </div>

@@ -22,6 +22,7 @@ import StatsCard from "./infoComponents/StatsCard";
 import VMapCard from "./infoComponents/VMapCard";
 import AddConfigCard from "./discComponents/AddConfigCard";
 import CurrentConfigsCard from "./discComponents/CurrentConfigsCard";
+import Visualization from "./Visualization";
 
 class TableContent extends Component{
     state = {
@@ -104,6 +105,9 @@ class TableContent extends Component{
                     </Route>
                     <Route path={"/Home/TIM"}>
                         <TIMTable/>
+                    </Route>
+                    <Route path={"/Home/Visualization"}>
+                        <Visualization/>
                     </Route>
                 </Container>
             </Router>

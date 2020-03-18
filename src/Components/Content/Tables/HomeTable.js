@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import {Form, Table} from "react-bootstrap";
+import {Button, Card, Form, Table} from "react-bootstrap";
 import history from '../../../History'
 
 class HomeTable extends Component {
@@ -58,6 +58,7 @@ class HomeTable extends Component {
             </thead>
         );
     };
+
     renderTableData = () => {
         return this.props.HomeTable.rows.map((iter) => {
             // console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
@@ -84,6 +85,9 @@ class HomeTable extends Component {
         })
     };
 
+    onClick = () => {
+      history.push("/Upload/Metadata");
+    };
 
     //CollectData=(e,id) =>{
     // window.location.href='/Tutorial'
@@ -93,12 +97,30 @@ class HomeTable extends Component {
 
     render() {
         return (
-            <Table striped={true} bordered={true} hover={true}>
-                {this.renderTableHeader()}
-                <tbody>
-                {this.renderTableData()}
-                </tbody>
-            </Table>
+            <Card>
+                <Card.Header className={"bg-hugobot"}>
+                    <Card.Text className={"text-hugobot"}>
+                        Add a New Configuration
+                    </Card.Text>
+                </Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        Datasets
+                    </Card.Text>
+                    <Button className={"btn-hugobot"} href={"/Upload/Metadata"} onClick={this.onClick} size={"sm"}>
+                        <i className="fas fa-upload"/>&nbsp;
+                        Upload Dataset
+                    </Button>
+                    <br/>
+                    <br/>
+                    <Table striped={true} bordered={true} hover={true}>
+                        {this.renderTableHeader()}
+                        <tbody>
+                        {this.renderTableData()}
+                        </tbody>
+                    </Table>
+                </Card.Body>
+            </Card>
         )
     }
 }
