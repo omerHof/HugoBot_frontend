@@ -6,9 +6,25 @@ import UserContext from '../../../contexts/userContext'
 import history from '../../../History'
 
 class HomeTable extends Component {
+    
+     state={
+        filterUserID: null,
+        filterDatasetName: null,
+        filterCategory: null,
+        filterSize: null,
+        filterOwner: null,
+        filterPublicPrivate: null
+    }
 
-    reRender = () => {
-      // window.alert("pressed");
+
+   filter = (UserID, DatasetName, Category, Size, Owner, PublicPrivate) => {
+        this.state.filterCategory=Category;
+        this.state.filterDatasetName= DatasetName;
+        this.state.filterUserID= UserID;
+        this.state.filterSize= Size;
+        this.state.filterOwner= Owner;
+        this.state.filterPublicPrivate=PublicPrivate;
+        this.forceUpdate();
     };
 
     componentDidMount() {
@@ -43,22 +59,30 @@ class HomeTable extends Component {
             </thead>
         );
     };
-
-    renderTableData = () => {
+renderTableData = () => {
         return this.props.HomeTable.rows.map((iter) => {
-            return (
-                <tr onClick={(e) => {
-                    this.props.CollectData(iter.DatasetName);
-                }}
-                >
-                    <td>{iter.UserID}</td>
-                    <td>{iter.DatasetName}</td>
-                    <td>{iter.Category}</td>
-                    <td>{iter.Size}</td>
-                    <td>{iter.Owner}</td>
-                    <td>{iter.PublicPrivate}</td>
-                </tr>
-            )
+            console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)==0);
+            if((this.state.filterSize==null||parseFloat(this.state.filterSize)>parseFloat(iter.Size))
+                &&(this.state.filterDatasetName==null||(this.state.filterDatasetName.localeCompare(iter.DatasetName)==0))
+                &&(this.state.filterUserID==null||this.state.filterUserID.localeCompare(iter.UserID)==0)
+                &&(this.state.filterCategory==null||this.state.filterCategory.localeCompare(iter.Category)==0)
+                &&(this.state.filterOwner==null||this.state.filterOwner.localeCompare(iter.Owner)==0)
+                &&(this.state.filterPublicPrivate==null||this.state.filterPublicPrivate.localeCompare(iter.PublicPrivate)==0))
+                {
+                return (
+                    <tr onClick={(e) => {
+                        this.props.CollectData(iter.DatasetName);
+                    }}
+                    >
+                        <td>{iter.UserID}</td>
+                        <td>{iter.DatasetName}</td>
+                        <td>{iter.Category}</td>
+                        <td>{iter.Size}</td>
+                        <td>{iter.Owner}</td>
+                        <td>{iter.PublicPrivate}</td>
+                    </tr>
+                )
+            }
         })
     };
 
