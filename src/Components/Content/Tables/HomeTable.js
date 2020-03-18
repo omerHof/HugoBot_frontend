@@ -8,11 +8,11 @@ import history from '../../../History'
 class HomeTable extends Component {
     
      state={
-        filterDatasetName: null,
-        filterCategory: null,
-        filterSize: null,
-        filterOwner: null,
-        filterPublicPrivate: null
+        filterDatasetName: "",
+        filterCategory: "",
+        filterSize: "",
+        filterOwner: "",
+        filterPublicPrivate: ""
     }
 
 
@@ -26,9 +26,12 @@ class HomeTable extends Component {
     };
 
     componentDidMount() {
-        if (!this.context.user) {
+        if (sessionStorage.getItem("user").localeCompare("true")!=0) {
             history.push('/Login');
         }
+        sessionStorage.setItem("dataSet","false");
+        window.dispatchEvent(new Event("ReloadTable1"));
+        window.dispatchEvent(new Event("ReloadDataSet"));
     }
 
     // onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
@@ -57,14 +60,14 @@ class HomeTable extends Component {
             </thead>
         );
     };
-        renderTableData = () => {
+    renderTableData = () => {
         return this.props.HomeTable.rows.map((iter) => {
-            console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
-            if((this.state.filterSize==null||parseFloat(this.state.filterSize)>parseFloat(iter.Size))
-                &&(this.state.filterDatasetName==null||(this.state.filterDatasetName.localeCompare(iter.DatasetName)===0))
-                &&(this.state.filterCategory==null||this.state.filterCategory.localeCompare(iter.Category)===0)
-                &&(this.state.filterOwner==null||this.state.filterOwner.localeCompare(iter.Owner)===0)
-                &&(this.state.filterPublicPrivate==null||this.state.filterPublicPrivate.localeCompare(iter.PublicPrivate)===0))
+            // console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
+            if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter.Size))
+                &&(this.state.filterDatasetName.localeCompare("") === 0 || iter.DatasetName.includes(this.state.filterDatasetName))
+                &&(this.state.filterCategory.localeCompare("") === 0 || iter.Category.includes(this.state.filterCategory))
+                &&(this.state.filterOwner.localeCompare("") === 0 || iter.Owner.includes(this.state.filterOwner))
+                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter.PublicPrivate.includes(this.state.filterPublicPrivate)))
                 {
                 return (
                     <tr onClick={(e) => {
