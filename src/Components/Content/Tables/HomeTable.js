@@ -1,18 +1,25 @@
 import React, {Component} from "react";
 
 import {Form, Table} from "react-bootstrap";
-
-import UserContext from '../../../contexts/userContext'
 import history from '../../../History'
 
 class HomeTable extends Component {
-    
-     state={
-        filterDatasetName: null,
+
+    state={
+        filterDatasetName: "",
         filterCategory: null,
         filterSize: null,
         filterOwner: null,
         filterPublicPrivate: null
+    }
+
+    componentDidMount() {
+        if (sessionStorage.getItem("user").localeCompare("true")!=0) {
+            history.push('/Login');
+        }
+        sessionStorage.setItem("dataSet","false");
+        window.dispatchEvent(new Event("ReloadTable1"));
+        window.dispatchEvent(new Event("ReloadDataSet"));
     }
 
 
@@ -25,39 +32,33 @@ class HomeTable extends Component {
         this.forceUpdate();
     };
 
-    componentDidMount() {
-        if (!this.context.user) {
-            history.push('/Login');
-        }
-    }
-
     // onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
 
     renderTableHeader = () => {
         return(
             <thead>
-                <td align={"center"}>
-                    Filters
-                </td>
-                <td>
-                    <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
-                </td>
-                <td>
-                    <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
-                </td>
-                <td>
-                    <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
-                </td>
-                <td>
-                    <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
-                </td>
-                <td>
-                    <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
-                </td>
+            <td align={"center"}>
+                Filters
+            </td>
+            <td>
+                <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
+            </td>
+            <td>
+                <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
+            </td>
+            <td>
+                <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
+            </td>
+            <td>
+                <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
+            </td>
+            <td>
+                <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
+            </td>
             </thead>
         );
     };
-        renderTableData = () => {
+    renderTableData = () => {
         return this.props.HomeTable.rows.map((iter) => {
             console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
             if((this.state.filterSize==null||parseFloat(this.state.filterSize)>parseFloat(iter.Size))
@@ -65,7 +66,7 @@ class HomeTable extends Component {
                 &&(this.state.filterCategory==null||this.state.filterCategory.localeCompare(iter.Category)===0)
                 &&(this.state.filterOwner==null||this.state.filterOwner.localeCompare(iter.Owner)===0)
                 &&(this.state.filterPublicPrivate==null||this.state.filterPublicPrivate.localeCompare(iter.PublicPrivate)===0))
-                {
+            {
                 return (
                     <tr onClick={(e) => {
                         this.props.CollectData(iter.DatasetName);
@@ -101,7 +102,5 @@ class HomeTable extends Component {
         )
     }
 }
-
-HomeTable.contextType = UserContext;
 
 export default HomeTable;
