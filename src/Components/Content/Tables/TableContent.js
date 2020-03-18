@@ -44,6 +44,8 @@ class TableContent extends Component{
         sessionStorage.setItem('TIMTable', JSON.stringify(TIMData));
         sessionStorage.setItem('InfoTable', JSON.stringify(InfoData));
         history.push("/Home/Info");
+        sessionStorage.setItem("dataSet","true");
+        window.dispatchEvent(new Event("ReloadDataSet"));
     }
 
     //<editor-fold desc="Sub-Components">
