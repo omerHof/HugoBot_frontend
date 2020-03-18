@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 
 import {Form, Table} from "react-bootstrap";
-
-import UserContext from '../../../contexts/userContext'
 import history from '../../../History'
 
 class HomeTable extends Component {
@@ -39,24 +37,24 @@ class HomeTable extends Component {
     renderTableHeader = () => {
         return(
             <thead>
-                <td align={"center"}>
-                    Filters
-                </td>
-                <td>
-                    <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
-                </td>
-                <td>
-                    <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
-                </td>
-                <td>
-                    <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
-                </td>
-                <td>
-                    <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
-                </td>
-                <td>
-                    <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
-                </td>
+            <td align={"center"}>
+                Filters
+            </td>
+            <td>
+                <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
+            </td>
+            <td>
+                <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
+            </td>
+            <td>
+                <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
+            </td>
+            <td>
+                <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
+            </td>
+            <td>
+                <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
+            </td>
             </thead>
         );
     };
@@ -104,7 +102,5 @@ class HomeTable extends Component {
         )
     }
 }
-
-HomeTable.contextType = UserContext;
 
 export default HomeTable;

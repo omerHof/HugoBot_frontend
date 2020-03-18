@@ -5,14 +5,16 @@ import {Button, Container, Form} from "react-bootstrap";
 import FormElement from "./FormElement";
 import history from '../../History';
 import { login } from "../../services/authService";
-import UserContext from "../../contexts/userContext";
 
 import '../../resources/style/colors.css';
 
 class Login extends Component{
+
+
     handleSubmit = async (email,pass) => {
         const user = await login(email, pass);
-        this.context.setUser(user);
+        sessionStorage.setItem("user","true");
+        //this.context.setUser(user);
         history.push('/Home');
     };
 
@@ -37,7 +39,5 @@ class Login extends Component{
         );
     }
 }
-
-Login.contextType = UserContext;
 
 export default Login;
