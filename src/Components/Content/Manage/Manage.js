@@ -8,19 +8,25 @@ import HomeData from "../Tables/mainTable";
 
 class Manage extends Component{
 
-    state = {
-        pageLoc: 1,
-        filterDatasetName: "",
-        filterCategory: "",
-        filterSize: "",
-        filterOwner: "",
-        filterPublicPrivate: ""
-    };
+    // state = {
+    //     pageLoc: 1,
+    //     filterDatasetName: "",
+    //     filterCategory: "",
+    //     filterSize: "",
+    //     filterOwner: "",
+    //     filterPublicPrivate: ""
+    // };
 
     constructor(props) {
         super(props);
         // Don't call this.setState() here!
         this.state = {  HomeTable: HomeData,
+                        pageLoc: 1,
+                        filterDatasetName: "",
+                        filterCategory: "",
+                        filterSize: "",
+                        filterOwner: "",
+                        filterPublicPrivate: ""
         }
     }
 
@@ -73,6 +79,9 @@ class Manage extends Component{
 
     renderTableData = () => {
         return this.state.HomeTable.rows.map((iter) => {
+            // window.alert("start");
+            // window.alert(this.state.filterSize);
+            // window.alert("end");
             // console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
             if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter.Size))
                 &&(this.state.filterDatasetName.localeCompare("") === 0 || iter.DatasetName.includes(this.state.filterDatasetName))
