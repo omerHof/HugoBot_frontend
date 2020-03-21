@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import {Container} from "react-bootstrap";
 import {Route, Router} from "react-router-dom";
 
 import '../../../resources/style/colors.css';

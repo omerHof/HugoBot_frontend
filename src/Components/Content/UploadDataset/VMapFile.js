@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import {Button, ButtonGroup, Card, Form, Table} from "react-bootstrap";
-import SelectElement from "../../Login/SelectElement";
-import {Link, Router} from "react-router-dom";
 
 class VMapFile extends Component{
 

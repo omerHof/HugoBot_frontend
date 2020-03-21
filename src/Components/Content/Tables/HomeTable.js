@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 
 import {Button, Card, Form, Table} from "react-bootstrap";
+
 import history from '../../../History'
 
 class HomeTable extends Component {
@@ -11,7 +12,7 @@ class HomeTable extends Component {
         filterSize: "",
         filterOwner: "",
         filterPublicPrivate: ""
-    }
+    };
 
 
     filter = (UserID, DatasetName, Category, Size, Owner, PublicPrivate) => {
