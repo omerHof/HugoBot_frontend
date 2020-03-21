@@ -1,27 +1,18 @@
 import React, { Component } from "react";
 import {Link, Router} from "react-router-dom";
 
-import {Container, Form, Nav, Table} from "react-bootstrap";
+import {Button, Container, Form, Nav, Table} from "react-bootstrap";
 
 import History from "../../../History";
 import HomeData from "../Tables/mainTable";
 
 class Manage extends Component{
 
-    // state = {
-    //     pageLoc: 1,
-    //     filterDatasetName: "",
-    //     filterCategory: "",
-    //     filterSize: "",
-    //     filterOwner: "",
-    //     filterPublicPrivate: ""
-    // };
-
     constructor(props) {
         super(props);
         // Don't call this.setState() here!
         this.state = {  HomeTable: HomeData,
-                        pageLoc: 1,
+                        pageLoc: "myDatasets",
                         filterDatasetName: "",
                         filterCategory: "",
                         filterSize: "",
@@ -39,9 +30,18 @@ class Manage extends Component{
         this.forceUpdate();
     };
 
-    bloop = () => {
-        window.alert("bloopi bloop");
+    clicked = (id) => {
+        this.state.pageLoc = id;
+        this.forceUpdate();
     };
+
+    tabFilter = (tab, row) => {
+        return(
+            (this.state.pageLoc.localeCompare("myDatasets") === 0 && row.Owner.localeCompare("raz shtrauchler") === 0)//test logic
+            || (this.state.pageLoc.localeCompare("sharedDatasets") === 0 && row.DatasetName.localeCompare("Sepsis") === 0)//yet again test logic
+            || (this.state.pageLoc.localeCompare("pendingDatasets") === 0 && row.Category.localeCompare("Medical") === 0)//woo more test logic
+        );
+    }
 
     componentDidMount() {
         if (sessionStorage.getItem("user").localeCompare("true")!=0) {
@@ -79,15 +79,12 @@ class Manage extends Component{
 
     renderTableData = () => {
         return this.state.HomeTable.rows.map((iter) => {
-            // window.alert("start");
-            // window.alert(this.state.filterSize);
-            // window.alert("end");
-            // console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
             if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter.Size))
                 &&(this.state.filterDatasetName.localeCompare("") === 0 || iter.DatasetName.includes(this.state.filterDatasetName))
                 &&(this.state.filterCategory.localeCompare("") === 0 || iter.Category.includes(this.state.filterCategory))
                 &&(this.state.filterOwner.localeCompare("") === 0 || iter.Owner.includes(this.state.filterOwner))
-                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter.PublicPrivate.includes(this.state.filterPublicPrivate)))
+                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter.PublicPrivate.includes(this.state.filterPublicPrivate))
+                &&(this.tabFilter(this.state.pageLoc, iter)))
             {
                 return (
                     <tr onClick={(e) => {
@@ -112,17 +109,17 @@ class Manage extends Component{
                 <br/>
                 <br/>
                 <Nav variant={"tabs"}>
-                    <Router history={History}>
-                        <Link to={"/Manage"} className={"nav-link btn-hugobot"}>
+                    {/*<Router history={History}>*/}
+                        <Button id={"myDatasets"} className={"nav-link btn-hugobot"} onClick={this.clicked.bind(null,"myDatasets")}>
                             My Datasets
-                        </Link>
-                        <Link to={"/Manage"} className={"nav-link btn-hugobot"}>
+                        </Button>
+                        <Button id={"sharedDatasets"} className={"nav-link btn-hugobot"} onClick={this.clicked.bind(null,"sharedDatasets")}>
                             Shared with me
-                        </Link>
-                        <Link to={"/Manage"} className={"nav-link btn-hugobot"}>
+                        </Button>
+                        <Button id={"pendingDatasets"} className={"nav-link btn-hugobot"} onClick={this.clicked.bind(null,"pendingDatasets")}>
                             Pending Approval
-                        </Link>
-                    </Router>
+                        </Button>
+                    {/*</Router>*/}
                 </Nav>
                 <br/>
                 <Table striped={true} bordered={true} hover={true}>
