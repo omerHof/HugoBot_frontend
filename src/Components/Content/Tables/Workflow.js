@@ -6,7 +6,6 @@ import {Link, Router} from "react-router-dom";
 import History from "../../../History";
 import '../../../resources/style/colors.css';
 import '../../../resources/style/workflow.css';
-import UserContext from "../../../contexts/userContext";
 
 class Workflow extends Component{
     constructor(props) {
@@ -24,7 +23,7 @@ class Workflow extends Component{
         return (
             <Container>
                 <Router history={History}>
-                    {sessionStorage.getItem("dataSet").localeCompare("true")==0 ? (
+                    {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
                             <Link to={"/Upload/Metadata"} className="btn bg-hugobot btn-arrow-right">
                                 Info

@@ -4,7 +4,6 @@ import {Card, Col, Container, Row} from "react-bootstrap";
 import { Router, Route} from "react-router-dom";
 
 import HomeTable from "./HomeTable";
-import InfoTable from "./InfoTable";
 import DiscretizationTable from "./DiscretizationTable";
 import TIMTable from "./TIMTable";
 
@@ -21,7 +20,6 @@ import InfoCard from "./infoComponents/InfoCard";
 import StatsCard from "./infoComponents/StatsCard";
 import VMapCard from "./infoComponents/VMapCard";
 import AddConfigCard from "./discComponents/AddConfigCard";
-import CurrentConfigsCard from "./discComponents/CurrentConfigsCard";
 import Visualization from "./Visualization";
 
 class TableContent extends Component{

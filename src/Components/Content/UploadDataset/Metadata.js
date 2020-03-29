@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import {Button, Card, FormLabel, Row} from "react-bootstrap";
+import {Button, Card, Row} from "react-bootstrap";
 import FormElement from "../../Login/FormElement";
 import SelectElement from "../../Login/SelectElement";
 import Axios from "axios";

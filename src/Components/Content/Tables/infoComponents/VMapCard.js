@@ -15,21 +15,23 @@ class VMapCard extends Component{
                 </Card.Header>
                 <Card.Body as={"small"}>
                     <Table striped={true} hover={true}>
-                        <tr>
-                            <th>Variable ID</th><th>Variable Name</th><th>Description</th>
-                        </tr>
-                        <tr>
-                            <td>1</td><td>HR</td><td>HR</td>
-                        </tr>
-                        <tr>
-                            <td>2</td><td>RESP</td><td>RESP</td>
-                        </tr>
-                        <tr>
-                            <td>999</td><td>UNKNOWN</td><td>UNKNOWN</td>
-                        </tr>
-                        <tr>
-                            <td>3</td><td>ABPMEAN</td><td>ABPMEAN</td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <th>Variable ID</th><th>Variable Name</th><th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>1</td><td>HR</td><td>HR</td>
+                            </tr>
+                            <tr>
+                                <td>2</td><td>RESP</td><td>RESP</td>
+                            </tr>
+                            <tr>
+                                <td>999</td><td>UNKNOWN</td><td>UNKNOWN</td>
+                            </tr>
+                            <tr>
+                                <td>3</td><td>ABPMEAN</td><td>ABPMEAN</td>
+                            </tr>
+                        </tbody>
                     </Table>
                 </Card.Body>
             </Card>
