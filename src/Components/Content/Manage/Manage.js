@@ -43,7 +43,7 @@ class Manage extends Component{
     }
 
     componentDidMount() {
-        if (sessionStorage.getItem("user").localeCompare("true")!=0) {
+        if (sessionStorage.getItem("user").localeCompare("true")!==0) {
             History.push('/Login');
         }
         sessionStorage.setItem("dataSet","false");

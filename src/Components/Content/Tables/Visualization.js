@@ -24,7 +24,7 @@ class Visualization extends Component{
 
     postRequest = () => {
         const request = new XMLHttpRequest();
-        let our_url = 'http://localhost:5000/raz';
+        let our_url = 'http://localhost:5000/post';
         request.open('POST', our_url);
         request.responseType = "json";
         request.setRequestHeader('Access-Control-Allow-Origin','*');
