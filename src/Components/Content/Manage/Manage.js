@@ -40,7 +40,7 @@ class Manage extends Component{
             || (this.state.pageLoc.localeCompare("sharedDatasets") === 0 && row.DatasetName.localeCompare("Sepsis") === 0)//yet again test logic
             || (this.state.pageLoc.localeCompare("pendingDatasets") === 0 && row.Category.localeCompare("Medical") === 0)//woo more test logic
         );
-    }
+    };
 
     componentDidMount() {
         if (sessionStorage.getItem("user").localeCompare("true")!==0) {
