@@ -7,9 +7,9 @@ import '../../resources/style/colors.css';
 class FormElement extends Component{
 
     static defaultProps = {
-        type:"text",
         as:"input",
-        rows:"1"
+        rows:"1",
+        type:"text"
     };
 
     render() {
@@ -20,7 +20,11 @@ class FormElement extends Component{
                     {/*<Form.Text className={"text-danger"}>*/}
                     {/*    {props.warningText}*/}
                     {/*</Form.Text>*/}
-                    <Form.Control id={this.props.name} type={this.props.type} as={this.props.as} rows={this.props.rows}/>
+                    <Form.Control id={this.props.name}
+                                  as={this.props.as}
+                                  onChange={this.props.onChange}
+                                  rows={this.props.rows}
+                                  type={this.props.type}/>
                 </Col>
                 <Col md={7}>
                     {/*feedback*/}

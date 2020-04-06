@@ -18,7 +18,7 @@ class SelectElement extends Component{
             <Row>
                 <Col md={5}>
                     {this.props.name}
-                    <select id={this.props.name} className={"form-control"}>
+                    <select id={this.props.name} className={"form-control"} onChange={this.props.onChange}>
                         {this.optionsToRender}
                     </select>
                 </Col>
