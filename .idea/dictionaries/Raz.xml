@@ -2,8 +2,10 @@
   <dictionary name="Raz">
     <words>
       <w>axios</w>
+      <w>bgcolor</w>
       <w>datasets</w>
       <w>discretization</w>
+      <w>ffeb</w>
       <w>glyphicons</w>
       <w>hugobot</w>
       <w>navbar</w>

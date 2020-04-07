@@ -4,6 +4,7 @@ import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import Axios from "axios";
 
 import FormElement from "../../Login/FormElement";
+import history from "../../../History"
 import SelectElement from "../../Login/SelectElement";
 
 class Metadata extends Component{
@@ -39,6 +40,12 @@ class Metadata extends Component{
                           this.state.datasetSource)
             .then((response)=>{
                 console.log(response.data);
+                if(response.status < 400){
+                    history.push('/Upload/VMap');
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
         })
     }
 
