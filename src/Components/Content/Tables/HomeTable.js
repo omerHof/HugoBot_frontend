@@ -16,16 +16,18 @@ class HomeTable extends Component {
 
 
     filter = (UserID, DatasetName, Category, Size, Owner, PublicPrivate) => {
-        this.state.filterCategory = document.getElementById("category").value;
-        this.state.filterDatasetName = document.getElementById("datasetName").value;
-        this.state.filterSize = document.getElementById("size").value;
-        this.state.filterOwner = document.getElementById("owner").value;
-        this.state.filterPublicPrivate = document.getElementById("publicPrivate").value;
+        this.setState({
+            filterCategory: document.getElementById("category").value,
+            filterDatasetName: document.getElementById("datasetName").value,
+            filterSize: document.getElementById("size").value,
+            filterOwner: document.getElementById("owner").value,
+            filterPublicPrivate: document.getElementById("publicPrivate").value,
+        });
         this.forceUpdate();
     };
 
     componentDidMount() {
-        if (sessionStorage.getItem("user").localeCompare("true")!=0) {
+        if (sessionStorage.getItem("user").localeCompare("true") !== 0) {
             history.push('/Login');
         }
         sessionStorage.setItem("dataSet","false");

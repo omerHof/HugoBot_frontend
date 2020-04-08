@@ -48,11 +48,11 @@ class VMapFile extends Component{
         // window.alert(this.state.map.size);
     };
 
-    changeViewCreate(e){
+    changeViewCreate(){
         this.setState({onDisplay:"Create"});
     }
 
-    changeViewUpload(e){
+    changeViewUpload(){
         this.setState({onDisplay:"Upload"});
     }
 

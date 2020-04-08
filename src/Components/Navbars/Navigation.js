@@ -7,9 +7,9 @@ import History from "../../History";
 
 
 import '../../resources/style/colors.css';
-import Login from "../Login/Login";
-import {login} from "../../services/authService";
-import HomeData from "../Content/Tables/mainTable";
+// import Login from "../Login/Login";
+// import {login} from "../../services/authService";
+// import HomeData from "../Content/Tables/mainTable";
 
 class Navigation extends Component{
 
@@ -50,7 +50,7 @@ class Navigation extends Component{
                         </Navbar.Brand>
                     </div>
                     <div className={"navbar navbar-right"}>
-                        {sessionStorage.getItem("user").localeCompare("true")==0 ? (
+                        {sessionStorage.getItem("user").localeCompare("true") === 0 ? (
                             <div>
                                 <Link to={"/Manage"} >
                                     <i className="fas fa-user-lock"/> Account &nbsp;
