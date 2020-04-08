@@ -6,9 +6,12 @@ class VMapFile extends Component{
     constructor(props) {
         super(props);
         this.state ={
-            map: new Map()
+            map: new Map(),
+            onDisplay: "None"
         }
         this.recolorCell = this.recolorCell.bind(this);
+        this.changeViewCreate = this.changeViewCreate.bind(this);
+        this.changeViewUpload = this.changeViewUpload.bind(this);
     }
 
     UNFILLED_COLOR = 'FF8080';
@@ -45,6 +48,14 @@ class VMapFile extends Component{
         // window.alert(this.state.map.size);
     };
 
+    changeViewCreate(e){
+        this.setState({onDisplay:"Create"});
+    }
+
+    changeViewUpload(e){
+        this.setState({onDisplay:"Upload"});
+    }
+
     renderTableHeader = () => {
         return(
             <tr>
@@ -80,7 +91,20 @@ class VMapFile extends Component{
     renderTable = () => {
         return this.VMapList.map((iter,idx) =>
             this.renderTableRow(iter, idx)
-        )
+        );
+    };
+
+    renderUpload = () => {
+        return(
+            <Form onSubmit={this.onUploadSubmit}>
+
+            </Form>
+        );
+    };
+
+    onUploadSubmit(e){
+        e.preventDefault();
+        window.alert("form submitted");
     }
 
     render() {
@@ -93,11 +117,11 @@ class VMapFile extends Component{
                 </Card.Header>
                 <Card.Body>
                     <ButtonGroup>
-                        <Button className="btn-hugobot" type={"button"}>
+                        <Button className="btn-hugobot" onClick={this.changeViewCreate} type={"button"}>
                             <i className="fas fa-edit"/>&nbsp;
                             Create new Variable Map
                         </Button>
-                        <Button className="btn-hugobot" type={"button"}>
+                        <Button className="btn-hugobot" onClick={this.changeViewUpload} type={"button"}>
                             <i className="fas fa-upload"/>&nbsp;
                             Upload Variable Map
                         </Button>
@@ -109,10 +133,11 @@ class VMapFile extends Component{
                     <br/>
                     <br/>
                     <br/>
+                    {this.state.onDisplay.localeCompare("Upload") === 0 && this.renderUpload()}
                     <Table>
                         {this.renderTableHeader()}
                         <br/>
-                        {this.renderTable()}
+                        {this.state.onDisplay.localeCompare("Create") === 0 && this.renderTable()}
                     </Table>
                     <br/>
                     <br/>
