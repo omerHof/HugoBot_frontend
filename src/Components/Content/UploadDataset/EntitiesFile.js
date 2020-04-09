@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+
+import {Button, Card, Form} from "react-bootstrap";
 import Axios from "axios";
-import Form from "react-bootstrap/Form";
+
+import history from "../../../History";
 
 class EntitiesFile extends Component{
 
@@ -15,17 +16,22 @@ class EntitiesFile extends Component{
         this.onChange = this.onChange.bind(this);
         this.fileUpload = this.fileUpload.bind(this)
     }
+
+    onChange(e) {
+        this.setState({file:e.target.files[0]})
+    }
+
     onFormSubmit(e){
         e.preventDefault();// Stop form submit
         this.fileUpload(this.state.file).then((response)=>{
             console.log(response.data);
+            window.alert("Dataset Uploaded Successfully!");
+            history.push("/Home");
         })
     }
-    onChange(e) {
-        this.setState({file:e.target.files[0]})
-    }
+
     fileUpload(file){
-        const url = 'http://example.com/file-upload';
+        const url = 'http://localhost:5000/stepthree';
         const formData = new FormData();
         formData.append('file',file);
         const config = {
