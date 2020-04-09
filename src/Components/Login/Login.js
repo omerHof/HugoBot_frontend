@@ -13,6 +13,7 @@ class Login extends Component{
 
     handleSubmit = async (email,pass) => {
         const user = await login(email, pass);
+        console.log(user);
         sessionStorage.setItem("user","true");
         //this.context.setUser(user);
         history.push('/Home');

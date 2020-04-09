@@ -98,6 +98,9 @@ class Manage extends Component{
                     </tr>
                 )
             }
+            else{
+                return null;
+            }
         })
     };
 

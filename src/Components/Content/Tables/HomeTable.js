@@ -87,6 +87,9 @@ class HomeTable extends Component {
                     </tr>
                 )
             }
+            else{
+                return null;
+            }
         })
     };
 
