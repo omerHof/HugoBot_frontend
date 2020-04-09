@@ -43,10 +43,10 @@ class AddConfigCard extends Component{
         let x= JSON.parse(sessionStorage.DiscretizationTable);
 
         let y={
-            "MethodOfDiscretization": event.target.AbMethodInput.value,
-            "BinsNumber": event.target.NumStatesInput.value,
-            "InterpolationGap": event.target.InterpolationInput.value,
-            "PAAWindowSize": event.target.PAAInput.value
+            "MethodOfDiscretization": this.state.AbMethod,
+            "BinsNumber": this.state.NumStates,
+            "InterpolationGap": this.state.InterpolationGap,
+            "PAAWindowSize": this.state.PAA
         };
 
         x.rows.push(y);
