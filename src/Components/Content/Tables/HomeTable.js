@@ -40,24 +40,26 @@ class HomeTable extends Component {
     renderTableHeader = () => {
         return(
             <thead>
-            <td align={"center"}>
-                Filters
-            </td>
-            <td>
-                <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
-            </td>
-            <td>
-                <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
-            </td>
-            <td>
-                <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
-            </td>
-            <td>
-                <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
-            </td>
-            <td>
-                <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
-            </td>
+                <tr>
+                    <th align={"center"}>
+                        Filters
+                    </th>
+                    <th>
+                        <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
+                    </th>
+                    <th>
+                        <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
+                    </th>
+                    <th>
+                        <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
+                    </th>
+                    <th>
+                        <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
+                    </th>
+                    <th>
+                        <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
+                    </th>
+                </tr>
             </thead>
         );
     };
