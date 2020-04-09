@@ -46,11 +46,11 @@ class Metadata extends Component{
                 else{
                     window.alert('uh oh, there\'s a problem!')
                 }
-        })
-    }
+        });
+    };
 
     sendMetadata(datasetName,category,publicPrivate,file,description,datasetSource){
-        const url = 'http://localhost:5000/stepone';//
+        const url = 'http://localhost:5000/stepone';
         const formData = new FormData();
         formData.append('datasetName',datasetName);
         formData.append('category',category);
@@ -64,7 +64,7 @@ class Metadata extends Component{
             }
         };
         return Axios.post(url, formData,config)
-    }
+    };
     //</editor-fold>
 
     //<editor-fold desc="onChange Event Listeners">
@@ -120,7 +120,7 @@ class Metadata extends Component{
                         <Row>
                             <Col md={5}>
                                 Dataset File <br/>
-                                <Form.Control id={"raz123"} accept={".csv"} type={"file"} onChange={this.onFileChange}/>
+                                <Form.Control accept={".csv"} type={"file"} onChange={this.onFileChange}/>
                             </Col>
                         </Row>
                         <FormElement as={"textarea"}

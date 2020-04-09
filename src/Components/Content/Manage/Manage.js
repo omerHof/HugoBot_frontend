@@ -88,10 +88,7 @@ class Manage extends Component{
                 &&(this.tabFilter(this.state.pageLoc, iter)))
             {
                 return (
-                    <tr onClick={(e) => {
-                        this.props.CollectData(iter.DatasetName);
-                    }}
-                    >
+                    <tr>
                         <td>{iter.UserID}</td>
                         <td>{iter.DatasetName}</td>
                         <td>{iter.Category}</td>

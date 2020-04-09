@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import {Button, ButtonGroup, Card, Form, Table} from "react-bootstrap";
+import Axios from "axios";
+
+import history from "../../../History";
 
 class VMapFile extends Component{
 
@@ -7,11 +10,17 @@ class VMapFile extends Component{
         super(props);
         this.state ={
             map: new Map(),
-            onDisplay: "None"
+            onDisplay: "None",
+            uploadFile:null
         }
-        this.recolorCell = this.recolorCell.bind(this);
         this.changeViewCreate = this.changeViewCreate.bind(this);
         this.changeViewUpload = this.changeViewUpload.bind(this);
+        this.onFileChange = this.onFileChange.bind(this);
+        this.onUploadSubmit = this.onUploadSubmit.bind(this);
+        this.sendVMapUpload = this.sendVMapUpload.bind(this);
+        this.onCreateSubmit = this.onCreateSubmit.bind(this);
+        this.sendVMapCreate = this.sendVMapCreate.bind(this);
+        this.recolorCell = this.recolorCell.bind(this);
     }
 
     UNFILLED_COLOR = 'FF8080';
@@ -45,7 +54,6 @@ class VMapFile extends Component{
             }
         }
         map.set(e.target.id+"_td",e.target.value);
-        // window.alert(this.state.map.size);
     };
 
     changeViewCreate(){
@@ -56,6 +64,7 @@ class VMapFile extends Component{
         this.setState({onDisplay:"Upload"});
     }
 
+    //<editor-fold desc="Create">
     renderTableHeader = () => {
         return(
             <tr>
@@ -79,7 +88,7 @@ class VMapFile extends Component{
                     <Form.Control id={"id"+idx} placeholder={placeholder}/>
                 </td>
                 <td bgcolor={this.UNFILLED_COLOR} id={"name"+idx+"_td"}>
-                    <Form.Control id={"name"+idx} onChange={this.recolorCell}/>
+                    <Form.Control bgcolor={this.UNFILLED_COLOR} id={"name"+idx} onChange={this.recolorCell}/>
                 </td>
                 <td>
                     <Form.Control id={"description"+idx}/>
@@ -94,18 +103,94 @@ class VMapFile extends Component{
         );
     };
 
+    onCreateSubmit(e){
+        let i = 0;
+        let table = [];
+        let id,name,desc = null;
+
+        while (document.getElementById("id"+i) !== null){
+            id = document.getElementById("id" + i).value;
+            name = document.getElementById("name" + i).value;
+            desc = document.getElementById("description" + i).value;
+            table.push([id,name,desc]);
+            i++;
+        }
+
+        let csv = table.map(function(d){
+            return d.join();
+        }).join('\n');
+
+        this.sendVMapCreate(csv)
+            .then((response)=>{
+                console.log(response.data);
+                if(response.status < 400){
+                    history.push('/Upload/Entities');
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            });
+    }
+
+    sendVMapCreate(csv){
+        const url = 'http://localhost:5000/steptwocreate';
+        const formData = new FormData();
+        formData.append('csv',csv);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        return Axios.post(url, formData,config)
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Upload">
     renderUpload = () => {
         return(
             <Form onSubmit={this.onUploadSubmit}>
-
+                Map File: &nbsp;&nbsp;
+                <Form.Control accept={".csv"} type={"file"} onChange={this.onFileChange}/>
+                <br/>
+                <Button className={"btn-hugobot"} type={"submit"}>
+                    <i className="fas fa-upload"/>&nbsp;
+                    Upload
+                </Button>
+                <br/>
             </Form>
         );
     };
 
+    onFileChange(e){
+        this.setState({uploadFile:e.target.files[0]})
+    }
+
     onUploadSubmit(e){
         e.preventDefault();
-        window.alert("form submitted");
+        this.sendVMapUpload(this.state.uploadFile)
+            .then((response)=>{
+                console.log(response.data);
+                if(response.status < 400){
+                    history.push('/Upload/Entities');
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            });
     }
+
+    sendVMapUpload(file){
+        const url = 'http://localhost:5000/steptwo';
+        const formData = new FormData();
+        formData.append('file',file);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        return Axios.post(url, formData,config)
+    };
+    //</editor-fold>
 
     render() {
         return (
@@ -142,7 +227,7 @@ class VMapFile extends Component{
                     <br/>
                     <br/>
                     <br/>
-                    <Button className={"btn-hugobot"}>
+                    <Button className={"btn-hugobot"} onClick={this.onCreateSubmit}>
                         Proceed to Step 3
                     </Button>
                 </Card.Body>
