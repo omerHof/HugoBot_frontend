@@ -13,11 +13,10 @@ class AddConfigCard extends Component{
         super(props);
         this.state ={
             PAA:"1",
-            AbMethod:"",
+            AbMethod:"Equal Frequency",
             NumStates:"2",
             InterpolationGap:"1"
         };
-
 
         //<editor-fold desc="Bindings">
         this.onPAAChange = this.onPAAChange.bind(this);
@@ -52,9 +51,9 @@ class AddConfigCard extends Component{
         x.rows.push(y);
 
         this.sendDisc(this.state.PAA,
-            this.state.AbMethod,
-            this.state.NumStates,
-            this.state.InterpolationGap)
+                      this.state.AbMethod,
+                      this.state.NumStates,
+                      this.state.InterpolationGap)
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
@@ -83,8 +82,8 @@ class AddConfigCard extends Component{
                 'content-type': 'multipart/form-data'
             }
         };
-        return Axios.post(url, formData,config)
-    }
+        return Axios.post(url, formData,config);
+    };
 
     //<editor-fold desc="Sub-Components">
     HeadElement(){

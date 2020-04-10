@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import {Card, Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import { Router, Route} from "react-router-dom";
 
 import HomeTable from "./HomeTable";
@@ -64,16 +64,6 @@ class TableContent extends Component{
             </Row>
         </Container>
     );
-
-    CurrConfigHeadElement = (
-        <Card.Header className={"bg-hugobot"}>
-            <Card.Text className={"text-hugobot"}>
-                Use an Existing Configuration
-            </Card.Text>
-        </Card.Header>
-    );
-
-
     //</editor-fold>
 
     render() {
@@ -94,12 +84,7 @@ class TableContent extends Component{
                     </Route>
                     <Route path={"/Home/Disc"}>
                         <AddConfigCard/>
-                        <Card style={{ width: 'auto' }}>
-                            {this.CurrConfigHeadElement}
-                            <Card.Body>
-                                <DiscretizationTable/>
-                            </Card.Body>
-                        </Card>
+                        <DiscretizationTable/>
                     </Route>
                     <Route path={"/Home/TIM"}>
                         <TIMTable/>
