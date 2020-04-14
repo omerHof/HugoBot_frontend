@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 
 import {Button, Container} from "react-bootstrap";
+import Axios from "axios";
 
 class Visualization extends Component{
+
+    constructor(props){
+        super(props);
+
+        this.handleGetAllRequest = this.handleGetAllRequest.bind(this);
+    }
 
     sendVisualRequest = () => {
         window.alert("hello");
@@ -46,6 +53,26 @@ class Visualization extends Component{
         })
     };
 
+    handleGetAllRequest(e){
+        e.preventDefault();
+
+        this.getAllDatasets()
+            .then((response)=>{
+                console.log(response.data);
+                if(response.status < 400){
+                    window.alert('success!get');
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            });
+    }
+
+    getAllDatasets(){
+        const url = 'http://localhost:5000/getAllDatasets';
+        return Axios.get(url);
+    }
+
     render() {
         return (
             <Container>
@@ -61,6 +88,11 @@ class Visualization extends Component{
                 <Button id={"postBtn"} className={"btn-hugobot"}
                         onClick={this.postRequest} type={"submit"}>
                     Send POST request
+                </Button>
+                &nbsp;&nbsp;
+                <Button id={"getAllMetaBtn"} className={"btn-hugobot"}
+                        onClick={this.handleGetAllRequest} type={"submit"}>
+                    Get Home Table request
                 </Button>
             </Container>
         );
