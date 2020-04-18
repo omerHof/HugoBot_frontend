@@ -9,7 +9,6 @@ class Manage extends Component{
 
     constructor(props) {
         super(props);
-        // Don't call this.setState() here!
         this.state = {  HomeTable: HomeData,
                         pageLoc: "myDatasets",
                         filterDatasetName: "",
@@ -20,7 +19,7 @@ class Manage extends Component{
         }
     }
 
-    filter = (UserID, DatasetName, Category, Size, Owner, PublicPrivate) => {
+    filter = () => {
         this.setState({
             filterCategory: document.getElementById("category").value,
             filterDatasetName: document.getElementById("datasetName").value,
@@ -38,9 +37,15 @@ class Manage extends Component{
 
     tabFilter = (tab, row) => {
         return(
-            (this.state.pageLoc.localeCompare("myDatasets") === 0 && row.Owner.localeCompare("raz shtrauchler") === 0)//test logic
-            || (this.state.pageLoc.localeCompare("sharedDatasets") === 0 && row.DatasetName.localeCompare("Sepsis") === 0)//yet again test logic
-            || (this.state.pageLoc.localeCompare("pendingDatasets") === 0 && row.Category.localeCompare("Medical") === 0)//woo more test logic
+            (this.state.pageLoc.localeCompare("myDatasets") === 0
+                && row["Owner"].localeCompare("raz shtrauchler") === 0)
+            ||
+            (this.state.pageLoc.localeCompare("sharedDatasets") === 0
+                && row["Owner"].localeCompare("raz shtrauchler") !== 0
+                && row["SharedWithMe"].localeCompare("Yes") === 0)
+            ||
+            (this.state.pageLoc.localeCompare("pendingDatasets") === 0
+                && row["PendingApproval"].localeCompare("Yes") === 0)
         );
     };
 
@@ -74,29 +79,39 @@ class Manage extends Component{
             <td>
                 <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
             </td>
+            <td hidden={this.state.pageLoc.localeCompare("pendingDatasets") !== 0}>
+                Raz Abagada
+            </td>
             </thead>
+        );
+    };
+
+    renderTableRow = (row) => {
+        return(
+            <tr>
+                <td>{row["UserID"]}</td>
+                <td>{row["DatasetName"]}</td>
+                <td>{row["Category"]}</td>
+                <td>{row["Size"]}</td>
+                <td>{row["Owner"]}</td>
+                <td>{row["PublicPrivate"]}</td>
+                <td hidden={this.state.pageLoc.localeCompare("pendingDatasets") !== 0}>
+                    {row["PendingApproval"]}
+                </td>
+            </tr>
         );
     };
 
     renderTableData = () => {
         return this.state.HomeTable.rows.map((iter) => {
-            if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter.Size))
-                &&(this.state.filterDatasetName.localeCompare("") === 0 || iter.DatasetName.includes(this.state.filterDatasetName))
-                &&(this.state.filterCategory.localeCompare("") === 0 || iter.Category.includes(this.state.filterCategory))
-                &&(this.state.filterOwner.localeCompare("") === 0 || iter.Owner.includes(this.state.filterOwner))
-                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter.PublicPrivate.includes(this.state.filterPublicPrivate))
+            if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
+                &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
+                &&(this.state.filterCategory.localeCompare("") === 0 || iter["Category"].includes(this.state.filterCategory))
+                &&(this.state.filterOwner.localeCompare("") === 0 || iter["Owner"].includes(this.state.filterOwner))
+                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate))
                 &&(this.tabFilter(this.state.pageLoc, iter)))
             {
-                return (
-                    <tr>
-                        <td>{iter.UserID}</td>
-                        <td>{iter.DatasetName}</td>
-                        <td>{iter.Category}</td>
-                        <td>{iter.Size}</td>
-                        <td>{iter.Owner}</td>
-                        <td>{iter.PublicPrivate}</td>
-                    </tr>
-                )
+                return this.renderTableRow(iter);
             }
             else{
                 return null;
@@ -111,13 +126,28 @@ class Manage extends Component{
                 <br/>
                 <Nav variant={"tabs"}>
                     {/*<Router history={History}>*/}
-                        <Button id={"myDatasets"} className={"nav-link btn-hugobot"} onClick={this.clicked.bind(null,"myDatasets")}>
+                        <Button
+                            active={this.state.pageLoc.localeCompare("myDatasets") === 0}
+                            id={"myDatasets"}
+                            className={"nav-link btn-hugobot"}
+                            onClick={this.clicked.bind(null,"myDatasets")}>
+
                             My Datasets
                         </Button>
-                        <Button id={"sharedDatasets"} className={"nav-link btn-hugobot"} onClick={this.clicked.bind(null,"sharedDatasets")}>
+                        <Button
+                            active={this.state.pageLoc.localeCompare("sharedDatasets") === 0}
+                            id={"sharedDatasets"}
+                            className={"nav-link btn-hugobot"}
+                            onClick={this.clicked.bind(null,"sharedDatasets")}>
+
                             Shared with me
                         </Button>
-                        <Button id={"pendingDatasets"} className={"nav-link btn-hugobot"} onClick={this.clicked.bind(null,"pendingDatasets")}>
+                        <Button
+                            active={this.state.pageLoc.localeCompare("pendingDatasets") === 0}
+                            id={"pendingDatasets"}
+                            className={"nav-link btn-hugobot"}
+                            onClick={this.clicked.bind(null,"pendingDatasets")}>
+
                             Pending Approval
                         </Button>
                     {/*</Router>*/}
