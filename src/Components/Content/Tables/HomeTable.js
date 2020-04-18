@@ -15,7 +15,7 @@ class HomeTable extends Component {
     };
 
 
-    filter = (UserID, DatasetName, Category, Size, Owner, PublicPrivate) => {
+    filter = () => {
         this.setState({
             filterCategory: document.getElementById("category").value,
             filterDatasetName: document.getElementById("datasetName").value,
@@ -67,23 +67,23 @@ class HomeTable extends Component {
     renderTableData = () => {
         return this.props.HomeTable.rows.map((iter) => {
             // console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
-            if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter.Size))
-                &&(this.state.filterDatasetName.localeCompare("") === 0 || iter.DatasetName.includes(this.state.filterDatasetName))
-                &&(this.state.filterCategory.localeCompare("") === 0 || iter.Category.includes(this.state.filterCategory))
-                &&(this.state.filterOwner.localeCompare("") === 0 || iter.Owner.includes(this.state.filterOwner))
-                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter.PublicPrivate.includes(this.state.filterPublicPrivate)))
+            if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
+                &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
+                &&(this.state.filterCategory.localeCompare("") === 0 || iter["Category"].includes(this.state.filterCategory))
+                &&(this.state.filterOwner.localeCompare("") === 0 || iter["Owner"].includes(this.state.filterOwner))
+                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate)))
                 {
                 return (
-                    <tr onClick={(e) => {
-                        this.props.CollectData(iter.DatasetName);
+                    <tr onClick={() => {
+                        this.props.CollectData(iter["DatasetName"]);
                     }}
                     >
-                        <td>{iter.UserID}</td>
-                        <td>{iter.DatasetName}</td>
-                        <td>{iter.Category}</td>
-                        <td>{iter.Size}</td>
-                        <td>{iter.Owner}</td>
-                        <td>{iter.PublicPrivate}</td>
+                        <td>{iter["UserID"]}</td>
+                        <td>{iter["DatasetName"]}</td>
+                        <td>{iter["Category"]}</td>
+                        <td>{iter["Size"]}</td>
+                        <td>{iter["Owner"]}</td>
+                        <td>{iter["PublicPrivate"]}</td>
                     </tr>
                 )
             }
