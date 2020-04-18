@@ -17,6 +17,8 @@ class Manage extends Component{
                         filterOwner: "",
                         filterPublicPrivate: ""
         }
+
+        this.askPermissionHandler = this.askPermissionHandler.bind(this);
     }
 
     filter = () => {
@@ -46,8 +48,21 @@ class Manage extends Component{
             ||
             (this.state.pageLoc.localeCompare("pendingDatasets") === 0
                 && row["PendingApproval"].localeCompare("Yes") === 0)
+            ||
+            (this.state.pageLoc.localeCompare("searchDatasets") === 0
+                && row["PendingApproval"].localeCompare("No") === 0
+                && row["SharedWithMe"].localeCompare("No") === 0)
         );
     };
+
+    askPermissionHandler(e){
+        //TODO find a more scalable way to do this (that does not involve copying the entire matrix)
+        let HomeData = this.state.HomeTable;
+        let index = e.target.id.slice(-1);
+        HomeData.rows[index]["PendingApproval"] = "Yes";
+        this.setState({HomeTable:HomeData});
+        this.forceUpdate();
+    }
 
     componentDidMount() {
         if (sessionStorage.getItem("user").localeCompare("true")!==0) {
@@ -61,32 +76,32 @@ class Manage extends Component{
     renderTableHeader = () => {
         return(
             <thead>
-            <td align={"center"}>
-                Filters
-            </td>
-            <td>
-                <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
-            </td>
-            <td>
-                <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
-            </td>
-            <td>
-                <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
-            </td>
-            <td>
-                <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
-            </td>
-            <td>
-                <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
-            </td>
-            <td hidden={this.state.pageLoc.localeCompare("pendingDatasets") !== 0}>
-                Raz Abagada
-            </td>
+                <td align={"center"}>
+                    Filters
+                </td>
+                <td>
+                    <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
+                </td>
+                <td>
+                    <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
+                </td>
+                <td>
+                    <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
+                </td>
+                <td>
+                    <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
+                </td>
+                <td>
+                    <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
+                </td>
+                <td hidden={this.state.pageLoc.localeCompare("searchDatasets") !== 0}>
+                    Request Access
+                </td>
             </thead>
         );
     };
 
-    renderTableRow = (row) => {
+    renderTableRow = (row, index) => {
         return(
             <tr>
                 <td>{row["UserID"]}</td>
@@ -95,15 +110,21 @@ class Manage extends Component{
                 <td>{row["Size"]}</td>
                 <td>{row["Owner"]}</td>
                 <td>{row["PublicPrivate"]}</td>
-                <td hidden={this.state.pageLoc.localeCompare("pendingDatasets") !== 0}>
-                    {row["PendingApproval"]}
+                <td hidden={this.state.pageLoc.localeCompare("searchDatasets") !== 0}>
+                    <Button
+                        className={"btn-hugobot"}
+                        id={"askPermission"+index}
+                        onClick={this.askPermissionHandler}>
+
+                        Access
+                    </Button>
                 </td>
             </tr>
         );
     };
 
     renderTableData = () => {
-        return this.state.HomeTable.rows.map((iter) => {
+        return this.state.HomeTable.rows.map((iter, index) => {
             if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
                 &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
                 &&(this.state.filterCategory.localeCompare("") === 0 || iter["Category"].includes(this.state.filterCategory))
@@ -111,7 +132,7 @@ class Manage extends Component{
                 &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate))
                 &&(this.tabFilter(this.state.pageLoc, iter)))
             {
-                return this.renderTableRow(iter);
+                return this.renderTableRow(iter, index);
             }
             else{
                 return null;
@@ -149,6 +170,14 @@ class Manage extends Component{
                             onClick={this.clicked.bind(null,"pendingDatasets")}>
 
                             Pending Approval
+                        </Button>
+                        <Button
+                            active={this.state.pageLoc.localeCompare("searchDatasets") === 0}
+                            id={"searchDatasets"}
+                            className={"nav-link btn-hugobot"}
+                            onClick={this.clicked.bind(null,"searchDatasets")}>
+
+                            Explore...
                         </Button>
                     {/*</Router>*/}
                 </Nav>
