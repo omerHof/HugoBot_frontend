@@ -20,26 +20,11 @@ class AddConfigCard extends Component{
             KnowledgeBasedFile:null,
             GradientFile:null
         };
-
-        //<editor-fold desc="Bindings">
-        this.onPAAChange = this.onPAAChange.bind(this);
-        this.onAbMethodChange = this.onAbMethodChange.bind(this);
-        this.onNumStatesChange = this.onNumStatesChange.bind(this);
-        this.onInterpolationGapChange = this.onInterpolationGapChange.bind(this);
-        this.onBinningChange = this.onBinningChange.bind(this);
-        this.onGradientFileChange = this.onGradientFileChange.bind(this);
-        this.onKnowledgeBasedFileChange = this.onKnowledgeBasedFileChange.bind(this);
-
-        this.HeadElement = this.HeadElement.bind(this);
-        this.PAAElement = this.PAAElement.bind(this);
-        this.AbMethodNumStatesElement = this.AbMethodNumStatesElement.bind(this);
-        this.InterpolationElement = this.InterpolationElement.bind(this);
-        this.ConfigurationForm = this.ConfigurationForm.bind(this);
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.sendDisc = this.sendDisc.bind(this);
-        //</editor-fold>
     }
+
+    AbMethodOptions = ["Equal Frequency","Equal Width","Persist","KMeans","Knowledge-Based","SAX"];
+
+    optionsToRender = this.AbMethodOptions.map((option) => <option>{option}</option>);
 
     handleSubmit = (event) => {
 
@@ -79,7 +64,7 @@ class AddConfigCard extends Component{
         //this.forceUpdate();
     };
 
-    sendDisc(PAA,NumStates,InterpolationGap,AbMethod,BinningByValue,KnowledgeBasedFile,GradientFile){
+    sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,BinningByValue,KnowledgeBasedFile,GradientFile) => {
         const url = 'http://localhost:5000/addNewDisc';
         const formData = new FormData();
         formData.append('PAA',PAA);
@@ -97,146 +82,33 @@ class AddConfigCard extends Component{
         return Axios.post(url, formData,config);
     };
 
-    //<editor-fold desc="Sub-Components">
-    HeadElement(){
-        return(
-            <Card.Header className={"bg-hugobot"}>
-                <Card.Text className={"text-hugobot"}>
-                    Add a New Configuration
-                </Card.Text>
-            </Card.Header>
-        );
-    };
-
-    onPAAChange(e){
+    onPAAChange = (e) => {
         this.setState({PAA:e.target.value});
     };
 
-    PAAElement(){
-        return(
-            <Card>
-                <Card.Body>
-                    <Form.Label className={"font-weight-bold"}>
-                        PAA Window Size
-                    </Form.Label>
-                    <Form.Control name="PAAInput"
-                                  onChange={this.onPAAChange}
-                                  placeholder="1"
-                                  type={"text"}/>
-                    <Form.Text className="text-muted">
-                        Window size must be at least 1
-                    </Form.Text>
-
-
-                </Card.Body>
-            </Card>
-        );
-    };
-
-    AbMethodOptions = ["Equal Frequency","Equal Width","Persist","KMeans","Knowledge-Based","SAX"];
-
-    optionsToRender = this.AbMethodOptions.map((option) => <option>{option}</option>);
-
-    onAbMethodChange(e){
+    onAbMethodChange = (e) => {
         this.setState({AbMethod:e.target.value});
     };
 
-    onNumStatesChange(e){
+    onNumStatesChange = (e) => {
         this.setState({NumStates:e.target.value});
     };
 
-    AbMethodNumStatesElement(){
-        return(
-            <Card>
-                <Card.Body>
-                    <Form.Label className={"font-weight-bold"}>
-                        Abstraction Method
-                    </Form.Label>
-                    <Form.Control as={"select"}
-                                  name="AbMethodInput"
-                                  onChange={this.onAbMethodChange}
-                                  placeholder=""
-                    >
-                        {this.optionsToRender}
-                    </Form.Control>
-
-                    <Form.Label className={"font-weight-bold"}>
-                        Number of States
-                    </Form.Label>
-                    <Form.Control name="NumStatesInput"
-                                  onChange={this.onNumStatesChange}
-                                  placeholder="2"
-                                  type={"text"}
-                    />
-                    <Form.Text className="text-muted">
-                        Number of states must be at least 2
-                    </Form.Text>
-                </Card.Body>
-            </Card>
-        );
-    };
-
-    onInterpolationGapChange(e){
+    onInterpolationGapChange = (e) => {
         this.setState({InterpolationGap:e.target.value});
     };
 
-    InterpolationElement(){
-        return(
-            <Card>
-                <Card.Body>
-                    <Form.Label className={"font-weight-bold"}>
-                        Interpolation Gap
-                    </Form.Label>
-                    <Form.Control name="InterpolationInput"
-                                  onChange={this.onInterpolationGapChange}
-                                  placeholder="1"
-                                  type={"text"}
-                    />
-                    <Form.Text className="text-muted">
-                        Interpolation gap must be at least 1
-                    </Form.Text>
-                </Card.Body>
-            </Card>
-        );
-    };
-
-    onBinningChange(e){
+    onBinningChange = (e) => {
         this.setState({BinningByValue:"true" === e.target.value});
     }
 
-    onGradientFileChange(e){
+    onGradientFileChange = (e) => {
         this.setState({GradientFile:e.target.files[0]});
     }
 
-    onKnowledgeBasedFileChange(e){
+    onKnowledgeBasedFileChange = (e) => {
         this.setState({KnowledgeBasedFile:e.target.files[0]});
     }
-
-    ConfigurationForm(){
-        return(
-            <Form onSubmit={this.handleSubmit}>
-                <Container fluid={true}>
-                    <Form.Row>
-                        <Col md={4}>
-                            {this.PAAElement}
-                        </Col>
-                        <Col md={4}>
-                            {this.AbMethodNumStatesElement}
-                        </Col>
-                        <Col md={4}>
-                            {this.InterpolationElement}
-                        </Col>
-                    </Form.Row>
-                    <Row className={"justify-Content-center"}>
-                        <Button className="bg-hugobot" type="submit">
-                            <i className="fas fa-plus"/> Add Configuration
-                        </Button>
-                    </Row>
-                </Container>
-            </Form>
-        );
-    };
-    //</editor-fold>
 
     render() {
         return (
