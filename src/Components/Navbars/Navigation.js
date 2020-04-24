@@ -38,7 +38,7 @@ class Navigation extends Component{
                         <Link to={"/"}>
                             <i className="fas fa-home"/> Home &nbsp;
                         </Link>
-                        <Link to={"/"} >
+                        <Link to={"/Tutorial"} >
                             <i className="fas fa-book-open"/> Tutorial
                         </Link>
                     </div>
