@@ -184,7 +184,7 @@ class AddConfigCard extends Component{
                                         </Form.Label>
                                         <Form.Control accept={".csv"}
                                                       type={"file"}
-                                                      onChange={this.onGradientFileChange}/>
+                                                      onChange={this.onKnowledgeBasedFileChange}/>
                                     </Row>
                                 </Col>
                             </Row>
