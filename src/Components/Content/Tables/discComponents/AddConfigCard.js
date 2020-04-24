@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import {Button, Card, Col, Container, Form, Row} from "react-bootstrap"
+import {Button, ButtonGroup, Card, Col, Container, Form, Row, ToggleButton} from "react-bootstrap"
 import Axios from "axios";
 
 import "../../../../resources/style/colors.css"
@@ -15,7 +15,10 @@ class AddConfigCard extends Component{
             PAA:"1",
             AbMethod:"Equal Frequency",
             NumStates:"2",
-            InterpolationGap:"1"
+            InterpolationGap:"1",
+            BinningByValue:true,
+            KnowledgeBasedFile:null,
+            GradientFile:null
         };
 
         //<editor-fold desc="Bindings">
@@ -23,6 +26,9 @@ class AddConfigCard extends Component{
         this.onAbMethodChange = this.onAbMethodChange.bind(this);
         this.onNumStatesChange = this.onNumStatesChange.bind(this);
         this.onInterpolationGapChange = this.onInterpolationGapChange.bind(this);
+        this.onBinningChange = this.onBinningChange.bind(this);
+        this.onGradientFileChange = this.onGradientFileChange.bind(this);
+        this.onKnowledgeBasedFileChange = this.onKnowledgeBasedFileChange.bind(this);
 
         this.HeadElement = this.HeadElement.bind(this);
         this.PAAElement = this.PAAElement.bind(this);
@@ -51,9 +57,12 @@ class AddConfigCard extends Component{
         x.rows.push(y);
 
         this.sendDisc(this.state.PAA,
-                      this.state.AbMethod,
                       this.state.NumStates,
-                      this.state.InterpolationGap)
+                      this.state.InterpolationGap,
+                      this.state.AbMethod,
+                      this.state.BinningByValue,
+                      this.state.KnowledgeBasedFile,
+                      this.state.GradientFile)
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
@@ -70,13 +79,16 @@ class AddConfigCard extends Component{
         //this.forceUpdate();
     };
 
-    sendDisc(PAA,AbMethod,NumStates,InterpolationGap){
+    sendDisc(PAA,NumStates,InterpolationGap,AbMethod,BinningByValue,KnowledgeBasedFile,GradientFile){
         const url = 'http://localhost:5000/addNewDisc';
         const formData = new FormData();
         formData.append('PAA',PAA);
         formData.append('AbMethod',AbMethod);
         formData.append('NumStates',NumStates);
         formData.append('InterpolationGap',InterpolationGap);
+        formData.append('BinningByValue',BinningByValue);
+        formData.append('KnowledgeBasedFile',KnowledgeBasedFile);
+        formData.append('GradientFile',GradientFile);
         const config = {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -114,6 +126,8 @@ class AddConfigCard extends Component{
                     <Form.Text className="text-muted">
                         Window size must be at least 1
                     </Form.Text>
+
+
                 </Card.Body>
             </Card>
         );
@@ -186,6 +200,18 @@ class AddConfigCard extends Component{
         );
     };
 
+    onBinningChange(e){
+        this.setState({BinningByValue:"true" === e.target.value});
+    }
+
+    onGradientFileChange(e){
+        this.setState({GradientFile:e.target.files[0]});
+    }
+
+    onKnowledgeBasedFileChange(e){
+        this.setState({KnowledgeBasedFile:e.target.files[0]});
+    }
+
     ConfigurationForm(){
         return(
             <Form onSubmit={this.handleSubmit}>
@@ -223,73 +249,109 @@ class AddConfigCard extends Component{
                 <Card.Body>
                     <Form onSubmit={this.handleSubmit}>
                         <Container fluid={true}>
-                            <Form.Row>
+                            <Row>
                                 <Col md={4}>
-                                    <Card>
-                                        <Card.Body>
-                                            <Form.Label className={"font-weight-bold"}>
-                                                PAA Window Size
-                                            </Form.Label>
-                                            <Form.Control name="PAAInput"
-                                                          onChange={this.onPAAChange}
-                                                          placeholder="1"
-                                                          type={"text"}/>
-                                            <Form.Text className="text-muted">
-                                                Window size must be at least 1
-                                            </Form.Text>
-                                        </Card.Body>
-                                    </Card>
+                                    <Form.Label className={"font-weight-bold"}>
+                                        PAA Window Size
+                                    </Form.Label>
+                                    <Form.Control name="PAAInput"
+                                                  onChange={this.onPAAChange}
+                                                  placeholder="1"
+                                                  type={"text"}/>
+                                    <Form.Text className="text-muted">
+                                        Window size must be at least 1
+                                    </Form.Text>
                                 </Col>
                                 <Col md={4}>
-                                    <Card>
-                                        <Card.Body>
-                                            <Form.Label className={"font-weight-bold"}>
-                                                Abstraction Method
-                                            </Form.Label>
-                                            <Form.Control as={"select"}
-                                                          name="AbMethodInput"
-                                                          onChange={this.onAbMethodChange}
-                                                          placeholder=""
-                                            >
-                                                {this.optionsToRender}
-                                            </Form.Control>
+                                    <Form.Label className={"font-weight-bold"}>
+                                        Number of States
+                                    </Form.Label>
+                                    <Form.Control name="NumStatesInput"
+                                                  onChange={this.onNumStatesChange}
+                                                  placeholder="2"
+                                                  type={"text"}
+                                    />
+                                    <Form.Text className="text-muted">
+                                        Number of states must be at least 2
+                                    </Form.Text>
+                                </Col>
+                                <Col md={4}>
+                                    <Form.Label className={"font-weight-bold"}>
+                                        Interpolation Gap
+                                    </Form.Label>
+                                    <Form.Control name="InterpolationInput"
+                                                  onChange={this.onInterpolationGapChange}
+                                                  placeholder="1"
+                                                  type={"text"}
+                                    />
+                                    <Form.Text className="text-muted">
+                                        Interpolation gap must be at least 1
+                                    </Form.Text>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={4}>
+                                    <Form.Label className={"font-weight-bold"}>
+                                        Abstraction Method
+                                    </Form.Label>
+                                    <Form.Control as={"select"}
+                                                  name="AbMethodInput"
+                                                  onChange={this.onAbMethodChange}
+                                                  placeholder=""
+                                    >
+                                        {this.optionsToRender}
+                                    </Form.Control>
+                                </Col>
+                                <Col md={3}>
 
-                                            <Form.Label className={"font-weight-bold"}>
-                                                Number of States
-                                            </Form.Label>
-                                            <Form.Control name="NumStatesInput"
-                                                          onChange={this.onNumStatesChange}
-                                                          placeholder="2"
-                                                          type={"text"}
-                                            />
-                                            <Form.Text className="text-muted">
-                                                Number of states must be at least 2
-                                            </Form.Text>
-                                        </Card.Body>
-                                    </Card>
                                 </Col>
-                                <Col md={4}>
-                                    <Card>
-                                        <Card.Body>
-                                            <Form.Label className={"font-weight-bold"}>
-                                                Interpolation Gap
-                                            </Form.Label>
-                                            <Form.Control name="InterpolationInput"
-                                                          onChange={this.onInterpolationGapChange}
-                                                          placeholder="1"
-                                                          type={"text"}
-                                            />
-                                            <Form.Text className="text-muted">
-                                                Interpolation gap must be at least 1
-                                            </Form.Text>
-                                        </Card.Body>
-                                    </Card>
+                                <Col md={5}>
+                                    <Row hidden={this.state.AbMethod.localeCompare("Knowledge-Based") !== 0}>
+                                        <Form.Label className={"font-weight-bold"}>
+                                            Knowledge-Based States File
+                                        </Form.Label>
+                                        <Form.Control accept={".csv"}
+                                                      type={"file"}
+                                                      onChange={this.onGradientFileChange}/>
+                                    </Row>
                                 </Col>
-                            </Form.Row>
-                            <Row className={"justify-Content-center"}>
-                                <Button className="bg-hugobot" type="submit">
-                                    <i className="fas fa-plus"/> Add Configuration
-                                </Button>
+                            </Row>
+                            <Row>
+                                <Col md={7}>
+                                    <ButtonGroup toggle={true} >
+                                        <ToggleButton checked={this.state.BinningByValue}
+                                                      className={"btn-hugobot"}
+                                                      onChange={this.onBinningChange}
+                                                      type={"radio"}
+                                                      value={true}>
+                                            Bin by Value
+                                        </ToggleButton>
+                                        <ToggleButton checked={!this.state.BinningByValue}
+                                                      className={"btn-hugobot"}
+                                                      onChange={this.onBinningChange}
+                                                      type={"radio"}
+                                                      value={false}>
+                                            Bin by Gradient
+                                        </ToggleButton>
+                                    </ButtonGroup>
+                                </Col>
+                                <Col md={5}>
+                                    <Row hidden={this.state.BinningByValue}>
+                                        <Form.Label className={"font-weight-bold"}>
+                                            Gradient File
+                                        </Form.Label>
+                                        <Form.Control accept={".csv"}
+                                                      type={"file"}
+                                                      onChange={this.onGradientFileChange}/>
+                                    </Row>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Container fluid={true}>
+                                    <Button className="bg-hugobot" type="submit">
+                                        <i className="fas fa-plus"/> Add Configuration
+                                    </Button>
+                                </Container>
                             </Row>
                         </Container>
                     </Form>
