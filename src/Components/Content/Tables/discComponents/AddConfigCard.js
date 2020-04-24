@@ -24,7 +24,7 @@ class AddConfigCard extends Component{
 
     AbMethodOptions = ["Equal Frequency","Equal Width","Persist","KMeans","Knowledge-Based","SAX"];
 
-    optionsToRender = this.AbMethodOptions.map((option) => <option>{option}</option>);
+    optionsToRender = this.AbMethodOptions.map((option) => <option key={option}>{option}</option>);
 
     handleSubmit = (event) => {
 
@@ -56,7 +56,8 @@ class AddConfigCard extends Component{
                 else{
                     window.alert('uh oh, there\'s a problem!')
                 }
-            });
+            })
+            .catch(error => console.log(error));
 
         sessionStorage.setItem('DiscretizationTable', JSON.stringify(x));
 
@@ -220,7 +221,7 @@ class AddConfigCard extends Component{
                             </Row>
                             <Row>
                                 <Container fluid={true}>
-                                    <Button className="bg-hugobot" type="submit">
+                                    <Button className="btn-hugobot" type="submit">
                                         <i className="fas fa-plus"/> Add Configuration
                                     </Button>
                                 </Container>

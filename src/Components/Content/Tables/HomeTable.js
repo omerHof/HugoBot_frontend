@@ -65,7 +65,7 @@ class HomeTable extends Component {
     };
 
     renderTableData = () => {
-        return this.props.HomeTable.rows.map((iter) => {
+        return this.props.HomeTable.rows.map((iter, idx) => {
             // console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
             if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
                 &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
@@ -74,7 +74,7 @@ class HomeTable extends Component {
                 &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate)))
                 {
                 return (
-                    <tr onClick={() => {
+                    <tr key={idx.toString()} onClick={() => {
                         this.props.CollectData(iter["DatasetName"]);
                     }}
                     >

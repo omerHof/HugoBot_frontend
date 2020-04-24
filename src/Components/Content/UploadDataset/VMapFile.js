@@ -67,23 +67,25 @@ class VMapFile extends Component{
     //<editor-fold desc="Create">
     renderTableHeader = () => {
         return(
-            <tr>
-                <td>
-                    Variable ID
-                </td>
-                <td>
-                    Variable Name
-                </td>
-                <td>
-                    Variable Description
-                </td>
-            </tr>
+            <thead>
+                <tr>
+                    <td>
+                        Variable ID
+                    </td>
+                    <td>
+                        Variable Name
+                    </td>
+                    <td>
+                        Variable Description
+                    </td>
+                </tr>
+            </thead>
         );
     };
 
     renderTableRow = (placeholder, idx) => {
         return (
-            <tr>
+            <tr key={idx.toString()}>
                 <td>
                     <Form.Control id={"id"+idx} placeholder={placeholder}/>
                 </td>
@@ -103,7 +105,7 @@ class VMapFile extends Component{
         );
     };
 
-    onCreateSubmit(e){
+    onCreateSubmit(){
         let i = 0;
         let table = [];
         let id,name,desc = null;
@@ -221,8 +223,9 @@ class VMapFile extends Component{
                     {this.state.onDisplay.localeCompare("Upload") === 0 && this.renderUpload()}
                     <Table>
                         {this.renderTableHeader()}
-                        <br/>
-                        {this.state.onDisplay.localeCompare("Create") === 0 && this.renderTable()}
+                        <tbody>
+                            {this.state.onDisplay.localeCompare("Create") === 0 && this.renderTable()}
+                        </tbody>
                     </Table>
                     <br/>
                     <br/>

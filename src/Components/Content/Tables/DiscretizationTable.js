@@ -87,7 +87,7 @@ class DiscretizationTable extends Component {
     renderTableData=()=> {
         return JSON.parse(sessionStorage.DiscretizationTable).rows.map((iter, idx) => {
             return (
-                <tr>
+                <tr key={idx.toString()}>
                     <td id={"tdPAA"+idx}>
                         {iter.PAAWindowSize}
                     </td>

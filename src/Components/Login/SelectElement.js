@@ -11,7 +11,7 @@ class SelectElement extends Component{
     };
 
     optionsConst = this.props.options;
-    optionsToRender = this.optionsConst.map((option) => <option>{option}</option>);
+    optionsToRender = this.optionsConst.map((option) => <option key={option}>{option}</option>);
 
     render() {
         return (
