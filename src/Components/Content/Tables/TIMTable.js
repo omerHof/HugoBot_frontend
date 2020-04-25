@@ -5,6 +5,16 @@ import {Button, ButtonGroup, Card, Form, Row, Table, ToggleButton} from "react-b
 
 class TIMTable extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state ={
+            map: new Map(),
+        }
+
+        this.onAllenChange = this.onAllenChange.bind(this);
+    }
+
     handleSubmit = (MoD,BinNo,IPGap,PAAWin,EpsilonInput,MaxGapInput,MinVerticalSupportInput) => {
 
         let x= JSON.parse(sessionStorage.TIMTable);
@@ -43,6 +53,16 @@ class TIMTable extends Component {
     }
     //</editor-fold>
 
+    onAllenChange = (e) => {
+        let temp_map = this.state.map;
+        temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
+        this.setState({map:temp_map});
+        window.alert(this.state.map.has("0") ? this.state.map.get("0").localeCompare("7") === 0 : false);
+        // window.alert(this.state.map.get(e.target.value.charAt(0)))
+        // window.alert(this.state.map.get(e.target.value.charAt(0)) !== undefined &&
+        //     this.state.map.get(e.target.value.charAt(0)).localeCompare(e.target.value.charAt(1)) === 0)
+    }
+
     //<editor-fold desc="Render functions">
     renderAddRunHeader = () => {
         return (
@@ -63,7 +83,7 @@ class TIMTable extends Component {
                     <td width={"10%"}>
                         No. of Allen Relations
                     </td>
-                    <td width={"10%"}>
+                    <td width={"15%"}>
                         Class0/1/both
                     </td>
                     <td width={"5%"}>
@@ -80,6 +100,7 @@ class TIMTable extends Component {
             let EpsilonInput = "EpsilonInput" + index;
             let MaxGapInput = "MaxGapInput" + index;
             let MinVSInput = "MinVSInput" + index;
+            let sIndex = ""+index;//because Javascript is awesome :)
             return (
                 <tr key={index}>
                     <td id={Disc}>
@@ -101,19 +122,21 @@ class TIMTable extends Component {
                         </Form.Control>
                     </td>
                     <td>
-                        <ButtonGroup toggle={true} >
-                            <ToggleButton checked={false}
+                        <ButtonGroup id={"Allen"+index} toggle={true}>
+                            <ToggleButton checked={this.state.map.has(sIndex) ? this.state.map.get(sIndex).localeCompare("3") === 0 : true}
                                           className={"btn-hugobot"}
-                                          onChange={this.nothing}
+                                          id={"Allen3"+index}
+                                          onChange={this.onAllenChange}
                                           type={"radio"}
-                                          value={true}>
+                                          value={index+"3"}>
                                 3
                             </ToggleButton>
-                            <ToggleButton checked={false}
+                            <ToggleButton checked={this.state.map.has(sIndex) ? this.state.map.get(sIndex).localeCompare("7") === 0 : false}
                                           className={"btn-hugobot"}
-                                          onChange={this.nothing}
+                                          id={"Allen7"+index}
+                                          onChange={this.onAllenChange}
                                           type={"radio"}
-                                          value={false}>
+                                          value={index+"7"}>
                                 7
                             </ToggleButton>
                         </ButtonGroup>
@@ -139,7 +162,7 @@ class TIMTable extends Component {
                                           onChange={this.nothing}
                                           type={"radio"}
                                           value={false}>
-                                0 + 1
+                                both
                             </ToggleButton>
                         </ButtonGroup>
                     </td>
