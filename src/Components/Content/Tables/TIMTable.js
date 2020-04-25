@@ -9,10 +9,12 @@ class TIMTable extends Component {
         super(props);
 
         this.state ={
-            map: new Map(),
+            Allen: new Map(),
+            Class: new Map(),
         }
 
         this.onAllenChange = this.onAllenChange.bind(this);
+        this.onClassChange = this.onClassChange.bind(this);
     }
 
     handleSubmit = (MoD,BinNo,IPGap,PAAWin,EpsilonInput,MaxGapInput,MinVerticalSupportInput) => {
@@ -54,13 +56,15 @@ class TIMTable extends Component {
     //</editor-fold>
 
     onAllenChange = (e) => {
-        let temp_map = this.state.map;
+        let temp_map = this.state.Allen;
         temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
-        this.setState({map:temp_map});
-        window.alert(this.state.map.has("0") ? this.state.map.get("0").localeCompare("7") === 0 : false);
-        // window.alert(this.state.map.get(e.target.value.charAt(0)))
-        // window.alert(this.state.map.get(e.target.value.charAt(0)) !== undefined &&
-        //     this.state.map.get(e.target.value.charAt(0)).localeCompare(e.target.value.charAt(1)) === 0)
+        this.setState({Allen:temp_map});
+    }
+
+    onClassChange = (e) => {
+        let temp_map = this.state.Class;
+        temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
+        this.setState({Class:temp_map});
     }
 
     //<editor-fold desc="Render functions">
@@ -123,7 +127,9 @@ class TIMTable extends Component {
                     </td>
                     <td>
                         <ButtonGroup id={"Allen"+index} toggle={true}>
-                            <ToggleButton checked={this.state.map.has(sIndex) ? this.state.map.get(sIndex).localeCompare("3") === 0 : true}
+                            <ToggleButton checked={this.state.Allen.has(sIndex)
+                                            ? this.state.Allen.get(sIndex).localeCompare("3") === 0
+                                            : true}
                                           className={"btn-hugobot"}
                                           id={"Allen3"+index}
                                           onChange={this.onAllenChange}
@@ -131,7 +137,9 @@ class TIMTable extends Component {
                                           value={index+"3"}>
                                 3
                             </ToggleButton>
-                            <ToggleButton checked={this.state.map.has(sIndex) ? this.state.map.get(sIndex).localeCompare("7") === 0 : false}
+                            <ToggleButton checked={this.state.Allen.has(sIndex)
+                                            ? this.state.Allen.get(sIndex).localeCompare("7") === 0
+                                            : false}
                                           className={"btn-hugobot"}
                                           id={"Allen7"+index}
                                           onChange={this.onAllenChange}
@@ -143,25 +151,31 @@ class TIMTable extends Component {
                     </td>
                     <td>
                         <ButtonGroup toggle={true} >
-                            <ToggleButton checked={false}
+                            <ToggleButton checked={this.state.Class.has(sIndex)
+                                            ? this.state.Class.get(sIndex).localeCompare("0") === 0
+                                            : true}
                                           className={"btn-hugobot"}
-                                          onChange={this.nothing}
+                                          onChange={this.onClassChange}
                                           type={"radio"}
-                                          value={true}>
+                                          value={index+"0"}>
                                 0
                             </ToggleButton>
-                            <ToggleButton checked={false}
+                            <ToggleButton checked={this.state.Class.has(sIndex)
+                                            ? this.state.Class.get(sIndex).localeCompare("1") === 0
+                                            : false}
                                           className={"btn-hugobot"}
-                                          onChange={this.nothing}
+                                          onChange={this.onClassChange}
                                           type={"radio"}
-                                          value={false}>
+                                          value={index+"1"}>
                                 1
                             </ToggleButton>
-                            <ToggleButton checked={false}
+                            <ToggleButton checked={this.state.Class.has(sIndex)
+                                            ? this.state.Class.get(sIndex).localeCompare("2") === 0
+                                            : false}
                                           className={"btn-hugobot"}
-                                          onChange={this.nothing}
+                                          onChange={this.onClassChange}
                                           type={"radio"}
-                                          value={false}>
+                                          value={index+"2"}>
                                 both
                             </ToggleButton>
                         </ButtonGroup>
