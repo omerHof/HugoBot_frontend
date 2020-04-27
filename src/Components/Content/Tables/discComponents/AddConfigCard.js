@@ -66,7 +66,7 @@ class AddConfigCard extends Component{
     };
 
     sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,BinningByValue,KnowledgeBasedFile,GradientFile) => {
-        const url = 'http://localhost:5000/addNewDisc';
+        const url = 'http://localhost:80/addNewDisc';
         const formData = new FormData();
         formData.append('PAA',PAA);
         formData.append('AbMethod',AbMethod);
@@ -75,6 +75,7 @@ class AddConfigCard extends Component{
         formData.append('BinningByValue',BinningByValue);
         formData.append('KnowledgeBasedFile',KnowledgeBasedFile);
         formData.append('GradientFile',GradientFile);
+        formData.append('datasetName',sessionStorage.getItem("datasetName"));
         const config = {
             headers: {
                 'content-type': 'multipart/form-data'

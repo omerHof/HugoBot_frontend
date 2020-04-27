@@ -16,7 +16,9 @@ class Login extends Component{
         console.log(user);
         sessionStorage.setItem("user","true");
         //this.context.setUser(user);
+        sessionStorage.setItem("dataSets","false");
         history.push('/Home');
+
     };
 
     render() {

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import {Button, Container} from "react-bootstrap";
 import Axios from "axios";
 
+
 class Visualization extends Component{
 
     constructor(props){
@@ -18,13 +19,14 @@ class Visualization extends Component{
     getRequest = () => {
         const request = new XMLHttpRequest();
         // let our_url = 'http://localhost:3000/Home/Visualization/getraz';
-        let api_url = 'https://reqres.in/api/users';
+        let api_url = 'http://localhost:80/getAllDataSets';
         request.open('GET', api_url);
         request.responseType = "json";
         request.onload = () => {
           // const data = JSON.parse(request.response);
           // console.log(data);
-          console.log(request.response);
+            //request.response
+          window.alert("helooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
         };
         request.send();
     };
@@ -69,7 +71,7 @@ class Visualization extends Component{
     }
 
     getAllDatasets(){
-        const url = 'http://localhost:5000/getAllDatasets';
+        const url = 'http://localhost:80/getAllDataSets';
         return Axios.get(url);
     }
 
