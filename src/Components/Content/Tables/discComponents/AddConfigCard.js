@@ -88,7 +88,10 @@ class AddConfigCard extends Component{
     };
 
     onAbMethodChange = (e) => {
-        this.setState({AbMethod:e.target.value});
+        this.setState({AbMethod:e.target.value,
+            KnowledgeBasedFile: (e.target.value.localeCompare("Knowledge-Based") !== 0 ?
+                null :
+                this.state.KnowledgeBasedFile)});
     };
 
     onNumStatesChange = (e) => {
@@ -100,7 +103,10 @@ class AddConfigCard extends Component{
     };
 
     onBinningChange = (e) => {
-        this.setState({BinningByValue:"true" === e.target.value});
+        this.setState({BinningByValue:"true" === e.target.value,
+            GradientFile: (e.target.value.localeCompare("true") === 0 ?
+                null :
+                this.state.GradientFile)});
     }
 
     onGradientFileChange = (e) => {
