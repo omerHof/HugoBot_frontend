@@ -63,8 +63,9 @@ class TableContent extends Component{
                 });
         }
     }
-    CollectData = () =>
+    CollectData = (id) =>
     {
+        sessionStorage.setItem('ID',id);
         sessionStorage.setItem('DiscretizationTable', JSON.stringify(DiscretizationData));
         sessionStorage.setItem('TIMTable', JSON.stringify(TIMData));
         sessionStorage.setItem('InfoTable', JSON.stringify(InfoData));

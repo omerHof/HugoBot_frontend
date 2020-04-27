@@ -41,9 +41,9 @@ class HomeTable extends Component {
         return(
             <thead>
                 <tr>
-                    <th align={"center"}>
-                        Filters
-                    </th>
+                    {/*<th align={"center"}>*/}
+                    {/*    Filters*/}
+                    {/*</th>*/}
                     <th>
                         <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
                     </th>
@@ -80,7 +80,7 @@ class HomeTable extends Component {
                         this.props.CollectData(iter["DatasetName"]);
                     }}
                     >
-                        <td>{iter["UserID"]}</td>
+                        {/*<td>{iter["UserID"]}</td>*/}
                         <td>{iter["DatasetName"]}</td>
                         <td>{iter["Category"]}</td>
                         <td>{iter["Size"]}</td>
