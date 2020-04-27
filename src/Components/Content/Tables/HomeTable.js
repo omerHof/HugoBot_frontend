@@ -67,7 +67,7 @@ class HomeTable extends Component {
     renderTableData = () => {
          if ("allTables" in sessionStorage){
             let tables= JSON.parse(sessionStorage.allTables);
-            return tables.rows.map((iter) => {
+            return tables.rows.map((iter, idx) => {
             // console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
             if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
                 &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))

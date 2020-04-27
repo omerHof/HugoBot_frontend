@@ -9,7 +9,7 @@ import TIMTable from "./TIMTable";
 
 import history from "../../../History";
 
-import HomeData from "./mainTable";
+// import HomeData from "./mainTable";
 import InfoData from "./infoData";
 import DiscretizationData from "./DiscretizationData";
 import TIMData from "./TIMData";
@@ -47,7 +47,7 @@ class TableContent extends Component{
                     window.alert('uh oh, there\'s a problem!');
                     if (response.status < 400) {
                         let data1= response.data;
-                        var i;
+                        let i;
                         let myData= {"rows": []}
                         for (i = 0; i < data1["lengthNum"]; i++) {
                             let y=data1[parseInt(i)];
@@ -63,7 +63,7 @@ class TableContent extends Component{
                 });
         }
     }
-    CollectData=(id) =>
+    CollectData = () =>
     {
         sessionStorage.setItem('DiscretizationTable', JSON.stringify(DiscretizationData));
         sessionStorage.setItem('TIMTable', JSON.stringify(TIMData));
