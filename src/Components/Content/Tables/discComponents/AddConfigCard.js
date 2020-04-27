@@ -92,6 +92,8 @@ class AddConfigCard extends Component{
             KnowledgeBasedFile: (e.target.value.localeCompare("Knowledge-Based") !== 0 ?
                 null :
                 this.state.KnowledgeBasedFile)});
+        if(e.target.value.localeCompare("Knowledge-Based") !== 0)
+            document.getElementById("KB-File").value = null;
     };
 
     onNumStatesChange = (e) => {
@@ -107,6 +109,8 @@ class AddConfigCard extends Component{
             GradientFile: (e.target.value.localeCompare("true") === 0 ?
                 null :
                 this.state.GradientFile)});
+        if(e.target.value.localeCompare("true") === 0)
+            document.getElementById("Gradient-File").value = null;
     }
 
     onGradientFileChange = (e) => {
@@ -190,6 +194,7 @@ class AddConfigCard extends Component{
                                             Knowledge-Based States File
                                         </Form.Label>
                                         <Form.Control accept={".csv"}
+                                                      id={"KB-File"}
                                                       type={"file"}
                                                       onChange={this.onKnowledgeBasedFileChange}/>
                                     </Row>
@@ -220,6 +225,7 @@ class AddConfigCard extends Component{
                                             Gradient File
                                         </Form.Label>
                                         <Form.Control accept={".csv"}
+                                                      id={"Gradient-File"}
                                                       type={"file"}
                                                       onChange={this.onGradientFileChange}/>
                                     </Row>
