@@ -65,7 +65,9 @@ class HomeTable extends Component {
     };
 
     renderTableData = () => {
-        return this.props.HomeTable.rows.map((iter, idx) => {
+         if ("allTables" in sessionStorage){
+            let tables= JSON.parse(sessionStorage.allTables);
+            return tables.rows.map((iter) => {
             // console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
             if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
                 &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
@@ -91,6 +93,7 @@ class HomeTable extends Component {
                 return null;
             }
         })
+        }
     };
 
     onClick = () => {
@@ -104,6 +107,8 @@ class HomeTable extends Component {
     // }
 
     render() {
+        let that = this;
+        window.addEventListener("ReloadHomeTable", function(){that.forceUpdate()});
         return (
             <Card>
                 <Card.Header className={"bg-hugobot"}>
