@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import {Button, ButtonGroup, Card, Form, Row, Table, ToggleButton} from "react-bootstrap";
+import Axios from "axios";
 //import {createBrowserHistory} from "history";
 
 class TIMTable extends Component {
@@ -17,22 +18,62 @@ class TIMTable extends Component {
         this.onClassChange = this.onClassChange.bind(this);
     }
 
+    sendTIM = (epsilon, maxGap, verSup, Allen, discretizationID, max_tirp_length, index_same) => {
+        const url = 'http://localhost:80/addTIM';
+        const formData = new FormData();
+        console.log(Allen)
+        formData.append('Epsilon',epsilon);
+        formData.append('Max Gap',maxGap);
+        formData.append('min_ver_support',verSup);
+        formData.append('num_relations',Allen);
+        formData.append('DiscretizationId',discretizationID);
+        formData.append('max Tirp Length',max_tirp_length);
+        formData.append('index_same',index_same);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        return Axios.post(url, formData,config);
+    };
+
     handleSubmit = (MoD,BinNo,IPGap,PAAWin,EpsilonInput,MaxGapInput,MinVerticalSupportInput) => {
 
         let x= JSON.parse(sessionStorage.TIMTable);
 
         if (EpsilonInput) {
 
-            let y = {
-                "MethodOfDiscretization": MoD.innerText,
-                "BinsNumber": BinNo.innerText,
-                "InterpolationGap": IPGap.innerText,
-                "PAAWindowSize": PAAWin.innerText,
-                "epsilon": EpsilonInput.value,
-                "MaxGap": MaxGapInput.value,
-                "VerticalSupport": MinVerticalSupportInput.value
-            };
-            x.rows.push(y);
+            //let y = {
+              //  "MethodOfDiscretization": MoD.innerText,
+                //"BinsNumber": BinNo.innerText,
+                //"InterpolationGap": IPGap.innerText,
+                //"PAAWindowSize": PAAWin.innerText,
+                //"epsilon": EpsilonInput.value,
+                //"MaxGap": MaxGapInput.value,
+                //"VerticalSupport": MinVerticalSupportInput.value
+            //};
+            //x.rows.push(y);
+            console.log(this.state.Allen.get("0"))
+            let discretizationID = "b802767c-b1d5-478a-85a5-26ede34a53d4"
+            let max_tirp_length = 15
+            let index_same = "true"
+            this.sendTIM(EpsilonInput.value,
+                MaxGapInput.value,
+                MinVerticalSupportInput.value,
+                this.state.Allen.get("0"),
+                discretizationID,
+                max_tirp_length,
+                index_same)
+                .then((response)=>{
+                    console.log(response.data);
+                    if(response.status < 400){
+                        window.alert('success!');
+                    }
+                    else{
+                        window.alert('uh oh, there\'s a problem!')
+                    }
+                })
+                .catch(error => console.log(error));
 
             sessionStorage.setItem('TIMTable', JSON.stringify(x));
             this.forceUpdate();
@@ -59,12 +100,14 @@ class TIMTable extends Component {
         let temp_map = this.state.Allen;
         temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
         this.setState({Allen:temp_map});
+        this.state.Allen.get("0")
     }
 
     onClassChange = (e) => {
         let temp_map = this.state.Class;
         temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
         this.setState({Class:temp_map});
+        console.log(this.state.Allen.get("0"))
     }
 
     //<editor-fold desc="Render functions">
