@@ -12,7 +12,6 @@ import cookies from "js-cookie";
 
 class Login extends Component{
 
-
     sendlogIn = (email,pass) => {
         const url = 'http://localhost:80/login';
         const formData = new FormData();
