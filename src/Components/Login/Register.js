@@ -8,14 +8,63 @@ import SelectElement from "./SelectElement";
 import FormElement from "./FormElement";
 import { register } from "../../services/authService";
 import '../../resources/style/colors.css';
+import Axios from "axios";
 
 class Register extends Component{
 
-    handleSubmit = async (firstName,lastName,institute,degree,email,pass,cpass) => {
-        const success = await register(firstName, lastName, institute, degree, email, pass, cpass);
-        if (success) {
-            history.push('/Login');
+
+    sendRegestration = (firstName,lastName,institute,degree,email,pass) => {
+        const url = 'http://localhost:80/register';
+        const formData = new FormData();
+        formData.append('Fname',firstName);
+        formData.append('Email',email);
+        formData.append('Institute',institute);
+        formData.append('Degree',degree);
+        formData.append('Lname',lastName);
+        formData.append('Password',pass);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        return Axios.post(url, formData,config);
+    };
+
+
+    handleSubmit = (firstName,lastName,institute,degree,email,pass,cpass) => {
+        if (institute=="" || firstName=="" || lastName=="" || degree=="" || email=="" ||pass=="" || cpass==""){
+            window.alert("one or more of the arguments is missing")
         }
+        else{
+            if (pass!=cpass){
+                window.alert("passwords different")
+            }
+            else {
+                this.sendRegestration(firstName,
+                    lastName,
+                    institute,
+                    degree,
+                    email,
+                    pass)
+                    .then((response)=>{
+                        console.log(response.data);
+                        if(response.status < 400){
+                            console.log("|juiglivgbilyh")
+                            window.alert('success!');
+                            history.push('/Login');
+                        }
+                        else{
+                            if(response.data['message']=='there is already a user with that Email'){
+                                window.alert('there is already a user with that Email')
+                            }
+                            window.alert('uh oh, there\'s a problem!')
+                        }
+                    })
+                    .catch(error => window.alert(error.response.data['message']));
+            }
+
+        }
+
     };
 
     render() {

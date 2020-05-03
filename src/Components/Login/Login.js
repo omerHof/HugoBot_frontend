@@ -7,17 +7,46 @@ import history from '../../History';
 import { login } from "../../services/authService";
 
 import '../../resources/style/colors.css';
+import Axios from "axios";
+import cookies from "js-cookie";
 
 class Login extends Component{
 
 
+    sendlogIn = (email,pass) => {
+        const url = 'http://localhost:80/login';
+        const formData = new FormData();
+        formData.append('Email',email);
+        formData.append('Password',pass);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        return Axios.post(url, formData,config);
+    };
+
     handleSubmit = async (email,pass) => {
-        const user = await login(email, pass);
-        console.log(user);
-        sessionStorage.setItem("user","true");
-        //this.context.setUser(user);
-        sessionStorage.setItem("dataSets","false");
-        history.push('/Home');
+        this.sendlogIn(
+            email,
+            pass)
+            .then((response)=>{
+                console.log(response.data);
+                if(response.status < 400){
+                    sessionStorage.setItem("user","true");
+                    //this.context.setUser(user);
+                    sessionStorage.setItem("dataSets","false");
+                    cookies.set('auth-token', response.data['token']);
+                    history.push('/Home');
+                }
+                else{
+                    if(response.data['message']=='there is already a user with that Email'){
+                        window.alert('there is already a user with that Email')
+                    }
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            })
+            .catch(error => window.alert(error.response.data['message']));
 
     };
 
