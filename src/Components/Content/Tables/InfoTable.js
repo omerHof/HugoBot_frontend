@@ -5,6 +5,7 @@ import {Table} from "react-bootstrap";
 class InfoTable extends Component {
 
     renderTableData=()=> {
+        console.log("hello")
         return JSON.parse(sessionStorage.InfoTable).rows.map((iter) => {
             return (
                <tr>
