@@ -39,7 +39,7 @@ class Login extends Component{
                     history.push('/Home');
                 }
                 else{
-                    if(response.data['message']=='there is already a user with that Email'){
+                    if(response.data['message'] === 'there is already a user with that Email'){
                         window.alert('there is already a user with that Email')
                     }
                     window.alert('uh oh, there\'s a problem!')

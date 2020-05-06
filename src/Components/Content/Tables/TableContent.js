@@ -44,7 +44,6 @@ class TableContent extends Component{
         else{
             this.getAllDatasets()
                 .then((response) => {
-                    window.alert('uh oh, there\'s a problem!');
                     if (response.status < 400) {
                         let data1= response.data;
                         let i;

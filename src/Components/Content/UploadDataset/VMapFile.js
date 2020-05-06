@@ -135,7 +135,7 @@ class VMapFile extends Component{
     }
 
     sendVMapCreate(csv){
-        const url = 'http://localhost:5000/steptwocreate';
+        const url = 'http://localhost:80/steptwocreate';
         const formData = new FormData();
         formData.append('csv',csv);
         const config = {

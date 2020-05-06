@@ -31,7 +31,7 @@ class EntitiesFile extends Component{
     }
 
     fileUpload(file){
-        const url = 'http://localhost:5000/stepthree';
+        const url = 'http://localhost:80/stepthree';
         const formData = new FormData();
         formData.append('file',file);
         const config = {

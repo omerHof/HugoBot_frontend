@@ -17,9 +17,10 @@ class DiscretizationTable extends Component {
 
     handleDownloadRequest(e){
 
-        let idx = e.target.id.slice(-1);
-        window.alert(e.target.id);
-        window.alert(idx);
+        let idx = e.target.id.charAt(e.target.id.length - 1);
+
+
+
         let PAA = document.getElementById("tdPAA"+idx).innerHTML;
         let AbMethod = document.getElementById("tdAbMethod"+idx).innerHTML;
         let NumStates = document.getElementById("tdNumStates"+idx).innerHTML;
@@ -38,7 +39,7 @@ class DiscretizationTable extends Component {
     };
 
     sendDownloadRequest(PAA,AbMethod,NumStates,InterpolationGap){
-        const url = 'http://localhost:5000/getExistingDisc';
+        const url = 'http://localhost:80/getDISC';
         const formData = new FormData();
         formData.append('PAA',PAA);
         formData.append('AbMethod',AbMethod);
