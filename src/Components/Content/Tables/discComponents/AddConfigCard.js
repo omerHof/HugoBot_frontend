@@ -68,6 +68,7 @@ class AddConfigCard extends Component{
     sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,BinningByValue,KnowledgeBasedFile,GradientFile) => {
         const url = 'http://localhost:80/addNewDisc';
         const formData = new FormData();
+        console.log(PAA);
         formData.append('PAA',PAA);
         formData.append('AbMethod',AbMethod);
         formData.append('NumStates',NumStates);

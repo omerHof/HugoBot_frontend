@@ -41,6 +41,7 @@ class DiscretizationTable extends Component {
     sendDownloadRequest(PAA,AbMethod,NumStates,InterpolationGap){
         const url = 'http://localhost:80/getDISC';
         const formData = new FormData();
+        console.log(PAA);
         formData.append('PAA',PAA);
         formData.append('AbMethod',AbMethod);
         formData.append('NumStates',NumStates);

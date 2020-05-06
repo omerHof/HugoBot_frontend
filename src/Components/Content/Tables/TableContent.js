@@ -36,6 +36,12 @@ class TableContent extends Component{
         return Axios.get(url);
     }
 
+    getDataOnDataset(id){
+        const url = 'http://localhost:80/getDataOnDataset?id='+id;
+        return Axios.get(url);
+    }
+
+
     constructor(props) {
         super(props);
         if ("allTables" in sessionStorage){
@@ -64,8 +70,41 @@ class TableContent extends Component{
     }
     CollectData = (id) =>
     {
+
+        this.getDataOnDataset(id)
+            .then((response) => {
+                window.alert('uh oh, there\'s a problem!');
+                if (response.status < 400) {
+                    let data1= response.data["disc"];
+                    let i;
+                    let disc= {"rows": []}
+                    for (i = 0; i < data1["lengthNum"]; i++) {
+                        let y=data1[parseInt(i)];
+                        disc.rows.push(y)
+                    }
+                    let data2= response.data["karma"];
+                    let j;
+                    let karma= {"rows": []}
+                    for (j = 0; j < data2["lengthNum"]; j++) {
+                        let w=data2[parseInt(j)];
+                        karma.rows.push(w)
+                    }
+                    sessionStorage.setItem('DiscretizationTable', JSON.stringify(disc));
+                    console.log(karma)
+                    sessionStorage.setItem('TIMTable', JSON.stringify(karma));
+                    //sessionStorage.setItem("allTables",JSON.stringify(myData));
+                    //console.log(JSON.parse(sessionStorage.allTables));
+                    //window.dispatchEvent(new Event("ReloadHomeTable"));
+                } else {
+                    window.alert('uh oh, there\'s a problem!');
+                }
+            });
+
+
+
+
+
         sessionStorage.setItem('datasetName',id);
-        sessionStorage.setItem('DiscretizationTable', JSON.stringify(DiscretizationData));
         sessionStorage.setItem('TIMTable', JSON.stringify(TIMData));
         sessionStorage.setItem('InfoTable', JSON.stringify(InfoData));
         history.push("/Home/Info");

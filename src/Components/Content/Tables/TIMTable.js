@@ -37,10 +37,16 @@ class TIMTable extends Component {
         return Axios.post(url, formData,config);
     };
 
-    handleSubmit = (MoD,BinNo,IPGap,PAAWin,EpsilonInput,MaxGapInput,MinVerticalSupportInput) => {
+    getDataOnDataset(id){
+        const url = 'http://localhost:80/getDataOnDataset?id='+id;
+        return Axios.get(url);
+    }
 
+
+    handleSubmit = (id,PAAWin,BinNo,IPGap,MoD,EpsilonInput, naxTirpLen ,MaxGapInput,MinVerticalSupportInput) => {
         let x= JSON.parse(sessionStorage.TIMTable);
-
+        console.log("dfbdfd")
+        console.log(PAAWin)
         if (EpsilonInput) {
 
             //let y = {
@@ -54,9 +60,15 @@ class TIMTable extends Component {
             //};
             //x.rows.push(y);
             console.log(this.state.Allen.get("0"))
-            let discretizationID = "b802767c-b1d5-478a-85a5-26ede34a53d4"
-            let max_tirp_length = 15
-            let index_same = "true"
+            let index_same;
+            if (this.state.Class.get("0")=="3"){
+                index_same = "true"
+            }
+            else{
+                index_same = "false"
+            }
+            let discretizationID = id
+            let max_tirp_length = naxTirpLen.value
             this.sendTIM(EpsilonInput.value,
                 MaxGapInput.value,
                 MinVerticalSupportInput.value,
@@ -67,7 +79,41 @@ class TIMTable extends Component {
                 .then((response)=>{
                     console.log(response.data);
                     if(response.status < 400){
-                        window.alert('success!');
+
+
+
+                        this.getDataOnDataset(sessionStorage.getItem("datasetName"))
+                            .then((response) => {
+                                window.alert('uh oh, there\'s a problem!');
+                                if (response.status < 400) {
+                                    let data1= response.data["disc"];
+                                    let i;
+                                    let disc= {"rows": []}
+                                    for (i = 0; i < data1["lengthNum"]; i++) {
+                                        let y=data1[parseInt(i)];
+                                        disc.rows.push(y)
+                                    }
+                                    let data2= response.data["karma"];
+                                    let j;
+                                    let karma= {"rows": []}
+                                    for (j = 0; j < data2["lengthNum"]; j++) {
+                                        let w=data2[parseInt(j)];
+                                        karma.rows.push(w)
+                                    }
+                                    sessionStorage.setItem('DiscretizationTable', JSON.stringify(disc));
+                                    console.log(karma)
+                                    sessionStorage.setItem('TIMTable', JSON.stringify(karma));
+                                    this.forceUpdate();
+                                    //sessionStorage.setItem("allTables",JSON.stringify(myData));
+                                    //console.log(JSON.parse(sessionStorage.allTables));
+                                    //window.dispatchEvent(new Event("ReloadHomeTable"));
+                                } else {
+                                    window.alert('uh oh, there\'s a problem!');
+                                }
+                            });
+
+
+
                     }
                     else{
                         window.alert('uh oh, there\'s a problem!')
@@ -101,13 +147,21 @@ class TIMTable extends Component {
         temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
         this.setState({Allen:temp_map});
         this.state.Allen.get("0")
+        console.log(this.state.Allen)
     }
 
     onClassChange = (e) => {
         let temp_map = this.state.Class;
         temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
         this.setState({Class:temp_map});
-        console.log(this.state.Allen.get("0"))
+        let index_same;
+        if (this.state.Class.get("0")=="3"){
+            index_same = "true"
+        }
+        else{
+            index_same = "false"
+        }
+        console.log(index_same)
     }
 
     //<editor-fold desc="Render functions">
@@ -122,6 +176,9 @@ class TIMTable extends Component {
                         Epsilon
                     </td>
                     <td width={"5%"}>
+                        max tirp len
+                    </td>
+                    <td width={"5%"}>
                         Max Gap
                     </td>
                     <td width={"5%"}>
@@ -130,8 +187,8 @@ class TIMTable extends Component {
                     <td width={"10%"}>
                         No. of Allen Relations
                     </td>
-                    <td width={"15%"}>
-                        Class0/1/both
+                    <td width={"5%"}>
+                        index same
                     </td>
                     <td width={"5%"}>
                         Status/Download Link
@@ -145,6 +202,7 @@ class TIMTable extends Component {
         return JSON.parse(sessionStorage.DiscretizationTable).rows.map((iter, index) => {
             let Disc = "Disc" + index;
             let EpsilonInput = "EpsilonInput" + index;
+            let maxTirpLenInput = "maxTirpLenInput" + index;
             let MaxGapInput = "MaxGapInput" + index;
             let MinVSInput = "MinVSInput" + index;
             let sIndex = ""+index;//because Javascript is awesome :)
@@ -158,6 +216,10 @@ class TIMTable extends Component {
                     </td>
                     <td>
                         <Form.Control id={EpsilonInput} type={"text"}>
+                        </Form.Control>
+                    </td>
+                    <td>
+                        <Form.Control id={maxTirpLenInput} type={"text"}>
                         </Form.Control>
                     </td>
                     <td>
@@ -193,44 +255,39 @@ class TIMTable extends Component {
                         </ButtonGroup>
                     </td>
                     <td>
-                        <ButtonGroup toggle={true} >
+                        <ButtonGroup id={"Class"+index} toggle={true}>
                             <ToggleButton checked={this.state.Class.has(sIndex)
-                                            ? this.state.Class.get(sIndex).localeCompare("0") === 0
-                                            : true}
+                                ? this.state.Class.get(sIndex).localeCompare("3") === 0
+                                : true}
                                           className={"btn-hugobot"}
+                                          id={"Class3"+index}
                                           onChange={this.onClassChange}
                                           type={"radio"}
-                                          value={index+"0"}>
-                                0
+                                          value={index+"3"}>
+                                True
                             </ToggleButton>
                             <ToggleButton checked={this.state.Class.has(sIndex)
-                                            ? this.state.Class.get(sIndex).localeCompare("1") === 0
-                                            : false}
+                                ? this.state.Class.get(sIndex).localeCompare("7") === 0
+                                : false}
                                           className={"btn-hugobot"}
+                                          id={"Class7"+index}
                                           onChange={this.onClassChange}
                                           type={"radio"}
-                                          value={index+"1"}>
-                                1
-                            </ToggleButton>
-                            <ToggleButton checked={this.state.Class.has(sIndex)
-                                            ? this.state.Class.get(sIndex).localeCompare("2") === 0
-                                            : false}
-                                          className={"btn-hugobot"}
-                                          onChange={this.onClassChange}
-                                          type={"radio"}
-                                          value={index+"2"}>
-                                both
+                                          value={index+"7"}>
+                                False
                             </ToggleButton>
                         </ButtonGroup>
                     </td>
                     <td>
                         <Button className="bg-hugobot"
                                  onClick={() => this.handleSubmit(
-                                     document.getElementById(iter.PAAWindowSize),
-                                     document.getElementById(iter.BinsNumber),
-                                     document.getElementById(iter.InterpolationGap),
-                                     document.getElementById(iter.MethodOfDiscretization),
+                                     iter.id,
+                                     iter.PAAWindowSize,
+                                     iter.BinsNumber,
+                                     iter.InterpolationGap,
+                                     iter.MethodOfDiscretization,
                                      document.getElementById(EpsilonInput),
+                                     document.getElementById(maxTirpLenInput),
                                      document.getElementById(MaxGapInput),
                                      document.getElementById(MinVSInput))}>
                             <i className="fas fa-play"/>Mine
@@ -259,6 +316,9 @@ class TIMTable extends Component {
                     </td>
                     <td>
                         Epsilon
+                    </td>
+                    <td>
+                        max tirp len
                     </td>
                     <td>
                         Max Gap
@@ -292,6 +352,9 @@ class TIMTable extends Component {
                     </td>
                     <td>
                         {iter.epsilon}
+                    </td>
+                    <td>
+                        {iter.maxTirpLength}
                     </td>
                     <td>
                         {iter.MaxGap}
