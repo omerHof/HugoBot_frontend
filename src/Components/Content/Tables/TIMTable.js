@@ -61,7 +61,7 @@ class TIMTable extends Component {
             //x.rows.push(y);
             console.log(this.state.Allen.get("0"))
             let index_same;
-            if (this.state.Class.get("0")=="3"){
+            if (this.state.Class.get("0")==="3"){
                 index_same = "true"
             }
             else{
@@ -155,7 +155,7 @@ class TIMTable extends Component {
         temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
         this.setState({Class:temp_map});
         let index_same;
-        if (this.state.Class.get("0")=="3"){
+        if (this.state.Class.get("0")==="3"){
             index_same = "true"
         }
         else{

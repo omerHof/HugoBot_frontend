@@ -6,14 +6,14 @@ import history from '../../History';
 
 import SelectElement from "./SelectElement";
 import FormElement from "./FormElement";
-import { register } from "../../services/authService";
+// import { register } from "../../services/authService";
 import '../../resources/style/colors.css';
 import Axios from "axios";
 
 class Register extends Component{
 
 
-    sendRegestration = (firstName,lastName,institute,degree,email,pass) => {
+    sendRegistration = (firstName, lastName, institute, degree, email, pass) => {
         const url = 'http://localhost:80/register';
         const formData = new FormData();
         formData.append('Fname',firstName);
@@ -40,7 +40,7 @@ class Register extends Component{
                 window.alert("passwords different")
             }
             else {
-                this.sendRegestration(firstName,
+                this.sendRegistration(firstName,
                     lastName,
                     institute,
                     degree,

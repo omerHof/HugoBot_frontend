@@ -9,9 +9,7 @@ import TIMTable from "./TIMTable";
 
 import history from "../../../History";
 
-// import HomeData from "./mainTable";
 import InfoData from "./infoData";
-import DiscretizationData from "./DiscretizationData";
 import TIMData from "./TIMData";
 
 import Workflow from "./Workflow";

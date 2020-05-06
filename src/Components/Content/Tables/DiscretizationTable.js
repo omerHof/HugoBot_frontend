@@ -15,22 +15,28 @@ class DiscretizationTable extends Component {
         this.sendDownloadRequest = this.sendDownloadRequest.bind(this);
     };
 
-    handleDownloadRequest(e){
+    handleDownloadRequest(){
 
-        let idx = e.target.id.charAt(e.target.id.length - 1);
+        // let idx = e.target.id.charAt(e.target.id.length - 1);
 
-
-
-        let PAA = document.getElementById("tdPAA"+idx).innerHTML;
-        let AbMethod = document.getElementById("tdAbMethod"+idx).innerHTML;
-        let NumStates = document.getElementById("tdNumStates"+idx).innerHTML;
-        let InterpolationGap = document.getElementById("tdInterpolationGap"+idx).innerHTML;
-
-        this.sendDownloadRequest(PAA,AbMethod,NumStates,InterpolationGap)
+        this.sendDownloadRequest()
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
                     window.alert('success!');
+                    let blob = new Blob([response.data], {type: 'text/csv'});
+
+                    let a = document.createElement("a");
+                    a.style = "display: none";
+                    document.body.appendChild(a);
+
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = 'KL-class-0.0.txt';
+
+                    a.click();
+
+                    window.URL.revokeObjectURL(url);
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
@@ -38,17 +44,15 @@ class DiscretizationTable extends Component {
             });
     };
 
-    sendDownloadRequest(PAA,AbMethod,NumStates,InterpolationGap){
+    sendDownloadRequest(){
         const url = 'http://localhost:80/getDISC';
         const formData = new FormData();
-        console.log(PAA);
-        formData.append('PAA',PAA);
-        formData.append('AbMethod',AbMethod);
-        formData.append('NumStates',NumStates);
-        formData.append('InterpolationGap',InterpolationGap);
+        formData.append('disc_id','ff32d51a-6b49-4573-a985-07db075d8a9f');
+        formData.append('class_num','0')
         const config = {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'x-access-token':sessionStorage.getItem('x-access-token')
             }
         };
         return Axios.post(url, formData,config);

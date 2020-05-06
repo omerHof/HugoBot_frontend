@@ -4,7 +4,7 @@ import {Button, Container, Form} from "react-bootstrap";
 
 import FormElement from "./FormElement";
 import history from '../../History';
-import { login } from "../../services/authService";
+// import { login } from "../../services/authService";
 
 import '../../resources/style/colors.css';
 import Axios from "axios";
@@ -12,7 +12,7 @@ import cookies from "js-cookie";
 
 class Login extends Component{
 
-    sendlogIn = (email,pass) => {
+    sendLogin = (email, pass) => {
         const url = 'http://localhost:80/login';
         const formData = new FormData();
         formData.append('Email',email);
@@ -26,7 +26,7 @@ class Login extends Component{
     };
 
     handleSubmit = async (email,pass) => {
-        this.sendlogIn(
+        this.sendLogin(
             email,
             pass)
             .then((response)=>{
