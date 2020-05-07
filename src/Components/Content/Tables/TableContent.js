@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import {Col, Container, Row} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import { Router, Route} from "react-router-dom";
 
 import HomeTable from "./HomeTable";
@@ -11,13 +11,10 @@ import history from "../../../History";
 
 import InfoData from "./infoData";
 import TIMData from "./TIMData";
-
 import Workflow from "./Workflow";
 
-import InfoCard from "./infoComponents/InfoCard";
-import StatsCard from "./infoComponents/StatsCard";
-import VMapCard from "./infoComponents/VMapCard";
 import AddConfigCard from "./discComponents/AddConfigCard";
+import Info from "./infoComponents/Info";
 import Visualization from "./Visualization";
 import Axios from "axios";
 
@@ -71,7 +68,6 @@ class TableContent extends Component{
 
         this.getDataOnDataset(id)
             .then((response) => {
-                window.alert('uh oh, there\'s a problem!');
                 if (response.status < 400) {
                     let data1= response.data["disc"];
                     let i;
@@ -110,25 +106,6 @@ class TableContent extends Component{
         window.dispatchEvent(new Event("ReloadDataSet"));
     }
 
-    //<editor-fold desc="Sub-Components">
-    Info = (
-        <Container fluid={true}>
-            <Row>
-                <Col md={4}>
-                    <InfoCard/>
-                    <StatsCard/>
-                    {/*<Link to={"/Home/Info"}>*/}
-                    {/*    Download Dataset Files*/}
-                    {/*</Link>*/}
-                </Col>
-                <Col md={8}>
-                    <VMapCard/>
-                </Col>
-            </Row>
-        </Container>
-    );
-    //</editor-fold>
-
     render() {
         return (
             <Router history={history}>
@@ -143,7 +120,8 @@ class TableContent extends Component{
                         />
                     </Route>
                     <Route path={"/Home/Info"}>
-                        {this.Info}
+                        <Info
+                        />
                     </Route>
                     <Route path={"/Home/Disc"}>
                         <AddConfigCard/>

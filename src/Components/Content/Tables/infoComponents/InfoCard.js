@@ -5,6 +5,11 @@ import {Card} from "react-bootstrap";
 import "../../../../resources/style/colors.css"
 
 class InfoCard extends Component{
+
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <Card style={{ width: '18rem' }}>
@@ -15,19 +20,19 @@ class InfoCard extends Component{
                 </Card.Header>
                 <Card.Body as={"small"}>
                     <Card.Text>
-                        <b>Dataset name:</b> Sepsis
+                        <b>Dataset name:</b> {this.props.DatasetName}
                     </Card.Text>
                     <Card.Text>
-                        <b>Category:</b> Medical
+                        <b>Category:</b> {this.props.Category}
                     </Card.Text>
                     <Card.Text>
-                        <b>Owner:</b> razshtrauchler
+                        <b>Owner:</b> {this.props.Owner}
                     </Card.Text>
                     <Card.Text>
-                        <b>Source:</b> Unknown
+                        <b>Source:</b> {this.props.Source}
                     </Card.Text>
                     <Card.Text>
-                        <b>Description:</b> A dataset containing patients
+                        <b>Description:</b> {this.props.Description}
                     </Card.Text>
                 </Card.Body>
             </Card>
