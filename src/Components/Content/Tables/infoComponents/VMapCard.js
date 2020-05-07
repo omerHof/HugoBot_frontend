@@ -5,6 +5,31 @@ import {Card, Table} from "react-bootstrap";
 import "../../../../resources/style/colors.css"
 
 class VMapCard extends Component{
+
+    constructor(props) {
+        super(props);
+
+        this.renderTableData = this.renderTableData.bind(this);
+    }
+
+    renderTableData = () => {
+        return this.props.VMap.map((iter,idx) => {
+            return (
+                <tr key={idx.toString()}>
+                    <td id={"tdVariableID"+idx}>
+                        {iter[0]}
+                    </td>
+                    <td id={"tdVariableName"+idx}>
+                        {iter[1]}
+                    </td>
+                    <td id={"tdVariableDescription"+idx}>
+                        {iter[2]}
+                    </td>
+                </tr>
+            );
+        });
+    }
+
     render() {
         return (
             <Card style={{ width: '30rem' }}>
@@ -16,21 +41,7 @@ class VMapCard extends Component{
                 <Card.Body as={"small"}>
                     <Table striped={true} hover={true}>
                         <tbody>
-                            <tr>
-                                <th>Variable ID</th><th>Variable Name</th><th>Description</th>
-                            </tr>
-                            <tr>
-                                <td>1</td><td>HR</td><td>HR</td>
-                            </tr>
-                            <tr>
-                                <td>2</td><td>RESP</td><td>RESP</td>
-                            </tr>
-                            <tr>
-                                <td>999</td><td>UNKNOWN</td><td>UNKNOWN</td>
-                            </tr>
-                            <tr>
-                                <td>3</td><td>ABPMEAN</td><td>ABPMEAN</td>
-                            </tr>
+                            {this.renderTableData()}
                         </tbody>
                     </Table>
                 </Card.Body>

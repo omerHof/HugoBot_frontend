@@ -20,14 +20,13 @@ class Info extends Component{
             Description:"",
             Size:"",
             Views:"",
-            Downloads:""
+            Downloads:"",
+            VMapFile:[]
         };
 
-        this.getAllInfoOnDataset(sessionStorage.getItem("datasetName"))
+        this.getInfo(sessionStorage.getItem("datasetName"))
             .then((response) => {
                 if (response.status < 400) {
-                    window.alert('success!');
-                    console.log(response.data);
                     this.setState({
                         DatasetName:response.data['Name'],
                         Category:response.data['category'],
@@ -42,10 +41,31 @@ class Info extends Component{
                 }
 
             });
+
+        this.getVMapFile(sessionStorage.getItem("datasetName"))
+            .then((response) => {
+                if (response.status < 400) {
+                    let csvRows = response.data.split('\n');
+                    let csv = []
+                    for(let i = 0; i < csvRows.length; i++) {
+                        csv.push(csvRows[i].split(','));
+                    }
+                    this.setState({
+                        VMapFile:csv});
+                } else {
+                    window.alert('uh oh, there\'s a problem!');
+                }
+
+            });
     }
 
-    getAllInfoOnDataset = (id) => {
-        const url = 'http://localhost:80/getAllInfoOnDataset?id='+id;
+    getInfo = (id) => {
+        const url = 'http://localhost:80/getInfo?id='+id;
+        return Axios.get(url);
+    }
+
+    getVMapFile = (id) => {
+        const url = 'http://localhost:80/getVMapFile?id='+id;
         return Axios.get(url);
     }
 
@@ -68,7 +88,9 @@ class Info extends Component{
                         />
                     </Col>
                     <Col md={8}>
-                        <VMapCard/>
+                        <VMapCard
+                            VMap={this.state.VMapFile}
+                        />
                     </Col>
                 </Row>
             </Container>
