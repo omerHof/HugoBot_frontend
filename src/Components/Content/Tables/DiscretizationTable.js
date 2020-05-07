@@ -15,11 +15,13 @@ class DiscretizationTable extends Component {
         this.sendDownloadRequest = this.sendDownloadRequest.bind(this);
     };
 
-    handleDownloadRequest(){
+    handleDownloadRequest(e){
 
-        // let idx = e.target.id.charAt(e.target.id.length - 1);
+        let idx = parseInt(e.target.id.charAt(e.target.id.length - 1));
+        let disc = JSON.parse(sessionStorage.getItem("DiscretizationTable"));
+        let id = disc.rows[idx]['id'];
 
-        this.sendDownloadRequest()
+        this.sendDownloadRequest(id)
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
@@ -32,7 +34,7 @@ class DiscretizationTable extends Component {
 
                     let url = window.URL.createObjectURL(blob);
                     a.href = url;
-                    a.download = 'KL-class-0.0.txt';
+                    a.download = 'states.csv';
 
                     a.click();
 
@@ -44,11 +46,10 @@ class DiscretizationTable extends Component {
             });
     };
 
-    sendDownloadRequest(){
+    sendDownloadRequest(id){
         const url = 'http://localhost:80/getDISC';
         const formData = new FormData();
-        formData.append('disc_id','ff32d51a-6b49-4573-a985-07db075d8a9f');
-        formData.append('class_num','0')
+        formData.append('disc_id',id);
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
