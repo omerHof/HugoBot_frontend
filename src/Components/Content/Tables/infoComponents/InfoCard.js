@@ -6,10 +6,6 @@ import "../../../../resources/style/colors.css"
 
 class InfoCard extends Component{
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <Card style={{ width: '18rem' }}>

@@ -15,13 +15,13 @@ class StatsCard extends Component{
                 </Card.Header>
                 <Card.Body as={"small"}>
                     <Card.Text>
-                        Size: 2.444 MB
+                        Size: {this.props.Size}
                     </Card.Text>
                     <Card.Text>
-                        # Views: 73
+                        # Views: {this.props.Views}
                     </Card.Text>
                     <Card.Text>
-                        # Downloads: 7
+                        # Downloads: {this.props.Downloads}
                     </Card.Text>
                 </Card.Body>
             </Card>

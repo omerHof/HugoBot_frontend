@@ -17,7 +17,10 @@ class Info extends Component{
             Category:"",
             Owner:"",
             Source:"",
-            Description:""
+            Description:"",
+            Size:"",
+            Views:"",
+            Downloads:""
         };
 
         this.getAllInfoOnDataset(sessionStorage.getItem("datasetName"))
@@ -26,11 +29,14 @@ class Info extends Component{
                     window.alert('success!');
                     console.log(response.data);
                     this.setState({
-                        DatasetName:response.data['dataset'],
+                        DatasetName:response.data['Name'],
                         Category:response.data['category'],
-                        Owner:response.data['owner'],
+                        Owner:response.data['owner_name'],
                         Source:response.data['source'],
-                        Description:response.data['desc']});
+                        Description:response.data['Description'],
+                        Size:response.data['size'],
+                        Views:response.data['views'],
+                        Downloads:response.data['downloads']});
                 } else {
                     window.alert('uh oh, there\'s a problem!');
                 }
@@ -55,7 +61,11 @@ class Info extends Component{
                             Source={this.state.Source}
                             Description={this.state.Description}
                         />
-                        <StatsCard/>
+                        <StatsCard
+                            Size={this.state.Size}
+                            Views={this.state.Views}
+                            Downloads={this.state.Downloads}
+                        />
                     </Col>
                     <Col md={8}>
                         <VMapCard/>
