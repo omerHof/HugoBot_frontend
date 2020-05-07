@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import Axios from "axios";
+import cookies from 'js-cookie';
 
 import FormElement from "../../Login/FormElement";
 import history from "../../../History"
@@ -60,7 +61,8 @@ class Metadata extends Component{
         formData.append('datasetSource',datasetSource);
         const config = {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
             }
         };
         return Axios.post(url, formData,config)

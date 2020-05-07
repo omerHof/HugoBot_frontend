@@ -5,6 +5,7 @@ import InfoCard from "./InfoCard";
 import StatsCard from "./StatsCard";
 import VMapCard from "./VMapCard";
 import Axios from "axios";
+import cookies from "js-cookie";
 
 
 class Info extends Component{
@@ -61,12 +62,22 @@ class Info extends Component{
 
     getInfo = (id) => {
         const url = 'http://localhost:80/getInfo?id='+id;
-        return Axios.get(url);
+        const config = {
+            headers: {
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url,config);
     }
 
     getVMapFile = (id) => {
         const url = 'http://localhost:80/getVMapFile?id='+id;
-        return Axios.get(url);
+        const config = {
+            headers: {
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url,config);
     }
 
     render() {

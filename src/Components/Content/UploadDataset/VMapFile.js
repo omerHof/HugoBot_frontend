@@ -3,6 +3,7 @@ import {Button, ButtonGroup, Card, Form, Table} from "react-bootstrap";
 import Axios from "axios";
 
 import history from "../../../History";
+import cookies from "js-cookie";
 
 class VMapFile extends Component{
 
@@ -140,7 +141,8 @@ class VMapFile extends Component{
         formData.append('csv',csv);
         const config = {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
             }
         };
         return Axios.post(url, formData,config)
@@ -187,7 +189,8 @@ class VMapFile extends Component{
         formData.append('file',file);
         const config = {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
             }
         };
         return Axios.post(url, formData,config)

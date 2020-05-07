@@ -4,6 +4,7 @@ import {Button, ButtonGroup, Card, Col, Container, Form, Row, ToggleButton} from
 import Axios from "axios";
 
 import "../../../../resources/style/colors.css"
+import cookies from "js-cookie";
 // import {fireEvent} from "@testing-library/react";
 // import triggerBrowserReflow from "react-bootstrap/cjs/triggerBrowserReflow";
 
@@ -79,7 +80,8 @@ class AddConfigCard extends Component{
         formData.append('datasetName',sessionStorage.getItem("datasetName"));
         const config = {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
             }
         };
         return Axios.post(url, formData,config);
