@@ -2,63 +2,34 @@ import React, { Component } from "react";
 
 import {Button, Container} from "react-bootstrap";
 import Axios from "axios";
+import Col from "react-bootstrap/Col";
+import cookies from "js-cookie";
 
 
 class Visualization extends Component{
 
-    constructor(props){
-        super(props);
-
-        this.handleGetAllRequest = this.handleGetAllRequest.bind(this);
-    }
-
     sendVisualRequest = () => {
-        window.alert("hello");
-    };
+        const url = 'http://localhost:5000/upload';
+        const formData = new FormData();
+        formData.append('data_set_name',sessionStorage.getItem("datasetName"));
+        formData.append('username',"a");// ask yonatan @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-    getRequest = () => {
-        const request = new XMLHttpRequest();
-        // let our_url = 'http://localhost:3000/Home/Visualization/getraz';
-        let api_url = 'http://localhost:80/getAllDataSets';
-        request.open('GET', api_url);
-        request.responseType = "json";
-        request.onload = () => {
-          // const data = JSON.parse(request.response);
-          // console.log(data);
-            //request.response
-          window.alert("helooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-        };
-        request.send();
-    };
+        formData.append('className','0');// change to real value
+        formData.append('timestamp','0');// ask the manual @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        formData.append('secondclassName','0');// huh
+        formData.append('comments','0');// huh #2
 
-    postRequest = () => {
-        const request = new XMLHttpRequest();
-        let our_url = 'http://localhost:5000/post';
-        request.open('POST', our_url);
-        request.responseType = "json";
-        request.setRequestHeader('Access-Control-Allow-Origin','*');
-        request.setRequestHeader('Access-Control-Allow-Methods','GET, POST, OPTIONS');
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.onload = () => {
-            if(request.status >= 400) {//client error or server error
-                window.alert("zoinks! we have an error " + request.status + "on our hands");
-            }
-            else{
-                // const data = JSON.parse(request.response);
-                console.log(request.response);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                // 'x-access-token': cookies.get('auth-token')
             }
         };
-        request.send({
-            username: 'razRazOn',
-            email: 'razblafoo@gmail.com',
-            password: 'razHasABadPassword123',
-        })
+        return Axios.post(url, formData,config);
     };
 
-    handleGetAllRequest(e){
-        e.preventDefault();
-
-        this.getAllDatasets()
+    handleVisualRequest = () => {
+        this.sendVisualRequest()
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
@@ -70,32 +41,19 @@ class Visualization extends Component{
             });
     }
 
-    getAllDatasets(){
-        const url = 'http://localhost:80/getAllDataSets';
-        return Axios.get(url);
-    }
-
     render() {
         return (
             <Container>
-                <Button className={"btn-hugobot"} onClick={this.sendVisualRequest} type={"submit"}>
-                    Visualize TIM
-                </Button>
-                &nbsp;&nbsp;
-                <Button id={"getBtn"} className={"btn-hugobot"}
-                        onClick={this.getRequest} type={"submit"}>
-                    Send GET request
-                </Button>
-                &nbsp;&nbsp;
-                <Button id={"postBtn"} className={"btn-hugobot"}
-                        onClick={this.postRequest} type={"submit"}>
-                    Send POST request
-                </Button>
-                &nbsp;&nbsp;
-                <Button id={"getAllMetaBtn"} className={"btn-hugobot"}
-                        onClick={this.handleGetAllRequest} type={"submit"}>
-                    Get Home Table request
-                </Button>
+                <Col md={4}>
+
+                </Col>
+                <Col md={4}>
+                    <Button className={"btn-hugobot"} onClick={this.handleVisualRequest} type={"submit"}>
+                        Visualize TIM
+                    </Button>
+                </Col>
+                <Col md={4}>
+                </Col>
             </Container>
         );
     }

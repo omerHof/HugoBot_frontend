@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import {Button, Card, Table} from "react-bootstrap";
 import Axios from "axios";
+import cookies from "js-cookie";
 
 class DiscretizationTable extends Component {
 
@@ -18,7 +19,9 @@ class DiscretizationTable extends Component {
     handleDownloadRequest(e){
 
         let idx = parseInt(e.target.id.charAt(e.target.id.length - 1));
+        window.alert(idx);
         let disc = JSON.parse(sessionStorage.getItem("DiscretizationTable"));
+        window.alert(disc);
         let id = disc.rows[idx]['id'];
 
         this.sendDownloadRequest(id)
@@ -53,7 +56,7 @@ class DiscretizationTable extends Component {
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
-                'x-access-token':sessionStorage.getItem('x-access-token')
+                'x-access-token': cookies.get('auth-token')
             }
         };
         return Axios.post(url, formData,config);
