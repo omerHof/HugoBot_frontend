@@ -18,10 +18,8 @@ class DiscretizationTable extends Component {
 
     handleDownloadRequest(e){
 
-        let idx = parseInt(e.target.id.charAt(e.target.id.length - 1));
-        window.alert(idx);
+        let idx = parseInt(e.target.id.split('-')[1]);
         let disc = JSON.parse(sessionStorage.getItem("DiscretizationTable"));
-        window.alert(disc);
         let id = disc.rows[idx]['id'];
 
         this.sendDownloadRequest(id)
@@ -111,8 +109,8 @@ class DiscretizationTable extends Component {
                         {iter.InterpolationGap}
                     </td>
                     <td>
-                        {<Button className="bg-hugobot" id={"download"+idx} onClick={this.handleDownloadRequest}>
-                            <i className="fas fa-download"/> Download
+                        {<Button className="bg-hugobot" id={"download-"+idx} onClick={this.handleDownloadRequest}>
+                            <i className="fas fa-download" id={"downloadIcon-"+idx}/> Download
                         </Button>}
                     </td>
                 </tr>

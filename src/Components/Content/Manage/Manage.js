@@ -3,14 +3,15 @@ import React, { Component } from "react";
 import {Button, Container, Form, Nav, Table} from "react-bootstrap";
 
 import History from "../../../History";
-import HomeData from "../Tables/mainTable";
+// import HomeData from "../Tables/mainTable";
+import cookies from "js-cookie";
+import Axios from "axios";
 
 class Manage extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {  HomeTable: HomeData,
-                        pageLoc: "myDatasets",
+        this.state = {  pageLoc: "myDatasets",
                         filterDatasetName: "",
                         filterCategory: "",
                         filterSize: "",
@@ -19,6 +20,7 @@ class Manage extends Component{
         }
 
         this.askPermissionHandler = this.askPermissionHandler.bind(this);
+        this.loadMail();
     }
 
     filter = () => {
@@ -37,24 +39,6 @@ class Manage extends Component{
         this.forceUpdate();
     };
 
-    tabFilter = (tab, row) => {
-        return(
-            (this.state.pageLoc.localeCompare("myDatasets") === 0
-                && row["Owner"].localeCompare("raz shtrauchler") === 0)
-            ||
-            (this.state.pageLoc.localeCompare("sharedDatasets") === 0
-                && row["Owner"].localeCompare("raz shtrauchler") !== 0
-                && row["SharedWithMe"].localeCompare("Yes") === 0)
-            ||
-            (this.state.pageLoc.localeCompare("pendingDatasets") === 0
-                && row["PendingApproval"].localeCompare("Yes") === 0)
-            ||
-            (this.state.pageLoc.localeCompare("searchDatasets") === 0
-                && row["PendingApproval"].localeCompare("No") === 0
-                && row["SharedWithMe"].localeCompare("No") === 0)
-        );
-    };
-
     askPermissionHandler(e){
         //TODO find a more scalable way to do this (that does not involve copying the entire matrix)
         let HomeData = this.state.HomeTable;
@@ -63,6 +47,57 @@ class Manage extends Component{
         this.setState({HomeTable:HomeData});
         this.forceUpdate();
     }
+
+    loadMail(){
+        this.loadMailRequest()
+            .then((response)=>{
+                if(response.status < 400){
+
+                    let resMyDatasets= response.data["myDatasets"];
+                    let i;
+                    let myDatasets = {"rows": []}
+                    for (i = 0; i < response.data["myDatasetsLen"]; i++) {
+                        let y=resMyDatasets[parseInt(i)];
+                        myDatasets.rows.push(y)
+                    }
+
+                    sessionStorage.setItem('myDatasets',JSON.stringify(myDatasets));
+
+                    let resMyPermissions= response.data["myPermissions"];
+                    let myPermissions = {"rows": []}
+                    for (i = 0; i < response.data["myPermissionsLen"]; i++) {
+                        let y=resMyPermissions[parseInt(i)];
+                        myPermissions.rows.push(y)
+                    }
+
+                    sessionStorage.setItem('myPermissions',JSON.stringify(myPermissions));
+
+
+                    let resAskPermissions= response.data["askPermissions"];
+                    let askPermissions = {"rows": []}
+                    for (i = 0; i < response.data["askPermissionsLen"]; i++) {
+                        let y=resAskPermissions[parseInt(i)];
+                        askPermissions.rows.push(y)
+                    }
+
+                    sessionStorage.setItem('askPermissions',JSON.stringify(askPermissions));
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            });
+    };
+
+    loadMailRequest = () => {
+        const url = 'http://localhost:80/loadMail';
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url,config);
+    };
 
     componentDidMount() {
         if (sessionStorage.getItem("user").localeCompare("true")!==0) {
@@ -77,9 +112,9 @@ class Manage extends Component{
         return(
             <thead>
                 <tr>
-                    <td align={"center"}>
-                        Filters
-                    </td>
+                    {/*<td align={"center"}>*/}
+                    {/*    Filters*/}
+                    {/*</td>*/}
                     <td>
                         <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
                     </td>
@@ -106,7 +141,7 @@ class Manage extends Component{
     renderTableRow = (row, index) => {
         return(
             <tr key={index.toString()}>
-                <td>{row["UserID"]}</td>
+                {/*<td>{row["UserID"]}</td>*/}
                 <td>{row["DatasetName"]}</td>
                 <td>{row["Category"]}</td>
                 <td>{row["Size"]}</td>
@@ -126,20 +161,20 @@ class Manage extends Component{
     };
 
     renderTableData = () => {
-        return this.state.HomeTable.rows.map((iter, index) => {
+        // return this.state.HomeTable.rows.map((iter, index) => {
+        return JSON.parse(sessionStorage.getItem(this.state.pageLoc)).rows.map((iter, index) => {
             if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
                 &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
                 &&(this.state.filterCategory.localeCompare("") === 0 || iter["Category"].includes(this.state.filterCategory))
                 &&(this.state.filterOwner.localeCompare("") === 0 || iter["Owner"].includes(this.state.filterOwner))
-                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate))
-                &&(this.tabFilter(this.state.pageLoc, iter)))
+                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate)))
             {
                 return this.renderTableRow(iter, index);
             }
             else{
                 return null;
             }
-        })
+        });
     };
 
     render() {
@@ -158,18 +193,18 @@ class Manage extends Component{
                             My Datasets
                         </Button>
                         <Button
-                            active={this.state.pageLoc.localeCompare("sharedDatasets") === 0}
-                            id={"sharedDatasets"}
+                            active={this.state.pageLoc.localeCompare("myPermissions") === 0}
+                            id={"myPermissions"}
                             className={"nav-link btn-hugobot"}
-                            onClick={this.clicked.bind(null,"sharedDatasets")}>
+                            onClick={this.clicked.bind(null,"myPermissions")}>
 
                             Shared with me
                         </Button>
                         <Button
-                            active={this.state.pageLoc.localeCompare("pendingDatasets") === 0}
-                            id={"pendingDatasets"}
+                            active={this.state.pageLoc.localeCompare("askPermissions") === 0}
+                            id={"askPermissions"}
                             className={"nav-link btn-hugobot"}
-                            onClick={this.clicked.bind(null,"pendingDatasets")}>
+                            onClick={this.clicked.bind(null,"askPermissions")}>
 
                             Pending Approval
                         </Button>

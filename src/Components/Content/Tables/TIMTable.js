@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import {Button, ButtonGroup, Card, Form, Row, Table, ToggleButton} from "react-bootstrap";
 import Axios from "axios";
+import cookies from "js-cookie";
 //import {createBrowserHistory} from "history";
 
 class TIMTable extends Component {
@@ -16,7 +17,52 @@ class TIMTable extends Component {
 
         this.onAllenChange = this.onAllenChange.bind(this);
         this.onClassChange = this.onClassChange.bind(this);
+        this.sendDownloadRequest = this.sendDownloadRequest.bind(this);
+        this.handleDownloadRequest = this.handleDownloadRequest.bind(this);
     }
+
+    sendDownloadRequest(id){
+        const url = 'http://localhost:80/getTIM';
+        const formData = new FormData();
+        formData.append('kl_id',id);
+        formData.append('class_num','KL.txt');
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.post(url, formData,config);
+    };
+
+    handleDownloadRequest(e){
+        let idx = parseInt(e.target.id.split('-')[1]);
+        let tim = JSON.parse(sessionStorage.getItem("TIMTable"));
+        let id = tim.rows[idx]['karma_id'];
+        this.sendDownloadRequest(id)
+            .then((response)=>{
+                console.log(response.data);
+                if(response.status < 400){
+                    window.alert('success!');
+                    let blob = new Blob([response.data], {type: 'text/plain'});
+
+                    let a = document.createElement("a");
+                    a.style = "display: none";
+                    document.body.appendChild(a);
+
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = 'KL.txt';
+
+                    a.click();
+
+                    window.URL.revokeObjectURL(url);
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            });
+    };
 
     sendTIM = (epsilon, maxGap, verSup, Allen, discretizationID, max_tirp_length, index_same) => {
         const url = 'http://localhost:80/addTIM';
@@ -50,13 +96,13 @@ class TIMTable extends Component {
         if (EpsilonInput) {
 
             //let y = {
-              //  "MethodOfDiscretization": MoD.innerText,
-                //"BinsNumber": BinNo.innerText,
-                //"InterpolationGap": IPGap.innerText,
-                //"PAAWindowSize": PAAWin.innerText,
-                //"epsilon": EpsilonInput.value,
-                //"MaxGap": MaxGapInput.value,
-                //"VerticalSupport": MinVerticalSupportInput.value
+            //  "MethodOfDiscretization": MoD.innerText,
+            //"BinsNumber": BinNo.innerText,
+            //"InterpolationGap": IPGap.innerText,
+            //"PAAWindowSize": PAAWin.innerText,
+            //"epsilon": EpsilonInput.value,
+            //"MaxGap": MaxGapInput.value,
+            //"VerticalSupport": MinVerticalSupportInput.value
             //};
             //x.rows.push(y);
             console.log(this.state.Allen.get("0"))
@@ -168,32 +214,32 @@ class TIMTable extends Component {
     renderAddRunHeader = () => {
         return (
             <thead>
-                <tr>
-                    <td width={"15%"}>
-                       PAA-Bins-Interpolation-Method
-                    </td>
-                    <td width={"5%"}>
-                        Epsilon
-                    </td>
-                    <td width={"5%"}>
-                        max tirp len
-                    </td>
-                    <td width={"5%"}>
-                        Max Gap
-                    </td>
-                    <td width={"5%"}>
-                        Min. Vertical Support
-                    </td>
-                    <td width={"10%"}>
-                        No. of Allen Relations
-                    </td>
-                    <td width={"5%"}>
-                        index same
-                    </td>
-                    <td width={"5%"}>
-                        Status/Download Link
-                    </td>
-                </tr>
+            <tr>
+                <td width={"15%"}>
+                    PAA-Bins-Interpolation-Method
+                </td>
+                <td width={"5%"}>
+                    Epsilon
+                </td>
+                <td width={"5%"}>
+                    max tirp len
+                </td>
+                <td width={"5%"}>
+                    Max Gap
+                </td>
+                <td width={"5%"}>
+                    Min. Vertical Support
+                </td>
+                <td width={"10%"}>
+                    No. of Allen Relations
+                </td>
+                <td width={"5%"}>
+                    index same
+                </td>
+                <td width={"5%"}>
+                    Status/Download Link
+                </td>
+            </tr>
             </thead>
         );
     };
@@ -233,8 +279,8 @@ class TIMTable extends Component {
                     <td>
                         <ButtonGroup id={"Allen"+index} toggle={true}>
                             <ToggleButton checked={this.state.Allen.has(sIndex)
-                                            ? this.state.Allen.get(sIndex).localeCompare("3") === 0
-                                            : true}
+                                ? this.state.Allen.get(sIndex).localeCompare("3") === 0
+                                : true}
                                           className={"btn-hugobot"}
                                           id={"Allen3"+index}
                                           onChange={this.onAllenChange}
@@ -243,8 +289,8 @@ class TIMTable extends Component {
                                 3
                             </ToggleButton>
                             <ToggleButton checked={this.state.Allen.has(sIndex)
-                                            ? this.state.Allen.get(sIndex).localeCompare("7") === 0
-                                            : false}
+                                ? this.state.Allen.get(sIndex).localeCompare("7") === 0
+                                : false}
                                           className={"btn-hugobot"}
                                           id={"Allen7"+index}
                                           onChange={this.onAllenChange}
@@ -280,16 +326,16 @@ class TIMTable extends Component {
                     </td>
                     <td>
                         <Button className="bg-hugobot"
-                                 onClick={() => this.handleSubmit(
-                                     iter.id,
-                                     iter.PAAWindowSize,
-                                     iter.BinsNumber,
-                                     iter.InterpolationGap,
-                                     iter.MethodOfDiscretization,
-                                     document.getElementById(EpsilonInput),
-                                     document.getElementById(maxTirpLenInput),
-                                     document.getElementById(MaxGapInput),
-                                     document.getElementById(MinVSInput))}>
+                                onClick={() => this.handleSubmit(
+                                    iter.id,
+                                    iter.PAAWindowSize,
+                                    iter.BinsNumber,
+                                    iter.InterpolationGap,
+                                    iter.MethodOfDiscretization,
+                                    document.getElementById(EpsilonInput),
+                                    document.getElementById(maxTirpLenInput),
+                                    document.getElementById(MaxGapInput),
+                                    document.getElementById(MinVSInput))}>
                             <i className="fas fa-play"/>Mine
                         </Button>
                     </td>
@@ -301,35 +347,35 @@ class TIMTable extends Component {
     renderExistingRunsHeader = () => {
         return (
             <thead>
-                <tr>
-                    <td>
-                        Method Of Discretization
-                    </td>
-                    <td>
-                        Bins Number
-                    </td>
-                    <td>
-                        Interpolation Gap
-                    </td>
-                    <td>
-                        PAA Window Size
-                    </td>
-                    <td>
-                        Epsilon
-                    </td>
-                    <td>
-                        max tirp len
-                    </td>
-                    <td>
-                        Max Gap
-                    </td>
-                    <td>
-                        Min. Vertical Support
-                    </td>
-                    <td>
-                        Status/Download Link
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    Method Of Discretization
+                </td>
+                <td>
+                    Bins Number
+                </td>
+                <td>
+                    Interpolation Gap
+                </td>
+                <td>
+                    PAA Window Size
+                </td>
+                <td>
+                    Epsilon
+                </td>
+                <td>
+                    max tirp len
+                </td>
+                <td>
+                    Max Gap
+                </td>
+                <td>
+                    Min. Vertical Support
+                </td>
+                <td>
+                    Status/Download Link
+                </td>
+            </tr>
             </thead>
         );
     };
@@ -363,8 +409,8 @@ class TIMTable extends Component {
                         {iter.VerticalSupport}
                     </td>
                     <td>
-                        {<Button className="bg-hugobot" onClick={this.nothing}>
-                            <i className="fas fa-download"/> Download
+                        {<Button className="bg-hugobot" id={"download-"+index} onClick={this.handleDownloadRequest}>
+                            <i className="fas fa-download" id={"downloadIcon-"+index}/> Download
                         </Button>}
                     </td>
                 </tr>
@@ -377,12 +423,20 @@ class TIMTable extends Component {
         return (
             <small>
                 <Card style={{ width: 'auto' }}>
+                    {this.HeadElement("Add a New Time Interval Mining Configuration")}
+                    <Card.Body>
+                        <Row>
+
+                        </Row>
+                    </Card.Body>
+                </Card>
+                <Card style={{ width: 'auto' }}>
                     {this.HeadElement("...Or Use An Existing One Instead")}
                     <Card.Body>
                         <Table hover>
                             {this.renderAddRunHeader()}
                             <tbody>
-                                {this.renderAddRunData()}
+                            {this.renderAddRunData()}
                             </tbody>
                         </Table>
                     </Card.Body>
@@ -393,7 +447,7 @@ class TIMTable extends Component {
                         <Table hover>
                             {this.renderExistingRunsHeader()}
                             <tbody>
-                                {this.renderExistingRunsData()}
+                            {this.renderExistingRunsData()}
                             </tbody>
                         </Table>
                     </Card.Body>
