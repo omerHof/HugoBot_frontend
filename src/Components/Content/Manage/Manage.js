@@ -39,12 +39,7 @@ class Manage extends Component{
         this.forceUpdate();
     };
 
-    askPermissionHandler(e){
-        //TODO find a more scalable way to do this (that does not involve copying the entire matrix)
-        let HomeData = this.state.HomeTable;
-        let index = e.target.id.slice(-1);
-        HomeData.rows[index]["PendingApproval"] = "Yes";
-        this.setState({HomeTable:HomeData});
+    askPermissionHandler(){
         this.forceUpdate();
     }
 
@@ -97,6 +92,23 @@ class Manage extends Component{
             }
         };
         return Axios.get(url,config);
+    };
+
+    isInTab = (tab,datasetName) => {
+        let flag = false;
+        JSON.parse(sessionStorage.getItem(tab)).rows.find((iter) =>
+            flag |= datasetName.localeCompare(iter['DatasetName']) === 0);
+        return flag;
+    }
+
+    isInExploreTab = (datasetName) => {
+        console.log(datasetName);
+        console.log("in my datasets: " + this.isInTab('myDatasets',datasetName));
+        console.log("in my Permissions: " + this.isInTab('myPermissions',datasetName));
+        console.log("in ask Permissions: " + this.isInTab('askPermissions',datasetName));
+        return !(this.isInTab('myDatasets',datasetName) ||
+            this.isInTab('myPermissions',datasetName) ||
+            this.isInTab('askPermissions',datasetName))
     };
 
     componentDidMount() {
@@ -161,15 +173,19 @@ class Manage extends Component{
     };
 
     renderTableData = () => {
-        // return this.state.HomeTable.rows.map((iter, index) => {
         return JSON.parse(sessionStorage.getItem(this.state.pageLoc)).rows.map((iter, index) => {
-            if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
-                &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
-                &&(this.state.filterCategory.localeCompare("") === 0 || iter["Category"].includes(this.state.filterCategory))
-                &&(this.state.filterOwner.localeCompare("") === 0 || iter["Owner"].includes(this.state.filterOwner))
-                &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate)))
-            {
-                return this.renderTableRow(iter, index);
+            if(this.state.pageLoc.localeCompare("allTables") !== 0 || this.isInExploreTab(iter['DatasetName'])){
+                if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
+                    &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
+                    &&(this.state.filterCategory.localeCompare("") === 0 || iter["Category"].includes(this.state.filterCategory))
+                    &&(this.state.filterOwner.localeCompare("") === 0 || iter["Owner"].includes(this.state.filterOwner))
+                    &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate)))
+                {
+                    return this.renderTableRow(iter, index);
+                }
+                else{
+                    return null;
+                }
             }
             else{
                 return null;
@@ -209,10 +225,10 @@ class Manage extends Component{
                             Pending Approval
                         </Button>
                         <Button
-                            active={this.state.pageLoc.localeCompare("searchDatasets") === 0}
-                            id={"searchDatasets"}
+                            active={this.state.pageLoc.localeCompare("allTables") === 0}
+                            id={"allTables"}
                             className={"nav-link btn-hugobot"}
-                            onClick={this.clicked.bind(null,"searchDatasets")}>
+                            onClick={this.clicked.bind(null,"allTables")}>
 
                             Explore...
                         </Button>
