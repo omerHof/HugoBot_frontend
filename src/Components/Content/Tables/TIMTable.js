@@ -182,10 +182,6 @@ class TIMTable extends Component {
             </Card.Header>
         );
     };
-
-    nothing = () => {
-        window.alert("stop tickling me");
-    }
     //</editor-fold>
 
     onAllenChange = (e) => {
@@ -385,28 +381,28 @@ class TIMTable extends Component {
             return (
                 <tr key={index}>
                     <td>
-                        {iter.MethodOfDiscretization}
+                        {iter['MethodOfDiscretization']}
                     </td>
                     <td>
-                        {iter.BinsNumber}
+                        {iter['BinsNumber']}
                     </td>
                     <td>
-                        {iter.InterpolationGap}
+                        {iter['InterpolationGap']}
                     </td>
                     <td>
-                        {iter.PAAWindowSize}
+                        {iter['PAAWindowSize']}
                     </td>
                     <td>
-                        {iter.epsilon}
+                        {iter['epsilon']}
                     </td>
                     <td>
-                        {iter.maxTirpLength}
+                        {iter['maxTirpLength']}
                     </td>
                     <td>
-                        {iter.MaxGap}
+                        {iter['MaxGap']}
                     </td>
                     <td>
-                        {iter.VerticalSupport}
+                        {iter['VerticalSupport']}
                     </td>
                     <td>
                         {<Button className="bg-hugobot" id={"download-"+index} onClick={this.handleDownloadRequest}>
