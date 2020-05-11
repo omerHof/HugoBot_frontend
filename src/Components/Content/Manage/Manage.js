@@ -39,8 +39,34 @@ class Manage extends Component{
         this.forceUpdate();
     };
 
-    askPermissionHandler(){
+    askPermissionHandler(e){
+        //get td id and extract inner html
+        let id = e.target.id.split('-')[1];
+        let datasetName = document.getElementById("managePermissionDatasetName-"+id).innerHTML;
+        console.log(datasetName)
+
+        this.askPermissionsRequest(datasetName)
+            .then((response)=>{
+                if(response.status < 400){
+                    console.log('success!');
+                    console.log(response.data['message']);
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            });
         this.forceUpdate();
+    }
+
+    askPermissionsRequest(datasetName){
+        const url = 'http://localhost:80/askPermission?dataset='+datasetName;
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url,config);
     }
 
     loadMail(){
@@ -154,15 +180,17 @@ class Manage extends Component{
         return(
             <tr key={index.toString()}>
                 {/*<td>{row["UserID"]}</td>*/}
-                <td>{row["DatasetName"]}</td>
+                <td id={'managePermissionDatasetName-'+index}>
+                    {row["DatasetName"]}
+                </td>
                 <td>{row["Category"]}</td>
                 <td>{row["Size"]}</td>
                 <td>{row["Owner"]}</td>
                 <td>{row["PublicPrivate"]}</td>
-                <td hidden={this.state.pageLoc.localeCompare("searchDatasets") !== 0}>
+                <td hidden={this.state.pageLoc.localeCompare("allTables") !== 0}>
                     <Button
                         className={"btn-hugobot"}
-                        id={"askPermission"+index}
+                        id={"askPermission-"+index}
                         onClick={this.askPermissionHandler}>
 
                         Access
