@@ -42,12 +42,12 @@ class AddConfigCard extends Component{
         event.preventDefault();
 
         this.sendDisc(this.state.PAA,
-                      this.state.NumStates,
-                      this.state.InterpolationGap,
-                      this.state.AbMethod,
-                      this.state.BinningByValue,
-                      this.state.KnowledgeBasedFile,
-                      this.state.GradientFile)
+            this.state.NumStates,
+            this.state.InterpolationGap,
+            this.state.AbMethod,
+            this.state.BinningByValue,
+            this.state.KnowledgeBasedFile,
+            this.state.GradientFile)
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
@@ -69,10 +69,8 @@ class AddConfigCard extends Component{
                                     karma.rows.push(w)
                                 }
                                 sessionStorage.setItem('DiscretizationTable', JSON.stringify(disc));
-                                console.log(karma)
                                 sessionStorage.setItem('TIMTable', JSON.stringify(karma));
-                                this.forceUpdate();
-                                window.alert("karmaLego Created!")
+                                window.dispatchEvent(new Event("ReloadTable"));
                                 //sessionStorage.setItem("allTables",JSON.stringify(myData));
                                 //console.log(JSON.parse(sessionStorage.allTables));
                                 //window.dispatchEvent(new Event("ReloadHomeTable"));
@@ -86,10 +84,7 @@ class AddConfigCard extends Component{
                     window.alert('uh oh, there\'s a problem!')
                 }
             })
-            .catch(error => console.log(error));
-
-        window.dispatchEvent(new Event("ReloadTable"));
-        //this.forceUpdate();
+            .catch(error => window.alert(error.response.data['message']));
     };
 
     sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,BinningByValue,KnowledgeBasedFile,GradientFile) => {

@@ -110,7 +110,7 @@ class TableContent extends Component{
                 }
             })
             .catch(error => {
-                window.alert("hi");
+                window.alert(error.response.data['message']);
             });
     }
 

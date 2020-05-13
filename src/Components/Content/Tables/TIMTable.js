@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import cookies from "js-cookie";
-import {Button, ButtonGroup, Card, Form, Row, Table, ToggleButton} from "react-bootstrap";
+import {Button, ButtonGroup, Card, Form, Table, ToggleButton} from "react-bootstrap";
 import Axios from "axios";
 //import {createBrowserHistory} from "history";
 
