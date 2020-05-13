@@ -20,6 +20,7 @@ class Manage extends Component{
         }
 
         this.askPermissionHandler = this.askPermissionHandler.bind(this);
+        this.acceptPermissionHandler = this.acceptPermissionHandler.bind(this);
         this.loadMail();
     }
 
@@ -34,11 +35,8 @@ class Manage extends Component{
         this.forceUpdate();
     };
 
-    clicked = (id) => {
-        this.setState({pageLoc: id})
-        this.forceUpdate();
-    };
-
+    //<editor-fold desc="Mail Module Logic">
+    //<editor-fold desc="Ask Permission">
     askPermissionHandler(e){
         //get td id and extract inner html
         let id = e.target.id.split('-')[1];
@@ -68,7 +66,66 @@ class Manage extends Component{
         };
         return Axios.get(url,config);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Accept Permission">
+    acceptPermissionHandler(e){
+        //get td id and extract inner html
+        let id = e.target.id.split('-')[1];
+        let datasetName = document.getElementById("managePermissionDatasetName-"+id).innerHTML;
+        let email = "";
+        console.log("email before:" + email);
+        console.log(datasetName);
+
+        this.getEmail()
+            .then((response)=>{
+                if(response.status < 400){
+                    email = response.data['Email'];
+                    console.log("email after:" + email);
+
+                    this.acceptPermissionsRequest(datasetName,email)
+                        .then((response)=>{
+                            if(response.status < 400){
+                                console.log('success!');
+                                console.log(response.data['message']);
+                            }
+                            else{
+                                window.alert('uh oh, there\'s a problem!')
+                            }
+                        });
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            });
+
+        this.forceUpdate();
+    }
+
+    acceptPermissionsRequest(datasetName,email){
+        const url = 'http://localhost:80/acceptPermission?dataset='+datasetName+"&userEmail="+email;
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url,config);
+    }
+
+    getEmail(){
+        const url = 'http://localhost:80/getEmail';
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url,config);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Load Mail">
     loadMail(){
         this.loadMailRequest()
             .then((response)=>{
@@ -119,6 +176,14 @@ class Manage extends Component{
         };
         return Axios.get(url,config);
     };
+    //</editor-fold>
+    //</editor-fold>
+
+    //<editor-fold desc="Tab Switch Logic">
+    clicked = (id) => {
+        this.setState({pageLoc: id})
+        this.forceUpdate();
+    };
 
     isInTab = (tab,datasetName) => {
         let flag = false;
@@ -136,6 +201,7 @@ class Manage extends Component{
             this.isInTab('myPermissions',datasetName) ||
             this.isInTab('askPermissions',datasetName))
     };
+    //</editor-fold>
 
     componentDidMount() {
         if (sessionStorage.getItem("user").localeCompare("true")!==0) {
@@ -150,9 +216,6 @@ class Manage extends Component{
         return(
             <thead>
                 <tr>
-                    {/*<td align={"center"}>*/}
-                    {/*    Filters*/}
-                    {/*</td>*/}
                     <td>
                         <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
                     </td>
@@ -179,7 +242,6 @@ class Manage extends Component{
     renderTableRow = (row, index) => {
         return(
             <tr key={index.toString()}>
-                {/*<td>{row["UserID"]}</td>*/}
                 <td id={'managePermissionDatasetName-'+index}>
                     {row["DatasetName"]}
                 </td>
@@ -194,6 +256,15 @@ class Manage extends Component{
                         onClick={this.askPermissionHandler}>
 
                         Access
+                    </Button>
+                </td>
+                <td hidden={this.state.pageLoc.localeCompare("askPermissions") !== 0}>
+                    <Button
+                        className={"btn-hugobot"}
+                        id={"acceptPermission-"+index}
+                        onClick={this.acceptPermissionHandler}>
+
+                        Grant Access
                     </Button>
                 </td>
             </tr>
@@ -269,7 +340,6 @@ class Manage extends Component{
                     {this.renderTableData()}
                     </tbody>
                 </Table>
-                {/*here we need to render the table according to the button pressed*/}
             </Container>
         );
     }

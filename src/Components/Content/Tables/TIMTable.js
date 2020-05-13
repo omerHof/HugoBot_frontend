@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import {Button, ButtonGroup, Card, Form, Row, Table, ToggleButton} from "react-bootstrap";
+import {Button, ButtonGroup, Card, Form, Table, ToggleButton} from "react-bootstrap";
 import Axios from "axios";
 import cookies from "js-cookie";
 //import {createBrowserHistory} from "history";
@@ -215,22 +215,22 @@ class TIMTable extends Component {
                     PAA-Bins-Interpolation-Method
                 </td>
                 <td width={"5%"}>
-                    Epsilon
-                </td>
-                <td width={"5%"}>
-                    max tirp len
+                    Min. Vertical Support
                 </td>
                 <td width={"5%"}>
                     Max Gap
-                </td>
-                <td width={"5%"}>
-                    Min. Vertical Support
                 </td>
                 <td width={"10%"}>
                     No. of Allen Relations
                 </td>
                 <td width={"5%"}>
-                    index same
+                    Epsilon
+                </td>
+                <td width={"5%"}>
+                    Max TIRP Length
+                </td>
+                <td width={"5%"}>
+                    Index same
                 </td>
                 <td width={"5%"}>
                     Status/Download Link
@@ -257,19 +257,11 @@ class TIMTable extends Component {
                         +iter.MethodOfDiscretization}
                     </td>
                     <td>
-                        <Form.Control id={EpsilonInput} type={"text"}>
-                        </Form.Control>
-                    </td>
-                    <td>
-                        <Form.Control id={maxTirpLenInput} type={"text"}>
+                        <Form.Control id={MinVSInput} type={"text"}>
                         </Form.Control>
                     </td>
                     <td>
                         <Form.Control id={MaxGapInput} type={"text"}>
-                        </Form.Control>
-                    </td>
-                    <td>
-                        <Form.Control id={MinVSInput} type={"text"}>
                         </Form.Control>
                     </td>
                     <td>
@@ -295,6 +287,14 @@ class TIMTable extends Component {
                                 7
                             </ToggleButton>
                         </ButtonGroup>
+                    </td>
+                    <td>
+                        <Form.Control id={EpsilonInput} type={"text"}>
+                        </Form.Control>
+                    </td>
+                    <td>
+                        <Form.Control id={maxTirpLenInput} type={"text"}>
+                        </Form.Control>
                     </td>
                     <td>
                         <ButtonGroup id={"Class"+index} toggle={true}>
@@ -357,16 +357,16 @@ class TIMTable extends Component {
                     PAA Window Size
                 </td>
                 <td>
-                    Epsilon
-                </td>
-                <td>
-                    max tirp len
+                    Min. Vertical Support
                 </td>
                 <td>
                     Max Gap
                 </td>
                 <td>
-                    Min. Vertical Support
+                    Epsilon
+                </td>
+                <td>
+                    Max TIRP Length
                 </td>
                 <td>
                     Status/Download Link
@@ -393,16 +393,16 @@ class TIMTable extends Component {
                         {iter['PAAWindowSize']}
                     </td>
                     <td>
-                        {iter['epsilon']}
-                    </td>
-                    <td>
-                        {iter['maxTirpLength']}
+                        {iter['VerticalSupport']}
                     </td>
                     <td>
                         {iter['MaxGap']}
                     </td>
                     <td>
-                        {iter['VerticalSupport']}
+                        {iter['epsilon']}
+                    </td>
+                    <td>
+                        {iter['maxTirpLength']}
                     </td>
                     <td>
                         {<Button className="bg-hugobot" id={"download-"+index} onClick={this.handleDownloadRequest}>
@@ -418,16 +418,16 @@ class TIMTable extends Component {
     render() {
         return (
             <small>
+                {/*<Card style={{ width: 'auto' }}>*/}
+                {/*    {this.HeadElement("Add a New Time Interval Mining Configuration")}*/}
+                {/*    <Card.Body>*/}
+                {/*        <Row>*/}
+
+                {/*        </Row>*/}
+                {/*    </Card.Body>*/}
+                {/*</Card>*/}
                 <Card style={{ width: 'auto' }}>
                     {this.HeadElement("Add a New Time Interval Mining Configuration")}
-                    <Card.Body>
-                        <Row>
-
-                        </Row>
-                    </Card.Body>
-                </Card>
-                <Card style={{ width: 'auto' }}>
-                    {this.HeadElement("...Or Use An Existing One Instead")}
                     <Card.Body>
                         <Table hover>
                             {this.renderAddRunHeader()}
