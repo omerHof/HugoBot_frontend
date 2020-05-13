@@ -27,20 +27,19 @@ class AddConfigCard extends Component{
 
     optionsToRender = this.AbMethodOptions.map((option) => <option key={option}>{option}</option>);
 
+    getDataOnDataset(id){
+        const url = 'http://localhost:80/getDataOnDataset?id='+id;
+        const config = {
+            headers: {
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url, config);
+    }
+
     handleSubmit = (event) => {
 
         event.preventDefault();
-
-        let x= JSON.parse(sessionStorage.DiscretizationTable);
-
-        let y={
-            "MethodOfDiscretization": this.state.AbMethod,
-            "BinsNumber": this.state.NumStates,
-            "InterpolationGap": this.state.InterpolationGap,
-            "PAAWindowSize": this.state.PAA
-        };
-
-        x.rows.push(y);
 
         this.sendDisc(this.state.PAA,
                       this.state.NumStates,
@@ -52,15 +51,42 @@ class AddConfigCard extends Component{
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
-                    window.alert('success!');
+                    this.getDataOnDataset(sessionStorage.getItem("datasetName"))
+                        .then((response) => {
+                            if (response.status < 400) {
+                                let data1= response.data["disc"];
+                                let i;
+                                let disc= {"rows": []}
+                                for (i = 0; i < data1["lengthNum"]; i++) {
+                                    let y=data1[parseInt(i)];
+                                    disc.rows.push(y)
+                                }
+                                let data2= response.data["karma"];
+                                let j;
+                                let karma= {"rows": []}
+                                for (j = 0; j < data2["lengthNum"]; j++) {
+                                    let w=data2[parseInt(j)];
+                                    karma.rows.push(w)
+                                }
+                                sessionStorage.setItem('DiscretizationTable', JSON.stringify(disc));
+                                console.log(karma)
+                                sessionStorage.setItem('TIMTable', JSON.stringify(karma));
+                                this.forceUpdate();
+                                window.alert("karmaLego Created!")
+                                //sessionStorage.setItem("allTables",JSON.stringify(myData));
+                                //console.log(JSON.parse(sessionStorage.allTables));
+                                //window.dispatchEvent(new Event("ReloadHomeTable"));
+                            } else {
+                                window.alert('there is no such file to download');
+                            }
+                        });
+                    window.alert('Discretization added!');
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
                 }
             })
             .catch(error => console.log(error));
-
-        sessionStorage.setItem('DiscretizationTable', JSON.stringify(x));
 
         window.dispatchEvent(new Event("ReloadTable"));
         //this.forceUpdate();
