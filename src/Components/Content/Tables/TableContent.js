@@ -11,7 +11,9 @@ import history from "../../../History";
 
 // import HomeData from "./mainTable";
 import InfoData from "./infoData";
+// import DiscretizationData from "./DiscretizationData";
 import TIMData from "./TIMData";
+import Info from "./infoComponents/Info"
 
 import Workflow from "./Workflow";
 
@@ -73,12 +75,12 @@ class TableContent extends Component{
                 });
         }
     }
+
     CollectData = (id) =>
     {
 
         this.getDataOnDataset(id)
             .then((response) => {
-                window.alert("why are still here just to suffer");
                 if (response.status < 400) {
                     let data1= response.data["disc"];
                     let i;
@@ -108,55 +110,39 @@ class TableContent extends Component{
                 }
             })
             .catch(error => {
-                window.alert(error.response.data["message"]);
+                window.alert("hi");
             });
     }
 
-    //<editor-fold desc="Sub-Components">
-    Info = (
-        <Container fluid={true}>
-            <Row>
-                <Col md={4}>
-                    <InfoCard/>
-                    <StatsCard/>
-                        </Col>
-                        <Col md={8}>
-                        <VMapCard/>
-                        </Col>
-                        </Row>
-                        </Container>
-                        );
-                        //</editor-fold>
-
-                        render() {
-                        return (
-                        <Router history={history}>
-                        <br/>
-                        <Workflow/>
-                        <br/>
-                        <Container>
-                        <Route exact={true} path={"/Home"}>
-                        <HomeTable
-                        HomeTable={this.state.HomeTable}
-                        CollectData={ this.CollectData}
-                        />
-                        </Route>
-                        <Route path={"/Home/Info"}>
-                        {this.Info}
-                        </Route>
-                        <Route path={"/Home/Disc"}>
-                        <AddConfigCard/>
-                        <DiscretizationTable/>
-                        </Route>
-                        <Route path={"/Home/TIM"}>
-                        <TIMTable/>
-                        </Route>
-                        <Route path={"/Home/Visualization"}>
-                        <Visualization/>
-                        </Route>
-                        </Container>
-                        </Router>
-                        );
-                        }
-                        }
-                        export default TableContent;
+    render() {
+    return (
+    <Router history={history}>
+    <br/>
+    <Workflow/>
+    <br/>
+    <Container>
+    <Route exact={true} path={"/Home"}>
+    <HomeTable
+    HomeTable={this.state.HomeTable}
+    CollectData={ this.CollectData}
+    />
+    </Route>
+    <Route path={"/Home/Info"}>
+    <Info/>
+    </Route>
+    <Route path={"/Home/Disc"}>
+    <AddConfigCard/>
+    <DiscretizationTable/>
+    </Route>
+    <Route path={"/Home/TIM"}>
+    <TIMTable/>
+    </Route>
+    <Route path={"/Home/Visualization"}>
+    <Visualization/>
+    </Route>
+    </Container>
+    </Router>
+    );
+    }
+    }
+    export default TableContent;
