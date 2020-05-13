@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+
 import {Button, ButtonGroup, Card, Form, Table} from "react-bootstrap";
-import Axios from "axios";
 
 import history from "../../../History";
+
+import Axios from "axios";
 import cookies from "js-cookie";
 
 class VMapFile extends Component{

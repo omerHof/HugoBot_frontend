@@ -2,13 +2,13 @@ import React, { Component } from "react";
 
 import {Button, Container, Form} from "react-bootstrap"
 
-import history from '../../History';
-
-import SelectElement from "./SelectElement";
-import FormElement from "./FormElement";
-// import { register } from "../../services/authService";
-import '../../resources/style/colors.css';
 import Axios from "axios";
+
+import FormElement from "./FormElement";
+import history from '../../History';
+import SelectElement from "./SelectElement";
+import '../../resources/style/colors.css';
+// import { register } from "../../services/authService";
 
 class Register extends Component{
 

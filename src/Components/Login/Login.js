@@ -2,13 +2,13 @@ import React, { Component } from "react";
 
 import {Button, Container, Form} from "react-bootstrap";
 
-import FormElement from "./FormElement";
-import history from '../../History';
-// import { login } from "../../services/authService";
-
-import '../../resources/style/colors.css';
 import Axios from "axios";
 import cookies from "js-cookie";
+
+import FormElement from "./FormElement";
+import history from '../../History';
+import '../../resources/style/colors.css';
+// import { login } from "../../services/authService";
 
 class Login extends Component{
 

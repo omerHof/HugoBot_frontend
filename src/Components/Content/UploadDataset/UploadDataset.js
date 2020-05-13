@@ -2,12 +2,12 @@ import React, { Component } from "react";
 
 import {Route, Router} from "react-router-dom";
 
-import '../../../resources/style/colors.css';
-import UploadWorkflow from "./UploadWorkflow";
+import EntitiesFile from "./EntitiesFile";
 import history from "../../../History";
 import Metadata from "./Metadata";
+import UploadWorkflow from "./UploadWorkflow";
 import VMapFile from "./VMapFile";
-import EntitiesFile from "./EntitiesFile";
+import '../../../resources/style/colors.css';
 
 class UploadDataset extends Component{
     render() {

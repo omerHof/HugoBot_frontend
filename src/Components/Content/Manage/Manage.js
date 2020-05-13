@@ -2,10 +2,10 @@ import React, { Component } from "react";
 
 import {Button, Container, Form, Nav, Table} from "react-bootstrap";
 
-import History from "../../../History";
-// import HomeData from "../Tables/mainTable";
-import cookies from "js-cookie";
 import Axios from "axios";
+import cookies from "js-cookie";
+
+import History from "../../../History";
 
 class Manage extends Component{
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import {Container} from "react-bootstrap";
-import { Router, Redirect, Route, Switch} from "react-router-dom";
+import { Redirect, Route, Router, Switch} from "react-router-dom";
 
 import history from "../../History";
 import Login from "../Login/Login";
@@ -9,8 +9,8 @@ import Manage from "./Manage/Manage";
 import Register from "../Login/Register";
 import TableContent from "./Tables/TableContent"
 import Tutorial from "./Tutorial";
-import '../../resources/style/colors.css';
 import UploadDataset from "./UploadDataset/UploadDataset";
+import '../../resources/style/colors.css';
 
 class Content extends Component{
     render(){

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 
 import {Button, ButtonGroup, Card, Col, Container, Form, Row, ToggleButton} from "react-bootstrap"
+
 import Axios from "axios";
+import cookies from "js-cookie";
 
 import "../../../../resources/style/colors.css"
-import cookies from "js-cookie";
-// import {fireEvent} from "@testing-library/react";
-// import triggerBrowserReflow from "react-bootstrap/cjs/triggerBrowserReflow";
 
 class AddConfigCard extends Component{
 

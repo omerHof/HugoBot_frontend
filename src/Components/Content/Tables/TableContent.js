@@ -1,29 +1,19 @@
 import React, { Component } from "react";
 
-import {Col, Container, Row} from "react-bootstrap";
-import { Router, Route} from "react-router-dom";
+import {Container} from "react-bootstrap";
+import {Router, Route} from "react-router-dom";
 
-import HomeTable from "./HomeTable";
-import DiscretizationTable from "./DiscretizationTable";
-import TIMTable from "./TIMTable";
-
-import history from "../../../History";
-
-// import HomeData from "./mainTable";
-import InfoData from "./infoData";
-// import DiscretizationData from "./DiscretizationData";
-import TIMData from "./TIMData";
-import Info from "./infoComponents/Info"
-
-import Workflow from "./Workflow";
-
-import InfoCard from "./infoComponents/InfoCard";
-import StatsCard from "./infoComponents/StatsCard";
-import VMapCard from "./infoComponents/VMapCard";
-import AddConfigCard from "./discComponents/AddConfigCard";
-import Visualization from "./Visualization";
 import Axios from "axios";
 import cookies from "js-cookie";
+
+import AddConfigCard from "./discComponents/AddConfigCard";
+import DiscretizationTable from "./DiscretizationTable";
+import history from "../../../History";
+import HomeTable from "./HomeTable";
+import Info from "./infoComponents/Info"
+import TIMTable from "./TIMTable";
+import Visualization from "./Visualization";
+import Workflow from "./Workflow";
 
 class TableContent extends Component{
     state = {

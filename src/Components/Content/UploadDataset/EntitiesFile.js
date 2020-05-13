@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 
 import {Button, Card, Form} from "react-bootstrap";
+
 import Axios from "axios";
+import cookies from "js-cookie";
 
 import history from "../../../History";
-import cookies from "js-cookie";
 
 class EntitiesFile extends Component{
 

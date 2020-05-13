@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
-import {Button, Container} from "react-bootstrap";
+import {Button, Col, Container} from "react-bootstrap";
+
 import Axios from "axios";
-import Col from "react-bootstrap/Col";
-import cookies from "js-cookie";
+// import cookies from "js-cookie";
 
 
 class Visualization extends Component{

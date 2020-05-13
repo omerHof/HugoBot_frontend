@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 
 import {Col, Container, Row} from "react-bootstrap";
-import InfoCard from "./InfoCard";
-import StatsCard from "./StatsCard";
-import VMapCard from "./VMapCard";
+
 import Axios from "axios";
 import cookies from "js-cookie";
 
+import InfoCard from "./InfoCard";
+import StatsCard from "./StatsCard";
+import VMapCard from "./VMapCard";
 
 class Info extends Component{
 

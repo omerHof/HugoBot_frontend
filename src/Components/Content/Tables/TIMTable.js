@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import cookies from "js-cookie";
+
 import {Button, ButtonGroup, Card, Form, Table, ToggleButton} from "react-bootstrap";
+
 import Axios from "axios";
+import cookies from "js-cookie";
+
 //import {createBrowserHistory} from "history";
 
 class TIMTable extends Component {
@@ -219,7 +222,7 @@ class TIMTable extends Component {
             else{
                 allen= this.state.Allen.get("0")
             }
-            if (index_same == "3" || index_same=="true"){
+            if (index_same === "3" || index_same === "true"){
                 index_same = "true"
             }
             else{
@@ -230,7 +233,7 @@ class TIMTable extends Component {
             let max_tirp_length = naxTirpLen.value;
             let epsilon = EpsilonInput.value;
             console.log(epsilon )
-            if (epsilon ==""){
+            if (epsilon === ""){
                 epsilon=1;
             }
             console.log(allen);
@@ -301,10 +304,6 @@ class TIMTable extends Component {
             </Card.Header>
         );
     };
-
-    nothing = () => {
-        window.alert("stop tickling me");
-    }
     //</editor-fold>
 
     onAllenChange = (e) => {
@@ -320,7 +319,7 @@ class TIMTable extends Component {
         temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
         this.setState({Class:temp_map});
         let index_same;
-        if (this.state.Class.get("0")=="3"){
+        if (this.state.Class.get("0") === "3"){
             index_same = "true"
         }
         else{
@@ -374,10 +373,10 @@ class TIMTable extends Component {
             return (
                 <tr key={index}>
                     <td id={Disc}>
-                        {iter.PAAWindowSize+"-"
-                        +iter.BinsNumber+"-"
-                        +iter.InterpolationGap+"-"
-                        +iter.MethodOfDiscretization}
+                        {iter['PAAWindowSize']+"-"
+                        +iter['BinsNumber']+"-"
+                        +iter['InterpolationGap']+"-"
+                        +iter['MethodOfDiscretization']}
                     </td>
                     <td>
                         <Form.Control id={MinVSInput} type={"text"}>
@@ -447,10 +446,10 @@ class TIMTable extends Component {
                         <Button className="bg-hugobot"
                                 onClick={() => this.handleSubmit(
                                     iter.id,
-                                    iter.PAAWindowSize,
-                                    iter.BinsNumber,
-                                    iter.InterpolationGap,
-                                    iter.MethodOfDiscretization,
+                                    iter['PAAWindowSize'],
+                                    iter['BinsNumber'],
+                                    iter['InterpolationGap'],
+                                    iter['MethodOfDiscretization'],
                                     document.getElementById(EpsilonInput),
                                     document.getElementById(maxTirpLenInput),
                                     document.getElementById(MaxGapInput),
@@ -507,28 +506,28 @@ class TIMTable extends Component {
             return (
                 <tr key={index}>
                     <td width={"10%"}>
-                        {iter.PAAWindowSize+"-"
-                        +iter.BinsNumber+"-"
+                        {iter['PAAWindowSize']+"-"
+                        +iter['BinsNumber']+"-"
                         +iter.InterpolationGap+"-"
-                        +iter.MethodOfDiscretization}
+                        +iter['MethodOfDiscretization']}
                     </td>
                     <td width={"5%"}>
-                        {iter.VerticalSupport}
+                        {iter['VerticalSupport']}
                     </td>
                     <td width={"5%"}>
-                        {iter.MaxGap}
+                        {iter['MaxGap']}
                     </td>
                     <td width={"5%"}>
-                        {iter.numRelations}
+                        {iter['numRelations']}
                     </td>
                     <td width={"5%"}>
-                        {iter.epsilon}
+                        {iter['epsilon']}
                     </td>
                     <td width={"5%"}>
-                        {iter.maxTirpLength}
+                        {iter['maxTirpLength']}
                     </td>
                     <td width={"5%"}>
-                        {iter.indexSame}
+                        {iter['indexSame']}
                     </td>
                     <td width={"12%"}>
                         {<Button className="bg-hugobot" id={"download0-"+index} onClick={this.handleDownloadRequest0}>
