@@ -557,14 +557,6 @@ class TIMTable extends Component {
                 <Card style={{ width: 'auto' }}>
                     {this.HeadElement("Add a New Time Interval Mining Configuration")}
                     <Card.Body>
-                        <Row>
-
-                        </Row>
-                    </Card.Body>
-                </Card>
-                <Card style={{ width: 'auto' }}>
-                    {this.HeadElement("...Or Use An Existing One Instead")}
-                    <Card.Body>
                         <Table hover>
                             {this.renderAddRunHeader()}
                             <tbody>
