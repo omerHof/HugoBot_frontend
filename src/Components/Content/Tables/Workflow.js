@@ -21,7 +21,7 @@ class Workflow extends Component{
         let  that = this;
         window.addEventListener("ReloadDataSet", function(){that.forceUpdate()});
         return (
-            <Container>
+            <Container fluid={true}>
                 <Router history={History}>
                     {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
@@ -40,18 +40,18 @@ class Workflow extends Component{
                         </div>
                     ) : (
                         <div>
-                            <Link className="btn bg-hugobot btn-arrow-right">
+                            <div className="btn bg-hugobot btn-arrow-right">
                                 Info
-                            </Link>
-                            <Link className="btn bg-hugobot btn-arrow-right">
+                            </div>
+                            <div className="btn bg-hugobot btn-arrow-right">
                                 Temporal Abstraction
-                            </Link>
-                            <Link className="btn bg-hugobot btn-arrow-right">
+                            </div>
+                            <div className="btn bg-hugobot btn-arrow-right">
                                 Time Interval Mining
-                            </Link>
-                            <Link className="btn bg-hugobot btn-arrow-right">
+                            </div>
+                            <div className="btn bg-hugobot btn-arrow-right">
                                 Visualization
-                            </Link>
+                            </div>
                         </div>
                     )}
                 </Router>

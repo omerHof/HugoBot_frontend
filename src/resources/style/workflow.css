@@ -5,8 +5,8 @@
     padding-right: 18px;
 }
 .btn-arrow-right {
-    padding-left: 44px;
-    padding-right: 45px;
+    padding-left: 100px;
+    padding-right: 100px;
 }
 
 .btn-arrow-right:before,
@@ -21,9 +21,9 @@
     border: inherit; /* use parent border */
     border-left-color: transparent; /* hide left border */
     border-bottom-color: transparent; /* hide bottom border */
-    border-radius: 0px 4px 0px 0px; /* round arrow corner, the shorthand property doesn't accept "inherit" so it is set to 4px */
-    -webkit-border-radius: 0px 4px 0px 0px;
-    -moz-border-radius: 0px 4px 0px 0px;
+    border-radius: 0 4px 0 0; /* round arrow corner, the shorthand property doesn't accept "inherit" so it is set to 4px */
+    -webkit-border-radius: 0 4px 0 0;
+    -moz-border-radius: 0 4px 0 0;
 }
 
 .btn-arrow-right:before,
