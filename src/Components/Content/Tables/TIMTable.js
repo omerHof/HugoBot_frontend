@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-
-import {Button, ButtonGroup, Card, Form, Table, ToggleButton} from "react-bootstrap";
-import Axios from "axios";
 import cookies from "js-cookie";
+import {Button, ButtonGroup, Card, Form, Row, Table, ToggleButton} from "react-bootstrap";
+import Axios from "axios";
 //import {createBrowserHistory} from "history";
 
 class TIMTable extends Component {
@@ -19,6 +18,10 @@ class TIMTable extends Component {
         this.onClassChange = this.onClassChange.bind(this);
         this.sendDownloadRequest = this.sendDownloadRequest.bind(this);
         this.handleDownloadRequest = this.handleDownloadRequest.bind(this);
+        this.sendDownloadRequest0 = this.sendDownloadRequest0.bind(this);
+        this.handleDownloadRequest0 = this.handleDownloadRequest0.bind(this);
+        this.sendDownloadRequest1 = this.sendDownloadRequest1.bind(this);
+        this.handleDownloadRequest1 = this.handleDownloadRequest1.bind(this);
     }
 
     sendDownloadRequest(id){
@@ -43,7 +46,6 @@ class TIMTable extends Component {
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
-                    window.alert('success!');
                     let blob = new Blob([response.data], {type: 'text/plain'});
 
                     let a = document.createElement("a");
@@ -61,6 +63,99 @@ class TIMTable extends Component {
                 else{
                     window.alert('uh oh, there\'s a problem!')
                 }
+            })
+            .catch(error => {
+                window.alert(error.response.data["message"]);
+            });
+    };
+
+    sendDownloadRequest1(id){
+        const url = 'http://localhost:80/getTIM';
+        const formData = new FormData();
+        formData.append('kl_id',id);
+        formData.append('class_num','KL-class-1.0.txt');
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.post(url, formData,config);
+    };
+
+    handleDownloadRequest1(e){
+        let idx = parseInt(e.target.id.split('-')[1]);
+        let tim = JSON.parse(sessionStorage.getItem("TIMTable"));
+        let id = tim.rows[idx]['karma_id'];
+        this.sendDownloadRequest1(id)
+            .then((response)=>{
+                console.log(response.data);
+                if(response.status < 400){
+                    let blob = new Blob([response.data], {type: 'text/plain'});
+
+                    let a = document.createElement("a");
+                    a.style = "display: none";
+                    document.body.appendChild(a);
+
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = 'KL-class-1.0.txt';
+
+                    a.click();
+
+                    window.URL.revokeObjectURL(url);
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            })
+            .catch(error => {
+                window.alert(error.response.data["message"]);
+            });
+    };
+
+    sendDownloadRequest0(id){
+        const url = 'http://localhost:80/getTIM';
+        const formData = new FormData();
+        formData.append('kl_id',id);
+        formData.append('class_num','KL-class-0.0.txt');
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.post(url, formData,config);
+    };
+
+    handleDownloadRequest0(e){
+        let idx = parseInt(e.target.id.split('-')[1]);
+        let tim = JSON.parse(sessionStorage.getItem("TIMTable"));
+        let id = tim.rows[idx]['karma_id'];
+        this.sendDownloadRequest0(id)
+            .then((response)=>{
+                console.log(response.data);
+                if(response.status < 400){
+                    let blob = new Blob([response.data], {type: 'text/plain'});
+
+                    let a = document.createElement("a");
+                    a.style = "display: none";
+                    document.body.appendChild(a);
+
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = 'KL-class-0.0.txt';
+
+                    a.click();
+
+                    window.URL.revokeObjectURL(url);
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            })
+            .catch(error => {
+                window.alert(error.response.data["message"]);
             });
     };
 
@@ -85,7 +180,12 @@ class TIMTable extends Component {
 
     getDataOnDataset(id){
         const url = 'http://localhost:80/getDataOnDataset?id='+id;
-        return Axios.get(url);
+        const config = {
+            headers: {
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url, config);
     }
 
 
@@ -105,32 +205,48 @@ class TIMTable extends Component {
             //"VerticalSupport": MinVerticalSupportInput.value
             //};
             //x.rows.push(y);
-            console.log(this.state.Allen.get("0"))
             let index_same;
-            if (this.state.Class.get("0")==="3"){
+            if (this.state.Class.get("0")=== undefined){
+                index_same = "false"
+            }
+            else{
+                index_same= this.state.Class.get("0")
+            }
+            let allen;
+            if (this.state.Allen.get("0")=== undefined){
+                allen = "3"
+            }
+            else{
+                allen= this.state.Allen.get("0")
+            }
+            if (index_same == "3" || index_same=="true"){
                 index_same = "true"
             }
             else{
                 index_same = "false"
             }
-            let discretizationID = id
-            let max_tirp_length = naxTirpLen.value
-            this.sendTIM(EpsilonInput.value,
+
+            let discretizationID = id;
+            let max_tirp_length = naxTirpLen.value;
+            let epsilon = EpsilonInput.value;
+            console.log(epsilon )
+            if (epsilon ==""){
+                epsilon=1;
+            }
+            console.log(allen);
+            console.log(index_same);
+            this.sendTIM(epsilon,
                 MaxGapInput.value,
                 MinVerticalSupportInput.value,
-                this.state.Allen.get("0"),
+                allen,
                 discretizationID,
                 max_tirp_length,
                 index_same)
                 .then((response)=>{
                     console.log(response.data);
                     if(response.status < 400){
-
-
-
                         this.getDataOnDataset(sessionStorage.getItem("datasetName"))
                             .then((response) => {
-                                window.alert('uh oh, there\'s a problem!');
                                 if (response.status < 400) {
                                     let data1= response.data["disc"];
                                     let i;
@@ -150,11 +266,12 @@ class TIMTable extends Component {
                                     console.log(karma)
                                     sessionStorage.setItem('TIMTable', JSON.stringify(karma));
                                     this.forceUpdate();
+                                    window.alert("karmaLego Created!")
                                     //sessionStorage.setItem("allTables",JSON.stringify(myData));
                                     //console.log(JSON.parse(sessionStorage.allTables));
                                     //window.dispatchEvent(new Event("ReloadHomeTable"));
                                 } else {
-                                    window.alert('uh oh, there\'s a problem!');
+                                    window.alert('there is no such file to download');
                                 }
                             });
 
@@ -165,7 +282,9 @@ class TIMTable extends Component {
                         window.alert('uh oh, there\'s a problem!')
                     }
                 })
-                .catch(error => console.log(error));
+                .catch(error => {
+                    window.alert(error.response.data["message"]);
+                });
 
             sessionStorage.setItem('TIMTable', JSON.stringify(x));
             this.forceUpdate();
@@ -182,6 +301,10 @@ class TIMTable extends Component {
             </Card.Header>
         );
     };
+
+    nothing = () => {
+        window.alert("stop tickling me");
+    }
     //</editor-fold>
 
     onAllenChange = (e) => {
@@ -197,7 +320,7 @@ class TIMTable extends Component {
         temp_map.set(e.target.value.charAt(0),e.target.value.charAt(1));
         this.setState({Class:temp_map});
         let index_same;
-        if (this.state.Class.get("0")==="3"){
+        if (this.state.Class.get("0")=="3"){
             index_same = "true"
         }
         else{
@@ -211,7 +334,7 @@ class TIMTable extends Component {
         return (
             <thead>
             <tr>
-                <td width={"15%"}>
+                <td width={"8%"}>
                     PAA-Bins-Interpolation-Method
                 </td>
                 <td width={"5%"}>
@@ -220,20 +343,20 @@ class TIMTable extends Component {
                 <td width={"5%"}>
                     Max Gap
                 </td>
-                <td width={"10%"}>
+                <td width={"5%"}>
                     No. of Allen Relations
                 </td>
                 <td width={"5%"}>
                     Epsilon
                 </td>
                 <td width={"5%"}>
-                    Max TIRP Length
+                    max tirp length
                 </td>
                 <td width={"5%"}>
-                    Index same
+                    index same
                 </td>
                 <td width={"5%"}>
-                    Status/Download Link
+                    Mine
                 </td>
             </tr>
             </thead>
@@ -345,16 +468,7 @@ class TIMTable extends Component {
             <thead>
             <tr>
                 <td>
-                    Method Of Discretization
-                </td>
-                <td>
-                    Bins Number
-                </td>
-                <td>
-                    Interpolation Gap
-                </td>
-                <td>
-                    PAA Window Size
+                    PAA-Bins-Interpolation-Method
                 </td>
                 <td>
                     Min. Vertical Support
@@ -363,13 +477,25 @@ class TIMTable extends Component {
                     Max Gap
                 </td>
                 <td>
+                    No. of Allen Relations
+                </td>
+                <td>
                     Epsilon
                 </td>
                 <td>
-                    Max TIRP Length
+                    max tirp length
                 </td>
                 <td>
-                    Status/Download Link
+                    index same
+                </td>
+                <td>
+                    Download class0
+                </td>
+                <td>
+                    Download class1
+                </td>
+                <td>
+                    Download Both
                 </td>
             </tr>
             </thead>
@@ -380,33 +506,43 @@ class TIMTable extends Component {
         return JSON.parse(sessionStorage.TIMTable).rows.map((iter, index) => {
             return (
                 <tr key={index}>
-                    <td>
-                        {iter['MethodOfDiscretization']}
+                    <td width={"10%"}>
+                        {iter.PAAWindowSize+"-"
+                        +iter.BinsNumber+"-"
+                        +iter.InterpolationGap+"-"
+                        +iter.MethodOfDiscretization}
                     </td>
-                    <td>
-                        {iter['BinsNumber']}
+                    <td width={"5%"}>
+                        {iter.VerticalSupport}
                     </td>
-                    <td>
-                        {iter['InterpolationGap']}
+                    <td width={"5%"}>
+                        {iter.MaxGap}
                     </td>
-                    <td>
-                        {iter['PAAWindowSize']}
+                    <td width={"5%"}>
+                        {iter.numRelations}
                     </td>
-                    <td>
-                        {iter['VerticalSupport']}
+                    <td width={"5%"}>
+                        {iter.epsilon}
                     </td>
-                    <td>
-                        {iter['MaxGap']}
+                    <td width={"5%"}>
+                        {iter.maxTirpLength}
                     </td>
-                    <td>
-                        {iter['epsilon']}
+                    <td width={"5%"}>
+                        {iter.indexSame}
                     </td>
-                    <td>
-                        {iter['maxTirpLength']}
+                    <td width={"12%"}>
+                        {<Button className="bg-hugobot" id={"download0-"+index} onClick={this.handleDownloadRequest0}>
+                            <i className="fas fa-download" id={"downloadIcon0-"+index}/> Download
+                        </Button>}
                     </td>
-                    <td>
-                        {<Button className="bg-hugobot" id={"download-"+index} onClick={this.handleDownloadRequest}>
-                            <i className="fas fa-download" id={"downloadIcon-"+index}/> Download
+                    <td width={"12%"}>
+                        {<Button className="bg-hugobot" id={"download1-"+index} onClick={this.handleDownloadRequest1}>
+                            <i className="fas fa-download" id={"downloadIcon1-"+index}/> Download
+                        </Button>}
+                    </td>
+                    <td width={"12%"}>
+                        {<Button className="bg-hugobot" id={"download2-"+index} onClick={this.handleDownloadRequest}>
+                            <i className="fas fa-download" id={"downloadIcon2-"+index}/> Download
                         </Button>}
                     </td>
                 </tr>
@@ -418,16 +554,16 @@ class TIMTable extends Component {
     render() {
         return (
             <small>
-                {/*<Card style={{ width: 'auto' }}>*/}
-                {/*    {this.HeadElement("Add a New Time Interval Mining Configuration")}*/}
-                {/*    <Card.Body>*/}
-                {/*        <Row>*/}
-
-                {/*        </Row>*/}
-                {/*    </Card.Body>*/}
-                {/*</Card>*/}
                 <Card style={{ width: 'auto' }}>
                     {this.HeadElement("Add a New Time Interval Mining Configuration")}
+                    <Card.Body>
+                        <Row>
+
+                        </Row>
+                    </Card.Body>
+                </Card>
+                <Card style={{ width: 'auto' }}>
+                    {this.HeadElement("...Or Use An Existing One Instead")}
                     <Card.Body>
                         <Table hover>
                             {this.renderAddRunHeader()}
