@@ -4,6 +4,7 @@ import {Button, Card, Form} from "react-bootstrap";
 import Axios from "axios";
 
 import history from "../../../History";
+import cookies from "js-cookie";
 
 class EntitiesFile extends Component{
 
@@ -23,20 +24,24 @@ class EntitiesFile extends Component{
 
     onFormSubmit(e){
         e.preventDefault();// Stop form submit
-        this.fileUpload(this.state.file).then((response)=>{
+        let datasetName = sessionStorage.getItem('datasetName');
+        this.fileUpload(this.state.file,datasetName)
+            .then((response)=>{
             console.log(response.data);
             window.alert("Dataset Uploaded Successfully!");
             history.push("/Home");
         })
     }
 
-    fileUpload(file){
+    fileUpload(file,datasetName){
         const url = 'http://localhost:80/stepthree';
         const formData = new FormData();
         formData.append('file',file);
+        formData.append('datasetName',datasetName);
         const config = {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
             }
         };
         return Axios.post(url, formData,config)

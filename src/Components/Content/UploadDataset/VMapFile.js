@@ -122,8 +122,9 @@ class VMapFile extends Component{
         let csv = table.map(function(d){
             return d.join();
         }).join('\n');
+        let datasetName = sessionStorage.getItem('datasetName');
 
-        this.sendVMapCreate(csv)
+        this.sendVMapCreate(csv,datasetName)
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
@@ -135,10 +136,11 @@ class VMapFile extends Component{
             });
     }
 
-    sendVMapCreate(csv){
+    sendVMapCreate(csv,datasetName){
         const url = 'http://localhost:80/steptwocreate';
         const formData = new FormData();
         formData.append('csv',csv);
+        formData.append('datasetName',datasetName);
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -171,7 +173,8 @@ class VMapFile extends Component{
 
     onUploadSubmit(e){
         e.preventDefault();
-        this.sendVMapUpload(this.state.uploadFile)
+        let datasetName = sessionStorage.getItem('datasetName');
+        this.sendVMapUpload(this.state.uploadFile,datasetName)
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
@@ -183,10 +186,11 @@ class VMapFile extends Component{
             });
     }
 
-    sendVMapUpload(file){
-        const url = 'http://localhost:5000/steptwo';
+    sendVMapUpload(file,datasetName){
+        const url = 'http://localhost:80/steptwo';
         const formData = new FormData();
         formData.append('file',file);
+        formData.append('datasetName',datasetName);
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',

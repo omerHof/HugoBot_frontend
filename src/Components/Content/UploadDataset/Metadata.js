@@ -43,6 +43,7 @@ class Metadata extends Component{
                 console.log(response.data);
                 if(response.status < 400){
                     history.push('/Upload/VMap');
+                    sessionStorage.setItem('datasetName',this.state.datasetName);
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
