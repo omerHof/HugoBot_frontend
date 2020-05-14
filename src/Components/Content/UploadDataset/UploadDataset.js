@@ -7,6 +7,7 @@ import history from "../../../History";
 import Metadata from "./Metadata";
 import UploadWorkflow from "./UploadWorkflow";
 import VMapFile from "./VMapFile";
+import WindowsCreation from "../Integration/WindowsCreation";
 import '../../../resources/style/colors.css';
 
 class UploadDataset extends Component{
@@ -24,6 +25,9 @@ class UploadDataset extends Component{
                 </Route>
                 <Route path={"/Upload/Entities"}>
                     <EntitiesFile/>
+                </Route>
+                <Route path={"/Upload/WindowsCreation"}>
+                    <WindowsCreation/>
                 </Route>
             </Router>
         );

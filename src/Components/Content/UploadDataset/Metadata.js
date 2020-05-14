@@ -140,6 +140,10 @@ class Metadata extends Component{
                         <Button className={"bg-hugobot"} type={"submit"}>
                             Validate Dataset File and Proceed to Step 2
                         </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        {/*<Button className={"bg-hugobot"} type={"submit"}>*/}
+                        {/*    Validate Dataset File and Proceed to Step 2 with Temporal Windows Creation Data*/}
+                        {/*</Button>&nbsp;&nbsp;&nbsp;&nbsp;*/}
+                        {/*should link to WindowCreation.html*/}
                         <Button className={"bg-hugobot"} type={"reset"}>Clear</Button>
                     </Form>
                 </Card.Body>

@@ -41,7 +41,7 @@ class Content extends Component{
                         </Container>
                     </Route>
                     <Route path="/Upload">
-                        <Container>
+                        <Container fluid={true}>
                             <UploadDataset/>
                         </Container>
                     </Route>

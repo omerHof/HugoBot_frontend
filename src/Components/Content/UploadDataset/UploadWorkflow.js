@@ -22,6 +22,9 @@ class UploadWorkflow extends Component{
                         <Link to={"/Upload/Entities"} className="btn btn-upload btn-hugobot">
                             Step-3 Upload Entities File
                         </Link>
+                        <Link to={"/Upload/WindowsCreation"} className="btn btn-upload btn-hugobot">
+                            Step-4 Window Creation
+                        </Link>
                     </ButtonGroup>
                 </Router>
             </Container>
