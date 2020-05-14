@@ -34,6 +34,9 @@ class Workflow extends Component{
                             <Link to={"/Home/KarmaLego"} className="btn bg-hugobot btn-arrow-right">
                                 Itzik (Yonatan asked)
                             </Link>
+                            <Link to={"/Home/Classifiers"} className="btn bg-hugobot btn-arrow-right">
+                                Itzik II
+                            </Link>
                             <Link to={"/Home/TIM"} className="btn bg-hugobot btn-arrow-right">
                                 Time Intervals Mining
                             </Link>
@@ -51,6 +54,9 @@ class Workflow extends Component{
                             </div>
                             <div className="btn bg-hugobot btn-arrow-right">
                                 Itzik (Yonatan asked)
+                            </div>
+                            <div className="btn bg-hugobot btn-arrow-right">
+                                Itzik II
                             </div>
                             <div className="btn bg-hugobot btn-arrow-right">
                                 Time Intervals Mining

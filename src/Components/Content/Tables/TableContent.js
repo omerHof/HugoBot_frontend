@@ -7,6 +7,7 @@ import Axios from "axios";
 import cookies from "js-cookie";
 
 import AddConfigCard from "./discComponents/AddConfigCard";
+import ClassifiersSelection from "../Integration/ClassifiersSelection";
 import DiscretizationTable from "./DiscretizationTable";
 import history from "../../../History";
 import HomeTable from "./HomeTable";
@@ -127,6 +128,9 @@ class TableContent extends Component{
                     </Route>
                     <Route path={"/Home/KarmaLego"}>
                         <RunKarmaLego/>
+                    </Route>
+                    <Route path={"/Home/Classifiers"}>
+                        <ClassifiersSelection/>
                     </Route>
                     <Route path={"/Home/TIM"}>
                         <TIMTable/>
