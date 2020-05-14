@@ -31,8 +31,11 @@ class Workflow extends Component{
                             <Link to={"/Home/Disc"} className="btn bg-hugobot btn-arrow-right">
                                 Temporal Abstraction
                             </Link>
+                            <Link to={"/Home/KarmaLego"} className="btn bg-hugobot btn-arrow-right">
+                                Itzik (Yonatan asked)
+                            </Link>
                             <Link to={"/Home/TIM"} className="btn bg-hugobot btn-arrow-right">
-                                Time Interval Mining
+                                Time Intervals Mining
                             </Link>
                             <Link to={"/Home/Visualization"} className="btn bg-hugobot btn-arrow-right">
                                 Visualization
@@ -47,7 +50,10 @@ class Workflow extends Component{
                                 Temporal Abstraction
                             </div>
                             <div className="btn bg-hugobot btn-arrow-right">
-                                Time Interval Mining
+                                Itzik (Yonatan asked)
+                            </div>
+                            <div className="btn bg-hugobot btn-arrow-right">
+                                Time Intervals Mining
                             </div>
                             <div className="btn bg-hugobot btn-arrow-right">
                                 Visualization

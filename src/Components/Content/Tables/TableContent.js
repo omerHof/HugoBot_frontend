@@ -11,6 +11,7 @@ import DiscretizationTable from "./DiscretizationTable";
 import history from "../../../History";
 import HomeTable from "./HomeTable";
 import Info from "./infoComponents/Info"
+import RunKarmaLego from "../Integration/RunKarmaLego";
 import TIMTable from "./TIMTable";
 import Visualization from "./Visualization";
 import Workflow from "./Workflow";
@@ -105,34 +106,37 @@ class TableContent extends Component{
     }
 
     render() {
-    return (
-    <Router history={history}>
-    <br/>
-    <Workflow/>
-    <br/>
-    <Container>
-    <Route exact={true} path={"/Home"}>
-    <HomeTable
-    HomeTable={this.state.HomeTable}
-    CollectData={ this.CollectData}
-    />
-    </Route>
-    <Route path={"/Home/Info"}>
-    <Info/>
-    </Route>
-    <Route path={"/Home/Disc"}>
-    <AddConfigCard/>
-    <DiscretizationTable/>
-    </Route>
-    <Route path={"/Home/TIM"}>
-    <TIMTable/>
-    </Route>
-    <Route path={"/Home/Visualization"}>
-    <Visualization/>
-    </Route>
-    </Container>
-    </Router>
-    );
+        return (
+            <Router history={history}>
+                <br/>
+                <Workflow/>
+                <br/>
+                <Container>
+                    <Route exact={true} path={"/Home"}>
+                        <HomeTable
+                        HomeTable={this.state.HomeTable}
+                        CollectData={ this.CollectData}
+                        />
+                    </Route>
+                    <Route path={"/Home/Info"}>
+                        <Info/>
+                    </Route>
+                    <Route path={"/Home/Disc"}>
+                        <AddConfigCard/>
+                        <DiscretizationTable/>
+                    </Route>
+                    <Route path={"/Home/KarmaLego"}>
+                        <RunKarmaLego/>
+                    </Route>
+                    <Route path={"/Home/TIM"}>
+                        <TIMTable/>
+                    </Route>
+                    <Route path={"/Home/Visualization"}>
+                        <Visualization/>
+                    </Route>
+                </Container>
+            </Router>
+        );
     }
     }
     export default TableContent;
