@@ -150,14 +150,21 @@ class Manage extends Component{
 
                     sessionStorage.setItem('myPermissions',JSON.stringify(myPermissions));
 
-
+                    let fullName = response.data['User_full_name']
                     let resAskPermissions= response.data["askPermissions"];
                     let askPermissions = {"rows": []}
+                    let approve = {"rows": []}
                     for (i = 0; i < response.data["askPermissionsLen"]; i++) {
                         let y=resAskPermissions[parseInt(i)];
-                        askPermissions.rows.push(y)
+                        //if he is the owner, then it's a request that he needs to approve.
+                        //else, it's a request that he asked for and no further action is available
+                        if(y['Owner'].localeCompare(fullName) === 0)
+                            approve.rows.push(y);
+                        else
+                            askPermissions.rows.push(y)
                     }
 
+                    sessionStorage.setItem('approve',JSON.stringify(approve));
                     sessionStorage.setItem('askPermissions',JSON.stringify(askPermissions));
                 }
                 else{
@@ -199,7 +206,8 @@ class Manage extends Component{
         console.log("in ask Permissions: " + this.isInTab('askPermissions',datasetName));
         return !(this.isInTab('myDatasets',datasetName) ||
             this.isInTab('myPermissions',datasetName) ||
-            this.isInTab('askPermissions',datasetName))
+            this.isInTab('askPermissions',datasetName) ||
+            this.isInTab('approve',datasetName));
     };
     //</editor-fold>
 
@@ -231,8 +239,11 @@ class Manage extends Component{
                     <td>
                         <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
                     </td>
-                    <td hidden={this.state.pageLoc.localeCompare("searchDatasets") !== 0}>
+                    <td hidden={this.state.pageLoc.localeCompare("allTables") !== 0}>
                         Request Access
+                    </td>
+                    <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
+                        Grant Access
                     </td>
                 </tr>
             </thead>
@@ -258,7 +269,7 @@ class Manage extends Component{
                         Access
                     </Button>
                 </td>
-                <td hidden={this.state.pageLoc.localeCompare("askPermissions") !== 0}>
+                <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
                     <Button
                         className={"btn-hugobot"}
                         id={"acceptPermission-"+index}
@@ -306,6 +317,14 @@ class Manage extends Component{
                             onClick={this.clicked.bind(null,"myDatasets")}>
 
                             My Datasets
+                        </Button>
+                        <Button
+                            active={this.state.pageLoc.localeCompare("approve") === 0}
+                            id={"approve"}
+                            className={"nav-link btn-hugobot"}
+                            onClick={this.clicked.bind(null,"approve")}>
+
+                            Approve
                         </Button>
                         <Button
                             active={this.state.pageLoc.localeCompare("myPermissions") === 0}
