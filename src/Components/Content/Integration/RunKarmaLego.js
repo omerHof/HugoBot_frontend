@@ -176,9 +176,9 @@ class RunKarmaLego extends Component {
                                 </form>
                             </article>
                         </div>
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
 }
