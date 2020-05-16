@@ -150,22 +150,29 @@ class Manage extends Component{
 
                     sessionStorage.setItem('myPermissions',JSON.stringify(myPermissions));
 
-                    let fullName = response.data['User_full_name']
+                    // let fullName = response.data['User_full_name']
                     let resAskPermissions= response.data["askPermissions"];
                     let askPermissions = {"rows": []}
-                    let approve = {"rows": []}
                     for (i = 0; i < response.data["askPermissionsLen"]; i++) {
                         let y=resAskPermissions[parseInt(i)];
                         //if he is the owner, then it's a request that he needs to approve.
                         //else, it's a request that he asked for and no further action is available
-                        if(y['Owner'].localeCompare(fullName) === 0)
-                            approve.rows.push(y);
-                        else
-                            askPermissions.rows.push(y)
+                        // if(y['Owner'].localeCompare(fullName) === 0)
+                        //     approve.rows.push(y);
+                        // else
+                        askPermissions.rows.push(y)
+                    }
+
+                    sessionStorage.setItem('askPermissions',JSON.stringify(askPermissions));
+
+                    let resApprove= response.data["approve"];
+                    let approve = {"rows": []}
+                    for (i = 0; i < response.data["approveLen"]; i++) {
+                        let y=resApprove[parseInt(i)];
+                        approve.rows.push(y)
                     }
 
                     sessionStorage.setItem('approve',JSON.stringify(approve));
-                    sessionStorage.setItem('askPermissions',JSON.stringify(askPermissions));
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
