@@ -73,26 +73,15 @@ class Manage extends Component{
         //get td id and extract inner html
         let id = e.target.id.split('-')[1];
         let datasetName = document.getElementById("managePermissionDatasetName-"+id).innerHTML;
-        let email = "";
-        console.log("email before:" + email);
+        let email = document.getElementById("managePermissionGrantee-"+id).innerHTML;
         console.log(datasetName);
+        console.log(email);
 
-        this.getEmail()
+        this.acceptPermissionsRequest(datasetName,email)
             .then((response)=>{
                 if(response.status < 400){
-                    email = response.data['Email'];
-                    console.log("email after:" + email);
-
-                    this.acceptPermissionsRequest(datasetName,email)
-                        .then((response)=>{
-                            if(response.status < 400){
-                                console.log('success!');
-                                console.log(response.data['message']);
-                            }
-                            else{
-                                window.alert('uh oh, there\'s a problem!')
-                            }
-                        });
+                    console.log('success!');
+                    console.log(response.data['message']);
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
@@ -207,10 +196,6 @@ class Manage extends Component{
     }
 
     isInExploreTab = (datasetName) => {
-        console.log(datasetName);
-        console.log("in my datasets: " + this.isInTab('myDatasets',datasetName));
-        console.log("in my Permissions: " + this.isInTab('myPermissions',datasetName));
-        console.log("in ask Permissions: " + this.isInTab('askPermissions',datasetName));
         return !(this.isInTab('myDatasets',datasetName) ||
             this.isInTab('myPermissions',datasetName) ||
             this.isInTab('askPermissions',datasetName) ||
@@ -250,6 +235,9 @@ class Manage extends Component{
                         Request Access
                     </td>
                     <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
+                        Grantee
+                    </td>
+                    <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
                         Grant Access
                     </td>
                 </tr>
@@ -275,6 +263,9 @@ class Manage extends Component{
 
                         Access
                     </Button>
+                </td>
+                <td hidden={this.state.pageLoc.localeCompare("approve") !== 0} id={'managePermissionGrantee-'+index}>
+                    {row["Grantee"]}
                 </td>
                 <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
                     <Button

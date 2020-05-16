@@ -44,15 +44,10 @@ class Visualization extends Component{
     render() {
         return (
             <Container>
-                <Col md={4}>
-
-                </Col>
-                <Col md={4}>
-                    <Button className={"btn-hugobot"} onClick={this.handleVisualRequest} type={"submit"}>
+                <Col md={10}>
+                    <Button block={true} className={"btn-hugobot"} onClick={this.handleVisualRequest} type={"submit"}>
                         Visualize TIM
                     </Button>
-                </Col>
-                <Col md={4}>
                 </Col>
             </Container>
         );

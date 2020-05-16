@@ -349,10 +349,10 @@ class TIMTable extends Component {
                     Epsilon
                 </td>
                 <td width={"5%"}>
-                    max tirp length
+                    Max TIRP Length
                 </td>
                 <td width={"5%"}>
-                    index same
+                    Index Same
                 </td>
                 <td width={"5%"}>
                     Mine
@@ -482,10 +482,10 @@ class TIMTable extends Component {
                     Epsilon
                 </td>
                 <td>
-                    max tirp length
+                    Max TIRP Length
                 </td>
                 <td>
-                    index same
+                    Index Same
                 </td>
                 <td>
                     Download class0
