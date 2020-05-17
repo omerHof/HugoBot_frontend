@@ -210,7 +210,7 @@ class TIMTable extends Component {
             //x.rows.push(y);
             let index_same;
             if (this.state.Class.get("0")=== undefined){
-                index_same = "false"
+                index_same = "true"
             }
             else{
                 index_same= this.state.Class.get("0")
@@ -268,6 +268,7 @@ class TIMTable extends Component {
                                     sessionStorage.setItem('DiscretizationTable', JSON.stringify(disc));
                                     console.log(karma)
                                     sessionStorage.setItem('TIMTable', JSON.stringify(karma));
+                                    sessionStorage.setItem('currTIM',)
                                     this.forceUpdate();
                                     window.alert("karmaLego Created!")
                                     //sessionStorage.setItem("allTables",JSON.stringify(myData));
