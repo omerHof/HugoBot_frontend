@@ -26,7 +26,7 @@ class Workflow extends Component{
                     {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
                             <Link to={"/Upload/Metadata"} className="btn bg-hugobot btn-arrow-right">
-                                Info
+                                {sessionStorage.getItem('datasetName') + ' '}Info
                             </Link>
                             <Link to={"/Home/Disc"} className="btn bg-hugobot btn-arrow-right">
                                 Temporal Abstraction
