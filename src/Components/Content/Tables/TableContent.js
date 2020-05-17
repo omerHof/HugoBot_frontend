@@ -43,10 +43,7 @@ class TableContent extends Component{
 
     constructor(props) {
         super(props);
-        if ("allTables" in sessionStorage){
-
-        }
-        else{
+        if ((!("allTables" in sessionStorage)) || ("datasetUploaded" in sessionStorage && sessionStorage.getItem("datasetUploaded")=="true")){
             this.getAllDatasets()
                 .then((response) => {
                     if (response.status < 400) {
@@ -61,6 +58,7 @@ class TableContent extends Component{
                         sessionStorage.setItem("allTables",JSON.stringify(myData));
                         console.log(JSON.parse(sessionStorage.allTables));
                         window.dispatchEvent(new Event("ReloadHomeTable"));
+                        sessionStorage.setItem("datasetUploaded", "false");
                     } else {
                         window.alert('uh oh, there\'s a problem!');
                     }
@@ -107,6 +105,8 @@ class TableContent extends Component{
     }
 
     render() {
+        let that = this;
+        window.addEventListener("ReloadTableContent", function(){that.forceUpdate()});
         return (
             <Router history={history}>
                 <br/>

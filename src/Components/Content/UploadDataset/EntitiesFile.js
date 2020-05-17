@@ -30,6 +30,8 @@ class EntitiesFile extends Component{
             .then((response)=>{
             console.log(response.data);
             window.alert("Dataset Uploaded Successfully!");
+            sessionStorage.setItem("datasetUploaded", "true");
+            window.dispatchEvent(new Event("ReloadTableContent"));
             history.push("/Home");
         })
     }
