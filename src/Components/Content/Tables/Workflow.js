@@ -25,7 +25,7 @@ class Workflow extends Component{
                 <Router history={History}>
                     {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
-                            <Link to={"/Upload/Metadata"} className="btn bg-hugobot btn-arrow-right">
+                            <Link to={"/Home/Info"} className="btn bg-hugobot btn-arrow-right">
                                 {sessionStorage.getItem('datasetName') + ' '}Info
                             </Link>
                             <Link to={"/Home/Disc"} className="btn bg-hugobot btn-arrow-right">

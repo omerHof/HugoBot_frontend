@@ -49,6 +49,10 @@ class Metadata extends Component{
                 else{
                     window.alert('uh oh, there\'s a problem!')
                 }
+
+        })
+        .catch(error => {
+            window.alert(error.response.data["message"]);
         });
     };
 

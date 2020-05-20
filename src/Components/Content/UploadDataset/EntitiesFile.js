@@ -28,12 +28,14 @@ class EntitiesFile extends Component{
         let datasetName = sessionStorage.getItem('datasetName');
         this.fileUpload(this.state.file,datasetName)
             .then((response)=>{
-            console.log(response.data);
-            window.alert("Dataset Uploaded Successfully!");
-            sessionStorage.setItem("datasetUploaded", "true");
-            window.dispatchEvent(new Event("ReloadTableContent"));
-            history.push("/Home");
+                window.alert(response.data['message'])
+                sessionStorage.setItem("datasetUploaded", "true");
+                window.dispatchEvent(new Event("ReloadTableContent"));
+                history.push("/Home");
         })
+        .catch(error => {
+            window.alert(error.response.data["message"]);
+        });
     }
 
     fileUpload(file,datasetName){

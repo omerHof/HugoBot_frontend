@@ -245,9 +245,9 @@ class TIMTable extends Component {
                 discretizationID,
                 max_tirp_length,
                 index_same)
-                .then((response)=>{
-                    console.log(response.data);
-                    if(response.status < 400){
+                .then((TIMResponse)=>{
+                    console.log(TIMResponse.data);
+                    if(TIMResponse.status < 400){
                         this.getDataOnDataset(sessionStorage.getItem("datasetName"))
                             .then((response) => {
                                 if (response.status < 400) {
@@ -268,7 +268,8 @@ class TIMTable extends Component {
                                     sessionStorage.setItem('DiscretizationTable', JSON.stringify(disc));
                                     console.log(karma)
                                     sessionStorage.setItem('TIMTable', JSON.stringify(karma));
-                                    sessionStorage.setItem('currTIM',)
+                                    sessionStorage.setItem('currDisc', discretizationID);
+                                    sessionStorage.setItem('currKL', TIMResponse.data['KL_id'])
                                     this.forceUpdate();
                                     window.alert("karmaLego Created!")
                                     //sessionStorage.setItem("allTables",JSON.stringify(myData));

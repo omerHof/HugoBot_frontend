@@ -43,7 +43,8 @@ class TableContent extends Component{
 
     constructor(props) {
         super(props);
-        if ((!("allTables" in sessionStorage)) || ("datasetUploaded" in sessionStorage && sessionStorage.getItem("datasetUploaded")=="true")){
+        if ((!("allTables" in sessionStorage)) ||
+            ("datasetUploaded" in sessionStorage && sessionStorage.getItem("datasetUploaded") === "true")){
             this.getAllDatasets()
                 .then((response) => {
                     if (response.status < 400) {
