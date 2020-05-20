@@ -39,7 +39,7 @@ class EntitiesFile extends Component{
     }
 
     fileUpload(file,datasetName){
-        const url = 'http://localhost:80/stepthree';
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/stepthree';
         const formData = new FormData();
         formData.append('file',file);
         formData.append('datasetName',datasetName);

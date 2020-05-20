@@ -62,7 +62,7 @@ class Info extends Component{
     }
 
     getInfo = (id) => {
-        const url = 'http://localhost:80/getInfo?id='+id;
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/getInfo?id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')
@@ -72,7 +72,7 @@ class Info extends Component{
     }
 
     getVMapFile = (id) => {
-        const url = 'http://localhost:80/getVMapFile?id='+id;
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/getVMapFile?id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')
