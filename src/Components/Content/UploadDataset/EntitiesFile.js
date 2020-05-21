@@ -59,14 +59,18 @@ class EntitiesFile extends Component{
             <Card>
                 <Card.Header className={"bg-hugobot"}>
                     <Card.Text className={"text-hugobot"}>
-                        Dataset
+                        Entity File
                     </Card.Text>
                 </Card.Header>
                 <Card.Body>
                     <Form onSubmit={this.onFormSubmit}>
                         Entities:
                         <Form.Control accept={".csv"} type={"file"} onChange={this.onChange}/>
-                        <br/><br/>
+                        <br/>
+                        Optional file, although not uploading one
+                        will disable certain features in the Visualization module.
+                        <br/>
+                        <br/>
                         <Button className={"btn btn-hugobot"} type="submit">Finish & Submit</Button>
                     </Form>
                 </Card.Body>

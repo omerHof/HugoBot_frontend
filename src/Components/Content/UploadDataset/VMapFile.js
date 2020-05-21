@@ -14,8 +14,12 @@ class VMapFile extends Component{
         this.state ={
             map: new Map(),
             onDisplay: "None",
+            VMapList: [],
             uploadFile:null
         }
+
+        this.getVariablesForVMap();
+
         this.changeViewCreate = this.changeViewCreate.bind(this);
         this.changeViewUpload = this.changeViewUpload.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
@@ -24,13 +28,13 @@ class VMapFile extends Component{
         this.onCreateSubmit = this.onCreateSubmit.bind(this);
         this.sendVMapCreate = this.sendVMapCreate.bind(this);
         this.recolorCell = this.recolorCell.bind(this);
+
+
     }
 
     UNFILLED_COLOR = 'FF8080';
     DUPLICATE_COLOR = 'FFEB99';
     OK_COLOR = '77db60';
-
-    VMapList = ["44","55","1","5","39","40","41","42","43","2","3","4","6","-1"];
 
     recolorCell(e){
         let element = document.getElementById(e.target.id+"_td");
@@ -103,10 +107,38 @@ class VMapFile extends Component{
     };
 
     renderTable = () => {
-        return this.VMapList.map((iter,idx) =>
+        return this.state.VMapList.map((iter,idx) =>
             this.renderTableRow(iter, idx)
         );
     };
+
+    getVariablesForVMap = () => {
+        let dataset_id = sessionStorage.getItem("datasetName");
+        this.getVariablesForVMapRequest(dataset_id)
+            .then((response) => {
+                if(response.status < 400){
+                    // console.log(response.data['VMapList']);
+                    this.setState({VMapList: response.data['VMapList']})
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!');
+                }
+            })
+        .catch(error => {
+            window.alert(error.response.data["message"]);
+        });
+    }
+
+    getVariablesForVMapRequest = (dataset_id) => {
+        const url = 'http://localhost:80/getVariableList?dataset_id='+dataset_id;
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url,config);
+    }
 
     onCreateSubmit(){
         let i = 0;
@@ -216,7 +248,7 @@ class VMapFile extends Component{
             <Card>
                 <Card.Header className={"bg-hugobot"}>
                     <Card.Text className={"text-hugobot"}>
-                        Dataset
+                        VMap File
                     </Card.Text>
                 </Card.Header>
                 <Card.Body>
