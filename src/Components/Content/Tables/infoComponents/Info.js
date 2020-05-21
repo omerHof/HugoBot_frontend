@@ -26,7 +26,9 @@ class Info extends Component{
             VMapFile:[]
         };
 
-        this.getInfo(sessionStorage.getItem("datasetName"))
+        let datasetName = sessionStorage.getItem("datasetName")
+
+        this.getInfo(datasetName)
             .then((response) => {
                 if (response.status < 400) {
                     this.setState({
@@ -44,7 +46,7 @@ class Info extends Component{
 
             });
 
-        this.getVMapFile(sessionStorage.getItem("datasetName"))
+        this.getVMapFile(datasetName)
             .then((response) => {
                 if (response.status < 400) {
                     let csvRows = response.data.split('\n');
@@ -55,6 +57,17 @@ class Info extends Component{
                     this.setState({
                         VMapFile:csv});
                 } else {
+                    window.alert('uh oh, there\'s a problem!');
+                }
+
+            });
+
+        this.incrementViews(datasetName)
+            .then((response) => {
+                if (response.status < 400) {
+                    this.setState({Views: response.data['views']});
+                }
+                else {
                     window.alert('uh oh, there\'s a problem!');
                 }
 
@@ -79,6 +92,16 @@ class Info extends Component{
             }
         };
         return Axios.get(url,config);
+    }
+
+    incrementViews = (id) => {
+        const url = 'http://localhost:80/incrementViews?dataset_id='+id;
+        const config = {
+            headers: {
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.post(url,config);
     }
 
     render() {
