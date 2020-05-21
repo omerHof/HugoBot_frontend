@@ -183,6 +183,8 @@ class VMapFile extends Component{
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
+                    sessionStorage.setItem("uploadPageLoc","step_3");
+                    window.dispatchEvent(new Event("ReIndicateActiveStep"));
                     history.push('/Upload/Entities');
                 }
                 else{

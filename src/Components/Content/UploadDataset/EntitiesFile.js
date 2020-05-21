@@ -30,6 +30,8 @@ class EntitiesFile extends Component{
             .then((response)=>{
                 window.alert(response.data['message'])
                 sessionStorage.setItem("datasetUploaded", "true");
+                sessionStorage.setItem("uploadPageLoc","step_1");
+                window.dispatchEvent(new Event("ReIndicateActiveStep"));
                 window.dispatchEvent(new Event("ReloadTableContent"));
                 history.push("/Home");
         })

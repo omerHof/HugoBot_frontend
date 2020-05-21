@@ -10,6 +10,12 @@
     color: white;
 }
 
-.btn-upload{
+.btn-upload, .btn-upload:hover{
+    background-color: white;
+    color: #2d3e50;
+}
 
+.btn-upload-active{
+    background-color: #2d3e50;
+    color: white;
 }
