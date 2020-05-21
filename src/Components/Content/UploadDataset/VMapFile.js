@@ -229,27 +229,27 @@ class VMapFile extends Component{
                             <i className="fas fa-upload"/>&nbsp;
                             Upload Variable Map
                         </Button>
-                        <Button className="btn-hugobot" type={"button"}>
-                            <i className="fas fa-check-square"/>&nbsp;
-                            Proceed to Step 3
-                        </Button>
+                        {/*<Button className="btn-hugobot" type={"button"}>*/}
+                        {/*    <i className="fas fa-check-square"/>&nbsp;*/}
+                        {/*    Proceed to Step 3*/}
+                        {/*</Button>*/}
                     </ButtonGroup>
                     <br/>
                     <br/>
                     <br/>
                     {this.state.onDisplay.localeCompare("Upload") === 0 && this.renderUpload()}
                     <Table>
-                        {this.renderTableHeader()}
+                        {this.state.onDisplay.localeCompare("Create") === 0 && this.renderTableHeader()}
                         <tbody>
                             {this.state.onDisplay.localeCompare("Create") === 0 && this.renderTable()}
                         </tbody>
                     </Table>
                     <br/>
-                    <br/>
-                    <br/>
-                    <Button className={"btn-hugobot"} onClick={this.onCreateSubmit}>
-                        Proceed to Step 3
-                    </Button>
+                    <div hidden = {this.state.onDisplay.localeCompare("Create") !== 0}>
+                        <Button className={"btn-hugobot"} onClick={this.onCreateSubmit}>
+                            Validate and Proceed to Step 3
+                        </Button>
+                    </div>
                 </Card.Body>
             </Card>
         );
