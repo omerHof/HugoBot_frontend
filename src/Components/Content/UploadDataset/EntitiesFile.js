@@ -71,7 +71,16 @@ class EntitiesFile extends Component{
                         will disable certain features in the Visualization module.
                         <br/>
                         <br/>
-                        <Button className={"btn btn-hugobot"} type="submit">Finish & Submit</Button>
+                        <Button className={"btn btn-hugobot"}
+                                type="submit">
+                            Finish & Submit
+                        </Button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button className={"btn btn-hugobot"}
+                                onClick={() => (this.setState({file:null}))}
+                                type={"reset"}>
+                            Clear
+                        </Button>
                     </Form>
                 </Card.Body>
             </Card>

@@ -199,6 +199,12 @@ class VMapFile extends Component{
                     <i className="fas fa-upload"/>&nbsp;
                     Upload
                 </Button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <Button className={"btn btn-hugobot"}
+                        onClick={() => (this.setState({file:null}))}
+                        type={"reset"}>
+                    Clear
+                </Button>
                 <br/>
             </Form>
         );
@@ -278,7 +284,8 @@ class VMapFile extends Component{
                     </Table>
                     <br/>
                     <div hidden = {this.state.onDisplay.localeCompare("Create") !== 0}>
-                        <Button className={"btn-hugobot"} onClick={this.onCreateSubmit}>
+                        <Button className={"btn-hugobot"}
+                                onClick={this.onCreateSubmit}>
                             Validate and Proceed to Step 3
                         </Button>
                     </div>
