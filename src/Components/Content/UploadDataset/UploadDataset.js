@@ -11,7 +11,23 @@ import WindowsCreation from "../Integration/WindowsCreation";
 import '../../../resources/style/colors.css';
 
 class UploadDataset extends Component{
+
+    // testFunc = (e) => {
+    //     window.alert(e.target.id !== undefined);
+    //     window.alert(e.target.ida);
+    //     let getAwayButtons = ["Info","Disc","KarmaLego","Classify","TIM","Visual"]
+    //     window.alert(getAwayButtons.includes(e.target.id))
+    //     if(e.target.id !== undefined && getAwayButtons.includes(e.target.id)) {
+    //         if (window.confirm("This is a test message")) {
+    //             console.log("confirmed.");
+    //         } else {
+    //             console.log("declined");
+    //         }
+    //     }
+    // }
+
     render() {
+        // window.addEventListener("click",this.testFunc)
         return (
             <Router history={history}>
                 <br/>

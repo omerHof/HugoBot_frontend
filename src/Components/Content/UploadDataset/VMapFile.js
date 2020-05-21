@@ -93,8 +93,8 @@ class VMapFile extends Component{
     renderTableRow = (placeholder, idx) => {
         return (
             <tr key={idx.toString()}>
-                <td>
-                    <Form.Control id={"id"+idx} placeholder={placeholder}/>
+                <td id={"id"+idx}>
+                    {placeholder}
                 </td>
                 <td bgcolor={this.UNFILLED_COLOR} id={"name"+idx+"_td"}>
                     <Form.Control bgcolor={this.UNFILLED_COLOR} id={"name"+idx} onChange={this.recolorCell}/>
@@ -146,9 +146,10 @@ class VMapFile extends Component{
         let id,name,desc = null;
 
         while (document.getElementById("id"+i) !== null){
-            id = document.getElementById("id" + i).value;
+            id = document.getElementById("id" + i).innerHTML;
             name = document.getElementById("name" + i).value;
             desc = document.getElementById("description" + i).value;
+            console.log([id,name,desc])
             table.push([id,name,desc]);
             i++;
         }
@@ -267,10 +268,6 @@ class VMapFile extends Component{
                             <i className="fas fa-upload"/>&nbsp;
                             Upload Variable Map
                         </Button>
-                        {/*<Button className="btn-hugobot" type={"button"}>*/}
-                        {/*    <i className="fas fa-check-square"/>&nbsp;*/}
-                        {/*    Proceed to Step 3*/}
-                        {/*</Button>*/}
                     </ButtonGroup>
                     <br/>
                     <br/>
