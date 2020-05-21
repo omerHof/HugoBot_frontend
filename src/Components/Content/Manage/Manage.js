@@ -58,7 +58,7 @@ class Manage extends Component{
     }
 
     askPermissionsRequest(datasetName){
-        const url = 'http://localhost:80/askPermission?dataset='+datasetName;
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/askPermission?dataset='+datasetName;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -93,7 +93,7 @@ class Manage extends Component{
     }
 
     acceptPermissionsRequest(datasetName,email){
-        const url = 'http://localhost:80/acceptPermission?dataset='+datasetName+"&userEmail="+email;
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/acceptPermission?dataset='+datasetName+"&userEmail="+email;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -104,7 +104,7 @@ class Manage extends Component{
     }
 
     getEmail(){
-        const url = 'http://localhost:80/getEmail';
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/getEmail';
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -172,7 +172,7 @@ class Manage extends Component{
     };
 
     loadMailRequest = () => {
-        const url = 'http://localhost:80/loadMail';
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/loadMail';
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',

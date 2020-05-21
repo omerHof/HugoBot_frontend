@@ -26,12 +26,12 @@ class TableContent extends Component{
     };
 
     getAllDatasets(){
-        const url = 'http://localhost:80/getAllDataSets';
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/getAllDataSets';
         return Axios.get(url);
     }
 
     getDataOnDataset(id){
-        const url = 'http://localhost:80/getDataOnDataset?id='+id;
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/getDataOnDataset?id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')

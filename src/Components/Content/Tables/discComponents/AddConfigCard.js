@@ -27,7 +27,7 @@ class AddConfigCard extends Component{
     optionsToRender = this.AbMethodOptions.map((option) => <option key={option}>{option}</option>);
 
     getDataOnDataset(id){
-        const url = 'http://localhost:80/getDataOnDataset?id='+id;
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/getDataOnDataset?id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')
@@ -87,7 +87,7 @@ class AddConfigCard extends Component{
     };
 
     sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,BinningByValue,KnowledgeBasedFile,GradientFile) => {
-        const url = 'http://localhost:80/addNewDisc';
+        const url = 'http://cdalab.ise.bgu.ac.il:8080/addNewDisc';
         const formData = new FormData();
         console.log(PAA);
         formData.append('PAA',PAA);
