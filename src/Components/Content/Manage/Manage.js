@@ -21,6 +21,7 @@ class Manage extends Component{
 
         this.askPermissionHandler = this.askPermissionHandler.bind(this);
         this.acceptPermissionHandler = this.acceptPermissionHandler.bind(this);
+
         this.loadMail();
     }
 
@@ -162,6 +163,7 @@ class Manage extends Component{
                     }
 
                     sessionStorage.setItem('approve',JSON.stringify(approve));
+                    window.dispatchEvent(new Event("ReloadMail"));
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
@@ -281,27 +283,36 @@ class Manage extends Component{
     };
 
     renderTableData = () => {
-        return JSON.parse(sessionStorage.getItem(this.state.pageLoc)).rows.map((iter, index) => {
-            if(this.state.pageLoc.localeCompare("allTables") !== 0 || this.isInExploreTab(iter['DatasetName'])){
-                if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
-                    &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
-                    &&(this.state.filterCategory.localeCompare("") === 0 || iter["Category"].includes(this.state.filterCategory))
-                    &&(this.state.filterOwner.localeCompare("") === 0 || iter["Owner"].includes(this.state.filterOwner))
-                    &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate)))
-                {
-                    return this.renderTableRow(iter, index);
+        let canLaunch = "approve" in sessionStorage &&
+            "askPermissions" in sessionStorage &&
+            "askPermissions" in sessionStorage &&
+            "askPermissions" in sessionStorage
+
+        if(canLaunch){
+            return JSON.parse(sessionStorage.getItem(this.state.pageLoc)).rows.map((iter, index) => {
+                if(this.state.pageLoc.localeCompare("allTables") !== 0 || this.isInExploreTab(iter['DatasetName'])){
+                    if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
+                        &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
+                        &&(this.state.filterCategory.localeCompare("") === 0 || iter["Category"].includes(this.state.filterCategory))
+                        &&(this.state.filterOwner.localeCompare("") === 0 || iter["Owner"].includes(this.state.filterOwner))
+                        &&(this.state.filterPublicPrivate.localeCompare("") === 0 || iter["PublicPrivate"].includes(this.state.filterPublicPrivate)))
+                    {
+                        return this.renderTableRow(iter, index);
+                    }
+                    else{
+                        return null;
+                    }
                 }
                 else{
                     return null;
                 }
-            }
-            else{
-                return null;
-            }
-        });
+            });
+        }
     };
 
     render() {
+        let that = this;
+        window.addEventListener("ReloadMail", function(){that.forceUpdate()});
         return (
             <Container fluid={true}>
                 <br/>
