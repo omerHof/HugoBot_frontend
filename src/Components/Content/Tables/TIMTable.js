@@ -175,6 +175,7 @@ class TIMTable extends Component {
         formData.append('index_same',index_same);
         const config = {
             headers: {
+                'x-access-token': cookies.get('auth-token'),
                 'content-type': 'multipart/form-data'
             }
         };
@@ -232,9 +233,8 @@ class TIMTable extends Component {
             let discretizationID = id;
             let max_tirp_length = naxTirpLen.value;
             let epsilon = EpsilonInput.value;
-            console.log(epsilon )
             if (epsilon === ""){
-                epsilon=1;
+                epsilon=0;
             }
             console.log(allen);
             console.log(index_same);
