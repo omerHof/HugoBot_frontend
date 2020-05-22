@@ -5,7 +5,7 @@ import {Container, Image, ListGroup, ListGroupItem} from "react-bootstrap";
 import Pic1 from "../../resources/1_toy_example.png";
 import Pic2 from "../../resources/2_toy_vmap.png";
 import Pic3 from "../../resources/3_toy_hugo_example.png";
-import Pic4 from "../../resources/4_Toy_Entity.png";
+import Pic4 from "../../resources/4_toy_entity.png";
 
 class Tutorial extends Component{
 
@@ -78,8 +78,8 @@ class Tutorial extends Component{
                 Therefore, subject ID fits the bill perfectly and we can directly use our subject ID as entity ID
                 <h5>Features to Temporal Property ID</h5>
                 By looking at our dataset, we can understand that BPM, Body Temperature and Pupil Dilation are all
-                <strong>time-dependent measurements</strong> on an entity,
-                while Subject Gender is a <strong>time-independent</strong>
+                <strong> time-dependent measurements</strong> on an entity,
+                while Subject Gender is a <strong>time-independent </strong>
                 measurement and is our representative class variable.
                 HugoBot uses whole non-negative numbers as ids for temporal properties
                 while using whole negative numbers as ids for class variables.
@@ -108,7 +108,7 @@ class Tutorial extends Component{
                 <br/>
                 We can now make our comma-delimited csv file in HugoBot™’s format.
                 We should prepend the file with the header
-                <strong>EntityID,TemporalPropertyID,TimeStamp,TemporalPropertyValue</strong>
+                <strong> EntityID,TemporalPropertyID,TimeStamp,TemporalPropertyValue </strong>
                 prior to translating our data.
                 <br/>
                 For our toy dataset, this should be the final result:
