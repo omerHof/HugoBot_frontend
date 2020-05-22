@@ -49,12 +49,12 @@ class Manage extends Component{
                 if(response.status < 400){
                     console.log('success!');
                     console.log(response.data['message']);
+                    this.loadMail();
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
                 }
             });
-        this.forceUpdate();
     }
 
     askPermissionsRequest(datasetName){
@@ -83,13 +83,12 @@ class Manage extends Component{
                 if(response.status < 400){
                     console.log('success!');
                     console.log(response.data['message']);
+                    window.dispatchEvent(new Event("ReloadMail"));
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
                 }
             });
-
-        this.forceUpdate();
     }
 
     acceptPermissionsRequest(datasetName,email){
@@ -154,14 +153,14 @@ class Manage extends Component{
                     }
 
                     sessionStorage.setItem('askPermissions',JSON.stringify(askPermissions));
-
+                    console.log(response.data["approve"])
                     let resApprove= response.data["approve"];
                     let approve = {"rows": []}
                     for (i = 0; i < response.data["approveLen"]; i++) {
+                        console.log(resApprove[parseInt(i)])
                         let y=resApprove[parseInt(i)];
                         approve.rows.push(y)
                     }
-
                     sessionStorage.setItem('approve',JSON.stringify(approve));
                     window.dispatchEvent(new Event("ReloadMail"));
                 }
