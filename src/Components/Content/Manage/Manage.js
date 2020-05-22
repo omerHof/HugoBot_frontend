@@ -21,6 +21,7 @@ class Manage extends Component{
 
         this.askPermissionHandler = this.askPermissionHandler.bind(this);
         this.acceptPermissionHandler = this.acceptPermissionHandler.bind(this);
+        this.rejectPermissionHandler = this.rejectPermissionHandler.bind(this);
 
         this.loadMail();
     }
@@ -104,6 +105,41 @@ class Manage extends Component{
 
     getEmail(){
         const url = 'http://localhost:80/getEmail';
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.get(url,config);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Reject Permission">
+    rejectPermissionHandler(e){
+        //get td id and extract inner html
+        let id = e.target.id.split('-')[1];
+        let datasetName = document.getElementById("managePermissionDatasetName-"+id).innerHTML;
+        let email = document.getElementById("managePermissionGrantee-"+id).innerHTML;
+        console.log(datasetName);
+        console.log(email);
+
+        this.rejectPermissionsRequest(datasetName,email)
+            .then((response)=>{
+                if(response.status < 400){
+                    console.log('success!');
+                    console.log(response.data['message']);
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+            });
+
+        this.forceUpdate();
+    }
+
+    rejectPermissionsRequest(datasetName,email){
+        const url = 'http://localhost:80/rejectPermission?dataset='+datasetName+"&userEmail="+email;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -241,6 +277,9 @@ class Manage extends Component{
                     <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
                         Grant Access
                     </td>
+                    <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
+                        Deny Access
+                    </td>
                 </tr>
             </thead>
         );
@@ -275,6 +314,15 @@ class Manage extends Component{
                         onClick={this.acceptPermissionHandler}>
 
                         Grant Access
+                    </Button>
+                </td>
+                <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
+                    <Button
+                        className={"btn-hugobot"}
+                        id={"rejectPermission-"+index}
+                        onClick={this.rejectPermissionHandler}>
+
+                        Deny Access
                     </Button>
                 </td>
             </tr>
