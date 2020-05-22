@@ -257,8 +257,8 @@ class AddConfigCard extends Component{
                             </Row>
                             <Row>
                                 <Container fluid={true}>
-                                    <Button className="btn-hugobot" type="submit">
-                                        <i className="fas fa-plus"/> Add Configuration
+                                    <Button className={"btn btn-hugobot"} type={"submit"}>
+                                        <i className={"fas fa-play"}/> Run
                                     </Button>
                                 </Container>
                             </Row>

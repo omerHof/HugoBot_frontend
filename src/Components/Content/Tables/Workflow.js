@@ -25,32 +25,32 @@ class Workflow extends Component{
                 <Router history={History}>
                     {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
-                            <Link className="btn bg-hugobot btn-arrow-right"
+                            <Link className="btn btn-workflow btn-arrow-right"
                                   id={"Info"}
                                   to={"/Home/Info"}>
                                 {sessionStorage.getItem('datasetName') + ' '}Info
                             </Link>
-                            <Link className="btn bg-hugobot btn-arrow-right"
+                            <Link className="btn btn-workflow btn-arrow-right"
                                   id={"Disc"}
                                   to={"/Home/Disc"} >
                                 Temporal Abstraction
                             </Link>
-                            <Link className="btn bg-hugobot btn-arrow-right"
+                            <Link className="btn btn-workflow btn-arrow-right"
                                   id={"KarmaLego"}
                                   to={"/Home/KarmaLego"} >
-                                Run KarmaLego
+                                Run Windows
                             </Link>
-                            <Link className="btn bg-hugobot btn-arrow-right"
+                            <Link className="btn btn-workflow btn-arrow-right"
                                   id={"Classify"}
                                   to={"/Home/Classifiers"} >
                                 Classification
                             </Link>
-                            <Link className="btn bg-hugobot btn-arrow-right"
+                            <Link className="btn btn-workflow btn-arrow-right"
                                   id={"TIM"}
                                   to={"/Home/TIM"} >
                                 Time Intervals Mining
                             </Link>
-                            <Link className="btn bg-hugobot btn-arrow-right"
+                            <Link className="btn btn-workflow btn-arrow-right"
                                   id={"Visual"}
                                   to={"/Home/Visualization"} >
                                 Visualization
@@ -58,27 +58,27 @@ class Workflow extends Component{
                         </div>
                     ) : (
                         <div>
-                            <div className="btn bg-hugobot btn-arrow-right"
+                            <div className="btn btn-workflow btn-arrow-right"
                                  id={"Disc"}>
                                 Info
                             </div>
-                            <div className="btn bg-hugobot btn-arrow-right"
+                            <div className="btn btn-workflow btn-arrow-right"
                                  id={"Disc"}>
                                 Temporal Abstraction
                             </div>
-                            <div className="btn bg-hugobot btn-arrow-right"
+                            <div className="btn btn-workflow btn-arrow-right"
                                  id={"KarmaLego"}>
-                                Run KarmaLego
+                                Run Windows
                             </div>
-                            <div className="btn bg-hugobot btn-arrow-right"
+                            <div className="btn btn-workflow btn-arrow-right"
                                  id={"Classify"}>
                                 Classification
                             </div>
-                            <div className="btn bg-hugobot btn-arrow-right"
+                            <div className="btn btn-workflow btn-arrow-right"
                                  id={"TIM"}>
                                 Time Intervals Mining
                             </div>
-                            <div className="btn bg-hugobot btn-arrow-right"
+                            <div className="btn btn-workflow btn-arrow-right"
                                  id={"Visual"}>
                                 Visualization
                             </div>

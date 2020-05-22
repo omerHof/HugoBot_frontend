@@ -1,11 +1,11 @@
-.btn-hugobot, .btn-hugobot:visited{
+.btn-hugobot, .btn-hugobot:visited, .btn-workflow-active{
     background-color: white;
     border-color: #2d3e50;
     border-radius: 5px;
     color: #2d3e50;
 }
 
-.btn-hugobot:active, .btn-hugobot:hover{
+.btn-hugobot:active, .btn-hugobot:hover, .btn-workflow{
     background-color: #2d3e50;
     color: white;
 }
