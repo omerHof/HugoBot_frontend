@@ -49,7 +49,7 @@ class DiscretizationTable extends Component {
     };
 
     sendDownloadRequest(id){
-        const url = 'http://cdalab.ise.bgu.ac.il:8080/getDISC';
+        const url = 'http://localhost:80/getDISC';
         const formData = new FormData();
         formData.append('disc_id',id);
         const config = {

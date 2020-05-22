@@ -175,7 +175,7 @@ class VMapFile extends Component{
     }
 
     sendVMapCreate(csv,datasetName){
-        const url = 'http://cdalab.ise.bgu.ac.il:8080/steptwocreate';
+        const url = 'http://localhost:80/steptwocreate';
         const formData = new FormData();
         formData.append('csv',csv);
         formData.append('datasetName',datasetName);
@@ -236,7 +236,7 @@ class VMapFile extends Component{
     }
 
     sendVMapUpload(file,datasetName){
-        const url = 'http://cdalab.ise.bgu.ac.il:8080/steptwo';
+        const url = 'http://localhost:80/steptwo';
         const formData = new FormData();
         formData.append('file',file);
         formData.append('datasetName',datasetName);
