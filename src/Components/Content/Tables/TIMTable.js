@@ -324,19 +324,19 @@ class TIMTable extends Component {
                     PAA-Bins-Interpolation-Method
                 </td>
                 <td width={"5%"}>
-                    Min. Vertical Support
+                    Min. Vertical Support (%)
                 </td>
                 <td width={"5%"}>
-                    Max Gap
+                    Max Gap (Integer)
                 </td>
                 <td width={"5%"}>
                     No. of Allen Relations
                 </td>
                 <td width={"5%"}>
-                    Epsilon
+                    Epsilon (Integer)
                 </td>
                 <td width={"5%"}>
-                    Max TIRP Length
+                    Max TIRP Length (Integer)
                 </td>
                 <td width={"5%"}>
                     Index Same
@@ -457,19 +457,19 @@ class TIMTable extends Component {
                     PAA-Bins-Interpolation-Method
                 </td>
                 <td>
-                    Min. Vertical Support
+                    Min. Vertical Support (Decimal)
                 </td>
                 <td>
-                    Max Gap
+                    Max Gap (Integer)
                 </td>
                 <td>
                     No. of Allen Relations
                 </td>
                 <td>
-                    Epsilon
+                    Epsilon (Integer)
                 </td>
                 <td>
-                    Max TIRP Length
+                    Max TIRP Length (Integer)
                 </td>
                 <td>
                     Index Same

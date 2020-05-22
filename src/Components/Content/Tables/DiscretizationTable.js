@@ -28,7 +28,7 @@ class DiscretizationTable extends Component {
                 console.log(response.data);
                 if(response.status < 400){
                     window.alert('success!');
-                    let blob = new Blob([response.data], {type: 'text/csv'});
+                    let blob = new Blob([response.data], {type: 'application/octet-stream'});
 
                     let a = document.createElement("a");
                     a.style = "display: none";
@@ -36,7 +36,7 @@ class DiscretizationTable extends Component {
 
                     let url = window.URL.createObjectURL(blob);
                     a.href = url;
-                    a.download = 'states.csv';
+                    a.download = 'discretization.zip';
 
                     a.click();
 
@@ -56,7 +56,8 @@ class DiscretizationTable extends Component {
             headers: {
                 'content-type': 'multipart/form-data',
                 'x-access-token': cookies.get('auth-token')
-            }
+            },
+            responseType: 'blob'
         };
         return Axios.post(url, formData,config);
     };
