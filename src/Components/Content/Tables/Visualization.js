@@ -22,12 +22,12 @@ class Visualization extends Component{
 
         let datasetName = sessionStorage.getItem("datasetName");
         let disc_id = sessionStorage.getItem("currDisc");
-        // let kl_id = sessionStorage.getItem("currKL");
+        let kl_id = sessionStorage.getItem("currKL");
 
         this.getUsername().then((UsernameResponse) => {
             this.getRawDataFile(datasetName).then((RawDataResponse) => {
                 this.getStatesFile(datasetName,disc_id).then((StatesResponse) => {
-                    this.getKLOutput(datasetName,disc_id).then((KLResponse) => {
+                    this.getKLOutput(datasetName,disc_id,kl_id).then((KLResponse) => {
                         if(UsernameResponse.status < 400 &&
                             RawDataResponse.status < 400 &&
                             StatesResponse.status < 400 &&
@@ -68,7 +68,8 @@ class Visualization extends Component{
             headers: {
                 'content-type': 'multipart/form-data',
                 'x-access-token': cookies.get('auth-token')
-            }
+            },
+            responseType: 'blob'
         };
         return Axios.get(url, config);
     }
@@ -79,18 +80,20 @@ class Visualization extends Component{
             headers: {
                 'content-type': 'multipart/form-data',
                 'x-access-token': cookies.get('auth-token')
-            }
+            },
+            responseType: 'blob'
         };
         return Axios.get(url, config);
     }
 
-    getKLOutput = (dataset_name,disc_id) => {
-        const url = 'http://localhost:80/getKLOutput?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
+    getKLOutput = (dataset_name,disc_id,kl_id) => {
+        const url = 'http://localhost:80/getKLOutput?dataset_id='+dataset_name+'&disc_id='+disc_id+'&kl_id='+kl_id;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
                 'x-access-token': cookies.get('auth-token')
-            }
+            },
+            responseType: 'blob'
         };
         return Axios.get(url, config);
     }
