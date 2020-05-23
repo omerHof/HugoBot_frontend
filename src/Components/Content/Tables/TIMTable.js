@@ -457,7 +457,7 @@ class TIMTable extends Component {
                     PAA-Bins-Interpolation-Method
                 </td>
                 <td>
-                    Min. Vertical Support (Decimal)
+                    Min. Vertical Support (%)
                 </td>
                 <td>
                     Max Gap (Integer)
