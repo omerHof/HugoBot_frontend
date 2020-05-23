@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import {Button, ButtonGroup, Card, Col, Container, Form, Row, ToggleButton} from "react-bootstrap"
+import {Button, Card, Col, Container, Form, Row} from "react-bootstrap"
 
 import Axios from "axios";
 import cookies from "js-cookie";
@@ -16,13 +16,19 @@ class AddConfigCard extends Component{
             AbMethod:"Equal Frequency",
             NumStates:"2",
             InterpolationGap:"1",
-            BinningByValue:true,
+            Binning:"regular",
             KnowledgeBasedFile:null,
             GradientFile:null
         };
     }
 
-    AbMethodOptions = ["Equal Frequency","Equal Width","Persist","KMeans","Knowledge-Based","SAX"];
+    AbMethodOptions = ["Equal Frequency",
+                       "Equal Width",
+                       "Persist",
+                       "KMeans",
+                       "SAX",
+                       "Knowledge-Based (by Value)",
+                       "Knowledge-Based (by Gradient)"];
 
     optionsToRender = this.AbMethodOptions.map((option) => <option key={option}>{option}</option>);
 
@@ -40,11 +46,11 @@ class AddConfigCard extends Component{
 
         event.preventDefault();
 
-        this.sendDisc(this.state.PAA,
+        this.sendDisc(
+            this.state.PAA,
             this.state.NumStates,
             this.state.InterpolationGap,
             this.state.AbMethod,
-            this.state.BinningByValue,
             this.state.KnowledgeBasedFile,
             this.state.GradientFile)
             .then((response)=>{
@@ -86,7 +92,7 @@ class AddConfigCard extends Component{
             .catch(error => window.alert(error.response.data['message']));
     };
 
-    sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,BinningByValue,KnowledgeBasedFile,GradientFile) => {
+    sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,KnowledgeBasedFile,GradientFile) => {
         const url = 'http://localhost:80/addNewDisc';
         const formData = new FormData();
         console.log(PAA);
@@ -94,7 +100,6 @@ class AddConfigCard extends Component{
         formData.append('AbMethod',AbMethod);
         formData.append('NumStates',NumStates);
         formData.append('InterpolationGap',InterpolationGap);
-        formData.append('BinningByValue',BinningByValue);
         formData.append('KnowledgeBasedFile',KnowledgeBasedFile);
         formData.append('GradientFile',GradientFile);
         formData.append('datasetName',sessionStorage.getItem("datasetName"));
@@ -112,12 +117,46 @@ class AddConfigCard extends Component{
     };
 
     onAbMethodChange = (e) => {
-        this.setState({AbMethod:e.target.value,
-            KnowledgeBasedFile: (e.target.value.localeCompare("Knowledge-Based") !== 0 ?
+
+        let bKB = e.target.value.localeCompare("Knowledge-Based (by Value)") === 0;
+
+        let bGrad = e.target.value.localeCompare("Knowledge-Based (by Gradient)") === 0;
+
+        let binning = "regular"
+        if(bKB){
+            binning = "kbValue";
+        }
+        else if(bGrad){
+            binning = "kbGradient";
+        }
+
+        if(bKB || bGrad){
+            // reset the regular disc. UI to its defaults (except the abstraction method)
+            this.setState({
+                PAA:"1",
+                NumStates:"2",
+                InterpolationGap:"1"});
+            document.getElementById("PAAInput").value = "";
+            document.getElementById("NumStatesInput").value = "";
+            document.getElementById("InterpolationInput").value = "";
+        }
+
+        //update application state
+        this.setState({
+            AbMethod:e.target.value,
+            Binning: binning,
+            KnowledgeBasedFile: !bKB ?
                 null :
-                this.state.KnowledgeBasedFile)});
-        if(e.target.value.localeCompare("Knowledge-Based") !== 0)
+                this.state.KnowledgeBasedFile,
+            GradientFile: !bGrad ?
+                null :
+                this.state.GradientFile});
+
+        //update UI elements
+        if(!bKB)
             document.getElementById("KB-File").value = null;
+        if(!bGrad)
+            document.getElementById("Gradient-File").value = null;
     };
 
     onNumStatesChange = (e) => {
@@ -127,15 +166,6 @@ class AddConfigCard extends Component{
     onInterpolationGapChange = (e) => {
         this.setState({InterpolationGap:e.target.value});
     };
-
-    onBinningChange = (e) => {
-        this.setState({BinningByValue:"true" === e.target.value,
-            GradientFile: (e.target.value.localeCompare("true") === 0 ?
-                null :
-                this.state.GradientFile)});
-        if(e.target.value.localeCompare("true") === 0)
-            document.getElementById("Gradient-File").value = null;
-    }
 
     onGradientFileChange = (e) => {
         this.setState({GradientFile:e.target.files[0]});
@@ -159,13 +189,60 @@ class AddConfigCard extends Component{
                             <Row>
                                 <Col md={4}>
                                     <Form.Label className={"font-weight-bold"}>
+                                        Abstraction Method
+                                    </Form.Label>
+                                    <Form.Control as={"select"}
+                                                  id={"AbMethodInput"}
+                                                  name={"AbMethodInput"}
+                                                  onChange={this.onAbMethodChange}
+                                                  placeholder={""}
+                                    >
+                                        {this.optionsToRender}
+                                    </Form.Control>
+                                </Col>
+                                <Col md={8}>
+
+                                </Col>
+                            </Row>
+                            <Row hidden={this.state.Binning.localeCompare("kbValue") !== 0}>
+                                <Col md={4}>
+                                    <Form.Label className={"font-weight-bold"}>
+                                        Knowledge-Based States File
+                                    </Form.Label>
+                                    <Form.Control accept={".csv"}
+                                                  id={"KB-File"}
+                                                  type={"file"}
+                                                  onChange={this.onKnowledgeBasedFileChange}/>
+                                </Col>
+                                <Col md={8}>
+
+                                </Col>
+                            </Row>
+                            <Row hidden={this.state.Binning.localeCompare("kbGradient") !== 0}>
+                                <Col md={4}>
+                                    <Form.Label className={"font-weight-bold"}>
+                                        Gradient File
+                                    </Form.Label>
+                                    <Form.Control accept={".csv"}
+                                                  id={"Gradient-File"}
+                                                  type={"file"}
+                                                  onChange={this.onGradientFileChange}/>
+                                </Col>
+                                <Col md={8}>
+
+                                </Col>
+                            </Row>
+                            <Row hidden={this.state.Binning.localeCompare("regular") !== 0}>
+                                <Col md={4}>
+                                    <Form.Label className={"font-weight-bold"}>
                                         PAA Window Size
                                     </Form.Label>
-                                    <Form.Control name="PAAInput"
+                                    <Form.Control id={"PAAInput"}
+                                                  name={"PAAInput"}
                                                   onChange={this.onPAAChange}
-                                                  placeholder="1"
+                                                  placeholder={"1"}
                                                   type={"text"}/>
-                                    <Form.Text className="text-muted">
+                                    <Form.Text className={"text-muted"}>
                                         Window size must be at least 1
                                     </Form.Text>
                                 </Col>
@@ -173,12 +250,13 @@ class AddConfigCard extends Component{
                                     <Form.Label className={"font-weight-bold"}>
                                         Number of States
                                     </Form.Label>
-                                    <Form.Control name="NumStatesInput"
+                                    <Form.Control id={"NumStatesInput"}
+                                                  name={"NumStatesInput"}
                                                   onChange={this.onNumStatesChange}
-                                                  placeholder="2"
+                                                  placeholder={"2"}
                                                   type={"text"}
                                     />
-                                    <Form.Text className="text-muted">
+                                    <Form.Text className={"text-muted"}>
                                         Number of states must be at least 2
                                     </Form.Text>
                                 </Col>
@@ -186,78 +264,21 @@ class AddConfigCard extends Component{
                                     <Form.Label className={"font-weight-bold"}>
                                         Interpolation Gap
                                     </Form.Label>
-                                    <Form.Control name="InterpolationInput"
+                                    <Form.Control id={"InterpolationInput"}
+                                                  name={"InterpolationInput"}
                                                   onChange={this.onInterpolationGapChange}
-                                                  placeholder="1"
+                                                  placeholder={"1"}
                                                   type={"text"}
                                     />
-                                    <Form.Text className="text-muted">
+                                    <Form.Text className={"text-muted"}>
                                         Interpolation gap must be at least 1
                                     </Form.Text>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={4}>
-                                    <Form.Label className={"font-weight-bold"}>
-                                        Abstraction Method
-                                    </Form.Label>
-                                    <Form.Control as={"select"}
-                                                  name="AbMethodInput"
-                                                  onChange={this.onAbMethodChange}
-                                                  placeholder=""
-                                    >
-                                        {this.optionsToRender}
-                                    </Form.Control>
-                                </Col>
-                                <Col md={3}>
-
-                                </Col>
-                                <Col md={5}>
-                                    <Row hidden={this.state.AbMethod.localeCompare("Knowledge-Based") !== 0}>
-                                        <Form.Label className={"font-weight-bold"}>
-                                            Knowledge-Based States File
-                                        </Form.Label>
-                                        <Form.Control accept={".csv"}
-                                                      id={"KB-File"}
-                                                      type={"file"}
-                                                      onChange={this.onKnowledgeBasedFileChange}/>
-                                    </Row>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col md={7}>
-                                    <ButtonGroup toggle={true} >
-                                        <ToggleButton checked={this.state.BinningByValue}
-                                                      className={"btn-hugobot"}
-                                                      onChange={this.onBinningChange}
-                                                      type={"radio"}
-                                                      value={true}>
-                                            Bin by Value
-                                        </ToggleButton>
-                                        <ToggleButton checked={!this.state.BinningByValue}
-                                                      className={"btn-hugobot"}
-                                                      onChange={this.onBinningChange}
-                                                      type={"radio"}
-                                                      value={false}>
-                                            Bin by Gradient
-                                        </ToggleButton>
-                                    </ButtonGroup>
-                                </Col>
-                                <Col md={5}>
-                                    <Row hidden={this.state.BinningByValue}>
-                                        <Form.Label className={"font-weight-bold"}>
-                                            Gradient File
-                                        </Form.Label>
-                                        <Form.Control accept={".csv"}
-                                                      id={"Gradient-File"}
-                                                      type={"file"}
-                                                      onChange={this.onGradientFileChange}/>
-                                    </Row>
-                                </Col>
-                            </Row>
-                            <Row>
                                 <Container fluid={true}>
-                                    <Button className={"btn btn-hugobot"} type={"submit"}>
+                                    <Button className={"btn btn-hugobot"}
+                                            type={"submit"}>
                                         <i className={"fas fa-play"}/> Run
                                     </Button>
                                 </Container>

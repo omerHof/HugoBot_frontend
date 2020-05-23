@@ -6,7 +6,6 @@ import Pic1 from "../../resources/1_toy_example.png";
 import Pic2 from "../../resources/2_toy_vmap.png";
 import Pic3 from "../../resources/3_toy_hugo_example.png";
 import Pic4 from "../../resources/4_toy_entity.png";
-import cookies from "js-cookie";
 import Axios from "axios";
 
 class Tutorial extends Component{
