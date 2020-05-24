@@ -41,7 +41,7 @@ class EntitiesFile extends Component{
     }
 
     fileUpload(file,datasetName){
-        const url = 'http://localhost:80/stepthree';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/stepthree';
         const formData = new FormData();
         formData.append('file',file);
         formData.append('datasetName',datasetName);

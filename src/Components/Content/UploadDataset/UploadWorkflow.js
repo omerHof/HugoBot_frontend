@@ -32,7 +32,7 @@ class UploadWorkflow extends Component{
         window.addEventListener("ReIndicateActiveStep", function(){that.forceUpdate()});
         return (
             <Container fluid={true}>
-                <Router history={History}>
+                <Router  history={History}>
                     <ButtonGroup  size={"lg"}>
                         <div className={this.getClassName("step_1")}>
                             Step-1 Upload Dataset File

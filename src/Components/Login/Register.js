@@ -14,7 +14,7 @@ class Register extends Component{
 
 
     sendRegistration = (firstName, lastName, institute, degree, email, pass) => {
-        const url = 'http://localhost:80/register';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/register';
         const formData = new FormData();
         formData.append('Fname',firstName);
         formData.append('Email',email);

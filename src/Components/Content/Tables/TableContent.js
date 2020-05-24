@@ -26,12 +26,12 @@ class TableContent extends Component{
     };
 
     getAllDatasets(){
-        const url = 'http://localhost:80/getAllDataSets';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getAllDataSets';
         return Axios.get(url);
     }
 
     getDataOnDataset(id){
-        const url = 'http://localhost:80/getDataOnDataset?id='+id;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getDataOnDataset?id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')
@@ -109,7 +109,7 @@ class TableContent extends Component{
         let that = this;
         window.addEventListener("ReloadTableContent", function(){that.forceUpdate()});
         return (
-            <Router history={history}>
+            <Router  history={history}>
                 <br/>
                 <Workflow/>
                 <br/>

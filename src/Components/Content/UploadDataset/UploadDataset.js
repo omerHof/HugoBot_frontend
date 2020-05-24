@@ -29,7 +29,7 @@ class UploadDataset extends Component{
     render() {
         // window.addEventListener("click",this.testFunc)
         return (
-            <Router history={history}>
+            <Router  history={history}>
                 <br/>
                 <UploadWorkflow/>
                 <br/>

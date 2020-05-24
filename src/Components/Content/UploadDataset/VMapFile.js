@@ -130,7 +130,7 @@ class VMapFile extends Component{
     }
 
     getVariablesForVMapRequest = (dataset_id) => {
-        const url = 'http://localhost:80/getVariableList?dataset_id='+dataset_id;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getVariableList?dataset_id='+dataset_id;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -175,7 +175,7 @@ class VMapFile extends Component{
     }
 
     sendVMapCreate(csv,datasetName){
-        const url = 'http://localhost:80/steptwocreate';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/steptwocreate';
         const formData = new FormData();
         formData.append('csv',csv);
         formData.append('datasetName',datasetName);
@@ -236,7 +236,7 @@ class VMapFile extends Component{
     }
 
     sendVMapUpload(file,datasetName){
-        const url = 'http://localhost:80/steptwo';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/steptwo';
         const formData = new FormData();
         formData.append('file',file);
         formData.append('datasetName',datasetName);

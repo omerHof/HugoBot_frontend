@@ -15,7 +15,7 @@ import '../../resources/style/colors.css';
 class Content extends Component{
     render(){
         return (
-            <Router history={history}>
+            <Router  history={history}>
                 <Switch>
                     <Route path={"/Home"}>
                         <TableContent/>

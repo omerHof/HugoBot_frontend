@@ -13,7 +13,7 @@ import '../../resources/style/colors.css';
 class Login extends Component{
 
     sendLogin = (email, pass) => {
-        const url = 'http://localhost:80/login';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/login';
         const formData = new FormData();
         formData.append('Email',email);
         formData.append('Password',pass);

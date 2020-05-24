@@ -75,7 +75,7 @@ class Info extends Component{
     }
 
     getInfo = (id) => {
-        const url = 'http://localhost:80/getInfo?id='+id;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getInfo?id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')
@@ -85,7 +85,7 @@ class Info extends Component{
     }
 
     getVMapFile = (id) => {
-        const url = 'http://localhost:80/getVMapFile?id='+id;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getVMapFile?id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')
@@ -95,7 +95,7 @@ class Info extends Component{
     }
 
     incrementViews = (id) => {
-        const url = 'http://localhost:80/incrementViews?dataset_id='+id;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/incrementViews?dataset_id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')

@@ -58,7 +58,7 @@ class Manage extends Component{
     }
 
     askPermissionsRequest(datasetName){
-        const url = 'http://localhost:80/askPermission?dataset='+datasetName;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/askPermission?dataset='+datasetName;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -92,7 +92,7 @@ class Manage extends Component{
     }
 
     acceptPermissionsRequest(datasetName,email){
-        const url = 'http://localhost:80/acceptPermission?dataset='+datasetName+"&userEmail="+email;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/acceptPermission?dataset='+datasetName+"&userEmail="+email;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -103,7 +103,7 @@ class Manage extends Component{
     }
 
     getEmail(){
-        const url = 'http://localhost:80/getEmail';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getEmail';
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -171,7 +171,7 @@ class Manage extends Component{
     };
 
     loadMailRequest = () => {
-        const url = 'http://localhost:80/loadMail';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/loadMail';
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -317,7 +317,7 @@ class Manage extends Component{
                 <br/>
                 <br/>
                 <Nav variant={"tabs"}>
-                    {/*<Router history={History}>*/}
+                    {/*<Router  history={History}>*/}
                         <Button
                             active={this.state.pageLoc.localeCompare("myDatasets") === 0}
                             id={"myDatasets"}

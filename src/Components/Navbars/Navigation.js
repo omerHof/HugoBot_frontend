@@ -32,7 +32,7 @@ class Navigation extends Component{
         let  that = this;
         window.addEventListener("ReloadTable1", function(){that.forceUpdate()});
         return(
-            <Router history={History}>
+            <Router  history={History}>
                 <Navbar fixed={"top"} className={"bg-hugobot"} variant={"dark"}>
                     <div className={"navbar navbar-left"}>
                         <Link to={"/"}>

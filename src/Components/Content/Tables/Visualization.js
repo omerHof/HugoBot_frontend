@@ -52,7 +52,7 @@ class Visualization extends Component{
     }
 
     getUsername = () => {
-        const url = 'http://localhost:80/getUserName';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getUserName';
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -63,7 +63,7 @@ class Visualization extends Component{
     }
 
     getRawDataFile = (dataset_name) => {
-        const url = 'http://localhost:80/getRawDataFile?id=' + dataset_name;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getRawDataFile?id=' + dataset_name;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -74,7 +74,7 @@ class Visualization extends Component{
     }
 
     getStatesFile = (dataset_name,disc_id) =>{
-        const url = 'http://localhost:80/getStatesFile?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getStatesFile?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -85,7 +85,7 @@ class Visualization extends Component{
     }
 
     getKLOutput = (dataset_name,disc_id) => {
-        const url = 'http://localhost:80/getKLOutput?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getKLOutput?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',

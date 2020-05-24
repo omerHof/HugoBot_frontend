@@ -59,7 +59,7 @@ class Metadata extends Component{
     };
 
     sendMetadata(datasetName,category,publicPrivate,file,description,datasetSource){
-        const url = 'http://localhost:80/stepone';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/stepone';
         const formData = new FormData();
         formData.append('datasetName',datasetName);
         formData.append('category',category);

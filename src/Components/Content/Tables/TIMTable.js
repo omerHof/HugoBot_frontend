@@ -28,7 +28,7 @@ class TIMTable extends Component {
     }
 
     sendDownloadRequest(id){
-        const url = 'http://localhost:80/getTIM';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getTIM';
         const formData = new FormData();
         formData.append('kl_id',id);
         formData.append('class_num','KL.txt');
@@ -73,7 +73,7 @@ class TIMTable extends Component {
     };
 
     sendDownloadRequest1(id){
-        const url = 'http://localhost:80/getTIM';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getTIM';
         const formData = new FormData();
         formData.append('kl_id',id);
         formData.append('class_num','KL-class-1.0.txt');
@@ -118,7 +118,7 @@ class TIMTable extends Component {
     };
 
     sendDownloadRequest0(id){
-        const url = 'http://localhost:80/getTIM';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getTIM';
         const formData = new FormData();
         formData.append('kl_id',id);
         formData.append('class_num','KL-class-0.0.txt');
@@ -163,7 +163,7 @@ class TIMTable extends Component {
     };
 
     sendTIM = (epsilon, maxGap, verSup, Allen, discretizationID, max_tirp_length, index_same) => {
-        const url = 'http://localhost:80/addTIM';
+        const url = 'https://cdalab.ise.bgu.ac.il/api/addTIM';
         const formData = new FormData();
         console.log(Allen)
         formData.append('Epsilon',epsilon);
@@ -183,7 +183,7 @@ class TIMTable extends Component {
     };
 
     getDataOnDataset(id){
-        const url = 'http://localhost:80/getDataOnDataset?id='+id;
+        const url = 'https://cdalab.ise.bgu.ac.il/api/getDataOnDataset?id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')

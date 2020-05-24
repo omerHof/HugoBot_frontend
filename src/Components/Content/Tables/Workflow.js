@@ -22,7 +22,7 @@ class Workflow extends Component{
         window.addEventListener("ReloadDataSet", function(){that.forceUpdate()});
         return (
             <Container fluid={true}>
-                <Router history={History}>
+                <Router  history={History}>
                     {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
                             <Link className="btn bg-hugobot btn-arrow-right"
