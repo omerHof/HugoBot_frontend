@@ -77,6 +77,7 @@ class HomeTable extends Component {
                 {
                 return (
                     <tr key={idx.toString()} onClick={() => {
+                        sessionStorage.setItem("Workflow","Info");
                         this.props.CollectData(iter["DatasetName"]);
                     }}
                     >

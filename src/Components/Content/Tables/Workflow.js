@@ -10,9 +10,6 @@ import '../../../resources/style/workflow.css';
 class Workflow extends Component{
     constructor(props) {
         super(props);
-        this.state={
-            tab:"Info"
-        };
         if ("dataSet" in sessionStorage){
 
         }
@@ -20,7 +17,7 @@ class Workflow extends Component{
     }
 
     changeTab = (e) =>{
-        this.setState({tab: e.target.id});
+        sessionStorage.setItem("Workflow",e.target.id);
     }
 
     render() {
@@ -31,7 +28,7 @@ class Workflow extends Component{
                 <Router history={History}>
                     {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
-                            <Link className={this.state.tab.localeCompare("Info") === 0 ?
+                            <Link className={sessionStorage.getItem("Workflow").localeCompare("Info") === 0 ?
                                 "btn btn-workflow-active btn-arrow-right" :
                                 "btn btn-workflow btn-arrow-right"}
                                   id={"Info"}
@@ -39,7 +36,7 @@ class Workflow extends Component{
                                   to={"/Home/Info"}>
                                 {sessionStorage.getItem('datasetName') + ' '}Info
                             </Link>
-                            <Link className={this.state.tab.localeCompare("Disc") === 0 ?
+                            <Link className={sessionStorage.getItem("Workflow").localeCompare("Disc") === 0 ?
                                 "btn btn-workflow-active btn-arrow-right" :
                                 "btn btn-workflow btn-arrow-right"}
                                   id={"Disc"}
@@ -47,7 +44,7 @@ class Workflow extends Component{
                                   to={"/Home/Disc"} >
                                 Temporal Abstraction
                             </Link>
-                            <Link className={this.state.tab.localeCompare("KarmaLego") === 0 ?
+                            <Link className={sessionStorage.getItem("Workflow").localeCompare("KarmaLego") === 0 ?
                                 "btn btn-workflow-active btn-arrow-right" :
                                 "btn btn-workflow btn-arrow-right"}
                                   id={"KarmaLego"}
@@ -55,7 +52,7 @@ class Workflow extends Component{
                                   to={"/Home/KarmaLego"} >
                                 Run Windows
                             </Link>
-                            <Link className={this.state.tab.localeCompare("Classify") === 0 ?
+                            <Link className={sessionStorage.getItem("Workflow").localeCompare("Classify") === 0 ?
                                 "btn btn-workflow-active btn-arrow-right" :
                                 "btn btn-workflow btn-arrow-right"}
                                   id={"Classify"}
@@ -63,7 +60,7 @@ class Workflow extends Component{
                                   to={"/Home/Classifiers"} >
                                 Classification
                             </Link>
-                            <Link className={this.state.tab.localeCompare("TIM") === 0 ?
+                            <Link className={sessionStorage.getItem("Workflow").localeCompare("TIM") === 0 ?
                                 "btn btn-workflow-active btn-arrow-right" :
                                 "btn btn-workflow btn-arrow-right"}
                                   id={"TIM"}
@@ -71,7 +68,7 @@ class Workflow extends Component{
                                   to={"/Home/TIM"} >
                                 Time Intervals Mining
                             </Link>
-                            <Link className={this.state.tab.localeCompare("Visual") === 0 ?
+                            <Link className={sessionStorage.getItem("Workflow").localeCompare("Visual") === 0 ?
                                 "btn btn-workflow-active btn-arrow-right" :
                                 "btn btn-workflow btn-arrow-right"}
                                   id={"Visual"}

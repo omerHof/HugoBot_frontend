@@ -34,6 +34,7 @@ class Login extends Component{
                 if(response.status < 400){
                     sessionStorage.setItem("user","true");
                     //this.context.setUser(user);
+                    sessionStorage.setItem("Workflow","Info")
                     sessionStorage.setItem("dataSets","false");
                     cookies.set('auth-token', response.data['token']);
                     history.push('/Home');
