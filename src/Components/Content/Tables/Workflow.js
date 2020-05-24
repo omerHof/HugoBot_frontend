@@ -10,12 +10,18 @@ import '../../../resources/style/workflow.css';
 class Workflow extends Component{
     constructor(props) {
         super(props);
+        this.state={
+            tab:"Info"
+        };
         if ("dataSet" in sessionStorage){
 
         }
         else{sessionStorage.setItem("dataSet","false");}
     }
 
+    changeTab = (e) =>{
+        this.setState({tab: e.target.id});
+    }
 
     render() {
         let  that = this;
@@ -25,33 +31,51 @@ class Workflow extends Component{
                 <Router history={History}>
                     {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
-                            <Link className="btn btn-workflow btn-arrow-right"
+                            <Link className={this.state.tab.localeCompare("Info") === 0 ?
+                                "btn btn-workflow-active btn-arrow-right" :
+                                "btn btn-workflow btn-arrow-right"}
                                   id={"Info"}
+                                  onClick={this.changeTab}
                                   to={"/Home/Info"}>
                                 {sessionStorage.getItem('datasetName') + ' '}Info
                             </Link>
-                            <Link className="btn btn-workflow btn-arrow-right"
+                            <Link className={this.state.tab.localeCompare("Disc") === 0 ?
+                                "btn btn-workflow-active btn-arrow-right" :
+                                "btn btn-workflow btn-arrow-right"}
                                   id={"Disc"}
+                                  onClick={this.changeTab}
                                   to={"/Home/Disc"} >
                                 Temporal Abstraction
                             </Link>
-                            <Link className="btn btn-workflow btn-arrow-right"
+                            <Link className={this.state.tab.localeCompare("KarmaLego") === 0 ?
+                                "btn btn-workflow-active btn-arrow-right" :
+                                "btn btn-workflow btn-arrow-right"}
                                   id={"KarmaLego"}
+                                  onClick={this.changeTab}
                                   to={"/Home/KarmaLego"} >
                                 Run Windows
                             </Link>
-                            <Link className="btn btn-workflow btn-arrow-right"
+                            <Link className={this.state.tab.localeCompare("Classify") === 0 ?
+                                "btn btn-workflow-active btn-arrow-right" :
+                                "btn btn-workflow btn-arrow-right"}
                                   id={"Classify"}
+                                  onClick={this.changeTab}
                                   to={"/Home/Classifiers"} >
                                 Classification
                             </Link>
-                            <Link className="btn btn-workflow btn-arrow-right"
+                            <Link className={this.state.tab.localeCompare("TIM") === 0 ?
+                                "btn btn-workflow-active btn-arrow-right" :
+                                "btn btn-workflow btn-arrow-right"}
                                   id={"TIM"}
+                                  onClick={this.changeTab}
                                   to={"/Home/TIM"} >
                                 Time Intervals Mining
                             </Link>
-                            <Link className="btn btn-workflow btn-arrow-right"
+                            <Link className={this.state.tab.localeCompare("Visual") === 0 ?
+                                "btn btn-workflow-active btn-arrow-right" :
+                                "btn btn-workflow btn-arrow-right"}
                                   id={"Visual"}
+                                  onClick={this.changeTab}
                                   to={"/Home/Visualization"} >
                                 Visualization
                             </Link>
