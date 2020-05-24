@@ -18,11 +18,13 @@ class Workflow extends Component{
 
     changeTab = (e) =>{
         sessionStorage.setItem("Workflow",e.target.id);
+        this.forceUpdate();
     }
 
     render() {
         let  that = this;
         window.addEventListener("ReloadDataSet", function(){that.forceUpdate()});
+        console.log("Info: " + sessionStorage.getItem("Workflow"))
         return (
             <Container fluid={true}>
                 <Router history={History}>
