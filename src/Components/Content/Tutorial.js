@@ -196,10 +196,10 @@ class Tutorial extends Component{
                                 <br/>
                                 <br/>
                                 <Button className={"btn btn-hugobot"}
-                                        id={"toy_vmap-btn"}
+                                        id={"toy_entity-btn"}
                                         onClick={this.handleDownloadRequest}>
                                         Entities File &nbsp;
-                                        <i className="fas fa-download" id={"toy_vmap-icon"} />
+                                        <i className="fas fa-download" id={"toy_entity-icon"} />
                                 </Button>
                                 <br/>
                                 <br/>
