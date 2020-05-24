@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import {Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
 
 import Axios from "axios";
 import cookies from "js-cookie";
@@ -26,7 +26,7 @@ class Info extends Component{
             VMapFile:[]
         };
 
-        let datasetName = sessionStorage.getItem("datasetName")
+        let datasetName = sessionStorage.getItem("datasetName");
 
         this.getInfo(datasetName)
             .then((response) => {
@@ -104,6 +104,69 @@ class Info extends Component{
         return Axios.post(url,config);
     }
 
+    handleDownloadRequest = () => {
+        let datasetName = sessionStorage.getItem("datasetName");
+
+        this.sendDownloadRequest(datasetName)
+            .then((response) => {
+                if(response.status < 400){
+                    let blob = new Blob([response.data], {type: 'application/octet-stream'});
+
+                    let a = document.createElement("a");
+                    a.style = "display: none";
+                    document.body.appendChild(a);
+
+                    let url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = datasetName + '.zip';
+
+                    a.click();
+
+                    window.URL.revokeObjectURL(url);
+                }
+                else{
+                    window.alert('uh oh, there\'s a problem!')
+                }
+        })
+        .catch(error => {
+            window.alert(error.response.data['message']);
+        });
+
+        this.incrementDownloads(datasetName)
+            .then((response) => {
+                if (response.status < 400) {
+                    this.setState({Downloads: response.data['downloads']});
+                }
+                else {
+                    window.alert('uh oh, there\'s a problem!');
+                }
+        })
+        .catch(error => {
+            window.alert(error.response.data['message']);
+        });
+    }
+
+    sendDownloadRequest = (id) => {
+        const url = 'http://localhost:80/getDatasetFiles?dataset_id='+id;
+        const config = {
+            headers: {
+                'x-access-token': cookies.get('auth-token')
+            },
+            responseType: 'blob'
+        };
+        return Axios.get(url,config);
+    }
+
+    incrementDownloads = (id) => {
+        const url = 'http://localhost:80/incrementDownload?dataset_id='+id;
+        const config = {
+            headers: {
+                'x-access-token': cookies.get('auth-token')
+            }
+        };
+        return Axios.post(url,config);
+    }
+
     render() {
         return (
             <Container fluid={true}>
@@ -121,6 +184,10 @@ class Info extends Component{
                             Views={this.state.Views}
                             Downloads={this.state.Downloads}
                         />
+                        <Button className={"btn btn-hugobot"}
+                                onClick={this.handleDownloadRequest} >
+                            <i className="fas fa-download"/> &nbsp; Download Dataset Files
+                        </Button>
                     </Col>
                     <Col md={8}>
                         <VMapCard

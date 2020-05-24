@@ -100,8 +100,10 @@ class AddConfigCard extends Component{
         formData.append('AbMethod',AbMethod);
         formData.append('NumStates',NumStates);
         formData.append('InterpolationGap',InterpolationGap);
-        formData.append('KnowledgeBasedFile',KnowledgeBasedFile);
-        formData.append('GradientFile',GradientFile);
+        if(KnowledgeBasedFile !== null && KnowledgeBasedFile !== undefined)
+            formData.append('KnowledgeBasedFile',KnowledgeBasedFile);
+        if(GradientFile !== null && GradientFile !== undefined)
+            formData.append('GradientFile',GradientFile);
         formData.append('datasetName',sessionStorage.getItem("datasetName"));
         const config = {
             headers: {
@@ -133,10 +135,10 @@ class AddConfigCard extends Component{
         if(bKB || bGrad){
             // reset the regular disc. UI to its defaults (except the abstraction method)
             this.setState({
-                PAA:"1",
+                // PAA:"1",
                 NumStates:"2",
                 InterpolationGap:"1"});
-            document.getElementById("PAAInput").value = "";
+            // document.getElementById("PAAInput").value = "";
             document.getElementById("NumStatesInput").value = "";
             document.getElementById("InterpolationInput").value = "";
         }
@@ -187,7 +189,7 @@ class AddConfigCard extends Component{
                     <Form onSubmit={this.handleSubmit}>
                         <Container fluid={true}>
                             <Row>
-                                <Col md={4}>
+                                <Col md={5}>
                                     <Form.Label className={"font-weight-bold"}>
                                         Abstraction Method
                                     </Form.Label>
@@ -200,7 +202,20 @@ class AddConfigCard extends Component{
                                         {this.optionsToRender}
                                     </Form.Control>
                                 </Col>
-                                <Col md={8}>
+                                <Col md={5}>
+                                    <Form.Label className={"font-weight-bold"}>
+                                        PAA Window Size
+                                    </Form.Label>
+                                    <Form.Control id={"PAAInput"}
+                                                  name={"PAAInput"}
+                                                  onChange={this.onPAAChange}
+                                                  placeholder={"1"}
+                                                  type={"text"}/>
+                                    <Form.Text className={"text-muted"}>
+                                        Window size must be at least 1
+                                    </Form.Text>
+                                </Col>
+                                <Col md={2}>
 
                                 </Col>
                             </Row>
@@ -233,20 +248,7 @@ class AddConfigCard extends Component{
                                 </Col>
                             </Row>
                             <Row hidden={this.state.Binning.localeCompare("regular") !== 0}>
-                                <Col md={4}>
-                                    <Form.Label className={"font-weight-bold"}>
-                                        PAA Window Size
-                                    </Form.Label>
-                                    <Form.Control id={"PAAInput"}
-                                                  name={"PAAInput"}
-                                                  onChange={this.onPAAChange}
-                                                  placeholder={"1"}
-                                                  type={"text"}/>
-                                    <Form.Text className={"text-muted"}>
-                                        Window size must be at least 1
-                                    </Form.Text>
-                                </Col>
-                                <Col md={4}>
+                                <Col md={5}>
                                     <Form.Label className={"font-weight-bold"}>
                                         Number of States
                                     </Form.Label>
@@ -260,7 +262,7 @@ class AddConfigCard extends Component{
                                         Number of states must be at least 2
                                     </Form.Text>
                                 </Col>
-                                <Col md={4}>
+                                <Col md={5}>
                                     <Form.Label className={"font-weight-bold"}>
                                         Interpolation Gap
                                     </Form.Label>
@@ -273,6 +275,9 @@ class AddConfigCard extends Component{
                                     <Form.Text className={"text-muted"}>
                                         Interpolation gap must be at least 1
                                     </Form.Text>
+                                </Col>
+                                <Col md={2}>
+
                                 </Col>
                             </Row>
                             <Row>
