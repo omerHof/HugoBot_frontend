@@ -95,16 +95,19 @@ class AddConfigCard extends Component{
     sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,KnowledgeBasedFile,GradientFile,GradientWindowSize) => {
         const url = 'http://localhost:80/addNewDisc';
         const formData = new FormData();
-        console.log(PAA);
-        formData.append('PAA',PAA);
         formData.append('AbMethod',AbMethod);
-        formData.append('NumStates',NumStates);
+        formData.append('PAA',PAA);
         formData.append('InterpolationGap',InterpolationGap);
-        if(KnowledgeBasedFile !== null && KnowledgeBasedFile !== undefined)
+        if(KnowledgeBasedFile !== null && KnowledgeBasedFile !== undefined){
             formData.append('KnowledgeBasedFile',KnowledgeBasedFile);
-        if(GradientFile !== null && GradientFile !== undefined)
+        }
+        else if(GradientFile !== null && GradientFile !== undefined){
             formData.append('GradientFile',GradientFile);
             formData.append('GradientWindowSize',GradientWindowSize);
+        }
+        else{
+            formData.append('NumStates',NumStates);
+        }
         formData.append('datasetName',sessionStorage.getItem("datasetName"));
         const config = {
             headers: {
@@ -204,6 +207,12 @@ class AddConfigCard extends Component{
                                     >
                                         {this.optionsToRender}
                                     </Form.Control>
+                                    <div hidden={this.state.Binning.localeCompare("kbGradient") !== 0}>
+                                        <br/>
+                                        <Form.Text className={"text-muted"}>
+                                            NOTE: Gradient discretizations can take a while
+                                        </Form.Text>
+                                    </div>
                                 </Col>
                                 <Col md={4}>
                                     <Form.Label className={"font-weight-bold"}>
