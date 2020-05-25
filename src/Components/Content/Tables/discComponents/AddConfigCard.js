@@ -18,7 +18,8 @@ class AddConfigCard extends Component{
             InterpolationGap:"1",
             Binning:"regular",
             KnowledgeBasedFile:null,
-            GradientFile:null
+            GradientFile:null,
+            GradientWindowSize: "2"
         };
     }
 
@@ -27,8 +28,8 @@ class AddConfigCard extends Component{
                        "Persist",
                        "KMeans",
                        "SAX",
-                       "Knowledge-Based (by Value)",
-                       "Knowledge-Based (by Gradient)"];
+                       "Knowledge-Based",
+                       "Gradient"];
 
     optionsToRender = this.AbMethodOptions.map((option) => <option key={option}>{option}</option>);
 
@@ -52,7 +53,8 @@ class AddConfigCard extends Component{
             this.state.InterpolationGap,
             this.state.AbMethod,
             this.state.KnowledgeBasedFile,
-            this.state.GradientFile)
+            this.state.GradientFile,
+            this.state.GradientWindowSize)
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
@@ -76,10 +78,8 @@ class AddConfigCard extends Component{
                                 sessionStorage.setItem('DiscretizationTable', JSON.stringify(disc));
                                 sessionStorage.setItem('TIMTable', JSON.stringify(karma));
                                 window.dispatchEvent(new Event("ReloadTable"));
-                                //sessionStorage.setItem("allTables",JSON.stringify(myData));
-                                //console.log(JSON.parse(sessionStorage.allTables));
-                                //window.dispatchEvent(new Event("ReloadHomeTable"));
-                            } else {
+                            }
+                            else {
                                 window.alert('there is no such file to download');
                             }
                         });
@@ -92,7 +92,7 @@ class AddConfigCard extends Component{
             .catch(error => window.alert(error.response.data['message']));
     };
 
-    sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,KnowledgeBasedFile,GradientFile) => {
+    sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,KnowledgeBasedFile,GradientFile,GradientWindowSize) => {
         const url = 'http://localhost:80/addNewDisc';
         const formData = new FormData();
         console.log(PAA);
@@ -104,6 +104,7 @@ class AddConfigCard extends Component{
             formData.append('KnowledgeBasedFile',KnowledgeBasedFile);
         if(GradientFile !== null && GradientFile !== undefined)
             formData.append('GradientFile',GradientFile);
+            formData.append('GradientWindowSize',GradientWindowSize);
         formData.append('datasetName',sessionStorage.getItem("datasetName"));
         const config = {
             headers: {
@@ -120,45 +121,43 @@ class AddConfigCard extends Component{
 
     onAbMethodChange = (e) => {
 
-        let bKB = e.target.value.localeCompare("Knowledge-Based (by Value)") === 0;
+        let bKB = e.target.value.localeCompare("Knowledge-Based") === 0;
 
-        let bGrad = e.target.value.localeCompare("Knowledge-Based (by Gradient)") === 0;
+        let bGrad = e.target.value.localeCompare("Gradient") === 0;
 
-        let binning = "regular"
+        let binning;
+
         if(bKB){
             binning = "kbValue";
         }
-        else if(bGrad){
+        else if(bGrad) {
             binning = "kbGradient";
         }
-
-        if(bKB || bGrad){
-            // reset the regular disc. UI to its defaults (except the abstraction method)
-            this.setState({
-                // PAA:"1",
-                NumStates:"2",
-                InterpolationGap:"1"});
-            // document.getElementById("PAAInput").value = "";
-            document.getElementById("NumStatesInput").value = "";
-            document.getElementById("InterpolationInput").value = "";
+        else{
+            binning = "regular"
         }
 
         //update application state
         this.setState({
             AbMethod:e.target.value,
             Binning: binning,
-            KnowledgeBasedFile: !bKB ?
-                null :
-                this.state.KnowledgeBasedFile,
-            GradientFile: !bGrad ?
-                null :
-                this.state.GradientFile});
+            KnowledgeBasedFile: !bKB ? null : this.state.KnowledgeBasedFile,
+            GradientFile: !bGrad ? null : this.state.GradientFile,
+            GradientWindowSize: !bGrad ? "2" : this.state.GradientWindowSize,
+            NumStates: (bKB || bGrad) ? "2" : this.state.NumStates
+        });
 
         //update UI elements
         if(!bKB)
             document.getElementById("KB-File").value = null;
         if(!bGrad)
             document.getElementById("Gradient-File").value = null;
+            document.getElementById("GradientWindowInput").value = null;
+
+        if(bKB || bGrad){
+            // reset the regular disc. UI to its defaults
+            document.getElementById("NumStatesInput").value = "";
+        }
     };
 
     onNumStatesChange = (e) => {
@@ -171,6 +170,10 @@ class AddConfigCard extends Component{
 
     onGradientFileChange = (e) => {
         this.setState({GradientFile:e.target.files[0]});
+    }
+
+    onGradientWindowSizeChange = (e) => {
+        this.setState({GradientWindowSize:e.target.value});
     }
 
     onKnowledgeBasedFileChange = (e) => {
@@ -189,7 +192,7 @@ class AddConfigCard extends Component{
                     <Form onSubmit={this.handleSubmit}>
                         <Container fluid={true}>
                             <Row>
-                                <Col md={5}>
+                                <Col md={4}>
                                     <Form.Label className={"font-weight-bold"}>
                                         Abstraction Method
                                     </Form.Label>
@@ -202,7 +205,7 @@ class AddConfigCard extends Component{
                                         {this.optionsToRender}
                                     </Form.Control>
                                 </Col>
-                                <Col md={5}>
+                                <Col md={4}>
                                     <Form.Label className={"font-weight-bold"}>
                                         PAA Window Size
                                     </Form.Label>
@@ -215,22 +218,19 @@ class AddConfigCard extends Component{
                                         Window size must be at least 1
                                     </Form.Text>
                                 </Col>
-                                <Col md={2}>
-
-                                </Col>
-                            </Row>
-                            <Row hidden={this.state.Binning.localeCompare("kbValue") !== 0}>
                                 <Col md={4}>
                                     <Form.Label className={"font-weight-bold"}>
-                                        Knowledge-Based States File
+                                        Interpolation Gap
                                     </Form.Label>
-                                    <Form.Control accept={".csv"}
-                                                  id={"KB-File"}
-                                                  type={"file"}
-                                                  onChange={this.onKnowledgeBasedFileChange}/>
-                                </Col>
-                                <Col md={8}>
-
+                                    <Form.Control id={"InterpolationInput"}
+                                                  name={"InterpolationInput"}
+                                                  onChange={this.onInterpolationGapChange}
+                                                  placeholder={"1"}
+                                                  type={"text"}
+                                    />
+                                    <Form.Text className={"text-muted"}>
+                                        Interpolation gap must be at least 1
+                                    </Form.Text>
                                 </Col>
                             </Row>
                             <Row hidden={this.state.Binning.localeCompare("kbGradient") !== 0}>
@@ -243,12 +243,34 @@ class AddConfigCard extends Component{
                                                   type={"file"}
                                                   onChange={this.onGradientFileChange}/>
                                 </Col>
-                                <Col md={8}>
+                                <Col md={4}>
+                                    <Form.Label className={"font-weight-bold"}>
+                                        Gradient Window Size
+                                    </Form.Label>
+                                    <Form.Control id={"GradientWindowInput"}
+                                                  name={"GradientWindowInput"}
+                                                  onChange={this.onGradientWindowSizeChange}
+                                                  placeholder={"2"}
+                                                  type={"text"}/>
+                                    <Form.Text className={"text-muted"}>
+                                        Window size must be at least 2
+                                    </Form.Text>
+                                </Col>
+                                <Col md={4}>
 
                                 </Col>
                             </Row>
-                            <Row hidden={this.state.Binning.localeCompare("regular") !== 0}>
-                                <Col md={5}>
+                            <Row>
+                                <Col hidden={this.state.Binning.localeCompare("kbValue") !== 0} md={4}>
+                                    <Form.Label className={"font-weight-bold"}>
+                                        Knowledge-Based States File
+                                    </Form.Label>
+                                    <Form.Control accept={".csv"}
+                                                  id={"KB-File"}
+                                                  type={"file"}
+                                                  onChange={this.onKnowledgeBasedFileChange}/>
+                                </Col>
+                                <Col hidden={this.state.Binning.localeCompare("regular") !== 0} md={4}>
                                     <Form.Label className={"font-weight-bold"}>
                                         Number of States
                                     </Form.Label>
@@ -260,20 +282,6 @@ class AddConfigCard extends Component{
                                     />
                                     <Form.Text className={"text-muted"}>
                                         Number of states must be at least 2
-                                    </Form.Text>
-                                </Col>
-                                <Col md={5}>
-                                    <Form.Label className={"font-weight-bold"}>
-                                        Interpolation Gap
-                                    </Form.Label>
-                                    <Form.Control id={"InterpolationInput"}
-                                                  name={"InterpolationInput"}
-                                                  onChange={this.onInterpolationGapChange}
-                                                  placeholder={"1"}
-                                                  type={"text"}
-                                    />
-                                    <Form.Text className={"text-muted"}>
-                                        Interpolation gap must be at least 1
                                     </Form.Text>
                                 </Col>
                                 <Col md={2}>
