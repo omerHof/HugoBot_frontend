@@ -23,13 +23,21 @@ class AddConfigCard extends Component{
         };
     }
 
-    AbMethodOptions = ["Equal Frequency",
-                       "Equal Width",
-                       "Persist",
-                       "KMeans",
-                       "SAX",
-                       "Knowledge-Based",
-                       "Gradient"];
+    AbMethodOptions = [
+        "Equal Frequency",
+        "Equal Width",
+        "Persist",
+        "KMeans",
+        "SAX",
+        "Knowledge-Based",
+        "Gradient",
+        'TD4C-Cosine',
+        'TD4C-Diffmax',
+        'TD4C-Diffsum',
+        'TD4C-Entropy',
+        'TD4C-Entropy-IG',
+        'TD4C-SKL'
+    ];
 
     optionsToRender = this.AbMethodOptions.map((option) => <option key={option}>{option}</option>);
 
@@ -98,15 +106,15 @@ class AddConfigCard extends Component{
         formData.append('AbMethod',AbMethod);
         formData.append('PAA',PAA);
         formData.append('InterpolationGap',InterpolationGap);
-        if(KnowledgeBasedFile !== null && KnowledgeBasedFile !== undefined){
-            formData.append('KnowledgeBasedFile',KnowledgeBasedFile);
+        if(this.state.Binning.localeCompare("regular") === 0){
+            formData.append('NumStates',NumStates);
         }
-        else if(GradientFile !== null && GradientFile !== undefined){
+        else if(this.state.Binning.localeCompare("kbGradient") === 0){
             formData.append('GradientFile',GradientFile);
             formData.append('GradientWindowSize',GradientWindowSize);
         }
-        else{
-            formData.append('NumStates',NumStates);
+        else if(this.state.Binning.localeCompare("kbValue") === 0) {
+            formData.append('KnowledgeBasedFile', KnowledgeBasedFile);
         }
         formData.append('datasetName',sessionStorage.getItem("datasetName"));
         const config = {
