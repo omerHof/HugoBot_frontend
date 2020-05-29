@@ -28,13 +28,13 @@ class Visualization extends Component{
         this.getUsername().then((UsernameResponse) => {
             this.getRawDataFile(datasetName).then((RawDataResponse) => {
                 this.getStatesFile(datasetName,disc_id).then((StatesResponse) => {
-                    this.getKLOutput(datasetName,disc_id,kl_id,"0").then((KL0Response) => {
+                    this.getKLClassOutput(datasetName,disc_id,kl_id,"0").then((KL0Response) => {
                         if(UsernameResponse.status < 400 &&
                             RawDataResponse.status < 400 &&
                             StatesResponse.status < 400)
                         {
                             if(KL0Response.status < 400){//if class 0 exists then class 1 exists as well
-                                this.getKLOutput(datasetName,disc_id,kl_id,"1").then((KL1Response) => {
+                                this.getKLClassOutput(datasetName,disc_id,kl_id,"1").then((KL1Response) => {
                                     if(KL1Response.status < 400){
                                         this.setState({
                                             data_set_name:datasetName,
@@ -52,28 +52,37 @@ class Visualization extends Component{
                                     }
                                 });
                             }
-                            else{//if class 0 doesn't exist, ask for the regular KL.txt, no classes
-                                this.getKLOutput(datasetName,disc_id,kl_id,"both").then((KLResponse) => {
-                                    if(KLResponse.status < 400){
-                                        this.setState({
-                                            data_set_name:datasetName,
-                                            username:UsernameResponse.data['Name'],
-                                            output:KLResponse.data,
-                                            timestamp:"Years",
-                                            rawData:RawDataResponse.data,
-                                            states:StatesResponse.data
-                                        });
-                                    }
-                                    else{
-                                        //unexpected scenario, neither Kl-class-0.0.txt nor KL.txt exist, don't send request
-                                        window.alert('uh oh, there\'s a problem!');
-                                    }
-                                });
-                            }
                         }
                         else{
                             //unexpected scenario, either username, raw data or states requests failed, don't send request
                             window.alert('uh oh, there\'s a problem!');
+                        }
+                    })
+                    .catch(error => {
+                        if(error.response.status === 404){
+                            this.getKLOutput(datasetName,disc_id,kl_id).then((KLResponse) => {
+                                if(KLResponse.status < 400){
+                                    this.setState({
+                                        data_set_name:datasetName,
+                                        username:UsernameResponse.data['Name'],
+                                        output:KLResponse.data,
+                                        output_0:null,
+                                        timestamp:"Years",
+                                        rawData:RawDataResponse.data,
+                                        states:StatesResponse.data
+                                    });
+                                }
+                                else{
+                                    window.alert('uh oh, there\'s a problem!');
+                                }
+                            })
+                            .catch(error => {
+                                //unexpected scenario, neither Kl-class-0.0.txt nor KL.txt exist, don't send request
+                                window.alert(error.response.data['message']);
+                            });
+                        }
+                        else{
+                            window.alert(error.response.data['message']);
                         }
                     });
                 });
@@ -116,21 +125,27 @@ class Visualization extends Component{
         return Axios.get(url, config);
     }
 
-    getKLOutput = (dataset_name,disc_id,kl_id,num_class) => {
-        let url;
-        if(num_class.localeCompare("both") === 0){
-            url = 'http://localhost:80/getKLOutput?' +
-                'dataset_id=' + dataset_name +
-                '&disc_id=' + disc_id +
-                '&kl_id=' + kl_id;
-        }
-        else{
-            url = 'http://localhost:80/getKLOutput?' +
-                'dataset_id=' + dataset_name +
-                '&disc_id=' + disc_id +
-                '&kl_id=' + kl_id +
-                '&class=' + num_class;
-        }
+    getKLOutput = (dataset_name,disc_id,kl_id) => {
+        const url = 'http://localhost:80/getKLOutput?' +
+            'dataset_id=' + dataset_name +
+            '&disc_id=' + disc_id +
+            '&kl_id=' + kl_id;
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            },
+            responseType: 'blob'
+        };
+        return Axios.get(url, config);
+    }
+
+    getKLClassOutput = (dataset_name,disc_id,kl_id,num_class) => {
+        const url = 'http://localhost:80/getKLOutput?' +
+            'dataset_id=' + dataset_name +
+            '&disc_id=' + disc_id +
+            '&kl_id=' + kl_id +
+            '&class=' + num_class;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -150,7 +165,7 @@ class Visualization extends Component{
         formData.append('className','class1name');
         formData.append('output',this.state.output);
         formData.append('secondclassName','class0name');
-        formData.append('timestamp','Years');
+        formData.append('timestamp','Seconds');
         formData.append('comments','no comment');
         formData.append('rawData',this.state.rawData)
         formData.append('states',this.state.states);
@@ -173,10 +188,7 @@ class Visualization extends Component{
                 console.log(response.data);
                 if(response.status < 400){
                     window.alert('success!');
-                    let win = window.open(
-                        "http://localhost:3001/Client_final_project_6.5/routing/index.html",
-                        '_blank');
-                    win.focus();
+                    window.location.replace("http://localhost:3001/Client_final_project_6.5/routing/index.html")
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
