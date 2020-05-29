@@ -12,11 +12,11 @@ class Manage extends Component{
     constructor(props) {
         super(props);
         this.state = {  pageLoc: "myDatasets",
-                        filterDatasetName: "",
-                        filterCategory: "",
-                        filterSize: "",
-                        filterOwner: "",
-                        filterPublicPrivate: ""
+            filterDatasetName: "",
+            filterCategory: "",
+            filterSize: "",
+            filterOwner: "",
+            filterPublicPrivate: ""
         }
 
         this.askPermissionHandler = this.askPermissionHandler.bind(this);
@@ -84,7 +84,7 @@ class Manage extends Component{
                 if(response.status < 400){
                     console.log('success!');
                     console.log(response.data['message']);
-                    window.dispatchEvent(new Event("ReloadMail"));
+                    this.loadMail();
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
@@ -135,7 +135,7 @@ class Manage extends Component{
                 }
             });
 
-        this.forceUpdate();
+        this.loadMail();
     }
 
     rejectPermissionsRequest(datasetName,email){
@@ -155,9 +155,21 @@ class Manage extends Component{
         this.loadMailRequest()
             .then((response)=>{
                 if(response.status < 400){
+                    let i;
+                    let restablesToExplore= response.data["tablesToExplore"];
+                    console.log('gerghrtewghtewr')
+                    console.log(response.data["tablesToExplore"])
+                    console.log('gerghrtewghtewr')
+                    let tablesToExplore = {"rows": []}
+                    for (i = 0; i < response.data["tablesToExploreLen"]; i++) {
+                        let y=restablesToExplore[parseInt(i)];
+                        tablesToExplore.rows.push(y)
+                    }
+
+                    sessionStorage.setItem('tablesToExplore',JSON.stringify(tablesToExplore));
+
 
                     let resMyDatasets= response.data["myDatasets"];
-                    let i;
                     let myDatasets = {"rows": []}
                     for (i = 0; i < response.data["myDatasetsLen"]; i++) {
                         let y=resMyDatasets[parseInt(i)];
@@ -222,7 +234,7 @@ class Manage extends Component{
     //<editor-fold desc="Tab Switch Logic">
     clicked = (id) => {
         this.setState({pageLoc: id})
-        this.forceUpdate();
+        this.forceUpdate()
     };
 
     isInTab = (tab,datasetName) => {
@@ -252,35 +264,35 @@ class Manage extends Component{
     renderTableHeader = () => {
         return(
             <thead>
-                <tr>
-                    <td>
-                        <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
-                    </td>
-                    <td>
-                        <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
-                    </td>
-                    <td>
-                        <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
-                    </td>
-                    <td>
-                        <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
-                    </td>
-                    <td>
-                        <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
-                    </td>
-                    <td hidden={this.state.pageLoc.localeCompare("allTables") !== 0}>
-                        Request Access
-                    </td>
-                    <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
-                        Grantee
-                    </td>
-                    <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
-                        Grant Access
-                    </td>
-                    <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
-                        Deny Access
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    <Form.Control id={"datasetName"} onChange={this.filter} placeholder={"Dataset Name"} type={"text"}/>
+                </td>
+                <td>
+                    <Form.Control id={"category"} onChange={this.filter} placeholder={"Category"} type={"text"}/>
+                </td>
+                <td>
+                    <Form.Control id={"size"} onChange={this.filter} placeholder={"Size"} type={"text"}/>
+                </td>
+                <td>
+                    <Form.Control id={"owner"} onChange={this.filter} placeholder={"Owner"} type={"text"}/>
+                </td>
+                <td>
+                    <Form.Control id={"publicPrivate"} onChange={this.filter} placeholder={"Public/Private"} type={"text"}/>
+                </td>
+                <td hidden={this.state.pageLoc.localeCompare("tablesToExplore") !== 0}>
+                    Request Access
+                </td>
+                <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
+                    Grantee
+                </td>
+                <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
+                    Grant Access
+                </td>
+                <td hidden={this.state.pageLoc.localeCompare("approve") !== 0}>
+                    Deny Access
+                </td>
+            </tr>
             </thead>
         );
     };
@@ -295,7 +307,7 @@ class Manage extends Component{
                 <td>{row["Size"]}</td>
                 <td>{row["Owner"]}</td>
                 <td>{row["PublicPrivate"]}</td>
-                <td hidden={this.state.pageLoc.localeCompare("allTables") !== 0}>
+                <td hidden={this.state.pageLoc.localeCompare("tablesToExplore") !== 0}>
                     <Button
                         className={"btn-hugobot"}
                         id={"askPermission-"+index}
@@ -337,7 +349,7 @@ class Manage extends Component{
 
         if(canLaunch){
             return JSON.parse(sessionStorage.getItem(this.state.pageLoc)).rows.map((iter, index) => {
-                if(this.state.pageLoc.localeCompare("allTables") !== 0 || this.isInExploreTab(iter['DatasetName'])){
+                if(this.state.pageLoc.localeCompare("tablesToExplore") !== 0 || this.isInExploreTab(iter['DatasetName'])){
                     if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
                         &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))
                         &&(this.state.filterCategory.localeCompare("") === 0 || iter["Category"].includes(this.state.filterCategory))
@@ -366,46 +378,46 @@ class Manage extends Component{
                 <br/>
                 <Nav variant={"tabs"}>
                     {/*<Router history={History}>*/}
-                        <Button
-                            active={this.state.pageLoc.localeCompare("myDatasets") === 0}
-                            id={"myDatasets"}
-                            className={"nav-link btn-hugobot"}
-                            onClick={this.clicked.bind(null,"myDatasets")}>
+                    <Button
+                        active={this.state.pageLoc.localeCompare("myDatasets") === 0}
+                        id={"myDatasets"}
+                        className={"nav-link btn-hugobot"}
+                        onClick={this.clicked.bind(null,"myDatasets")}>
 
-                            My Datasets
-                        </Button>
-                        <Button
-                            active={this.state.pageLoc.localeCompare("approve") === 0}
-                            id={"approve"}
-                            className={"nav-link btn-hugobot"}
-                            onClick={this.clicked.bind(null,"approve")}>
+                        My Datasets
+                    </Button>
+                    <Button
+                        active={this.state.pageLoc.localeCompare("approve") === 0}
+                        id={"approve"}
+                        className={"nav-link btn-hugobot"}
+                        onClick={this.clicked.bind(null,"approve")}>
 
-                            Approve
-                        </Button>
-                        <Button
-                            active={this.state.pageLoc.localeCompare("myPermissions") === 0}
-                            id={"myPermissions"}
-                            className={"nav-link btn-hugobot"}
-                            onClick={this.clicked.bind(null,"myPermissions")}>
+                        Approve
+                    </Button>
+                    <Button
+                        active={this.state.pageLoc.localeCompare("myPermissions") === 0}
+                        id={"myPermissions"}
+                        className={"nav-link btn-hugobot"}
+                        onClick={this.clicked.bind(null,"myPermissions")}>
 
-                            Shared with me
-                        </Button>
-                        <Button
-                            active={this.state.pageLoc.localeCompare("askPermissions") === 0}
-                            id={"askPermissions"}
-                            className={"nav-link btn-hugobot"}
-                            onClick={this.clicked.bind(null,"askPermissions")}>
+                        Shared with me
+                    </Button>
+                    <Button
+                        active={this.state.pageLoc.localeCompare("askPermissions") === 0}
+                        id={"askPermissions"}
+                        className={"nav-link btn-hugobot"}
+                        onClick={this.clicked.bind(null,"askPermissions")}>
 
-                            Pending Approval
-                        </Button>
-                        <Button
-                            active={this.state.pageLoc.localeCompare("allTables") === 0}
-                            id={"allTables"}
-                            className={"nav-link btn-hugobot"}
-                            onClick={this.clicked.bind(null,"allTables")}>
+                        Pending Approval
+                    </Button>
+                    <Button
+                        active={this.state.pageLoc.localeCompare("tablesToExplore") === 0}
+                        id={"tablesToExplore"}
+                        className={"nav-link btn-hugobot"}
+                        onClick={this.clicked.bind(null,"tablesToExplore")}>
 
-                            Explore...
-                        </Button>
+                        Explore...
+                    </Button>
                     {/*</Router>*/}
                 </Nav>
                 <br/>
