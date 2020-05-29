@@ -165,7 +165,7 @@ class Visualization extends Component{
         formData.append('className','class1name');
         formData.append('output',this.state.output);
         formData.append('secondclassName','class0name');
-        formData.append('timestamp','Seconds');
+        formData.append('timestamp','Minutes');
         formData.append('comments','no comment');
         formData.append('rawData',this.state.rawData)
         formData.append('states',this.state.states);
