@@ -5,6 +5,7 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import Axios from "axios";
 import cookies from "js-cookie";
 
+import History from "../../../History";
 
 class Visualization extends Component{
 
@@ -21,73 +22,81 @@ class Visualization extends Component{
             states:null
         }
 
-        let datasetName = sessionStorage.getItem("datasetName");
-        let disc_id = sessionStorage.getItem("currDisc");
-        let kl_id = sessionStorage.getItem("currKL");
+        if(!("datasetName" in sessionStorage && "currDisc" in sessionStorage && "currKL" in sessionStorage)){
+            window.alert("please run a Time Interval Mining before proceeding to the Visualization module.")
+            sessionStorage.setItem("Workflow","TIM");
+            History.push("/Home/TIM");
+        }
+        else{
 
-        this.getUsername().then((UsernameResponse) => {
-            this.getRawDataFile(datasetName).then((RawDataResponse) => {
-                this.getStatesFile(datasetName,disc_id).then((StatesResponse) => {
-                    this.getKLClassOutput(datasetName,disc_id,kl_id,"0").then((KL0Response) => {
-                        if(UsernameResponse.status < 400 &&
-                            RawDataResponse.status < 400 &&
-                            StatesResponse.status < 400)
-                        {
-                            if(KL0Response.status < 400){//if class 0 exists then class 1 exists as well
-                                this.getKLClassOutput(datasetName,disc_id,kl_id,"1").then((KL1Response) => {
-                                    if(KL1Response.status < 400){
-                                        this.setState({
-                                            data_set_name:datasetName,
-                                            username:UsernameResponse.data['Name'],
-                                            output:KL1Response.data,
-                                            output_0:KL0Response.data,
-                                            timestamp:"Years",
-                                            rawData:RawDataResponse.data,
-                                            states:StatesResponse.data
-                                        });
-                                    }
-                                    else{
-                                        //unexpected scenario, class 0 exists but not 1, don't send a request
-                                        window.alert('uh oh, there\'s a problem!');
-                                    }
-                                });
-                            }
-                        }
-                        else{
-                            //unexpected scenario, either username, raw data or states requests failed, don't send request
-                            window.alert('uh oh, there\'s a problem!');
-                        }
-                    })
-                    .catch(error => {
-                        if(error.response.status === 404){
-                            this.getKLOutput(datasetName,disc_id,kl_id).then((KLResponse) => {
-                                if(KLResponse.status < 400){
-                                    this.setState({
-                                        data_set_name:datasetName,
-                                        username:UsernameResponse.data['Name'],
-                                        output:KLResponse.data,
-                                        output_0:null,
-                                        timestamp:"Years",
-                                        rawData:RawDataResponse.data,
-                                        states:StatesResponse.data
+            let datasetName = sessionStorage.getItem("datasetName");
+            let disc_id = sessionStorage.getItem("currDisc");
+            let kl_id = sessionStorage.getItem("currKL");
+
+            this.getUsername().then((UsernameResponse) => {
+                this.getRawDataFile(datasetName).then((RawDataResponse) => {
+                    this.getStatesFile(datasetName,disc_id).then((StatesResponse) => {
+                        this.getKLClassOutput(datasetName,disc_id,kl_id,"0").then((KL0Response) => {
+                            if(UsernameResponse.status < 400 &&
+                                RawDataResponse.status < 400 &&
+                                StatesResponse.status < 400)
+                            {
+                                if(KL0Response.status < 400){//if class 0 exists then class 1 exists as well
+                                    this.getKLClassOutput(datasetName,disc_id,kl_id,"1").then((KL1Response) => {
+                                        if(KL1Response.status < 400){
+                                            this.setState({
+                                                data_set_name:datasetName,
+                                                username:UsernameResponse.data['Name'],
+                                                output:KL1Response.data,
+                                                output_0:KL0Response.data,
+                                                timestamp:"Years",
+                                                rawData:RawDataResponse.data,
+                                                states:StatesResponse.data
+                                            });
+                                        }
+                                        else{
+                                            //unexpected scenario, class 0 exists but not 1, don't send a request
+                                            window.alert('uh oh, there\'s a problem!');
+                                        }
                                     });
                                 }
-                                else{
-                                    window.alert('uh oh, there\'s a problem!');
-                                }
-                            })
+                            }
+                            else{
+                                //unexpected scenario, either username, raw data or states requests failed, don't send request
+                                window.alert('uh oh, there\'s a problem!');
+                            }
+                        })
                             .catch(error => {
-                                //unexpected scenario, neither Kl-class-0.0.txt nor KL.txt exist, don't send request
-                                window.alert(error.response.data['message']);
+                                if(error.response.status === 404){
+                                    this.getKLOutput(datasetName,disc_id,kl_id).then((KLResponse) => {
+                                        if(KLResponse.status < 400){
+                                            this.setState({
+                                                data_set_name:datasetName,
+                                                username:UsernameResponse.data['Name'],
+                                                output:KLResponse.data,
+                                                output_0:null,
+                                                timestamp:"Years",
+                                                rawData:RawDataResponse.data,
+                                                states:StatesResponse.data
+                                            });
+                                        }
+                                        else{
+                                            window.alert('uh oh, there\'s a problem!');
+                                        }
+                                    })
+                                        .catch(error => {
+                                            //unexpected scenario, neither Kl-class-0.0.txt nor KL.txt exist, don't send request
+                                            window.alert(error.response.data['message']);
+                                        });
+                                }
+                                else{
+                                    window.alert(error.response.data['message']);
+                                }
                             });
-                        }
-                        else{
-                            window.alert(error.response.data['message']);
-                        }
                     });
                 });
             });
-        });
+        }
     }
 
     getUsername = () => {
