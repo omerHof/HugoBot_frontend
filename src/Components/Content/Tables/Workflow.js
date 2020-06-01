@@ -7,6 +7,12 @@ import History from "../../../History";
 import '../../../resources/style/colors.css';
 import '../../../resources/style/workflow.css';
 
+/**
+ * this the sub-main workflow of the site.
+ * it contains the time interval minings page, the info page,
+ * the discretization page and the visualization page
+ */
+
 class Workflow extends Component{
     constructor(props) {
         super(props);

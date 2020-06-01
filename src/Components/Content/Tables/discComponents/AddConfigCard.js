@@ -7,6 +7,12 @@ import cookies from "js-cookie";
 
 import "../../../../resources/style/colors.css"
 
+/**
+ * this class is responsible for uploading and downloading the data about the discretization.
+ * if you upload the discretization you can do it by knowledge based or by grdient file or by regular way.
+ * it also gets, interpolation gap, paa window size, number of bins and method of dicretization
+ */
+
 class AddConfigCard extends Component{
 
     constructor(props) {

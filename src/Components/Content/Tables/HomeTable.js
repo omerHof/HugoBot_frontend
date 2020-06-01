@@ -4,6 +4,10 @@ import {Button, Card, Form, Table} from "react-bootstrap";
 
 import history from '../../../History'
 
+/**
+ * this class contains the display of the the table from table content
+ */
+
 class HomeTable extends Component {
     
      state={
@@ -68,6 +72,10 @@ class HomeTable extends Component {
         if ("allTables" in sessionStorage || ("datasetUploaded" in sessionStorage && sessionStorage.getItem("datasetUploaded") === "true")){
             let tables= JSON.parse(sessionStorage.allTables);
             return tables.rows.map((iter, idx) => {
+                console.log("first");
+                console.log(parseFloat(this.state.filterSize));
+                console.log("second");
+                console.log(parseFloat(iter["Size"]));
             // console.log(this.state.filterDatasetName==null||this.state.filterDatasetName.localeCompare(iter.DatasetName)===0);
             if((this.state.filterSize.localeCompare("") === 0 || parseFloat(this.state.filterSize)>parseFloat(iter["Size"]))
                 &&(this.state.filterDatasetName.localeCompare("") === 0 || iter["DatasetName"].includes(this.state.filterDatasetName))

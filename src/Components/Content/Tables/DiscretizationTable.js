@@ -5,6 +5,10 @@ import {Button, Card, Table} from "react-bootstrap";
 import Axios from "axios";
 import cookies from "js-cookie";
 
+/**
+ * this class loads the table of the discretizations that already been created
+ */
+
 class DiscretizationTable extends Component {
 
     constructor(props){

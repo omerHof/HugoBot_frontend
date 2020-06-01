@@ -7,6 +7,12 @@ import cookies from "js-cookie";
 
 import History from "../../../History";
 
+/**
+ * this is the mail module.
+ * here you can ask for access to a dataset and approve a request for a data set.
+ * moreover you can see witch data sets have been approved and witch one is yours.
+ */
+
 class Manage extends Component{
 
     constructor(props) {

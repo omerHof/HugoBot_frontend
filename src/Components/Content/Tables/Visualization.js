@@ -7,6 +7,23 @@ import cookies from "js-cookie";
 
 import History from "../../../History";
 
+/**
+ * this class is responsible for doing redirect to the visualization system.
+ * it gets FormData-
+ Keys-
+ data_set_name
+ className
+ timestamp
+ secondclassName
+ username
+ comments
+ output(file)
+ states(file)
+ entities(file)
+ rawData(file)
+ secondClassOutput(file)
+ */
+
 class Visualization extends Component{
 
     constructor(props) {

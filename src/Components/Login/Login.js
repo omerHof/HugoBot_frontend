@@ -10,6 +10,13 @@ import history from '../../History';
 import '../../resources/style/colors.css';
 // import { login } from "../../services/authService";
 
+/**
+ * this class is responsible for the log in component.
+ * when a user logs in he enters a username and a password and gets in return a token,
+ * so he will be able to access his resources in the application.
+ * the token is being saved in the cookies storage
+ */
+
 class Login extends Component{
 
     sendLogin = (email, pass) => {

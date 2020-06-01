@@ -7,6 +7,13 @@ import cookies from "js-cookie";
 
 //import {createBrowserHistory} from "history";
 
+/**
+ * this class is the time interval minings class.
+ * it sends to the server number of relations, PAA, Bins, Interpolation, Method,
+ * Min. Vertical Support (%), max gap, epsilon, Max TIRP Length (Integer), index same.
+ * it allows you do download the tim interval minings.
+ */
+
 class TIMTable extends Component {
 
     constructor(props) {

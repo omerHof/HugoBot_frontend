@@ -8,6 +8,12 @@ import Pic3 from "../../resources/3_toy_hugo_example.png";
 import Pic4 from "../../resources/4_toy_entity.png";
 import Axios from "axios";
 
+/**
+ * this class is the tutorial class.
+ * you can read examples about what the the website should do,
+ * you can download examples from the website
+ */
+
 class Tutorial extends Component{
 
         handleDownloadRequest = (e) => {

@@ -9,6 +9,11 @@ import InfoCard from "./InfoCard";
 import StatsCard from "./StatsCard";
 import VMapCard from "./VMapCard";
 
+/**
+ * this class contains all the other classes.
+ * it contains the info card, the states card, and the vmap card.
+ */
+
 class Info extends Component{
 
     constructor(props){

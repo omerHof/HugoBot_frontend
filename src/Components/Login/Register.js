@@ -10,6 +10,12 @@ import SelectElement from "./SelectElement";
 import '../../resources/style/colors.css';
 // import { register } from "../../services/authService";
 
+/**
+ * this class is the register class.
+ * the form gets first name, last name, institute, degree, email, password.
+ * it sends the elements to the server and gets in return success message.
+ */
+
 class Register extends Component{
 
 

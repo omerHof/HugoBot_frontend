@@ -4,6 +4,11 @@ import {Card, Table} from "react-bootstrap";
 
 import "../../../../resources/style/colors.css"
 
+/**
+ * this class contains the variable map card.
+ * it has 3 columns- variable id, variable name and variable description.
+ */
+
 class VMapCard extends Component{
 
     constructor(props) {

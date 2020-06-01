@@ -4,6 +4,10 @@ import {Card} from "react-bootstrap";
 
 import "../../../../resources/style/colors.css"
 
+/**
+ * this card contains the size the views and the downloads about a dataset
+ */
+
 class StatsCard extends Component{
     render() {
         return (

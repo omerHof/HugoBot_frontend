@@ -4,6 +4,10 @@ import {Card} from "react-bootstrap";
 
 import "../../../../resources/style/colors.css"
 
+/**
+ * in this card you can see the data set name, the category, the owner, the source and the descreption.
+ */
+
 class InfoCard extends Component{
 
     render() {

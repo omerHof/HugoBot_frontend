@@ -7,6 +7,12 @@ import cookies from "js-cookie";
 
 import history from "../../../History";
 
+/**
+ * this class is responsible for uploading the entities fie.
+ * it gets only the entities file witch is a csv file.
+ * it also checks the format the csv.
+ */
+
 class EntitiesFile extends Component{
 
     constructor(props) {

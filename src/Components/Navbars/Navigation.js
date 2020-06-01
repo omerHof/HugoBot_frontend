@@ -11,6 +11,10 @@ import '../../resources/style/colors.css';
 // import {login} from "../../services/authService";
 // import HomeData from "../Content/Tables/mainTable";
 
+/**
+ * this class is shown the navigation in the top of the website
+ */
+
 class Navigation extends Component{
 
     constructor(props) {

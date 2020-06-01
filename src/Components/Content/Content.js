@@ -12,6 +12,11 @@ import Tutorial from "./Tutorial";
 import UploadDataset from "./UploadDataset/UploadDataset";
 import '../../resources/style/colors.css';
 
+/**
+ * in this class you can see the content of the main navbar.
+ * it has home, tutorial, Manage, register, log in, upload.
+ */
+
 class Content extends Component{
     render(){
         return (
