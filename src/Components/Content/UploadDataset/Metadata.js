@@ -52,7 +52,7 @@ class Metadata extends Component{
                     sessionStorage.setItem('datasetName',this.state.datasetName);
                     sessionStorage.setItem("uploadPageLoc","step_2");
                     window.dispatchEvent(new Event("ReIndicateActiveStep"));
-                    history.push('/Upload/VMap');
+                    window.open('#/Upload/VMap', "_self");;
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')

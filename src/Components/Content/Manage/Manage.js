@@ -65,7 +65,7 @@ class Manage extends Component{
     }
 
     askPermissionsRequest(datasetName){
-        const url = 'http://localhost:80/askPermission?dataset='+datasetName;
+        const url = '/api/askPermission?dataset='+datasetName;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -99,7 +99,7 @@ class Manage extends Component{
     }
 
     acceptPermissionsRequest(datasetName,email){
-        const url = 'http://localhost:80/acceptPermission?dataset='+datasetName+"&userEmail="+email;
+        const url = '/api/acceptPermission?dataset='+datasetName+"&userEmail="+email;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -110,7 +110,7 @@ class Manage extends Component{
     }
 
     getEmail(){
-        const url = 'http://localhost:80/getEmail';
+        const url = '/api/getEmail';
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -145,7 +145,7 @@ class Manage extends Component{
     }
 
     rejectPermissionsRequest(datasetName,email){
-        const url = 'http://localhost:80/rejectPermission?dataset='+datasetName+"&userEmail="+email;
+        const url = '/api/rejectPermission?dataset='+datasetName+"&userEmail="+email;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -225,7 +225,7 @@ class Manage extends Component{
     };
 
     loadMailRequest = () => {
-        const url = 'http://localhost:80/loadMail';
+        const url = '/api/loadMail';
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -260,7 +260,7 @@ class Manage extends Component{
 
     componentDidMount() {
         if (sessionStorage.getItem("user").localeCompare("true")!==0) {
-            History.push('/Login');
+            window.open('/Login', "_self");;
         }
         sessionStorage.setItem("dataSet","false");
         window.dispatchEvent(new Event("ReloadTable1"));
@@ -383,7 +383,7 @@ class Manage extends Component{
                 <br/>
                 <br/>
                 <Nav variant={"tabs"}>
-                    {/*<Router history={History}>*/}
+                    {/*<HashRouter  history={History}>*/}
                     <Button
                         active={this.state.pageLoc.localeCompare("myDatasets") === 0}
                         id={"myDatasets"}
@@ -424,7 +424,7 @@ class Manage extends Component{
 
                         Explore...
                     </Button>
-                    {/*</Router>*/}
+                    {/*</HashRouter>*/}
                 </Nav>
                 <br/>
                 <Table striped={true} bordered={true} hover={true}>

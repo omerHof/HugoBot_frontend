@@ -28,7 +28,7 @@ class Graphs extends Component {
             }
         }
         let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", 'http://localhost:8089/graphs/getSpecificClassifierGraphs', false);
+        xmlHttp.open("GET", '/api89/graphs/getSpecificClassifierGraphs', false);
         let reqBody = {"Classifiers": result}
         xmlHttp.setRequestHeader("Classifiers", JSON.stringify(result));
         xmlHttp.send(reqBody);

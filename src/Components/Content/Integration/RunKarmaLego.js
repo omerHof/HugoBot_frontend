@@ -17,7 +17,7 @@ class RunKarmaLego extends Component {
 
     showElem = () => {
 
-        history.push('/Home/TIM');
+        window.open('#/Home/TIM', "_self");;
 
         let maxGap = document.getElementById("maxGap").value
         let classParam = document.getElementById("classParam").value
@@ -58,7 +58,7 @@ class RunKarmaLego extends Component {
 
         const xhr = new XMLHttpRequest();
         // open request
-        xhr.open('POST', 'http://localhost:8089/runKarmaLego' , false);
+        xhr.open('POST', '/api89/runKarmaLego' , false);
         // set `Content-Type` header
         xhr.setRequestHeader('Content-Type', 'application/json');
 

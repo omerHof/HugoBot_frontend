@@ -169,7 +169,7 @@ class VMapFile extends Component{
             .then((response)=>{
                 console.log(response.data);
                 if(response.status < 400){
-                    history.push('/Upload/Entities');
+                    window.open('#/Upload/Entities', "_self");;
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')
@@ -230,7 +230,7 @@ class VMapFile extends Component{
                 if(response.status < 400){
                     sessionStorage.setItem("uploadPageLoc","step_3");
                     window.dispatchEvent(new Event("ReIndicateActiveStep"));
-                    history.push('/Upload/Entities');
+                    window.open('#/Upload/Entities', "_self");;
                 }
                 else{
                     window.alert('uh oh, there\'s a problem!')

@@ -152,7 +152,7 @@ class Info extends Component{
     }
 
     sendDownloadRequest = (id) => {
-        const url = 'http://localhost:80/getDatasetFiles?dataset_id='+id;
+        const url = '/api/getDatasetFiles?dataset_id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')
@@ -163,7 +163,7 @@ class Info extends Component{
     }
 
     incrementDownloads = (id) => {
-        const url = 'http://localhost:80/incrementDownload?dataset_id='+id;
+        const url = '/api/incrementDownload?dataset_id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')

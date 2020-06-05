@@ -57,7 +57,7 @@ class Register extends Component{
                         if(response.status < 400){
                             console.log("|juiglivgbilyh")
                             window.alert('success!');
-                            history.push('/Login');
+                            window.open('#/Login', "_self");;
                         }
                         else{
                             if(response.data['message'] === 'there is already a user with that Email'){

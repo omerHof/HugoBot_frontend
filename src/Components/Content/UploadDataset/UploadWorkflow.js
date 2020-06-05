@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import {ButtonGroup, Container} from "react-bootstrap";
-import {Router} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 
 import History from "../../../History";
 import '../../../resources/style/upload_workflow.css'
@@ -37,7 +37,7 @@ class UploadWorkflow extends Component{
         window.addEventListener("ReIndicateActiveStep", function(){that.forceUpdate()});
         return (
             <Container fluid={true}>
-                <Router  history={History}>
+                <HashRouter   history={History}>
                     <ButtonGroup  size={"lg"}>
                         <div className={this.getClassName("step_1")}>
                             Step-1 Upload Dataset File
@@ -52,7 +52,7 @@ class UploadWorkflow extends Component{
                             Step-4 Window Creation
                         </div>
                     </ButtonGroup>
-                </Router>
+                </HashRouter>
             </Container>
         );
     }

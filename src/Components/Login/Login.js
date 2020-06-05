@@ -44,7 +44,7 @@ class Login extends Component{
                     sessionStorage.setItem("Workflow","Info")
                     sessionStorage.setItem("dataSets","false");
                     cookies.set('auth-token', response.data['token']);
-                    history.push('/Home');
+                    window.open('#/Home', "_self");;
                 }
                 else{
                     if(response.data['message'] === 'there is already a user with that Email'){

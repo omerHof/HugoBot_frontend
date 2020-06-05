@@ -5,7 +5,6 @@ import {Button, Container, Image, ListGroup, ListGroupItem} from "react-bootstra
 import Pic1 from "../../resources/1_toy_example.png";
 import Pic2 from "../../resources/2_toy_vmap.png";
 import Pic3 from "../../resources/3_toy_hugo_example.png";
-import Pic4 from "../../resources/4_toy_entity.png";
 import Axios from "axios";
 
 /**
@@ -44,7 +43,7 @@ class Tutorial extends Component{
         };
 
         sendDownloadRequest(id){
-                const url = 'http://localhost:80/getExampleFile?file='+id;
+                const url = '/api/getExampleFile?file='+id;
                 const config = {
                         headers: {
                                 'content-type': 'multipart/form-data',
@@ -170,7 +169,6 @@ class Tutorial extends Component{
                                 where the first column is the id column. For example:
                                 <br/>
                                 <br/>
-                                <Image src={Pic4}/>
                                 <br/>
                                 <br/>
                                 can be representative of our dataset.

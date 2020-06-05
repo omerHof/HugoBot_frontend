@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import {Container} from "react-bootstrap";
-import {Link, Router} from "react-router-dom";
+import {Link, HashRouter} from "react-router-dom";
 
 import History from "../../../History";
 import '../../../resources/style/colors.css';
@@ -33,7 +33,7 @@ class Workflow extends Component{
         console.log("Info: " + sessionStorage.getItem("Workflow"))
         return (
             <Container fluid={true}>
-                <Router  history={History}>
+                <HashRouter   history={History}>
                     {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
                             <Link className={sessionStorage.getItem("Workflow").localeCompare("Info") === 0 ?
@@ -113,7 +113,7 @@ class Workflow extends Component{
                             </div>
                         </div>
                     )}
-                </Router>
+                </HashRouter>
             </Container>
         );
     }

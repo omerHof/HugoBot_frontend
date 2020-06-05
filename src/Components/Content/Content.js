@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import {Container} from "react-bootstrap";
-import { Redirect, Route, Router, Switch} from "react-router-dom";
+import { Redirect, Route, HashRouter, Switch} from "react-router-dom";
 
 import history from "../../History";
 import Login from "../Login/Login";
@@ -20,7 +20,7 @@ import '../../resources/style/colors.css';
 class Content extends Component{
     render(){
         return (
-            <Router  history={history}>
+            <HashRouter   history={history}>
                 <Switch>
                     <Route path={"/Home"}>
                         <TableContent/>
@@ -52,7 +52,7 @@ class Content extends Component{
                     </Route>
                     <Redirect from={"/"} to={"/Home"}/>
                 </Switch>
-            </Router>
+            </HashRouter>
         );
     }
 }

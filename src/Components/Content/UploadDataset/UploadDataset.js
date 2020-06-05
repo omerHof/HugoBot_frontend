@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import {Route, Router} from "react-router-dom";
+import {Route, HashRouter} from "react-router-dom";
 
 import EntitiesFile from "./EntitiesFile";
 import history from "../../../History";
@@ -33,7 +33,7 @@ class UploadDataset extends Component{
     render() {
         // window.addEventListener("click",this.testFunc)
         return (
-            <Router  history={history}>
+            <HashRouter   history={history}>
                 <br/>
                 <UploadWorkflow/>
                 <br/>
@@ -49,7 +49,7 @@ class UploadDataset extends Component{
                 <Route path={"/Upload/WindowsCreation"}>
                     <WindowsCreation/>
                 </Route>
-            </Router>
+            </HashRouter>
         );
     }
 }

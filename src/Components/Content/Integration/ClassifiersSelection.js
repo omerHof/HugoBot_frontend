@@ -12,7 +12,7 @@ class ClassifiersSelection extends Component {
 
     showElem = () => {
 
-        history.push('/Home');
+        window.open('#/Home', "_self");;
 
         let classifier = document.getElementById("classifier").value
         //KNN
@@ -190,7 +190,7 @@ class ClassifiersSelection extends Component {
 
 
         // open request
-        xhr.open('POST', 'http://localhost:8089/runClassifiers' , false);
+        xhr.open('POST', '/api89/runClassifiers' , false);
 
         // set `Content-Type` header
         xhr.setRequestHeader('Content-Type', 'application/json');

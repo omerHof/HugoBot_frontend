@@ -42,7 +42,7 @@ class Visualization extends Component{
         if(!("datasetName" in sessionStorage && "currDisc" in sessionStorage && "currKL" in sessionStorage)){
             window.alert("please run a Time Interval Mining before proceeding to the Visualization module.")
             sessionStorage.setItem("Workflow","TIM");
-            History.push("/Home/TIM");
+            window.open("/Home/TIM", "_self");;
         }
         else{
 
@@ -117,7 +117,7 @@ class Visualization extends Component{
     }
 
     getUsername = () => {
-        const url = 'http://localhost:80/getUserName';
+        const url = '/api/getUserName';
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -128,7 +128,7 @@ class Visualization extends Component{
     }
 
     getRawDataFile = (dataset_name) => {
-        const url = 'http://localhost:80/getRawDataFile?id=' + dataset_name;
+        const url = '/api/getRawDataFile?id=' + dataset_name;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -140,7 +140,7 @@ class Visualization extends Component{
     }
 
     getStatesFile = (dataset_name,disc_id) =>{
-        const url = 'http://localhost:80/getStatesFile?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
+        const url = '/api/getStatesFile?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -152,7 +152,7 @@ class Visualization extends Component{
     }
 
     getKLOutput = (dataset_name,disc_id,kl_id) => {
-        const url = 'http://localhost:80/getKLOutput?' +
+        const url = '/api/getKLOutput?' +
             'dataset_id=' + dataset_name +
             '&disc_id=' + disc_id +
             '&kl_id=' + kl_id;
@@ -167,7 +167,7 @@ class Visualization extends Component{
     }
 
     getKLClassOutput = (dataset_name,disc_id,kl_id,num_class) => {
-        const url = 'http://localhost:80/getKLOutput?' +
+        const url = '/api/getKLOutput?' +
             'dataset_id=' + dataset_name +
             '&disc_id=' + disc_id +
             '&kl_id=' + kl_id +

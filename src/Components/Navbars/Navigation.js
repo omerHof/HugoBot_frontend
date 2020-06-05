@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 import Navbar from "react-bootstrap/Navbar";
-import {Link, Router} from "react-router-dom";
+import {Link, HashRouter} from "react-router-dom";
 
 import History from "../../History";
 
@@ -36,7 +36,7 @@ class Navigation extends Component{
         let  that = this;
         window.addEventListener("ReloadTable1", function(){that.forceUpdate()});
         return(
-            <Router  history={History}>
+            <HashRouter   history={History}>
                 <Navbar fixed={"top"} className={"bg-hugobot"} variant={"dark"}>
                     <div className={"navbar navbar-left"}>
                         <Link to={"/"}>
@@ -75,7 +75,7 @@ class Navigation extends Component{
                         )}
                     </div>
                 </Navbar>
-            </Router>
+            </HashRouter>
         );
     }
 }

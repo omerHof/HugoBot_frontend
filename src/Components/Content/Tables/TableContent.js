@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import {Container} from "react-bootstrap";
-import {Router, Route} from "react-router-dom";
+import {HashRouter, Route} from "react-router-dom";
 
 import Axios from "axios";
 import cookies from "js-cookie";
@@ -96,7 +96,7 @@ class TableContent extends Component{
                     sessionStorage.setItem('DiscretizationTable', JSON.stringify(disc));
                     sessionStorage.setItem('TIMTable', JSON.stringify(karma));
                     sessionStorage.setItem('datasetName',id);
-                    history.push("/Home/Info");
+                    window.open("#/Home/Info", "_self");;
                     sessionStorage.setItem("dataSet","true");
                     window.dispatchEvent(new Event("ReloadDataSet"));
                     //sessionStorage.setItem("allTables",JSON.stringify(myData));
@@ -115,7 +115,7 @@ class TableContent extends Component{
         let that = this;
         window.addEventListener("ReloadTableContent", function(){that.forceUpdate()});
         return (
-            <Router  history={history}>
+            <HashRouter   history={history}>
                 <br/>
                 <Workflow/>
                 <br/>
@@ -146,7 +146,7 @@ class TableContent extends Component{
                         <Visualization/>
                     </Route>
                 </Container>
-            </Router>
+            </HashRouter>
         );
     }
     }

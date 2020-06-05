@@ -39,7 +39,7 @@ class EntitiesFile extends Component{
                 sessionStorage.setItem("uploadPageLoc","step_1");
                 window.dispatchEvent(new Event("ReIndicateActiveStep"));
                 window.dispatchEvent(new Event("ReloadTableContent"));
-                history.push("/Home");
+                window.open("#/Home", "_self");;
         })
         .catch(error => {
             window.alert(error.response.data["message"]);

@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Link} from "react-router-dom";
 
 import {Button, Card, Form, Table} from "react-bootstrap";
 
@@ -32,7 +33,7 @@ class HomeTable extends Component {
 
     componentDidMount() {
         if (sessionStorage.getItem("user").localeCompare("true") !== 0) {
-            history.push('/Login');
+            window.open('#/Login', "_self");;
         }
         sessionStorage.setItem("dataSet","false");
         window.dispatchEvent(new Event("ReloadTable1"));
@@ -106,7 +107,7 @@ class HomeTable extends Component {
     };
 
     onClick = () => {
-      history.push("/Upload/Metadata");
+        window.open("#/Upload/Metadata", "_self");
     };
 
     //CollectData=(e,id) =>{
@@ -129,7 +130,7 @@ class HomeTable extends Component {
                     <Card.Text>
                         Datasets
                     </Card.Text>
-                    <Button className={"btn-hugobot"} href={"/Upload/Metadata"} onClick={this.onClick} size={"sm"}>
+                    <Button className={"btn-hugobot"} href={"#/Upload/Metadata"} onClick={this.onClick} size={"sm"}>
                         <i className="fas fa-upload"/>&nbsp;
                         Upload Dataset
                     </Button>

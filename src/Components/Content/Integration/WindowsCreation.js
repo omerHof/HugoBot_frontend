@@ -12,7 +12,7 @@ class WindowsCreation extends Component{
 
     showElem = () => {
 
-        history.push('/Home')
+        window.open('#/Home', "_self");
 
         let observation = document.getElementById("observation").value
 
@@ -67,7 +67,7 @@ class WindowsCreation extends Component{
 
         const xhr = new XMLHttpRequest();
         // open request
-        xhr.open('POST', 'http://localhost:8089/createTmpWindows' , false);
+        xhr.open('POST', '/api89/createTmpWindows' , false);
         // set `Content-Type` header
         xhr.setRequestHeader('Content-Type', 'application/json');
 
