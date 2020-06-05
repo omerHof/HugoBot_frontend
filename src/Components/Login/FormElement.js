@@ -4,6 +4,10 @@ import {Col, Form, Row} from "react-bootstrap";
 
 import '../../resources/style/colors.css';
 
+/**
+ * this class is tge rapper that contains all the other forms
+ */
+
 class FormElement extends Component{
 
     static defaultProps = {

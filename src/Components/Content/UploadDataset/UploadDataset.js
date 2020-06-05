@@ -10,6 +10,10 @@ import VMapFile from "./VMapFile";
 import WindowsCreation from "../Integration/WindowsCreation";
 import '../../../resources/style/colors.css';
 
+/**
+ * this class is responsible for uploading the dataset file
+ */
+
 class UploadDataset extends Component{
 
     // testFunc = (e) => {

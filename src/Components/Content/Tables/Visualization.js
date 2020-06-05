@@ -5,6 +5,24 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import Axios from "axios";
 import cookies from "js-cookie";
 
+import History from "../../../History";
+
+/**
+ * this class is responsible for doing redirect to the visualization system.
+ * it gets FormData-
+ Keys-
+ data_set_name
+ className
+ timestamp
+ secondclassName
+ username
+ comments
+ output(file)
+ states(file)
+ entities(file)
+ rawData(file)
+ secondClassOutput(file)
+ */
 
 class Visualization extends Component{
 
@@ -15,44 +33,91 @@ class Visualization extends Component{
             data_set_name:'',
             username:'',
             output:null,
+            output_0:null,
             timestamp:'Years',
             rawData:null,
             states:null
         }
 
-        let datasetName = sessionStorage.getItem("datasetName");
-        let disc_id = sessionStorage.getItem("currDisc");
-        // let kl_id = sessionStorage.getItem("currKL");
+        if(!("datasetName" in sessionStorage && "currDisc" in sessionStorage && "currKL" in sessionStorage)){
+            window.alert("please run a Time Interval Mining before proceeding to the Visualization module.")
+            sessionStorage.setItem("Workflow","TIM");
+            History.push("/Home/TIM");
+        }
+        else{
 
-        this.getUsername().then((UsernameResponse) => {
-            this.getRawDataFile(datasetName).then((RawDataResponse) => {
-                this.getStatesFile(datasetName,disc_id).then((StatesResponse) => {
-                    this.getKLOutput(datasetName,disc_id).then((KLResponse) => {
-                        if(UsernameResponse.status < 400 &&
-                            RawDataResponse.status < 400 &&
-                            StatesResponse.status < 400 &&
-                            KLResponse.status < 400)
-                        {
-                            this.setState({
-                                data_set_name:datasetName,
-                                username:UsernameResponse.data['Name'],
-                                output:KLResponse.data,
-                                timestamp:"Years",
-                                rawData:RawDataResponse.data,
-                                states:StatesResponse.data
+            let datasetName = sessionStorage.getItem("datasetName");
+            let disc_id = sessionStorage.getItem("currDisc");
+            let kl_id = sessionStorage.getItem("currKL");
+
+            this.getUsername().then((UsernameResponse) => {
+                this.getRawDataFile(datasetName).then((RawDataResponse) => {
+                    this.getStatesFile(datasetName,disc_id).then((StatesResponse) => {
+                        this.getKLClassOutput(datasetName,disc_id,kl_id,"0").then((KL0Response) => {
+                            if(UsernameResponse.status < 400 &&
+                                RawDataResponse.status < 400 &&
+                                StatesResponse.status < 400)
+                            {
+                                if(KL0Response.status < 400){//if class 0 exists then class 1 exists as well
+                                    this.getKLClassOutput(datasetName,disc_id,kl_id,"1").then((KL1Response) => {
+                                        if(KL1Response.status < 400){
+                                            this.setState({
+                                                data_set_name:datasetName,
+                                                username:UsernameResponse.data['Name'],
+                                                output:KL1Response.data,
+                                                output_0:KL0Response.data,
+                                                timestamp:"Years",
+                                                rawData:RawDataResponse.data,
+                                                states:StatesResponse.data
+                                            });
+                                        }
+                                        else{
+                                            //unexpected scenario, class 0 exists but not 1, don't send a request
+                                            window.alert('uh oh, there\'s a problem!');
+                                        }
+                                    });
+                                }
+                            }
+                            else{
+                                //unexpected scenario, either username, raw data or states requests failed, don't send request
+                                window.alert('uh oh, there\'s a problem!');
+                            }
+                        })
+                            .catch(error => {
+                                if(error.response.status === 404){
+                                    this.getKLOutput(datasetName,disc_id,kl_id).then((KLResponse) => {
+                                        if(KLResponse.status < 400){
+                                            this.setState({
+                                                data_set_name:datasetName,
+                                                username:UsernameResponse.data['Name'],
+                                                output:KLResponse.data,
+                                                output_0:null,
+                                                timestamp:"Years",
+                                                rawData:RawDataResponse.data,
+                                                states:StatesResponse.data
+                                            });
+                                        }
+                                        else{
+                                            window.alert('uh oh, there\'s a problem!');
+                                        }
+                                    })
+                                        .catch(error => {
+                                            //unexpected scenario, neither Kl-class-0.0.txt nor KL.txt exist, don't send request
+                                            window.alert(error.response.data['message']);
+                                        });
+                                }
+                                else{
+                                    window.alert(error.response.data['message']);
+                                }
                             });
-                        }
-                        else{
-                            window.alert('uh oh, there\'s a problem!');
-                        }
                     });
                 });
             });
-        });
+        }
     }
 
     getUsername = () => {
-        const url = 'https://cdalab.ise.bgu.ac.il/api/getUserName';
+        const url = 'http://localhost:80/getUserName';
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -63,34 +128,56 @@ class Visualization extends Component{
     }
 
     getRawDataFile = (dataset_name) => {
-        const url = 'https://cdalab.ise.bgu.ac.il/api/getRawDataFile?id=' + dataset_name;
+        const url = 'http://localhost:80/getRawDataFile?id=' + dataset_name;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
                 'x-access-token': cookies.get('auth-token')
-            }
+            },
+            responseType: 'blob'
         };
         return Axios.get(url, config);
     }
 
     getStatesFile = (dataset_name,disc_id) =>{
-        const url = 'https://cdalab.ise.bgu.ac.il/api/getStatesFile?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
+        const url = 'http://localhost:80/getStatesFile?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
                 'x-access-token': cookies.get('auth-token')
-            }
+            },
+            responseType: 'blob'
         };
         return Axios.get(url, config);
     }
 
-    getKLOutput = (dataset_name,disc_id) => {
-        const url = 'https://cdalab.ise.bgu.ac.il/api/getKLOutput?dataset_id=' + dataset_name + '&disc_id=' + disc_id;
+    getKLOutput = (dataset_name,disc_id,kl_id) => {
+        const url = 'http://localhost:80/getKLOutput?' +
+            'dataset_id=' + dataset_name +
+            '&disc_id=' + disc_id +
+            '&kl_id=' + kl_id;
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
                 'x-access-token': cookies.get('auth-token')
-            }
+            },
+            responseType: 'blob'
+        };
+        return Axios.get(url, config);
+    }
+
+    getKLClassOutput = (dataset_name,disc_id,kl_id,num_class) => {
+        const url = 'http://localhost:80/getKLOutput?' +
+            'dataset_id=' + dataset_name +
+            '&disc_id=' + disc_id +
+            '&kl_id=' + kl_id +
+            '&class=' + num_class;
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'x-access-token': cookies.get('auth-token')
+            },
+            responseType: 'blob'
         };
         return Axios.get(url, config);
     }
@@ -104,25 +191,18 @@ class Visualization extends Component{
         formData.append('className','class1name');
         formData.append('output',this.state.output);
         formData.append('secondclassName','class0name');
-        formData.append('timestamp','Years');
+        formData.append('timestamp','Minutes');
         formData.append('comments','no comment');
         formData.append('rawData',this.state.rawData)
         formData.append('states',this.state.states);
 
-        // console.log(this.state.data_set_name);
-        // console.log(this.state.username);
-        // console.log('class1name');
-        // console.log(this.state.output);
-        // console.log('class0name');
-        // console.log('Years');
-        // console.log('no comment');
-        // console.log(this.state.rawData);
-        // console.log(this.state.states);
+        if(this.state.output_0 !== null){
+            formData.append('secondClassOutput',this.state.output_0);
+        }
 
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
-                // 'x-access-token': cookies.get('auth-token')
             }
         };
         return Axios.post(url, formData,config);

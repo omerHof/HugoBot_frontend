@@ -17,6 +17,12 @@ import TIMTable from "./TIMTable";
 import Visualization from "./Visualization";
 import Workflow from "./Workflow";
 
+/**
+ * this class renders all the data of the home page.
+ * it creates the main table witch contains dataset name,
+ * category, description, is it public or private, dataset source.
+ */
+
 class TableContent extends Component{
     state = {
         HomeTable: [],

@@ -7,6 +7,13 @@ import cookies from "js-cookie";
 
 //import {createBrowserHistory} from "history";
 
+/**
+ * this class is the time interval minings class.
+ * it sends to the server number of relations, PAA, Bins, Interpolation, Method,
+ * Min. Vertical Support (%), max gap, epsilon, Max TIRP Length (Integer), index same.
+ * it allows you do download the tim interval minings.
+ */
+
 class TIMTable extends Component {
 
     constructor(props) {
@@ -195,20 +202,8 @@ class TIMTable extends Component {
 
     handleSubmit = (id,PAAWin,BinNo,IPGap,MoD,EpsilonInput, naxTirpLen ,MaxGapInput,MinVerticalSupportInput) => {
         let x= JSON.parse(sessionStorage.TIMTable);
-        console.log("dfbdfd")
-        console.log(PAAWin)
-        if (EpsilonInput) {
 
-            //let y = {
-            //  "MethodOfDiscretization": MoD.innerText,
-            //"BinsNumber": BinNo.innerText,
-            //"InterpolationGap": IPGap.innerText,
-            //"PAAWindowSize": PAAWin.innerText,
-            //"epsilon": EpsilonInput.value,
-            //"MaxGap": MaxGapInput.value,
-            //"VerticalSupport": MinVerticalSupportInput.value
-            //};
-            //x.rows.push(y);
+        if (EpsilonInput) {
             let index_same;
             if (this.state.Class.get("0")=== undefined){
                 index_same = "true"
@@ -279,9 +274,6 @@ class TIMTable extends Component {
                                     window.alert('there is no such file to download');
                                 }
                             });
-
-
-
                     }
                     else{
                         window.alert('uh oh, there\'s a problem!')
@@ -339,19 +331,19 @@ class TIMTable extends Component {
                     PAA-Bins-Interpolation-Method
                 </td>
                 <td width={"5%"}>
-                    Min. Vertical Support
+                    Min. Vertical Support (%)
                 </td>
                 <td width={"5%"}>
-                    Max Gap
+                    Max Gap (Integer)
                 </td>
                 <td width={"5%"}>
                     No. of Allen Relations
                 </td>
                 <td width={"5%"}>
-                    Epsilon
+                    Epsilon (Integer)
                 </td>
                 <td width={"5%"}>
-                    Max TIRP Length
+                    Max TIRP Length (Integer)
                 </td>
                 <td width={"5%"}>
                     Index Same
@@ -445,7 +437,7 @@ class TIMTable extends Component {
                         </ButtonGroup>
                     </td>
                     <td>
-                        <Button className="bg-hugobot"
+                        <Button className={"btn btn-hugobot"}
                                 onClick={() => this.handleSubmit(
                                     iter.id,
                                     iter['PAAWindowSize'],
@@ -456,7 +448,7 @@ class TIMTable extends Component {
                                     document.getElementById(maxTirpLenInput),
                                     document.getElementById(MaxGapInput),
                                     document.getElementById(MinVSInput))}>
-                            <i className="fas fa-play"/>Mine
+                            <i className={"fas fa-play"}/>Mine
                         </Button>
                     </td>
                 </tr>
@@ -472,19 +464,19 @@ class TIMTable extends Component {
                     PAA-Bins-Interpolation-Method
                 </td>
                 <td>
-                    Min. Vertical Support
+                    Min. Vertical Support (%)
                 </td>
                 <td>
-                    Max Gap
+                    Max Gap (Integer)
                 </td>
                 <td>
                     No. of Allen Relations
                 </td>
                 <td>
-                    Epsilon
+                    Epsilon (Integer)
                 </td>
                 <td>
-                    Max TIRP Length
+                    Max TIRP Length (Integer)
                 </td>
                 <td>
                     Index Same

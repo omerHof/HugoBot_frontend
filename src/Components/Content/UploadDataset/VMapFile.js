@@ -7,6 +7,12 @@ import history from "../../../History";
 import Axios from "axios";
 import cookies from "js-cookie";
 
+/**
+ * this file is responsible for uploading the variable map file.
+ * it gets his keys from the dataset file that the user uploaded,
+ * but the user should fill its values.
+ */
+
 class VMapFile extends Component{
 
     constructor(props) {

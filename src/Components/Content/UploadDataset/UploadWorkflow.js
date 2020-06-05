@@ -6,6 +6,11 @@ import {Router} from "react-router-dom";
 import History from "../../../History";
 import '../../../resources/style/upload_workflow.css'
 
+/**
+ * this is the root file of the upload dataset module
+ * it has 4 stages- upload the dataset, upload the variable map file,
+ * upload entity file and stage 4
+ */
 
 class UploadWorkflow extends Component{
 

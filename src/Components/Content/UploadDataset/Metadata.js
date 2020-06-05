@@ -9,6 +9,12 @@ import FormElement from "../../Login/FormElement";
 import history from "../../../History"
 import SelectElement from "../../Login/SelectElement";
 
+/**
+ * this class is the actual form of the dataset upload,
+ * is gets dataset name, category, description, is it public or private, dataset source.
+ * the format of the dataset file is csv and it checks the csv format
+ */
+
 class Metadata extends Component{
 
     constructor(props) {

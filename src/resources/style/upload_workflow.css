@@ -5,7 +5,11 @@
     color: #2d3e50;
 }
 
-.btn-hugobot:active, .btn-hugobot:hover{
+.btn-workflow-active{
+    background-color: #1D7D74;
+}
+
+.btn-hugobot:active, .btn-hugobot:hover, .btn-workflow{
     background-color: #2d3e50;
     color: white;
 }

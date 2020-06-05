@@ -4,6 +4,10 @@ import {Navbar, Row} from "react-bootstrap";
 
 import '../../resources/style/colors.css';
 
+/**
+ * this class contains the footer that Shown in the bottom of the website
+ */
+
 class Footer extends Component{
     render() {
         return (

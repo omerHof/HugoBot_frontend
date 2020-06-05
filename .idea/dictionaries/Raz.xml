@@ -5,7 +5,10 @@
       <w>bgcolor</w>
       <w>criteration</w>
       <w>datasets</w>
+      <w>diffmax</w>
+      <w>diffsum</w>
       <w>discretization</w>
+      <w>discretizations</w>
       <w>ffeb</w>
       <w>glyphicons</w>
       <w>hugobot</w>

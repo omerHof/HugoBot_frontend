@@ -4,6 +4,10 @@ import {Col, Row} from "react-bootstrap";
 
 import '../../resources/style/colors.css';
 
+/**
+ * this class raps all the classes of the select elements
+ */
+
 class SelectElement extends Component{
 
     static defaultProps = {
