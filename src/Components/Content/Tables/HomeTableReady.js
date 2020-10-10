@@ -20,11 +20,11 @@ class HomeTable extends Component {
 
   filter = () => {
     this.setState({
-      filterCategory: document.getElementById("category").value,
-      filterDatasetName: document.getElementById("datasetName").value,
-      filterSize: document.getElementById("size").value,
-      filterOwner: document.getElementById("owner").value,
-      filterPublicPrivate: document.getElementById("publicPrivate").value,
+      // filterCategory: document.getElementById("category").value,
+      filterDatasetName: document.getElementById("data_set_name").value,
+      // filterSize: document.getElementById("size").value,
+      // filterOwner: document.getElementById("owner").value,
+      // filterPublicPrivate: document.getElementById("publicPrivate").value,
     });
     this.forceUpdate();
   };
@@ -94,11 +94,11 @@ class HomeTable extends Component {
 
   renderTableData = () => {
     if (
-      "allTables" in sessionStorage ||
+      "allReadyTables" in sessionStorage ||
       ("datasetUploaded" in sessionStorage &&
         sessionStorage.getItem("datasetUploaded") === "true")
     ) {
-      let tables = JSON.parse(sessionStorage.allTables);
+      let tables = JSON.parse(sessionStorage.allReadyTables);
       return tables.rows.map((iter, idx) => {
         // console.log("first");
         // console.log(parseFloat(this.state.filterSize));
@@ -109,7 +109,7 @@ class HomeTable extends Component {
           (this.state.filterSize.localeCompare("") === 0 ||
             parseFloat(this.state.filterSize) > parseFloat(iter["Size"])) &&
           (this.state.filterDatasetName.localeCompare("") === 0 ||
-            iter["DatasetName"].includes(this.state.filterDatasetName)) &&
+            iter["data_set_name"].includes(this.state.filterDatasetName)) &&
           (this.state.filterCategory.localeCompare("") === 0 ||
             iter["Category"].includes(this.state.filterCategory)) &&
           (this.state.filterOwner.localeCompare("") === 0 ||
@@ -122,11 +122,11 @@ class HomeTable extends Component {
               key={idx.toString()}
               onClick={() => {
                 sessionStorage.setItem("Workflow", "Info");
-                this.props.CollectData(iter["DatasetName"]);
+                this.props.StartVisualization(iter["data_set_name"]);
               }}
             >
               {/*<td>{iter["UserID"]}</td>*/}
-              <td>{iter["DatasetName"]}</td>
+              <td>{iter["data_set_name"]}</td>
               <td>{iter["Category"]}</td>
               <td>{iter["Size"]}</td>
               <td>{iter["Owner"]}</td>
@@ -152,7 +152,7 @@ class HomeTable extends Component {
 
   render() {
     let that = this;
-    window.addEventListener("ReloadHomeTable", function () {
+    window.addEventListener("ReloadHomeTableReady", function () {
       that.forceUpdate();
     });
     return (

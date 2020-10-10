@@ -11,7 +11,9 @@ import ClassifiersSelection from "../Integration/ClassifiersSelection";
 import DiscretizationTable from "./DiscretizationTable";
 import history from "../../../History";
 import HomeTable from "./HomeTable";
+import HomeTableReady from "./HomeTableReady";
 import Info from "./infoComponents/Info";
+import VisualizationHome from "../Visualization/VisualizationHome";
 import RunKarmaLego from "../Integration/RunKarmaLego";
 import TIMTable from "./TIMTable";
 import Visualization from "./Visualization";
@@ -26,6 +28,8 @@ import Workflow from "./Workflow";
 class TableContent extends Component {
   state = {
     HomeTable: [],
+    //yiftah
+    HomeTableReady: [],
     InfoTable: [],
     DiscretizationTable: [],
     TIMTable: [],
@@ -33,6 +37,12 @@ class TableContent extends Component {
 
   getAllDatasets() {
     const url = window.base_url + "/getAllDataSets";
+    return Axios.get(url);
+  }
+
+  //yiftah
+  getAllReadyDatasets() {
+    const url = window.base_url + "/getDataSets";
     return Axios.get(url);
   }
 
@@ -62,17 +72,42 @@ class TableContent extends Component {
             let y = data1[parseInt(i)];
             myData.rows.push(y);
           }
-          console.log(myData);
+          // console.log(myData);
           sessionStorage.setItem("allTables", JSON.stringify(myData));
-          console.log(JSON.parse(sessionStorage.allTables));
+          // console.log(JSON.parse(sessionStorage.allTables));
           window.dispatchEvent(new Event("ReloadHomeTable"));
           sessionStorage.setItem("datasetUploaded", "false");
         } else {
           window.alert("uh oh, there's a problem!");
         }
       });
+      //yiftah
+      this.getAllReadyDatasets().then((response) => {
+        if (response.status < 400) {
+          // console.log(response.data);
+          let tempData = response.data.DataSets;
+          let j;
+          let myData2 = { rows: [] };
+          for (j = 0; j < tempData.length; j++) {
+            let x = tempData[parseInt(j)];
+            myData2.rows.push(x);
+          }
+          sessionStorage.setItem("allReadyTables", JSON.stringify(myData2));
+          // console.log(JSON.parse(sessionStorage.allReadyTables));
+          window.dispatchEvent(new Event("ReloadHomeTableReady"));
+          sessionStorage.setItem("datasetUploaded", "false");
+          // console.log(myData2);
+        } else {
+          window.alert("uh oh, there's a problem!!!");
+        }
+      });
     }
   }
+  //yiftah
+  StartVisualization = (id) => {
+    sessionStorage.setItem("datasetReadyName", id);
+    window.open("#/VisualizationHome", "_self");
+  };
 
   CollectData = (id) => {
     this.getDataOnDataset(id)
@@ -126,9 +161,16 @@ class TableContent extends Component {
               HomeTable={this.state.HomeTable}
               CollectData={this.CollectData}
             />
+            <HomeTableReady
+              HomeTable={this.state.HomeTableReady}
+              StartVisualization={this.StartVisualization}
+            />
           </Route>
           <Route path={"/Home/Info"}>
             <Info />
+          </Route>
+          <Route path={"/Home/Vis"}>
+            <VisualizationHome />
           </Route>
           <Route path={"/Home/Disc"}>
             <AddConfigCard />
