@@ -13,7 +13,7 @@ import history from "../../../History";
 import HomeTable from "./HomeTable";
 import HomeTableReady from "./HomeTableReady";
 import Info from "./infoComponents/Info";
-import VisualizationHome from "../Visualization/VisualizationHome";
+import TirpsApp from "../Visualization/TirpsApp";
 import RunKarmaLego from "../Integration/RunKarmaLego";
 import TIMTable from "./TIMTable";
 import Visualization from "./Visualization";
@@ -170,7 +170,7 @@ class TableContent extends Component {
             <Info />
           </Route>
           <Route path={"/Home/Vis"}>
-            <VisualizationHome />
+            <TirpsApp />
           </Route>
           <Route path={"/Home/Disc"}>
             <AddConfigCard />
