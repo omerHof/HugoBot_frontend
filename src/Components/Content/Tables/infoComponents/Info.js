@@ -131,6 +131,7 @@ class Info extends Component {
       .catch((error) => {
         window.alert(error.response.data["message"]);
       });
+      //
 
     this.incrementDownloads(datasetName)
       .then((response) => {
