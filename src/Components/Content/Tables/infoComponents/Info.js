@@ -103,6 +103,18 @@ class Info extends Component {
     return Axios.post(url, config);
   };
 
+  sendDownloadRequest = (id) => {
+    const url = window.base_url +"/getDatasetFiles?dataset_id=" + id;
+    const config = {
+      headers: {
+        "x-access-token": cookies.get("auth-token"),
+      },
+      responseType: "blob",
+    };
+    return Axios.get(url, config);
+  };
+
+
   handleDownloadRequest = () => {
     let datasetName = sessionStorage.getItem("datasetName");
 
@@ -129,7 +141,7 @@ class Info extends Component {
         }
       })
       .catch((error) => {
-        window.alert(error.response.data["message"]);
+        window.alert("uh oh, there's a problem!");
       });
       //
 
@@ -142,23 +154,14 @@ class Info extends Component {
         }
       })
       .catch((error) => {
-        window.alert(error.response.data["message"]);
+        window.alert("uh oh, there's a problem!");
       });
   };
 
-  sendDownloadRequest = (id) => {
-    const url = "/api/getDatasetFiles?dataset_id=" + id;
-    const config = {
-      headers: {
-        "x-access-token": cookies.get("auth-token"),
-      },
-      responseType: "blob",
-    };
-    return Axios.get(url, config);
-  };
+  
 
   incrementDownloads = (id) => {
-    const url = "/api/incrementDownload?dataset_id=" + id;
+    const url = window.base_url +"/incrementDownload?dataset_id=" + id;
     const config = {
       headers: {
         "x-access-token": cookies.get("auth-token"),

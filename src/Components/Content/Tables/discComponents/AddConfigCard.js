@@ -48,7 +48,7 @@ class AddConfigCard extends Component{
     optionsToRender = this.AbMethodOptions.map((option) => <option key={option}>{option}</option>);
 
     getDataOnDataset(id){
-        const url = '/api/getDataOnDataset?id='+id;
+        const url = window.base_url +'/getDataOnDataset?id='+id;
         const config = {
             headers: {
                 'x-access-token': cookies.get('auth-token')
@@ -107,7 +107,7 @@ class AddConfigCard extends Component{
     };
 
     sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,KnowledgeBasedFile,GradientFile,GradientWindowSize) => {
-        const url = '/api/addNewDisc';
+        const url = window.base_url +'/addNewDisc';
         const formData = new FormData();
         formData.append('AbMethod',AbMethod);
         formData.append('PAA',PAA);
