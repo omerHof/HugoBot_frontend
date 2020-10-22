@@ -134,6 +134,7 @@ class Info extends Component {
           a.download = datasetName + ".zip";
 
           a.click();
+          //
 
           window.URL.revokeObjectURL(url);
         } else {
