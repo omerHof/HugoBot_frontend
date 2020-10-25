@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import TiprsContent from "./TiprsContent/TiprsContent";
+import TiprsContent from "./TirpsContent/TirpsContent";
 import TirpsNavigation from "./TirpsNavigation";
 
 /**
@@ -11,7 +11,7 @@ class TirpsApp extends Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="TirpsApp">
                     <TirpsNavigation/>
                     <br/>
                     <br/>

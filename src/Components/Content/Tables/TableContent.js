@@ -106,7 +106,7 @@ class TableContent extends Component {
   //yiftah
   StartVisualization = (id) => {
     sessionStorage.setItem("datasetReadyName", id);
-    window.open("#/VisualizationHome", "_self");
+    window.open("#/TirpsApp", "_self");
   };
 
   CollectData = (id) => {

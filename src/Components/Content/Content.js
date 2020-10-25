@@ -10,7 +10,7 @@ import Register from "../Login/Register";
 import TableContent from "./Tables/TableContent";
 import Tutorial from "./Tutorial";
 import UploadDataset from "./UploadDataset/UploadDataset";
-import VisualizationHome from "./Visualization/VisualizationHome";
+import TirpsApp from "./Visualization/TirpsApp";
 
 import "../../resources/style/colors.css";
 
@@ -47,9 +47,9 @@ class Content extends Component {
               <Login />
             </Container>
           </Route>
-          <Route path="/VisualizationHome">
+          <Route path="/TirpsApp">
             <Container>
-              <VisualizationHome />
+              <TirpsApp />
             </Container>
           </Route>
           <Route path="/Upload">
