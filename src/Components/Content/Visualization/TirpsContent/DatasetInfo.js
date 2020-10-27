@@ -4,7 +4,9 @@ import {Button, Card, Col, Container, Form, Row} from "react-bootstrap"
 
 import Axios from "axios";
 import cookies from "js-cookie";
-import "../../../resources/style/colors.css";
+import "../../../../resources/style/colors.css";
+
+// import "../../../resources/style/colors.css";
 
 /**
  * this class is responsible for uploading and downloading the data about the discretization.
@@ -12,19 +14,22 @@ import "../../../resources/style/colors.css";
  * it also gets, interpolation gap, paa window size, number of bins and method of dicretization
  */
 
-class AddConfigCard extends Component{
+class DatasetInfo extends Component{
 
     constructor(props) {
         super(props);
+        this.datasetInfo = []
+        this.getDataOnDataset(window.selcetedDataSet).then((response) => {
+            this.datasetInfo = response.data['DataSets'];
+        }).then(console.log(this.dataSetInfo[0]))
+    
         this.state ={
-            PAA:"1",
-            AbMethod:"Equal Frequency",
-            NumStates:"2",
+            DataSetName:"1",
+            UserName:"1",
+            ClassName:"2",
             InterpolationGap:"1",
-            Binning:"regular",
-            KnowledgeBasedFile:null,
-            GradientFile:null,
-            GradientWindowSize: "2"
+            StateName:"regular",
+            EntitiesName:null,
         };
     }
 
@@ -39,15 +44,23 @@ class AddConfigCard extends Component{
 
     optionsToRender = this.granularityOptions.map((option) => <option key={option}>{option}</option>);
 
-    getDataOnDataset(id){
-        const url = window.base_url +'/getDataOnDataset?id='+id;
+    getDataOnDataset (id) {
+        const url = window.base_url+ "/getDataSets"
+        let body = {
+            data_set_name: id,
+        }
+        const formData = new FormData();
+    // formData.append("file", file);
+        formData.append("data_set_name", id);
         const config = {
             headers: {
-                'x-access-token': cookies.get('auth-token')
-            }
+            "content-type": "multipart/form-data",
+            "x-access-token": cookies.get("auth-token"),
+            },
         };
-        return Axios.get(url, config);
-    }
+    return Axios.post(url, formData, config);
+    }   
+        
 
     handleSubmit = (event) => {
 
@@ -169,25 +182,6 @@ class AddConfigCard extends Component{
         }
     };
 
-    onNumStatesChange = (e) => {
-        this.setState({NumStates:e.target.value});
-    };
-
-    onInterpolationGapChange = (e) => {
-        this.setState({InterpolationGap:e.target.value});
-    };
-
-    onGradientFileChange = (e) => {
-        this.setState({GradientFile:e.target.files[0]});
-    }
-
-    onGradientWindowSizeChange = (e) => {
-        this.setState({GradientWindowSize:e.target.value});
-    }
-
-    onKnowledgeBasedFileChange = (e) => {
-        this.setState({KnowledgeBasedFile:e.target.files[0]});
-    }
 
     render() {
         return (
@@ -207,8 +201,7 @@ class AddConfigCard extends Component{
                                     </Form.Label>
                                     <Form.Control id={"DataSetName"}
                                                   name={"DataSetName"}
-                                                  onChange={this.DataSetNameOnChange}
-                                                  placeholder={""}/>
+                                                  placeholder={this.state.DataSetName}/>
                                 </Col>
                                 <Col md={6}>
                                     <Form.Label className={"font-weight-bold"}>
@@ -216,7 +209,6 @@ class AddConfigCard extends Component{
                                     </Form.Label>
                                     <Form.Control id={"UserName"}
                                                   name={"UserName"}
-                                                  onChange={this.UserNameOnChange}
                                                   placeholder={"1"}
                                                   type={"text"}/>
                                 </Col>
@@ -228,7 +220,6 @@ class AddConfigCard extends Component{
                                     </Form.Label>
                                     <Form.Control id={"ClassName"}
                                                   name={"ClassName"}
-                                                  onChange={this.ClassNameOnChange}
                                                   placeholder={"1"}
                                                   type={"text"}/>
                                 </Col>
@@ -253,7 +244,6 @@ class AddConfigCard extends Component{
                                     </Form.Label>
                                     <Form.Control id={"StateName"}
                                                   name={"StateName"}
-                                                  onChange={this.StateNameOnChange}
                                                   placeholder={""}/>
                                 </Col>
                                 <Col md={6}>
@@ -262,7 +252,6 @@ class AddConfigCard extends Component{
                                     </Form.Label>
                                     <Form.Control id={"EntitiesName"}
                                                   name={"EntitiesName"}
-                                                  onChange={this.EntitiesNameOnChange}
                                                   placeholder={"1"}
                                                   type={"text"}/>
                                 </Col>
@@ -274,7 +263,6 @@ class AddConfigCard extends Component{
                                     </Form.Label>
                                     <Form.Control id={"Class0Name"}
                                                   name={"Class0Name"}
-                                                  onChange={this.Class0NameOnChange}
                                                   placeholder={""}/>
                                 </Col>
                             </Row>
@@ -285,4 +273,4 @@ class AddConfigCard extends Component{
         );
     };
 }
-export default AddConfigCard;
+export default DatasetInfo;

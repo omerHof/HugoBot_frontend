@@ -169,8 +169,8 @@ class TableContent extends Component {
           <Route path={"/Home/Info"}>
             <Info />
           </Route>
-          <Route path={"/Home/Vis"}>
-            <TirpsApp />
+          <Route path={"/TirpsApp"}>
+            <TirpsApp/>
           </Route>
           <Route path={"/Home/Disc"}>
             <AddConfigCard />

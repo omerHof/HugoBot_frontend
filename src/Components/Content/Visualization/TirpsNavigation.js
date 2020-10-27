@@ -14,22 +14,17 @@ import '../../../resources/style/colors.css'
 
 class TirpsNavigation extends Component {
 
-    constructor(props) {
-        super(props);
-        // if ("user" in sessionStorage) {
-
-        // }
-        // else { sessionStorage.setItem("user", "false"); }
-    }
-
-    render() {
+       render() {
         return (            
             <HashRouter history={History}>
-                <Navbar fixed={"top"} className={"navbar-tirps"} variant={"dark"}>
-                    <div className={"navbar navbar-left"}>
-                        <Link to={"/entities"}>
-                            <i className={"fa fa-users"} /> entities
-                        </Link>                       
+                <Navbar className={"navbar-tirps"} variant={"light"}>
+                    <div className={"navbar-icons"}>
+                        <Link to={"/TirpsApp/TestRouterA"}>
+                            <i className={"fa fa-users"} /> TestRouterA
+                        </Link>
+                        <Link to={"/TirpsApp/TestRouterB"}>
+                            <i className={"fa fa-bath"} /> TestRouterB
+                        </Link>                          
                     </div>                   
                 </Navbar>
             </HashRouter>

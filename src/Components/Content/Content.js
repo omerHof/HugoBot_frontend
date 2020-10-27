@@ -47,10 +47,8 @@ class Content extends Component {
               <Login />
             </Container>
           </Route>
-          <Route path="/TirpsApp">
-            <Container>
-              <TirpsApp />
-            </Container>
+          <Route path="/TirpsApp">            
+            <TirpsApp />           
           </Route>
           <Route path="/Upload">
             <Container fluid={true}>
