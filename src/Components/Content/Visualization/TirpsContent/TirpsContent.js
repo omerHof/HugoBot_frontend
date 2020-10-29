@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import { Redirect, Route, HashRouter, Switch } from "react-router-dom";
 
 import Entities from "./Entities";
-import TestRouterB from "./TestRouterB";
+import DatasetInfo from "./DatasetInfo";
 import History from "../../../../History";
 import "../../../../resources/style/colors.css";
 
@@ -23,9 +23,9 @@ class TirpsContent extends Component {
               <Entities />
             </Container>
           </Route>
-          <Route path={"/TirpsApp/TestRouterB"}>
+          <Route path={"/TirpsApp/DatasetInfo"}>
             <Container>
-              <TestRouterB />
+              <DatasetInfo />
             </Container>
           </Route>
           {/* <Redirect from={"/"} to={"/Home"} /> */}

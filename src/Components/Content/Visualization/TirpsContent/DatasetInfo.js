@@ -6,8 +6,6 @@ import Axios from "axios";
 import cookies from "js-cookie";
 import "../../../../resources/style/colors.css";
 
-// import "../../../resources/style/colors.css";
-
 /**
  * this class is responsible for uploading and downloading the data about the discretization.
  * if you upload the discretization you can do it by knowledge based or by grdient file or by regular way.
@@ -15,22 +13,33 @@ import "../../../../resources/style/colors.css";
  */
 
 class DatasetInfo extends Component{
-
+    state ={
+        DataSetName:"name",
+        UserName:"1",
+        ClassName:"2",
+        InterpolationGap:"1",
+        StateName:"regular",
+        EntitiesName:null,
+        Class0Name:"0"
+    };
     constructor(props) {
         super(props);
         this.datasetInfo = []
-        this.getDataOnDataset(window.selcetedDataSet).then((response) => {
+        this.getDataOnDataset(window.selcetedDataSet).then((response) => 
+        {
             this.datasetInfo = response.data['DataSets'];
-        }).then(console.log(this.dataSetInfo[0]))
+            this.setState({
+                DataSetName:this.datasetInfo[0].data_set_name,
+                UserName: this.datasetInfo[0].UserName,
+                InterpolationGap:this.datasetInfo[0].class_name,
+                StateName:this.datasetInfo[0].data_set_name,
+                EntitiesName:this.datasetInfo[0].data_set_name,
+                Class0Name:this.datasetInfo[0].second_class_name
+            });
+            this.forceUpdate();
+        });
     
-        this.state ={
-            DataSetName:"1",
-            UserName:"1",
-            ClassName:"2",
-            InterpolationGap:"1",
-            StateName:"regular",
-            EntitiesName:null,
-        };
+        
     }
 
     granularityOptions = [
@@ -209,7 +218,7 @@ class DatasetInfo extends Component{
                                     </Form.Label>
                                     <Form.Control id={"UserName"}
                                                   name={"UserName"}
-                                                  placeholder={"1"}
+                                                  placeholder={this.state.        UserName}
                                                   type={"text"}/>
                                 </Col>
                             </Row>
@@ -220,7 +229,7 @@ class DatasetInfo extends Component{
                                     </Form.Label>
                                     <Form.Control id={"ClassName"}
                                                   name={"ClassName"}
-                                                  placeholder={"1"}
+                                                  placeholder={this.state.        ClassName}
                                                   type={"text"}/>
                                 </Col>
                                 <Col md={6}>
@@ -231,7 +240,7 @@ class DatasetInfo extends Component{
                                                   id={"AbMethodInput"}
                                                   name={"AbMethodInput"}
                                                   onChange={this.onAbMethodChange}
-                                                  placeholder={""}
+                                                  placeholder={this.state.        UserName}
                                     >
                                         {this.optionsToRender}
                                     </Form.Control>
@@ -244,7 +253,7 @@ class DatasetInfo extends Component{
                                     </Form.Label>
                                     <Form.Control id={"StateName"}
                                                   name={"StateName"}
-                                                  placeholder={""}/>
+                                                  placeholder={this.state.        StateName}/>
                                 </Col>
                                 <Col md={6}>
                                     <Form.Label className={"font-weight-bold"}>
@@ -252,7 +261,7 @@ class DatasetInfo extends Component{
                                     </Form.Label>
                                     <Form.Control id={"EntitiesName"}
                                                   name={"EntitiesName"}
-                                                  placeholder={"1"}
+                                                  placeholder={this.state.        EntitiesName}
                                                   type={"text"}/>
                                 </Col>
                             </Row>
@@ -263,7 +272,7 @@ class DatasetInfo extends Component{
                                     </Form.Label>
                                     <Form.Control id={"Class0Name"}
                                                   name={"Class0Name"}
-                                                  placeholder={""}/>
+                                                  placeholder={this.state.        UserName}/>
                                 </Col>
                             </Row>
                         </Container>

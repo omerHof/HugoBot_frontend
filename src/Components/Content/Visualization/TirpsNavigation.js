@@ -19,8 +19,8 @@ class TirpsNavigation extends Component {
             <Link to={"/TirpsApp/Entities"}>
               <i className={"fa fa-users"} /> Entities
             </Link>
-            <Link to={"/TirpsApp/TestRouterB"}>
-              <i className={"fa fa-bath"} /> TestRouterB
+            <Link to={"/TirpsApp/DatasetInfo"}>
+              <i className={"fa fa-bath"} /> Info
             </Link>
           </div>
         </Navbar>
