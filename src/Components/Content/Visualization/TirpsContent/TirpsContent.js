@@ -3,11 +3,10 @@ import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import { Redirect, Route, HashRouter, Switch } from "react-router-dom";
 
-
-import TestRouterA from './TestRouterA';
-import TestRouterB from './TestRouterB';
-import History from '../../../../History';
-import '../../../../resources/style/colors.css';
+import Entities from "./Entities";
+import TestRouterB from "./TestRouterB";
+import History from "../../../../History";
+import "../../../../resources/style/colors.css";
 
 /**
  * in this class you can see the content of the main navbar.
@@ -18,10 +17,10 @@ class TirpsContent extends Component {
   render() {
     return (
       <HashRouter history={History}>
-        <Switch>         
-          <Route path={"/TirpsApp/TestRouterA"}>
-            <Container >
-              <TestRouterA />
+        <Switch>
+          <Route path={"/TirpsApp/Entities"}>
+            <Container>
+              <Entities />
             </Container>
           </Route>
           <Route path={"/TirpsApp/TestRouterB"}>
