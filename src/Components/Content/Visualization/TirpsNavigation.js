@@ -20,10 +20,11 @@ class TirpsNavigation extends Component {
                 <Navbar className={"navbar-tirps"} variant={"light"}>
                     <div className={"navbar-icons"}>
                         <Link to={"/TirpsApp/TestRouterA"}>
-                            <i className={"fa fa-users"} /> TestRouterA
+                            <i className={"fa fa-users"} />TestRouterA    
                         </Link>
+                        
                         <Link to={"/TirpsApp/TestRouterB"}>
-                            <i className={"fa fa-bath"} /> TestRouterB
+                            <i className={"fa fa-bath"} />   TestRouterB
                         </Link>                          
                     </div>                   
                 </Navbar>
