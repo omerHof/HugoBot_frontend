@@ -12,26 +12,28 @@ import cookies from "js-cookie";
 class TirpsApp extends Component {
   constructor(props) {
     super(props);
-    if ("datasetReadyName" in sessionStorage) {
-      this.getEntities(sessionStorage.getItem("datasetReadyName")).then(
-        (response) => {
-          let table = JSON.stringify(response.data);
-          sessionStorage.setItem("Entities", table);
-          window.Entities = table;
-          console.log(window.Entities);
-          // window.dispatchEvent(new Event("ReloadEntitiesTable"));
+    let dataSetName = sessionStorage.getItem("datasetReadyName");
+    this.initilizeRootScope(dataSetName);
+  }
 
-          console.log("1");
-          this.forceUpdate();
-        }
-      );
-    }
+  initilizeRootScope = (datasetName) => {
+    window.selectedDataSet = datasetName;
+
+    this.getFullEntities(datasetName);
+    window.states = [];
+  };
+
+  getFullEntities(dataSetName) {
+    this.getEntities(dataSetName).then((response) => {
+      let table = JSON.stringify(response.data);
+      window.Entities = table;
+      this.forceUpdate();
+    });
   }
 
   async getEntities(datasetName) {
     const url = window.base_url + "/getEntities";
     const formData = new FormData();
-    // formData.append("file", file);
     formData.append("data_set_name", datasetName);
     const config = {
       headers: {

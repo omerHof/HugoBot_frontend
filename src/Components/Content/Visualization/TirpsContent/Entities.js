@@ -42,9 +42,21 @@ class Entities extends Component {
     window.dispatchEvent(new Event("ReloadDataSet"));
   }
 
-  // onClick={(e) =>  {this.props.CollectData( iter.DatasetName); }}
-
   renderTableHeader = () => {
+    return (
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>First Care Unit</th>
+          <th>Last Care Unit</th>
+          <th>Gender</th>
+          <th>Age Group</th>
+        </tr>
+      </thead>
+    );
+  };
+
+  renderTableFilter = () => {
     return (
       <thead>
         <tr>
@@ -52,7 +64,7 @@ class Entities extends Component {
             <Form.Control
               id={"id"}
               onChange={this.filter}
-              placeholder={"id"}
+              placeholder={"Filter By id"}
               type={"text"}
             />
           </th>
@@ -60,7 +72,7 @@ class Entities extends Component {
             <Form.Control
               id={"First_Care_Unit"}
               onChange={this.filter}
-              placeholder={"First_Care_Unit"}
+              placeholder={"Filter By First Care Unit"}
               type={"text"}
             />
           </th>
@@ -68,7 +80,7 @@ class Entities extends Component {
             <Form.Control
               id={"Last_Care_unit"}
               onChange={this.filter}
-              placeholder={"Last_Care_unit"}
+              placeholder={"Filter By Last Care unit"}
               type={"text"}
             />
           </th>
@@ -76,7 +88,7 @@ class Entities extends Component {
             <Form.Control
               id={"Gender"}
               onChange={this.filter}
-              placeholder={"Gender"}
+              placeholder={"Filter By Gender"}
               type={"text"}
             />
           </th>
@@ -84,7 +96,7 @@ class Entities extends Component {
             <Form.Control
               id={"Age_Group"}
               onChange={this.filter}
-              placeholder={"Age_Group"}
+              placeholder={"Filter By Age Group"}
               type={"text"}
             />
           </th>
@@ -92,27 +104,9 @@ class Entities extends Component {
       </thead>
     );
   };
-
   renderTableData = () => {
-    // if ("datasetReadyName" in sessionStorage) {
-    //   this.getEntities(sessionStorage.getItem("datasetReadyName")).then(
-    //     (response) => {
-    //       let table = JSON.stringify(response.data);
-    //       sessionStorage.setItem("Entities", table);
-    //       window.Entities = table;
-    //       console.log(window.Entities);
-    //       window.dispatchEvent(new Event("ReloadEntitiesTable"));
-
-    //       console.log("1");
-    //     }
-    //   );
-    console.log("2");
-
-    console.log("3");
-    console.log(window.Entities);
-
-    let tables = JSON.parse(sessionStorage.Entities);
-    // let tables = JSON.parse(window.Entities);
+    // let tables = JSON.parse(sessionStorage.Entities);
+    let tables = JSON.parse(window.Entities);
     return tables.Entities.map((iter, idx) => {
       iter = JSON.parse(iter);
       if (
@@ -159,6 +153,8 @@ class Entities extends Component {
         <Card.Body>
           <Table striped={true} bordered={true} hover={true}>
             {this.renderTableHeader()}
+
+            {this.renderTableFilter()}
             <tbody>{this.renderTableData()}</tbody>
           </Table>
         </Card.Body>
