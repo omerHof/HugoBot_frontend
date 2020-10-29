@@ -1,0 +1,21 @@
+.navbar-tirps{  
+    margin-top: 64px;      
+    background-color:#cddbdb;  
+        
+} 
+
+.navbar-tirps li{      
+    display: inline-block;            
+} 
+
+.navbar-tirps a{     
+    color: rgb(10, 40, 78);     
+} 
+
+.navbar-tirps a:hover{
+    text-decoration: none;     
+    color: black; 
+    background-color:#95b4b4;     
+} 
+
+
