@@ -33,24 +33,6 @@ class Entities extends Component {
     this.forceUpdate();
   };
 
-  constructor(props) {
-    super(props);
-    if ("datasetReadyName" in sessionStorage) {
-      this.getEntities(sessionStorage.getItem("datasetReadyName")).then(
-        (response) => {
-          let table = JSON.stringify(response.data);
-          sessionStorage.setItem("Entities", table);
-          window.Entities = table;
-          console.log(window.Entities);
-          // window.dispatchEvent(new Event("ReloadEntitiesTable"));
-
-          console.log("1");
-          this.forceUpdate();
-        }
-      );
-    }
-  }
-
   componentDidMount() {
     if (sessionStorage.getItem("user").localeCompare("true") !== 0) {
       window.open("#/Login", "_self");
@@ -110,20 +92,6 @@ class Entities extends Component {
       </thead>
     );
   };
-
-  async getEntities(datasetName) {
-    const url = window.base_url + "/getEntities";
-    const formData = new FormData();
-    // formData.append("file", file);
-    formData.append("data_set_name", datasetName);
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-        "x-access-token": cookies.get("auth-token"),
-      },
-    };
-    return Axios.post(url, formData, config);
-  }
 
   renderTableData = () => {
     // if ("datasetReadyName" in sessionStorage) {
