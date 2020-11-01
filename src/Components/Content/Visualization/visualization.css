@@ -1,14 +1,15 @@
-.navbar-tirps{  
+.navbar-tirps{ 
     margin-top: 64px;      
     background-color:#cddbdb;  
-        
+    height: 73px;
+}         
+
+.navbar-tirps li{     
+            
 } 
 
-.navbar-tirps li{      
-    display: inline-block;            
-} 
-
-.navbar-tirps a{     
+.navbar-tirps a{  
+    font-weight: bold;  
     color: rgb(10, 40, 78);     
 } 
 

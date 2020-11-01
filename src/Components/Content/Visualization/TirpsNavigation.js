@@ -27,7 +27,7 @@ class TirpsNavigation extends Component {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to={"/TirpsApp/States"}>
+                            <NavLink to={"/TirpsApp/States"}>                                
                             <i class="fas fa-bars"></i> States
                             </NavLink>
                         </li>
@@ -55,8 +55,7 @@ class TirpsNavigation extends Component {
                             <NavLink to={"/TirpsApp/PTIRPsSearch"}>
                             <i class="fas fa-search"></i> PTIRPs Search
                             </NavLink>
-                        </li>
-                        
+                        </li>                        
                     </ul>
                 </Navbar>
             </HashRouter>
