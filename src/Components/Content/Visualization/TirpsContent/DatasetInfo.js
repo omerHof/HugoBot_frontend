@@ -17,7 +17,7 @@ class DatasetInfo extends Component{
         DataSetName:"name",
         UserName:"1",
         ClassName:"2",
-        InterpolationGap:"1",
+        granularity:"1",
         StateName:"regular",
         EntitiesName:null,
         Class0Name:"0"
@@ -25,15 +25,16 @@ class DatasetInfo extends Component{
     constructor(props) {
         super(props);
         this.datasetInfo = []
-        this.getDataOnDataset(window.selcetedDataSet).then((response) => 
+        this.getDataOnDataset(window.selectedDataSet).then((response) => 
         {
             this.datasetInfo = response.data['DataSets'];
             this.setState({
                 DataSetName:this.datasetInfo[0].data_set_name,
-                UserName: this.datasetInfo[0].UserName,
-                InterpolationGap:this.datasetInfo[0].class_name,
-                StateName:this.datasetInfo[0].data_set_name,
-                EntitiesName:this.datasetInfo[0].data_set_name,
+                UserName: this.datasetInfo[0].username,
+                ClassName:this.datasetInfo[0].class_name,
+                granularity:this.datasetInfo[0].timestamp,
+                StateName:this.datasetInfo[0].states_file_name,
+                EntitiesName:this.datasetInfo[0].entities_file_name,
                 Class0Name:this.datasetInfo[0].second_class_name
             });
             this.forceUpdate();
@@ -272,7 +273,7 @@ class DatasetInfo extends Component{
                                     </Form.Label>
                                     <Form.Control id={"Class0Name"}
                                                   name={"Class0Name"}
-                                                  placeholder={this.state.        UserName}/>
+                                                  placeholder={this.state.        Class0Name}/>
                                 </Col>
                             </Row>
                         </Container>
