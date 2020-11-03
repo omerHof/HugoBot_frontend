@@ -27,7 +27,23 @@ class TirpsApp extends Component {
     this.getEntities(dataSetName).then((response) => {
       let table = JSON.stringify(response.data);
       window.Entities = table;
+      this.getEntitieskeys();
       this.forceUpdate();
+    });
+  }
+  getEntitieskeys() {
+    let tables = JSON.parse(window.Entities);
+    let keys = [];
+    tables.Entities.map((iter, idx) => {
+      iter = JSON.parse(iter);
+      if (keys.length === 0) {
+        for (let key in iter) {
+          keys.push(key);
+        }
+      } else {
+        window.entitiesKeys = keys;
+        return null;
+      }
     });
   }
 

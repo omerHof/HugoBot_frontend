@@ -13,23 +13,35 @@ import history from "../../../../History";
 
 class Entities extends Component {
   state = {
-    filterId: "",
-    filterFirst: "",
-    filterLast: "",
-    filterGender: "",
-    filterAge: "",
-    ready: "",
-    myVar: "",
+    filters: [],
   };
+  constructor(props) {
+    super(props);
+    this.textInput = React.createRef();
+    for (let key in window.entitiesKeys) {
+      this.state.filters.push({
+        key: window.entitiesKeys[key],
+        value: "",
+      });
+    }
+  }
 
   filter = () => {
-    this.setState({
-      filterId: document.getElementById("id").value,
-      filterFirst: document.getElementById("First_Care_Unit").value,
-      filterLast: document.getElementById("Last_Care_unit").value,
-      filterGender: document.getElementById("Gender").value,
-      filterAge: document.getElementById("Age_Group").value,
-    });
+    let newFilter = [...this.state.filters];
+
+    for (let key in window.entitiesKeys) {
+      let keyName = window.entitiesKeys[key];
+      newFilter[key] = {
+        ...newFilter[key],
+        value: document.getElementById(keyName).value,
+      };
+    }
+    this.state.filters = newFilter;
+
+    this.setState((prevState) => ({
+      filters: [...prevState.filters],
+    }));
+
     this.forceUpdate();
   };
 
@@ -37,6 +49,7 @@ class Entities extends Component {
     if (sessionStorage.getItem("user").localeCompare("true") !== 0) {
       window.open("#/Login", "_self");
     }
+
     sessionStorage.setItem("dataSet", "false");
     window.dispatchEvent(new Event("ReloadTable1"));
     window.dispatchEvent(new Event("ReloadDataSet"));
@@ -46,11 +59,9 @@ class Entities extends Component {
     return (
       <thead>
         <tr>
-          <th>id</th>
-          <th>First Care Unit</th>
-          <th>Last Care Unit</th>
-          <th>Gender</th>
-          <th>Age Group</th>
+          {window.entitiesKeys.map((key) => (
+            <th>{key}</th>
+          ))}
         </tr>
       </thead>
     );
@@ -60,74 +71,32 @@ class Entities extends Component {
     return (
       <thead>
         <tr>
-          <th>
-            <Form.Control
-              id={"id"}
-              onChange={this.filter}
-              placeholder={"Filter By id"}
-              type={"text"}
-            />
-          </th>
-          <th>
-            <Form.Control
-              id={"First_Care_Unit"}
-              onChange={this.filter}
-              placeholder={"Filter By First Care Unit"}
-              type={"text"}
-            />
-          </th>
-          <th>
-            <Form.Control
-              id={"Last_Care_unit"}
-              onChange={this.filter}
-              placeholder={"Filter By Last Care unit"}
-              type={"text"}
-            />
-          </th>
-          <th>
-            <Form.Control
-              id={"Gender"}
-              onChange={this.filter}
-              placeholder={"Filter By Gender"}
-              type={"text"}
-            />
-          </th>
-          <th>
-            <Form.Control
-              id={"Age_Group"}
-              onChange={this.filter}
-              placeholder={"Filter By Age Group"}
-              type={"text"}
-            />
-          </th>
+          {window.entitiesKeys.map((key) => (
+            <th>
+              <Form.Control
+                ref={this.textInput}
+                id={key}
+                // inputRef={node => this.inputNode = node}
+                onChange={this.filter}
+                placeholder={"Filter By " + key}
+                type={"text"}
+              />
+            </th>
+          ))}
         </tr>
       </thead>
     );
   };
   renderTableData = () => {
-    // let tables = JSON.parse(sessionStorage.Entities);
     let tables = JSON.parse(window.Entities);
     return tables.Entities.map((iter, idx) => {
       iter = JSON.parse(iter);
-      if (
-        (this.state.filterId.localeCompare("") === 0 ||
-          iter["id"].includes(this.state.filterId)) &&
-        (this.state.filterFirst.localeCompare("") === 0 ||
-          iter["First_Care_Unit"].includes(this.state.filterFirst)) &&
-        (this.state.filterLast.localeCompare("") === 0 ||
-          iter["Last_Care_unit"].includes(this.state.filterLast)) &&
-        (this.state.filterGender.localeCompare("") === 0 ||
-          iter["Gender"].includes(this.state.filterGender)) &&
-        (this.state.filterAge.localeCompare("") === 0 ||
-          iter["Age_Group"].includes(this.state.filterAge))
-      ) {
+      if (this.check(iter)) {
         return (
-          <tr key={idx}>
-            <td>{iter["id"]}</td>
-            <td>{iter["First_Care_Unit"]}</td>
-            <td>{iter["Last_Care_unit"]}</td>
-            <td>{iter["Gender"]}</td>
-            <td>{iter["Age_Group"]}</td>
+          <tr>
+            {window.entitiesKeys.map((key) => (
+              <td>{iter[key]}</td>
+            ))}
           </tr>
         );
       } else {
@@ -136,9 +105,18 @@ class Entities extends Component {
     });
   };
 
-  // componentWillUnmount() {
-  //   clearTimeout(this.myVar);
-  // }
+  check(iter) {
+    for (let key in window.entitiesKeys) {
+      if (
+        this.state.filters[key].value.localeCompare("") !== 0 &&
+        !iter[window.entitiesKeys[key]].includes(this.state.filters[key].value)
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   render() {
     let that = this;
