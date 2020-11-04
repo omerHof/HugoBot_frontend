@@ -87,6 +87,7 @@ class Entities extends Component {
       </thead>
     );
   };
+  
   renderTableData = () => {
     let tables = JSON.parse(window.Entities);
     return tables.Entities.map((iter, idx) => {

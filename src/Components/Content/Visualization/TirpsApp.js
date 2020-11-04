@@ -18,11 +18,13 @@ class TirpsApp extends Component {
 
   initilizeRootScope = (datasetName) => {
     window.selectedDataSet = datasetName;
-
     this.getFullEntities(datasetName);
-    window.states = [];
+    this.getFullStates(datasetName);
+     window.states = [];
   };
 
+
+  //Entities
   getFullEntities(dataSetName) {
     this.getEntities(dataSetName).then((response) => {
       let table = JSON.stringify(response.data);
@@ -31,6 +33,20 @@ class TirpsApp extends Component {
       this.forceUpdate();
     });
   }
+
+  async getEntities(datasetName) {
+    const url = window.base_url + "/getEntities";
+    const formData = new FormData();
+    formData.append("data_set_name", datasetName);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        "x-access-token": cookies.get("auth-token"),
+      },
+    };
+    return Axios.post(url, formData, config);
+  }
+
   getEntitieskeys() {
     let tables = JSON.parse(window.Entities);
     let keys = [];
@@ -47,8 +63,18 @@ class TirpsApp extends Component {
     });
   }
 
-  async getEntities(datasetName) {
-    const url = window.base_url + "/getEntities";
+  //States
+  getFullStates(dataSetName) {
+    this.getOurStates(dataSetName).then((response) => {
+      let table = JSON.stringify(response.data);
+      window.States = table;
+      this.getStatesKeys();
+      this.forceUpdate();
+    });
+  }  
+
+  async getOurStates(datasetName) {
+    const url = window.base_url + "/getStates";
     const formData = new FormData();
     formData.append("data_set_name", datasetName);
     const config = {
@@ -58,7 +84,23 @@ class TirpsApp extends Component {
       },
     };
     return Axios.post(url, formData, config);
-  }
+  } 
+
+  getStatesKeys() {
+    let tables = JSON.parse(window.States);
+    let keys = [];
+    tables.States.map((iter, idx) => {
+      iter = JSON.parse(iter);
+      if (keys.length === 0) {
+        for (let key in iter) {
+          keys.push(key);
+        }
+      } else {
+        window.statesKeys = keys;
+        return null;
+      }
+    });
+  } 
 
   render() {
     return (
