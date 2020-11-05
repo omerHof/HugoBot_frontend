@@ -159,11 +159,10 @@ class HomeTable extends Component {
       <Card>
         <Card.Header className={"bg-hugobot"}>
           <Card.Text className={"text-hugobot"}>
-            Add a New Configuration
+          Datasets
           </Card.Text>
         </Card.Header>
         <Card.Body>
-          <Card.Text>Datasets</Card.Text>
           <Button
             className={"btn-hugobot"}
             href={"#/Upload/Metadata"}
