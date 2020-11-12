@@ -18,11 +18,47 @@ class TirpsApp extends Component {
 
   initilizeRootScope = (datasetName) => {
     window.selectedDataSet = datasetName;
+    this.getRoot(datasetName);
     this.getFullEntities(datasetName);
     this.getFullStates(datasetName);
-     window.states = [];
+    window.states = [];
   };
 
+  //get root for the TIRPs page
+  async getRoot(dataSetName) {
+    const formData = new FormData();
+    formData.append('data_set_name', dataSetName)
+    const url = window.base_url + "/initiateTirps";
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        "x-access-token": cookies.get("auth-token"),
+      },
+    };
+    const res = await Axios.post(url, formData, config);
+    if (!res.statusText == "OK") {
+      throw res;
+    }
+    else {
+      const arrOfRoot = res.data.Root;
+      let jsons = [];
+      for (let i = 0; i < arrOfRoot.length; i++) {
+        let tirp = JSON.parse(arrOfRoot[i]);
+        jsons.push(tirp);
+      }
+      window.rootElement = jsons;   
+    }
+
+    // Axios.post(url, formData, config).then((response) => {
+    //   if (!response.ok) {
+    //     throw response;
+    //   }
+
+    //   }
+
+    // }
+    // );
+  }
 
   //Entities
   getFullEntities(dataSetName) {
@@ -71,7 +107,7 @@ class TirpsApp extends Component {
       this.getStatesKeys();
       this.forceUpdate();
     });
-  }  
+  }
 
   async getOurStates(datasetName) {
     const url = window.base_url + "/getStates";
@@ -84,7 +120,7 @@ class TirpsApp extends Component {
       },
     };
     return Axios.post(url, formData, config);
-  } 
+  }
 
   getStatesKeys() {
     let tables = JSON.parse(window.States);
@@ -100,7 +136,7 @@ class TirpsApp extends Component {
         return null;
       }
     });
-  } 
+  }
 
   render() {
     return (
