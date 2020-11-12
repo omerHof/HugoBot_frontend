@@ -159,22 +159,10 @@ class HomeTable extends Component {
       <Card>
         <Card.Header className={"bg-hugobot"}>
           <Card.Text className={"text-hugobot"}>
-            Add a New Configuration
+            Visualization DataSets
           </Card.Text>
         </Card.Header>
         <Card.Body>
-          <Card.Text>Datasets</Card.Text>
-          <Button
-            className={"btn-hugobot"}
-            href={"#/Upload/Metadata"}
-            onClick={this.onClick}
-            size={"sm"}
-          >
-            <i className="fas fa-upload" />
-            &nbsp; Upload Dataset
-          </Button>
-          <br />
-          <br />
           <Table striped={true} bordered={true} hover={true}>
             {this.renderTableHeader()}
             <tbody>{this.renderTableData()}</tbody>

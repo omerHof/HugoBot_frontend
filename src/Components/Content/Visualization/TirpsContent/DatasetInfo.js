@@ -15,12 +15,15 @@ import "../../../../resources/style/colors.css";
 class DatasetInfo extends Component{
     state ={
         DataSetName:"name",
-        UserName:"1",
-        ClassName:"2",
-        granularity:"1",
-        StateName:"regular",
-        EntitiesName:null,
-        Class0Name:"0"
+        UserName:"",
+        ClassName:"",
+        ClassEntitiesAmount:"",
+        granularity:"",
+        StateName:"",
+        EntitiesName:"",
+        Class0Name:"",
+        Class0EntitiesAmount:"",
+        
     };
     constructor(props) {
         super(props);
@@ -32,10 +35,12 @@ class DatasetInfo extends Component{
                 DataSetName:this.datasetInfo[0].data_set_name,
                 UserName: this.datasetInfo[0].username,
                 ClassName:this.datasetInfo[0].class_name,
+                ClassEntitiesAmount:this.datasetInfo[0].num_of_entities,
                 granularity:this.datasetInfo[0].timestamp,
                 StateName:this.datasetInfo[0].states_file_name,
                 EntitiesName:this.datasetInfo[0].entities_file_name,
-                Class0Name:this.datasetInfo[0].second_class_name
+                Class0Name:this.datasetInfo[0].second_class_name,
+                Class0EntitiesAmount:this.datasetInfo[0].num_of_entities_class_1
             });
             this.forceUpdate();
         });
@@ -71,128 +76,6 @@ class DatasetInfo extends Component{
     return Axios.post(url, formData, config);
     }   
         
-
-    handleSubmit = (event) => {
-
-        event.preventDefault();
-
-        this.sendDisc(
-            this.state.PAA,
-            this.state.NumStates,
-            this.state.InterpolationGap,
-            this.state.AbMethod,
-            this.state.KnowledgeBasedFile,
-            this.state.GradientFile,
-            this.state.GradientWindowSize)
-            .then((response)=>{
-                console.log(response.data);
-                if(response.status < 400){
-                    this.getDataOnDataset(sessionStorage.getItem("datasetName"))
-                        .then((response) => {
-                            if (response.status < 400) {
-                                let data1= response.data["disc"];
-                                let i;
-                                let disc= {"rows": []}
-                                for (i = 0; i < data1["lengthNum"]; i++) {
-                                    let y=data1[parseInt(i)];
-                                    disc.rows.push(y)
-                                }
-                                let data2= response.data["karma"];
-                                let j;
-                                let karma= {"rows": []}
-                                for (j = 0; j < data2["lengthNum"]; j++) {
-                                    let w=data2[parseInt(j)];
-                                    karma.rows.push(w)
-                                }
-                                sessionStorage.setItem('DiscretizationTable', JSON.stringify(disc));
-                                sessionStorage.setItem('TIMTable', JSON.stringify(karma));
-                                window.dispatchEvent(new Event("ReloadTable"));
-                            }
-                            else {
-                                window.alert('there is no such file to download');
-                            }
-                        });
-                    window.alert('Discretization added!');
-                }
-                else{
-                    window.alert('uh oh, there\'s a problem!')
-                }
-            })
-            .catch(error => window.alert(error.response.data['message']));
-    };
-
-    sendDisc = (PAA,NumStates,InterpolationGap,AbMethod,KnowledgeBasedFile,GradientFile,GradientWindowSize) => {
-        const url = window.base_url +'/addNewDisc';
-        const formData = new FormData();
-        formData.append('AbMethod',AbMethod);
-        formData.append('PAA',PAA);
-        formData.append('InterpolationGap',InterpolationGap);
-        if(this.state.Binning.localeCompare("regular") === 0){
-            formData.append('NumStates',NumStates);
-        }
-        else if(this.state.Binning.localeCompare("kbGradient") === 0){
-            formData.append('GradientFile',GradientFile);
-            formData.append('GradientWindowSize',GradientWindowSize);
-        }
-        else if(this.state.Binning.localeCompare("kbValue") === 0) {
-            formData.append('KnowledgeBasedFile', KnowledgeBasedFile);
-        }
-        formData.append('datasetName',sessionStorage.getItem("datasetName"));
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data',
-                'x-access-token': cookies.get('auth-token')
-            }
-        };
-        return Axios.post(url, formData,config);
-    };
-
-    onPAAChange = (e) => {
-        this.setState({PAA:e.target.value});
-    };
-
-    onAbMethodChange = (e) => {
-
-        let bKB = e.target.value.localeCompare("Knowledge-Based") === 0;
-
-        let bGrad = e.target.value.localeCompare("Gradient") === 0;
-
-        let binning;
-
-        if(bKB){
-            binning = "kbValue";
-        }
-        else if(bGrad) {
-            binning = "kbGradient";
-        }
-        else{
-            binning = "regular"
-        }
-
-        //update application state
-        this.setState({
-            AbMethod:e.target.value,
-            Binning: binning,
-            KnowledgeBasedFile: !bKB ? null : this.state.KnowledgeBasedFile,
-            GradientFile: !bGrad ? null : this.state.GradientFile,
-            GradientWindowSize: !bGrad ? "2" : this.state.GradientWindowSize,
-            NumStates: (bKB || bGrad) ? "2" : this.state.NumStates
-        });
-
-        //update UI elements
-        if(!bKB)
-            document.getElementById("KB-File").value = null;
-        if(!bGrad)
-            document.getElementById("Gradient-File").value = null;
-            document.getElementById("GradientWindowInput").value = null;
-
-        if(bKB || bGrad){
-            // reset the regular disc. UI to its defaults
-            document.getElementById("NumStatesInput").value = "";
-        }
-    };
-
-
     render() {
         return (
             <Card style={{ width: 'auto' }}>
@@ -202,78 +85,97 @@ class DatasetInfo extends Component{
                     </Card.Text>
                 </Card.Header>
                 <Card.Body>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form>
                         <Container fluid={true}>
                             <Row>
                                 <Col md={6}>
-                                    <Form.Label className={"font-weight-bold"}>
+                                    <Form.Label className={"font-weight-bold text-dark"}>
                                       DataSet Name
                                     </Form.Label>
                                     <Form.Control id={"DataSetName"}
                                                   name={"DataSetName"}
-                                                  placeholder={this.state.DataSetName}/>
+                                                  placeholder={" "+ this.state.DataSetName} disabled />
+
                                 </Col>
                                 <Col md={6}>
-                                    <Form.Label className={"font-weight-bold"}>
-                                        User Name
+                                    <Form.Label className={"font-weight-bold text-dark"}>
+                                        DataSet Owner
                                     </Form.Label>
                                     <Form.Control id={"UserName"}
                                                   name={"UserName"}
-                                                  placeholder={this.state.        UserName}
-                                                  type={"text"}/>
+                                                  placeholder={" "+ this.state.        UserName}
+                                                  disabled/>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col md={6}>
-                                    <Form.Label className={"font-weight-bold"}>
+                                    <Form.Label className={"font-weight-bold text-dark"}>
                                       Class Name
                                     </Form.Label>
                                     <Form.Control id={"ClassName"}
                                                   name={"ClassName"}
-                                                  placeholder={this.state.        ClassName}
-                                                  type={"text"}/>
+                                                  placeholder={" "+this.state.        ClassName}
+                                                  disabled/>
                                 </Col>
                                 <Col md={6}>
-                                <Form.Label className={"font-weight-bold"}>
-                                      Maximal granularity
+                                    <Form.Label className={"font-weight-bold text-dark"}>
+                                      Number of Entities
                                     </Form.Label>
-                                    <Form.Control as={"select"}
-                                                  id={"AbMethodInput"}
-                                                  name={"AbMethodInput"}
-                                                  onChange={this.onAbMethodChange}
-                                                  placeholder={this.state.        UserName}
-                                    >
-                                        {this.optionsToRender}
-                                    </Form.Control>
+                                    <Form.Control id={"ClassEntitiesAmount"}
+                                                  name={"ClassEntitiesAmount"}
+                                                  placeholder={" "+this.state.        ClassEntitiesAmount}
+                                                  disabled/>
                                 </Col>
                               </Row>
-                              <Row>
-                                <Col md={6}>
-                                    <Form.Label className={"font-weight-bold"}>
-                                      State File Name
+                            <Row>
+                            <Col md={6}>
+                                <Form.Label className={"font-weight-bold text-dark"}>
+                                      Maximal granularity
                                     </Form.Label>
-                                    <Form.Control id={"StateName"}
-                                                  name={"StateName"}
-                                                  placeholder={this.state.        StateName}/>
-                                </Col>
-                                <Col md={6}>
-                                    <Form.Label className={"font-weight-bold"}>
-                                        Entities File Name
-                                    </Form.Label>
-                                    <Form.Control id={"EntitiesName"}
-                                                  name={"EntitiesName"}
-                                                  placeholder={this.state.        EntitiesName}
-                                                  type={"text"}/>
+                                    <Form.Control id={"granularity"}
+                                                  name={"granularity"}
+                                                  placeholder={" "+this.state.        granularity}
+                                                  disabled/>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col md={6}>
-                                    <Form.Label className={"font-weight-bold"}>
+                                    <Form.Label className={"font-weight-bold text-dark"}>
                                       Class 0 Name
                                     </Form.Label>
                                     <Form.Control id={"Class0Name"}
                                                   name={"Class0Name"}
-                                                  placeholder={this.state.        Class0Name}/>
+                                                  placeholder={" "+this.state.        Class0Name}
+                                                  disabled/>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Label className={"font-weight-bold text-dark"}>
+                                    Number of Entities
+                                    </Form.Label>
+                                    <Form.Control id={"Class0EntitiesAmount"}
+                                                  name={"Class0EntitiesAmount"}
+                                                  placeholder={" "+this.state.        Class0EntitiesAmount}
+                                                  disabled/>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6}>
+                                    <Form.Label className={"font-weight-bold text-dark"}>
+                                      State File Name
+                                    </Form.Label>
+                                    <Form.Control id={"StateName"}
+                                                  name={"StateName"}
+                                                  placeholder={" "+this.state.        StateName}
+                                                  disabled/>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Label className={"font-weight-bold text-dark"}>
+                                        Entities File Name
+                                    </Form.Label>
+                                    <Form.Control id={"EntitiesName"}
+                                                  name={"EntitiesName"}
+                                                  placeholder={" "+this.state.        EntitiesName}
+                                                  disabled/>
                                 </Col>
                             </Row>
                         </Container>
