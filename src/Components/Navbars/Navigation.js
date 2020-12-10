@@ -37,7 +37,7 @@ class Navigation extends Component {
         window.addEventListener("ReloadTable1", function () { that.forceUpdate() });
         return (
             <HashRouter history={History}>
-                <Navbar fixed={"top"} className={"bg-hugobot"} variant={"dark"}>
+                <Navbar fixed="top" className={"bg-hugobot"} variant={"dark"}>
                     <div className={"navbar navbar-left"}>
                         <Link to={"/"}>
                             <i className={"fas fa-home"} /> Home &nbsp;
@@ -49,7 +49,7 @@ class Navigation extends Component {
                     <div className={"row justify-Content-center"}>
                         <Navbar.Brand>
                             <Link to={"/"}>
-                                <h4>HugoBot</h4>
+                                <h4>HUGOBOT</h4>
                             </Link>
                         </Navbar.Brand>
                     </div>

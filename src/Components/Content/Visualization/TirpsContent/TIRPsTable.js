@@ -33,26 +33,15 @@ class TIRPsTable extends Component {
 
   renderTableHeader = () => {
     return (
-      <thead>
-        <th>
-        Next
-        </th>
-          <th>
-            Relation
-          </th>
-          <th>
-            Symbol
-          </th>
-          <th>
-            Vertical Support
-          </th>
-          <th>
-            Mean Horizontal Support
-          </th>
-          <th>
-          Mean Mean Duration
-          </th>        
-        
+      <thead> 
+        <tr>
+          <th> Next </th>
+          <th> Relation </th>
+          <th> Symbol </th>
+          <th> Vertical Support </th>
+          <th> Mean Horizontal Support </th>
+          <th> Mean Mean Duration </th>   
+        </tr>  
       </thead>
     );
   };
@@ -72,12 +61,12 @@ class TIRPsTable extends Component {
             //   }}
             >
               {/*<td>{iter["UserID"]}</td>*/}
-              <td>{iter["next"]}</td>
-              <td>{iter["_TIRP__rel"]}</td>
-              <td>{iter["_TIRP__symbols"]}</td>
-              <td>{iter["_TIRP__vertical_support"]}</td>
-              <td>{iter["_TIRP__mean_horizontal_support"]}</td>
-              <td>{iter["_TIRP__mean_duration"]}</td>
+              <td> {iter["next"]} </td>
+              <td> {iter["_TIRP__rel"]} </td>
+              <td> {iter["_TIRP__symbols"]} </td>
+              <td> {iter["_TIRP__vertical_support"]} </td>
+              <td> {iter["_TIRP__mean_horizontal_support"]} </td>
+              <td> {iter["_TIRP__mean_duration"]} </td>
 
             </tr>
           );

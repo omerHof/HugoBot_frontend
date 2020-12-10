@@ -1,6 +1,17 @@
-.bg-hugobot {      
+.bg-hugobot {    
     background-color:#2d3e50;
 }
+
+.bg-hugobot a{  
+    color: white;  
+    
+}
+
+.bg-hugobot a:hover{    
+    text-decoration: none;
+    color: rgb(248, 247, 183);
+}
+
 
 .text-hugobot {
     color: white;
