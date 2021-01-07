@@ -12,9 +12,9 @@ class Footer extends Component {
   render() {
     return (
       <Navbar fixed="bottom" className={"bg-hugobot footer-hugobot"}>
-        <Row>
-          Contact us: Roi: &nbsp; <code>kroi@post.bgu.ac.il</code>, &nbsp; Omer:
-          &nbsp; <code>omerhof@post.bgu.ac.il</code>, &nbsp; Yiftah: &nbsp;{" "}
+        <Row className={"emails"}>
+          <b>Contact us</b>&emsp; Roi: &nbsp; <code>kroi@post.bgu.ac.il</code> &emsp; Omer:
+          &nbsp; <code>omerhof@post.bgu.ac.il</code> &emsp; Yiftah: &nbsp;{" "}
           <code>szoke@post.bgu.ac.il</code>
         </Row>
       </Navbar>
