@@ -12,12 +12,14 @@ import DiscretizationTable from "./DiscretizationTable";
 import history from "../../../History";
 import HomeTable from "./HomeTable";
 import HomeTableReady from "./HomeTableReady";
+import Landing from "./Landing";
 import Info from "./infoComponents/Info";
 import TirpsApp from "../Visualization/TirpsApp";
 import RunKarmaLego from "../Integration/RunKarmaLego";
 import TIMTable from "./TIMTable";
 import Visualization from "./Visualization";
 import Workflow from "./Workflow";
+
 
 /**
  * this class renders all the data of the home page.
@@ -33,6 +35,7 @@ class TableContent extends Component {
     InfoTable: [],
     DiscretizationTable: [],
     TIMTable: [],
+    isNewData: false
   };
 
   getAllDatasets() {
@@ -145,11 +148,32 @@ class TableContent extends Component {
       });
   };
 
+  changeLanding(){
+    this.setState({landing: 2});
+  }
+
   render() {
     let that = this;
     window.addEventListener("ReloadTableContent", function () {
       that.forceUpdate();
-    });
+      
+    })
+    const isNewData = this.state.isNewData;
+      let displaesData;
+      if (isNewData) {
+        displaesData = <HomeTableReady
+        HomeTable={this.state.HomeTableReady}
+        StartVisualization={this.StartVisualization}
+        />;
+      }     
+      else{
+        displaesData = <HomeTable
+          HomeTable={this.state.HomeTable}
+          CollectData={this.CollectData}
+        />;
+        
+      }
+    ;
     return (
       <HashRouter history={history}>
         <br />
@@ -157,20 +181,15 @@ class TableContent extends Component {
         <br />
         <Container>
           <Route exact={true} path={"/Home"}>
-            <HomeTable
-              HomeTable={this.state.HomeTable}
-              CollectData={this.CollectData}
-            />
-            {/* <HomeTableReady
-              HomeTable={this.state.HomeTableReady}
-              StartVisualization={this.StartVisualization}
-            /> */}
+            <Landing/>
+            {displaesData}
+        
           </Route>
           <Route path={"/Home/Info"}>
             <Info />
           </Route>
           <Route path={"/TirpsApp"}>
-            <TirpsApp/>
+            <TirpsApp />
           </Route>
           <Route path={"/Home/Disc"}>
             <AddConfigCard />
