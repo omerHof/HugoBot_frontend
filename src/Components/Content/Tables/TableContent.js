@@ -161,10 +161,10 @@ class TableContent extends Component {
               HomeTable={this.state.HomeTable}
               CollectData={this.CollectData}
             />
-            <HomeTableReady
+            {/* <HomeTableReady
               HomeTable={this.state.HomeTableReady}
               StartVisualization={this.StartVisualization}
-            />
+            /> */}
           </Route>
           <Route path={"/Home/Info"}>
             <Info />
