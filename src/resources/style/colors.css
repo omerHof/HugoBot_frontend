@@ -1,33 +1,25 @@
-.bg-hugobot {    
-    background-color:#2d3e50;
+.bg-hugobot {
+  background-color: #2d3e50;
 }
 
-.bg-hugobot a{  
-    color: white;  
-    
+.bg-hugobot a {
+  color: white;
 }
 
-.bg-hugobot a:hover{    
-    text-decoration: none;
-    color: rgb(248, 247, 183);
+.bg-hugobot a:hover {
+  text-decoration: none;
+  color: rgb(248, 247, 183);
 }
-
 
 .text-hugobot {
-    color: white;
+  color: white;
 }
 
 .footer-hugobot {
-    max-height: 35px;
-    min-height: 30px;
+  max-height: 35px;
+  min-height: 30px;
 }
 
-.emails code{
-    color: rgb(152, 219, 139);
+.emails code {
+  color: rgb(152, 219, 139);
 }
-
-
-
-
-
-
