@@ -35,7 +35,8 @@ class TableContent extends Component {
     InfoTable: [],
     DiscretizationTable: [],
     TIMTable: [],
-    isNewData: false
+    isNewData: false,
+    isDataDisplaeyd: false
   };
 
   getAllDatasets() {
@@ -148,8 +149,12 @@ class TableContent extends Component {
       });
   };
 
-  changeLanding(){
-    this.setState({landing: 2});
+  DisplayNewData = () => {
+    this.setState({isNewData : true, isDataDisplaeyd: true});   
+  }
+
+  DisplayoldData = () => {
+    this.setState({isNewData : false, isDataDisplaeyd: true});   
   }
 
   render() {
@@ -159,14 +164,15 @@ class TableContent extends Component {
       
     })
     const isNewData = this.state.isNewData;
+    const isDiaplaeyd = this.state.isDataDisplaeyd;
       let displaesData;
-      if (isNewData) {
+      if (!isNewData & isDiaplaeyd) {
         displaesData = <HomeTableReady
         HomeTable={this.state.HomeTableReady}
         StartVisualization={this.StartVisualization}
         />;
       }     
-      else{
+      if (isNewData & isDiaplaeyd){
         displaesData = <HomeTable
           HomeTable={this.state.HomeTable}
           CollectData={this.CollectData}
@@ -181,7 +187,7 @@ class TableContent extends Component {
         <br />
         <Container>
           <Route exact={true} path={"/Home"}>
-            <Landing/>
+            <Landing new={this.DisplayNewData} old={this.DisplayoldData} />
             {displaesData}
         
           </Route>
