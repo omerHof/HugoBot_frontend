@@ -15,6 +15,12 @@
   color: white;
 }
 
+.text-hugoob-advanced {
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+}
+
 .footer-hugobot {
   max-height: 35px;
   min-height: 30px;
@@ -23,3 +29,13 @@
 .emails code {
   color: rgb(152, 219, 139);
 }
+
+.vertical-scroll {
+  position: relative;
+  height: 400px;
+  overflow: auto;
+}
+.vertical-scroll-advanced {
+  display: block;
+}
+
