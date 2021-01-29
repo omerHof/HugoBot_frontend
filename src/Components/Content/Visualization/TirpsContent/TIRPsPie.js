@@ -1,7 +1,6 @@
-import React, { Component, useState } from "react";
+import React, { Component} from "react";
 import Chart from "react-google-charts";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import Button from "react-bootstrap/Button";
 import ToggleButton from "react-bootstrap/ToggleButton";
 
 class TIRPsPie extends Component {
@@ -15,26 +14,17 @@ class TIRPsPie extends Component {
   }
 
   ToggleButtonPie = () => {
-    // const [radioValue, setRadioValue] = useState("Age");
-
     const radios = Object.keys(this.state.Properties);
-    let x = 5;
-    //  [
-    //{ name: 'Active', value: '1' },
-    //  { name: 'Radio', value: '2' },
-    //  { name: 'Radio', value: '3' },
-    // ];
     return (
       <>
         <ButtonGroup toggle>
           {radios.map((radio, idx) => (
-            <ToggleButton
+            <ToggleButton className={"bg-hugobot"}
               key={idx}
               type="radio"
               variant="secondary"
               name="radio"
               value={radio}
-              // checked={radioValue === radio.value}
               onChange={(e) => this.temp(radio)}
             >
               {radio}
@@ -50,6 +40,7 @@ class TIRPsPie extends Component {
     this.forceUpdate();
   };
   drawPie = (name) => {
+    
     let properties = this.state.Properties[name];
     this.state.propertiesAsArray = [["Property", "Value"]];
 
@@ -61,22 +52,26 @@ class TIRPsPie extends Component {
   };
 
   render() {
+    if (this.props.row._TIRP__supporting_entities_properties!== this.state.Properties){
+      this.state.Properties = this.props.row._TIRP__supporting_entities_properties
+      this.drawPie(Object.keys(this.state.Properties)[0])
+    }
+    
     let that = this;
     window.addEventListener("ReloadTirpTable", function () {
       that.forceUpdate();
     });
     return (
-      <div key={this.props.row}>
+      <div >
         {this.ToggleButtonPie()}
-        <Chart
+        <Chart 
           width={"500px"}
           height={"300px"}
           chartType="PieChart"
           loader={<div>Loading Chart</div>}
           data={this.state.propertiesAsArray}
           options={{
-            title: "My Daily Activities",
-            // Just add this option
+            title: "Properties Distribution",
             is3D: true,
           }}
           rootProps={{ "data-testid": "2" }}

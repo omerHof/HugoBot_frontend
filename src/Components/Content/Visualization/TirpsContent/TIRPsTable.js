@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-
-import { Link } from "react-router-dom";
-
 import { Card, Form, Table } from "react-bootstrap";
-import cookies from "js-cookie";
-import Axios from "axios";
-import TIRPsPie from "./TIRPsPie";
 
+import TIRPsPie from "./TIRPsPie";
+import TIRPTimeLine from "./TIRPTimeLine";
+import Container from "react-bootstrap/Container";
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import history from "../../../../History";
 
 /**
@@ -49,11 +48,10 @@ class TIRPsTable extends Component {
   renderSelectedTirp = () => {
     let iter = this.state.currentRow;
     return (
-      <div>
+      <Container>
         <thead>
           <tr>
             <th> Metric </th>
-
             <th> Value </th>
           </tr>
         </thead>
@@ -86,7 +84,7 @@ class TIRPsTable extends Component {
             <td>{iter["_TIRP__vertical_support"]}</td>
           </tr>
         </tbody>
-      </div>
+      </Container>
     );
   };
   temp = (iter) => {
@@ -136,7 +134,6 @@ class TIRPsTable extends Component {
       }
       return (
         <tr
-          //   key={idx.toString()}
           onClick={() => this.temp(iter)}
         >
           {/*<td>{iter["UserID"]}</td>*/}
@@ -165,31 +162,47 @@ class TIRPsTable extends Component {
       that.forceUpdate();
     });
     return (
-      <div>
-        <Card>
+      
+      <Container fluid>
+        <Row>
+          <Col sm={9}>
+          <Card>
           <Card.Header className={"bg-hugobot"}>
-            <Card.Text className={"text-hugobot"}>current level </Card.Text>
+            <Card.Text className={"text-hugobot text-hugoob-advanced"}>Tirp's Table </Card.Text>
           </Card.Header>
           <Card.Body>
-            <Table striped={true} bordered={true} hover={true}>
+          <div className="vertical-scroll vertical-scroll-advanced">
+            <Table striped={true} hover={true} scroll={true}>
               {this.renderTableHeader()}
-
               <tbody>{this.renderTableData()}</tbody>
             </Table>
+            </div>
           </Card.Body>
-        </Card>
-        <Card>
+          </Card>
+          </Col>
+          <Col sm={3}>
+          <Card>
           <Card.Header className={"bg-hugobot"}>
-            <Card.Text className={"text-hugobot"}>current level </Card.Text>
+            <Card.Text className={"text-hugobot text-hugoob-advanced" }>Tirp additional info </Card.Text>
           </Card.Header>
-          <Card.Body>
-            <Table striped={true} bordered={true} hover={true}>
+          <Card.Body className={"text-hugobot"}>
+            <Table striped={true} bordered={true} >
               {this.renderSelectedTirp()}
-            </Table>
-          </Card.Body>
-        </Card>
-        <TIRPsPie row={this.state.currentRow}></TIRPsPie>
-      </div>
+          </Table>
+        </Card.Body>
+          </Card>
+          </Col>
+        </Row>
+        
+        <Row>
+          <Col sm={4}>
+            <TIRPsPie row={this.state.currentRow}></TIRPsPie>
+          </Col>
+          <Col sm={8}>
+          <TIRPTimeLine row = {this.state.currentRow}></TIRPTimeLine>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

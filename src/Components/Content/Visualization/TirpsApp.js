@@ -21,8 +21,16 @@ class TirpsApp extends Component {
     this.getRoot(datasetName);
     this.getFullEntities(datasetName);
     this.getFullStates(datasetName);
+    this.getMetaData(datasetName);
     window.states = [];
   };
+  // get metadata on dataset 
+  async getMetaData(dataSetName){
+    this.getDataOnDataset(window.selectedDataSet).then((response) => {
+      window.dataSetInfo = response.data["DataSets"][0];
+  })
+}
+
 
   //get root for the TIRPs page
   async getRoot(dataSetName) {
@@ -113,6 +121,23 @@ class TirpsApp extends Component {
     const url = window.base_url + "/getStates";
     const formData = new FormData();
     formData.append("data_set_name", datasetName);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        "x-access-token": cookies.get("auth-token"),
+      },
+    };
+    return Axios.post(url, formData, config);
+  }
+
+  getDataOnDataset(id) {
+    const url = window.base_url + "/getDataSets";
+    let body = {
+      data_set_name: id,
+    };
+    const formData = new FormData();
+    // formData.append("file", file);
+    formData.append("data_set_name", id);
     const config = {
       headers: {
         "content-type": "multipart/form-data",
