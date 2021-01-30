@@ -1,22 +1,26 @@
 import React, { Component} from "react";
 import Chart from "react-google-charts";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import ToggleButton from "react-bootstrap/ToggleButton";
+import { ButtonGroup, ToggleButton, Card} from "react-bootstrap";
+
 
 class TIRPsPie extends Component {
   state = {
-    Properties: this.props.row._TIRP__supporting_entities_properties,
-    propertiesAsArray: [],
+    Pie1_prop: this.props.row._TIRP__supporting_entities_properties,
+    pie1_propAsArray: [],
+    pie0_prop:[],
+    pie0_propAsArray:[],
   };
   constructor(props) {
     super(props);
-    this.temp(Object.keys(this.state.Properties)[0]);
+    if (this.props.row._TIRP__exist_in_class1){
+      this.state.Pie0_prop = this.props.row._TIRP__supporting_entities_properties_class_1;
+    }
+    this.temp(Object.keys(this.state.Pie1_prop)[0]);
   }
 
   ToggleButtonPie = () => {
-    const radios = Object.keys(this.state.Properties);
+    const radios = Object.keys(this.state.Pie1_prop);
     return (
-      <>
         <ButtonGroup toggle>
           {radios.map((radio, idx) => (
             <ToggleButton className={"bg-hugobot"}
@@ -31,30 +35,82 @@ class TIRPsPie extends Component {
             </ToggleButton>
           ))}
         </ButtonGroup>
-      </>
     );
   };
 
   temp = (name) => {
-    this.drawPie(name);
+    this.updatePieValues(name);
     this.forceUpdate();
   };
-  drawPie = (name) => {
+  updatePieValues = (name) => {
     
-    let properties = this.state.Properties[name];
-    this.state.propertiesAsArray = [["Property", "Value"]];
+    let properties = this.state.Pie1_prop[name];
+    this.state.pie1_propAsArray = [["Property", "Value"]];
 
     for (var i = 0; i < properties.length; i++) {
       let b = Object.entries(properties[i]);
       let c = b[0];
-      this.state.propertiesAsArray.push([c[0], parseInt(c[1])]);
+      this.state.pie1_propAsArray.push([c[0], parseInt(c[1])]);
+    }
+    if (this.props.row._TIRP__exist_in_class1){
+      
+      let properties = this.state.Pie0_prop[name];
+      this.state.pie0_propAsArray = [["Property", "Value"]];
+  
+      for (var i = 0; i < properties.length; i++) {
+        let b = Object.entries(properties[i]);
+        let c = b[0];
+        this.state.pie0_propAsArray.push([c[0], parseInt(c[1])]);
+      } 
     }
   };
 
+  drawPie =() =>{
+    let pie_title = "Class 1 - " + window.dataSetInfo.class_name;
+    if (this.props.type_of_comp ==="tirp"){
+      return this.renderTirpPie(this.state.pie1_propAsArray,pie_title)
+    }
+    else{
+      let pie0_title = "Class 0 - " + window.dataSetInfo.second_class_name;
+      return this.renderDiscTirpPie(pie_title,pie0_title)
+      
+    }
+  }
+    
+  renderTirpPie = (data,pie_title) =>{
+    return (
+      <Chart 
+        width={"500px"}
+        height={"300px"}
+        chartType="PieChart"
+        loader={<div>Loading Chart</div>}
+        data={data}
+        options={{
+          title: "Properties Distribution",
+          is3D: true,
+          title: pie_title,
+                            'titleTextStyle': {
+                            fontSize: 20,
+                            bold:true,
+                            italic:false
+        }}}
+        
+      />
+  )};
+
+  renderDiscTirpPie = (pie_title,pie0_title) =>{
+    return (
+      <div>
+        {this.renderTirpPie(this.state.pie1_propAsArray,pie_title)}
+        {this.renderTirpPie(this.state.pie0_propAsArray,pie0_title)}   
+      </div>   
+  )};
+    
   render() {
-    if (this.props.row._TIRP__supporting_entities_properties!== this.state.Properties){
-      this.state.Properties = this.props.row._TIRP__supporting_entities_properties
-      this.drawPie(Object.keys(this.state.Properties)[0])
+    if (this.props.row._TIRP__supporting_entities_properties!== this.state.Pie1_prop){
+      this.state.Pie1_prop = this.props.row._TIRP__supporting_entities_properties
+      this.state.Pie0_prop = this.props.row._TIRP__supporting_entities_properties_class_1
+      this.updatePieValues(Object.keys(this.state.Pie1_prop)[0])
     }
     
     let that = this;
@@ -63,19 +119,17 @@ class TIRPsPie extends Component {
     });
     return (
       <div >
+        <Card>
+        <Card.Header className={"bg-hugobot"}>
+          <Card.Text className={"text-hugobot text-hugoob-advanced"}>
+           Properties Distribution{" "}
+          </Card.Text>
+        </Card.Header>
+        <Card.Body>
         {this.ToggleButtonPie()}
-        <Chart 
-          width={"500px"}
-          height={"300px"}
-          chartType="PieChart"
-          loader={<div>Loading Chart</div>}
-          data={this.state.propertiesAsArray}
-          options={{
-            title: "Properties Distribution",
-            is3D: true,
-          }}
-          rootProps={{ "data-testid": "2" }}
-        />
+        {this.drawPie()}
+        </Card.Body>
+        </Card>
       </div>
     );
   }

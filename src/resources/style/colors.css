@@ -35,6 +35,24 @@
   height: 400px;
   overflow: auto;
 }
+.vertical-scroll-entities-state {
+  position: relative;
+  height: 600px;
+  overflow: auto;
+}
+
+.text-bold-black{
+  font-weight: bold;
+  font-size: large;
+  color: black;
+}
+
+.fix-margin{
+  margin-top: 20px;
+  height: 50%;
+  width: 50%
+}
+
 .vertical-scroll-advanced {
   display: block;
 }

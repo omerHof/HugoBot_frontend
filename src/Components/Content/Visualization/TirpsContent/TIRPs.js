@@ -8,7 +8,6 @@ class TIRPs extends Component{
     constructor(props) {
         super(props);        
         this.state.currentLevel = window.rootElement;        
-        let x = 5;
     }
 
     render() {

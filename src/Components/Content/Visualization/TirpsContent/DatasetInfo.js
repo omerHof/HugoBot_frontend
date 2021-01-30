@@ -41,6 +41,7 @@ class DatasetInfo extends Component {
         Class0EntitiesAmount: this.datasetInfo[0].num_of_entities_class_1,
       });
       window.num_of_entities = this.datasetInfo[0].num_of_entities;
+      window.num_of_entities_class_1 = this.datasetInfo[0].num_of_entities_class_1;
       this.forceUpdate();
     });
   }
