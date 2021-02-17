@@ -26,7 +26,8 @@ class SearchIntervals extends Component {
 
         const selectRow = {
             mode: 'checkbox',
-            clickToSelect: true                            
+            clickToSelect: true,
+            style: { background: 'green' }                            
         };
 
 
