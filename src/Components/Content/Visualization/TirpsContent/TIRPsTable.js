@@ -83,7 +83,7 @@ class TIRPsTable extends Component {
             id={"toy_example-btn"}
             onClick={() => this.go_to_next_level(tirp)}
           >
-            <i className="fas fa-download" id={"toy_example-icon"} />
+            <i className="fas fa-caret-down" id={"toy_example-icon"} />
           </Button>
         );
       }
@@ -253,6 +253,7 @@ class TIRPsTable extends Component {
     window.addEventListener("ReloadEntitiesTable", function () {
       that.forceUpdate();
     });
+
     return (
       <Container fluid>
         <HashRouter>
@@ -281,7 +282,12 @@ class TIRPsTable extends Component {
               </Card.Header>
               <Card.Body>
                 <div className="vertical-scroll vertical-scroll-advanced">
-                  <Table striped={true} hover={true} scroll={true}>
+                  <Table
+                    responsive={true}
+                    striped={true}
+                    hover={true}
+                    scroll={true}
+                  >
                     {this.renderTableHeader()}
                     <tbody>{this.renderTableData()}</tbody>
                   </Table>
@@ -290,16 +296,25 @@ class TIRPsTable extends Component {
             </Card>
           </Col>
           <Col sm={3}>
-            <SelectedTIRPTable table = {this.state.currentRow} type_of_comp = "tirp"></SelectedTIRPTable>
+            <SelectedTIRPTable
+              table={this.state.currentRow}
+              type_of_comp="tirp"
+            ></SelectedTIRPTable>
           </Col>
         </Row>
 
         <Row>
           <Col sm={4}>
-            <TIRPsPie row={this.state.currentRow} type_of_comp = "tirp"></TIRPsPie>
+            <TIRPsPie
+              row={this.state.currentRow}
+              type_of_comp="tirp"
+            ></TIRPsPie>
           </Col>
           <Col sm={8}>
-            <TIRPTimeLine row={this.state.currentRow} type_of_comp = "tirp"></TIRPTimeLine>
+            <TIRPTimeLine
+              row={this.state.currentRow}
+              type_of_comp="tirp"
+            ></TIRPTimeLine>
           </Col>
         </Row>
       </Container>
