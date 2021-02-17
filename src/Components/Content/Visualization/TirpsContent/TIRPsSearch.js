@@ -21,7 +21,7 @@ class TIRPsSearch extends Component {
         var x=7;
     }
 
-    // fills state.states and state.dictionary_states with windows.states
+    // fills state.states and state.interval_names with windows.states
     buildStates(){
         console.log("buildStates")
         let tables = JSON.parse(window.States);
