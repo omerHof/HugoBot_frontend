@@ -59,12 +59,12 @@ class TirpsContent extends Component {
             </Container>
           </Route>
           <Route path={"/TirpsApp/TIRPsSearch"}>
-            <Container>
+            <Container fluid>
               <TIRPsSearch />
             </Container>
           </Route>
           <Route path={"/TirpsApp/PTIRPsSearch"}>
-            <Container>
+            <Container fluid>
               <PTIRPsSearch />
             </Container>
           </Route>
