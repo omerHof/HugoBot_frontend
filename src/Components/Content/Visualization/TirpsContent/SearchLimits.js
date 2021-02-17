@@ -5,7 +5,7 @@ import { ButtonGroup, ToggleButton, Card} from "react-bootstrap";
 
 class SearchLimits extends Component {
     state = {
-
+        
     };
 
     constructor(props){
@@ -15,9 +15,7 @@ class SearchLimits extends Component {
     render(){
         return (
             <div>
-                <table>
-                    
-                </table>
+               
             </div>
         );
     }

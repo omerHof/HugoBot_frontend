@@ -10,15 +10,28 @@ import SearchMeanPresentation from "./SearchMeanPresentation";
 class TIRPsSearch extends Component {
 
     state = {
+        // states and interval names
         states: [],
-        interval_names: []
+        dictionary_states: {},
+
+        //parameters for backend call
+        startList: [],
+        containList: [],
+        endList: [],
+        minSize: 0,
+        maxSize: 0,
+        minHS: 0,
+        maxHS: 0,
+        minVS: 0,
+        maxVS: 0,
+        minMMD: 0,
+        maxMMD:0
     };
 
     constructor(props){
         super(props);
         console.log("constructor")
         this.buildStates();
-        var x=7;
     }
 
     // fills state.states and state.interval_names with windows.states
@@ -52,26 +65,59 @@ class TIRPsSearch extends Component {
                 isEndsChecked: true
             }
             this.state.states.push(state)
-            this.state.interval_names.push(name); 
-            // this.state.dictionary_states.push({[iter.StateID] = name}); 
+            this.state.startList.push(iter.StateID)
+            this.state.containList.push(iter.StateID)
+            this.state.endList.push(iter.StateID)
+            this.state.dictionary_states[iter.StateID] = name; 
         });           
        
     }
 
+    changeStartList(newList){
+        this.setState( { startList: newList });
+    }
+
+    changeContainList(newList){
+        this.setState( { containList: newList });
+    }
+
+    changeEndList(newList){
+        this.setState( { endList: newList });
+    }
+
+    
+    serachTirps(){
+
+    }
+
     render() {
+        // var changeStartList = this.changeStartList;
         return (
             <Container fluid>
                 <Row>
-                    <Col sm={3.3}>
-                        <SearchIntervals title="Start With" intervals={this.state.interval_names}/>
-                    </Col>
-                    <Col sm={3.3}>
-                        <SearchIntervals title="Contains" intervals={this.state.interval_names}/>
-                    </Col >
-                    <Col sm={3.3}>
-                        <SearchIntervals title="Ends With" intervals={this.state.interval_names}/>
-                    </Col>                    
-                    <Col sm={2}>
+                  <Col sm={8}>
+                       <Row>
+                            <Col sm={4}>
+                                <SearchIntervals    title="Start With" 
+                                                    intervals={this.state.dictionary_states} 
+                                                    changeList={this.changeStartList.bind(this)} 
+                                />
+                            </Col>
+                            <Col sm={4}>
+                                <SearchIntervals    title="Contains"
+                                                    intervals={this.state.dictionary_states}
+                                                    changeList={this.changeContainList.bind(this)} 
+                                />
+                            </Col >
+                            <Col sm={4}>
+                                <SearchIntervals    title="Ends With" 
+                                                    intervals={this.state.dictionary_states} 
+                                                    changeList={this.changeEndList.bind(this)}    
+                                />
+                            </Col> 
+                       </Row>                   
+                  </Col>
+                    <Col sm={4}>
                         <SearchLimits/>
                     </Col>
                 </Row>
