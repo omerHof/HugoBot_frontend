@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { Card } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
-
-
 
 class SearchIntervals extends Component {
     state = {
@@ -33,12 +30,12 @@ class SearchIntervals extends Component {
     }
 
     handleOnSelectAll = (isSelect, rows) => {
-        let newSelected = []; 
+        let newSelected = [];
         if (isSelect) {
-            newSelected = rows.map(r => r.id);   
+            newSelected = rows.map(r => r.id);
         }
         this.setState({ selected: newSelected });
-        this.props.changeList(newSelected);        
+        this.props.changeList(newSelected);
     }
 
 
@@ -55,33 +52,29 @@ class SearchIntervals extends Component {
 
         const selectRow = {
             mode: 'checkbox',
+
             clickToSelect: true,
             selected: this.state.selected,
-            style: { background: 'blue' },
             onSelect: this.handleOnSelect,
             onSelectAll: this.handleOnSelectAll
         };
 
 
         return (
-            <div>
-                <Card>
-                    <Card.Header className={"bg-hugobot"}>
-                        <Card.Text className={"text-hugobot text-hugoob-advanced"}>
-                            {this.props.title}
-                        </Card.Text>
-                    </Card.Header>
-                    <Card.Body>
-                        <div className="vertical-scroll vertical-scroll-advanced">
-                            <BootstrapTable
-                                keyField='id'
-                                data={this.state.data}
-                                columns={columns}
-                                selectRow={selectRow}
-                            />                            
-                        </div>
-                    </Card.Body>
-                </Card>
+            <div className="intervals">
+                <label >{this.props.title}</label>
+                <div className="vertical-scroll-intervals">
+                    <BootstrapTable
+                        keyField='id'
+                        data={this.state.data}
+                        columns={columns}
+                        selectRow={selectRow}
+                        classes="btable"
+                        striped={true}
+                        hover={true}
+                        scroll={true}
+                    />
+                </div>
             </div>
         );
     }

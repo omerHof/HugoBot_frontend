@@ -17,4 +17,50 @@
     background: none;    
 } 
 
+.intervals label{
+    color: rgb(23, 139, 168);
+    font-size: medium;
+    font-weight: bold;
+    margin: 5px;
+    display: block;
+    /* float:left; */
+}
+
+
+.vertical-scroll-intervals {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+    border-style: ridge
+}  
+
+.btable{
+   font-size: small;   
+}
+
+.btable td{
+    padding: 0.25rem;
+ }
+
+.btable thead{     
+    background-color: rgb(86, 90, 90); 
+    color: #d7dfdf;  
+    overflow: auto;   
+ } 
+
+.btable input[type="checkbox"] {
+    position: relative;
+    margin-left: 5px;
+    opacity: 1;  
+}
+
+.limits td{
+    vertical-align: unset;
+    
+}
+
+
+
+/*  */
+
 

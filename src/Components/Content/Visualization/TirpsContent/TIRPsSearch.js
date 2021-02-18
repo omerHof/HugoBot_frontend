@@ -6,43 +6,48 @@ import SearchGraph from "./SearchGraph";
 import SearchIntervals from "./SearchIntervals";
 import SearchLimits from "./SearchLimits";
 import SearchMeanPresentation from "./SearchMeanPresentation";
+import Axios from "axios";
+
 
 class TIRPsSearch extends Component {
 
     state = {
         // states and interval names
-        states: [],
         dictionary_states: {},
 
-        //parameters for backend call
+        //parameters for backend call: search
         startList: [],
         containList: [],
         endList: [],
-        minSize: 0,
-        maxSize: 0,
-        minHS: 0,
-        maxHS: 0,
-        minVS: 0,
-        maxVS: 0,
+        minSize: 1,
+        maxSize: 7,
+        minHS: 1,
+        maxHS: 7,
+        minVS: 10,
+        maxVS: 100,
         minMMD: 0,
-        maxMMD:0
+        maxMMD: 0,
+
+        // parameters for showing results
+        finalResults: []
+
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
         console.log("constructor")
         this.buildStates();
     }
 
     // fills state.states and state.interval_names with windows.states
-    buildStates(){
+    buildStates() {
         console.log("buildStates")
         let tables = JSON.parse(window.States);
         tables.States.map((iter, idx) => {
             iter = JSON.parse(iter);
             let name = ""
             let part1 = ""
-            let part2 = ""    
+            let part2 = ""
             if (iter.TemporalPropertyName == undefined) {
                 part1 = iter.TemporalPropertyID;
             }
@@ -56,38 +61,63 @@ class TIRPsSearch extends Component {
                 part2 = iter.BinLabel;
             }
             name = part1 + "." + part2;
-            let state =
-            {
-                id: iter.StateID,
-                name: name,
-                isStartsChecked: true,
-                isContainsChecked: true,
-                isEndsChecked: true
-            }
-            this.state.states.push(state)
+         
             this.state.startList.push(iter.StateID)
             this.state.containList.push(iter.StateID)
             this.state.endList.push(iter.StateID)
-            this.state.dictionary_states[iter.StateID] = name; 
-        });           
-       
+            this.state.dictionary_states[iter.StateID] = name;
+        });
+
     }
 
-    changeStartList(newList){
-        this.setState( { startList: newList });
+    //binding with the child "SearchIntervals"
+    changeStartList(newList) {
+        this.setState({ startList: newList });
     }
 
-    changeContainList(newList){
-        this.setState( { containList: newList });
+    changeContainList(newList) {
+        this.setState({ containList: newList });
     }
 
-    changeEndList(newList){
-        this.setState( { endList: newList });
+    changeEndList(newList) {
+        this.setState({ endList: newList });
     }
 
-    
-    serachTirps(){
 
+    async serachTirps() {     
+        let body = {
+            data_set_name: window.selectedDataSet,            
+            startsList: this.state.startsList,
+            containList: this.state.containList,
+            endsList: this.state.endsList,
+            minHS: this.state.minHS,
+            maxHS: this.state.maxHS,
+            minVS: this.state.minVS,
+            maxVS: this.state.maxVS
+        }
+        let add = window.base_url + "searchTirps";
+        console.log(add)
+        const response = await Axios.post(window.base_url + "/searchTirps", body);
+        let results = response.data['Results'];
+        let max_mmd = 0;
+        this.setState({finalResults: []});
+        for (var result in results) {
+            let res = results[result].split(',')
+            if (parseFloat(res[7]) > max_mmd)
+                max_mmd = parseFloat(res[7])
+            if (this.state.maxSize != '' && this.state.maxSize != undefined) {
+                if (res[4] >= this.state.minSize && res[4] <= this.state.maxSize)
+                    this.state.finalResults.push(res)
+            }
+            else {
+                if (res[4] >= this.state.minSize)
+                    this.state.finalResults.push(res)
+            }
+        }
+
+        window.searchFinalResults = this.state.finalResults;
+        // self.showResults(max_mmd);
+     
     }
 
     render() {
@@ -95,38 +125,41 @@ class TIRPsSearch extends Component {
         return (
             <Container fluid>
                 <Row>
-                  <Col sm={8}>
-                       <Row>
+                    <Col sm={8}>
+                        <Row>
                             <Col sm={4}>
-                                <SearchIntervals    title="Start With" 
-                                                    intervals={this.state.dictionary_states} 
-                                                    changeList={this.changeStartList.bind(this)} 
+                                <SearchIntervals
+                                    title="Start With"
+                                    intervals={this.state.dictionary_states}
+                                    changeList={this.changeStartList.bind(this)}
                                 />
                             </Col>
                             <Col sm={4}>
-                                <SearchIntervals    title="Contains"
-                                                    intervals={this.state.dictionary_states}
-                                                    changeList={this.changeContainList.bind(this)} 
+                                <SearchIntervals
+                                    title="Contains"
+                                    intervals={this.state.dictionary_states}
+                                    changeList={this.changeContainList.bind(this)}
                                 />
                             </Col >
                             <Col sm={4}>
-                                <SearchIntervals    title="Ends With" 
-                                                    intervals={this.state.dictionary_states} 
-                                                    changeList={this.changeEndList.bind(this)}    
+                                <SearchIntervals
+                                    title="Ends With"
+                                    intervals={this.state.dictionary_states}
+                                    changeList={this.changeEndList.bind(this)}
                                 />
-                            </Col> 
-                       </Row>                   
-                  </Col>
+                            </Col>
+                        </Row>
+                    </Col>
                     <Col sm={4}>
-                        <SearchLimits/>
+                        <SearchLimits onClick={this.serachTirps.bind(this)}/>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <SearchGraph/>
+                        <SearchGraph />
                     </Col>
                     <Col>
-                        <SearchMeanPresentation/>
+                        <SearchMeanPresentation />
                     </Col>
                 </Row>
             </Container>

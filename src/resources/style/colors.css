@@ -35,6 +35,9 @@
   height: 400px;
   overflow: auto;
 }
+ 
+
+
 .vertical-scroll-entities-state {
   position: relative;
   height: 600px;
