@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Card, Form, Table, Button } from "react-bootstrap";
+import BootstrapTable from "react-bootstrap-table-next";
 import { Link, HashRouter } from "react-router-dom";
 import "../../../../resources/style/colors.css";
 import "../../../../resources/style/workflow.css";
@@ -9,7 +10,9 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import history from "../../../../History";
+import Popup from "reactjs-popup";
 
+// import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import Axios from "axios";
 import cookies from "js-cookie";
 import SelectedTIRPTable from "./SelectedTIRPTable";
@@ -22,9 +25,13 @@ class TIRPsTable extends Component {
     currentRow: [],
     currentTirps: [],
     loadingNextLevel: false,
+    data: [],
+    selected: [],
+    showPopup: false,
   };
   constructor(props) {
     super(props);
+    this.renderTableData();
   }
 
   componentDidMount() {
@@ -37,24 +44,10 @@ class TIRPsTable extends Component {
     window.dispatchEvent(new Event("ReloadDataSet"));
   }
 
-  renderTableHeader = () => {
-    return (
-      <thead>
-        <tr>
-          <th> Next </th>
-          <th> Relation </th>
-          <th> Symbol </th>
-          <th> Vertical Support </th>
-          <th> Mean Horizontal Support </th>
-          <th> Mean Mean Duration </th>
-        </tr>
-      </thead>
-    );
-  };
-
-  temp = (iter) => {
-    this.state.currentRow = iter;
+  temp = (row) => {
+    this.state.currentRow = row.iter;
     window.dispatchEvent(new Event("ReloadTirpTable"));
+    this.renderTableData();
     this.forceUpdate();
   };
 
@@ -157,6 +150,7 @@ class TIRPsTable extends Component {
     tirpWithChilds.partOfPath = tirp.partOfPath;
     window.pathOfTirps[0] = tirpWithChilds;
     this.state.currentTirps = childs;
+    this.renderTableData();
     this.forceUpdate();
   };
   has_childs_class_0 = (childs) => {
@@ -174,31 +168,29 @@ class TIRPsTable extends Component {
     } else {
       tables = this.state.currentTirps;
     }
+    this.state.data = [];
+
     return tables.map((iter, idx) => {
-      let x = iter;
-      let y = idx;
       if (this.state.currentRow.length == 0) {
         this.state.currentRow = iter;
       }
-      return (
-        <tr onClick={() => this.temp(iter)}>
-          {/*<td>{iter["UserID"]}</td>*/}
-          <td> {this.hasChild(iter)} </td>
-          <td> {this.getRel(iter)} </td>
-          <td> {iter["_TIRP__symbols"][iter["_TIRP__symbols"].length - 1]} </td>
-          <td>
-            {" "}
-            {(
-              (iter["_TIRP__vertical_support"] /
-                window.window.num_of_entities) *
-              100
-            ).toFixed(1)}
-            %{" "}
-          </td>
-          <td> {iter["_TIRP__mean_horizontal_support"]} </td>
-          <td> {iter["_TIRP__mean_duration"]} </td>
-        </tr>
-      );
+      this.state.data.push({
+        id: idx,
+        Next: this.hasChild(iter),
+        // Next: "ff",
+        Relation: this.getRel(iter),
+        Symbol: iter["_TIRP__symbols"][iter["_TIRP__symbols"].length - 1],
+        Vertical_Support:
+          "" +
+          (
+            (iter["_TIRP__vertical_support"] / window.window.num_of_entities) *
+            100
+          ).toFixed(1) +
+          "%",
+        Mean_Horizontal_Support: iter["_TIRP__mean_horizontal_support"],
+        Mean_Mean_Duration: iter["_TIRP__mean_duration"],
+        iter: iter,
+      });
     });
   };
 
@@ -227,6 +219,7 @@ class TIRPsTable extends Component {
       if (window.pathOfTirps.length > 0) {
         this.state.currentTirps =
           window.pathOfTirps[window.pathOfTirps.length - 1]._TIRP__childes;
+        this.renderTableData();
         this.forceUpdate();
       }
     }
@@ -245,15 +238,97 @@ class TIRPsTable extends Component {
   go_to_root = () => {
     this.state.currentTirps = this.props.table;
     window.pathOfTirps = [];
+    this.renderTableData();
     this.forceUpdate();
   };
 
+  get_columns = () => {
+    const headerSortingStyle = { backgroundColor: "#c8e6c9" };
+
+    const columns = [
+      {
+        dataField: "id",
+        text: "Interval`s id",
+        hidden: true,
+      },
+      {
+        dataField: "Next",
+        text: "Next",
+      },
+      {
+        dataField: "Relation",
+        text: "Relation",
+      },
+      {
+        dataField: "Symbol",
+        text: "Symbol",
+        sort: true,
+        headerSortingStyle,
+      },
+      {
+        dataField: "Vertical_Support",
+        text: "Vertical Support",
+        sort: true,
+        headerSortingStyle,
+      },
+      {
+        dataField: "Mean_Horizontal_Support",
+        text: "Mean Horizontal Support",
+        sort: true,
+        headerSortingStyle,
+      },
+      {
+        dataField: "Mean_Mean_Duration",
+        text: "Mean Mean Duration",
+        sort: true,
+        headerSortingStyle,
+      },
+      {
+        dataField: "iter",
+        text: "iter",
+        hidden: true,
+      },
+    ];
+    return columns;
+  };
+
+  handleOnSelect = (row, isSelect) => {
+    if (isSelect) {
+      this.state.selected = [];
+      this.setState(() => ({
+        selected: [...this.state.selected, row.id],
+      }));
+      this.temp(row);
+    } else {
+      this.setState(() => ({
+        selected: this.state.selected.filter((x) => x !== row.id),
+      }));
+    }
+  };
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup,
+    });
+  }
   render() {
     let that = this;
     window.addEventListener("ReloadEntitiesTable", function () {
       that.forceUpdate();
     });
-
+    const selectRow = {
+      mode: "checkbox",
+      bgColor: "#AED6F1",
+      hideSelectColumn: true,
+      clickToSelect: true,
+      selected: this.state.selected,
+      onSelect: this.handleOnSelect,
+    };
+    const defaultSorted = [
+      {
+        dataField: "Symbol",
+        order: "desc",
+      },
+    ];
     return (
       <Container fluid>
         <HashRouter>
@@ -273,33 +348,47 @@ class TIRPsTable extends Component {
           {this.drawNavbar()}
         </HashRouter>
         <Row>
-          <Col sm={9}>
+          <Col sm={10}>
             <Card>
               <Card.Header className={"bg-hugobot"}>
                 <Card.Text className={"text-hugobot text-hugoob-advanced"}>
                   Tirp's Table{" "}
                 </Card.Text>
               </Card.Header>
-              <Card.Body>
-                <div className="vertical-scroll vertical-scroll-advanced">
-                  <Table
-                    responsive={true}
+              <Card.Body className={"text-hugobot"}>
+                {/* <Table
+                  responsive={true}
+                  striped={true}
+                  hover={true}
+                  scroll={true}
+                >
+                  {this.renderTableHeader()}
+                  <tbody>{this.renderTableData()}</tbody>
+                </Table> */}
+                <div className="vertical-scroll-tirp">
+                  <BootstrapTable
+                    keyField="id"
+                    data={this.state.data}
+                    columns={this.get_columns()}
+                    selectRow={selectRow}
                     striped={true}
                     hover={true}
                     scroll={true}
-                  >
-                    {this.renderTableHeader()}
-                    <tbody>{this.renderTableData()}</tbody>
-                  </Table>
+                    defaultSorted={defaultSorted}
+                  />
                 </div>
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={3}>
+          <Col sm={2}>
             <SelectedTIRPTable
               table={this.state.currentRow}
               type_of_comp="tirp"
             ></SelectedTIRPTable>
+            <button onClick={this.togglePopup.bind(this)}>show popup</button>
+            {this.state.showPopup ? (
+              <Popup text="Close Me" closePopup={this.togglePopup.bind(this)} />
+            ) : null}
           </Col>
         </Row>
 

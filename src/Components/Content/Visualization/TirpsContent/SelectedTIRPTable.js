@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Card, Form, Table, Button, Container } from "react-bootstrap";
 import { Link, HashRouter } from "react-router-dom";
-
 import "../../../../resources/style/colors.css";
 import "../../../../resources/style/workflow.css";
 
@@ -29,11 +28,11 @@ class SelectedTIRPTable extends Component {
 
   renderTirpTable = (iter) => {
     return (
-      <Container>
+      <div>
         <thead>
           <tr>
-            <th> Metric </th>
-            <th> Value </th>
+            <th>Metric</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
@@ -65,18 +64,18 @@ class SelectedTIRPTable extends Component {
             <td>{iter["_TIRP__vertical_support"]}</td>
           </tr>
         </tbody>
-      </Container>
+      </div>
     );
   };
 
   renderDiscTirpTable = (iter) => {
     return (
-      <Container>
+      <div>
         <thead>
           <tr>
-            <th> Metric </th>
-            <th> Class1 </th>
-            <th> Class0 </th>
+            <th>Metric</th>
+            <th>Class1</th>
+            <th>Class0</th>
           </tr>
         </thead>
         <tbody>
@@ -120,11 +119,22 @@ class SelectedTIRPTable extends Component {
             <td>{iter["_TIRP__vertical_support_class_1"]}</td>
           </tr>
         </tbody>
-      </Container>
+      </div>
     );
   };
 
+  buttonMatrixDisabled = () => {
+    if (this.state.currentRow["_TIRP__tirp_size"] < 2) {
+      return true;
+    }
+    return false;
+  };
+
   render() {
+    let that = this;
+    window.addEventListener("ReloadTirpTable", function () {
+      that.forceUpdate();
+    });
     return (
       <Card>
         <Card.Header className={"bg-hugobot"}>
@@ -133,9 +143,19 @@ class SelectedTIRPTable extends Component {
           </Card.Text>
         </Card.Header>
         <Card.Body className={"text-hugobot"}>
-          <Table striped={true} bordered={true}>
-            {this.renderSelectedTirp()}
-          </Table>
+          <div className="vertical-scroll vertical-scroll-advanced">
+            <Table responsive={true} striped={true} bordered={true}>
+              {this.renderSelectedTirp()}
+            </Table>
+
+            {/* <Popup
+              trigger={<button> Relations Data</button>}
+              position="right center"
+              modal
+            >
+              <div className={"modal"}>Popup content here !!</div>
+            </Popup> */}
+          </div>
         </Card.Body>
       </Card>
     );
