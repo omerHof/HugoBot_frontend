@@ -19,12 +19,15 @@ class TIRPsSearch extends Component {
         startList: [],
         containList: [],
         endList: [],
-        minSize: 1,
-        maxSize: 7,
-        minHS: 1,
-        maxHS: 7,
-        minVS: 10,
-        maxVS: 100,
+        parameters:
+        {
+            minSize: 1,
+            maxSize: 1,
+            minHS: 1,
+            maxHS: 1,
+            minVS: window.dataSetInfo.min_ver_support*100,
+            maxVS: 100,
+        },        
         minMMD: 0,
         maxMMD: 0,
 
@@ -36,8 +39,13 @@ class TIRPsSearch extends Component {
     constructor(props) {
         super(props);
         console.log("constructor")
+        // this.updateMinVSvalue();
         this.buildStates();
     }
+
+    // updateMinVSvalue(){       
+    //     this.state.parameters.minVS = window.dataSetInfo.min_ver_support*100;         
+    // }
 
     // fills state.states and state.interval_names with windows.states
     buildStates() {
@@ -83,6 +91,16 @@ class TIRPsSearch extends Component {
         this.setState({ endList: newList });
     }
 
+    changeParameter = (event) =>{
+        let newParameters = this.state.parameters;
+        let parameterName = event.target.name;
+        let value = event.target.value;        
+        newParameters[parameterName] = value;
+        this.setState(
+            {parameters: newParameters}
+        );
+    }
+
 
     async serachTirps() {     
         let body = {
@@ -90,10 +108,10 @@ class TIRPsSearch extends Component {
             startsList: this.state.startsList,
             containList: this.state.containList,
             endsList: this.state.endsList,
-            minHS: this.state.minHS,
-            maxHS: this.state.maxHS,
-            minVS: this.state.minVS,
-            maxVS: this.state.maxVS
+            minHS: this.state.parameters.minHS,
+            minHS: this.state.parameters.maxHS,
+            minHS: this.state.parameters.minVS,
+            minHS: this.state.parameters.maxVS           
         }
         let add = window.base_url + "searchTirps";
         console.log(add)
@@ -151,7 +169,11 @@ class TIRPsSearch extends Component {
                         </Row>
                     </Col>
                     <Col sm={4}>
-                        <SearchLimits onClick={this.serachTirps.bind(this)}/>
+                        <SearchLimits 
+                            onClick={this.serachTirps.bind(this)}
+                            parameters={this.state.parameters}
+                            changeParameter={this.changeParameter}
+                        />
                     </Col>
                 </Row>
                 <Row>

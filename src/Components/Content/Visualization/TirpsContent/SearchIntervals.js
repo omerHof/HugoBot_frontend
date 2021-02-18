@@ -72,7 +72,6 @@ class SearchIntervals extends Component {
                         classes="btable"
                         striped={true}
                         hover={true}
-                        scroll={true}
                     />
                 </div>
             </div>
