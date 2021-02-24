@@ -13,7 +13,7 @@ import "./visualization.css";
 class TirpsNavigation extends Component {
     render() {
         return (
-            <HashRouter history={History}>
+            <HashRouter>
                 <Navbar className={"navbar-tirps"} variant={"light"}>
                     <ul>
                         <li>

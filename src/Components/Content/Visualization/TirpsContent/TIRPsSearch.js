@@ -7,6 +7,7 @@ import SearchIntervals from "./SearchIntervals";
 import SearchLimits from "./SearchLimits";
 import SearchMeanPresentation from "./SearchMeanPresentation";
 import Axios from "axios";
+import cookies from "js-cookie";
 
 
 class TIRPsSearch extends Component {
@@ -22,14 +23,15 @@ class TIRPsSearch extends Component {
         parameters:
         {
             minSize: 1,
-            maxSize: 1,
+            maxSize: 10,
             minHS: 1,
-            maxHS: 1,
-            minVS: window.dataSetInfo.min_ver_support*100,
-            maxVS: 100,
+            maxHS: 100,
+            minVS: 0,
+            maxVS: 100           
         },        
         minMMD: 0,
-        maxMMD: 0,
+        maxMMD: 100,
+        isAllSelected: true,
 
         // parameters for showing results
         finalResults: []
@@ -38,18 +40,12 @@ class TIRPsSearch extends Component {
 
     constructor(props) {
         super(props);
-        console.log("constructor")
-        // this.updateMinVSvalue();
         this.buildStates();
+        this.state.parameters.minVS = window.dataSetInfo.min_ver_support*100;
     }
 
-    // updateMinVSvalue(){       
-    //     this.state.parameters.minVS = window.dataSetInfo.min_ver_support*100;         
-    // }
-
-    // fills state.states and state.interval_names with windows.states
+ 
     buildStates() {
-        console.log("buildStates")
         let tables = JSON.parse(window.States);
         tables.States.map((iter, idx) => {
             iter = JSON.parse(iter);
@@ -70,9 +66,10 @@ class TIRPsSearch extends Component {
             }
             name = part1 + "." + part2;
          
-            this.state.startList.push(iter.StateID)
-            this.state.containList.push(iter.StateID)
-            this.state.endList.push(iter.StateID)
+            this.state.startList.push(iter.StateID);
+            this.state.containList.push(iter.StateID);
+            this.state.endList.push(iter.StateID);
+
             this.state.dictionary_states[iter.StateID] = name;
         });
 
@@ -91,46 +88,85 @@ class TIRPsSearch extends Component {
         this.setState({ endList: newList });
     }
 
+    changeIsAllSelected(ans){
+        this.setState()
+    }
+
     changeParameter = (event) =>{
         let newParameters = this.state.parameters;
         let parameterName = event.target.name;
-        let value = event.target.value;        
+        let value = parseInt( event.target.value);        
         newParameters[parameterName] = value;
         this.setState(
             {parameters: newParameters}
         );
     }
 
+    checkParameters(){
+        if(this.state.parameters.minSize<1)
+            this.state.parameters.minSize=1;
+        if(this.state.parameters.maxSize<1)
+            this.state.parameters.maxSize=1;
+        if(this.state.parameters.minHS<1)
+            this.state.parameters.minHS=1;
+        if(this.state.parameters.maxHS<1)
+            this.state.parameters.maxHS=1;
+        if(this.state.parameters.minVS< window.dataSetInfo.min_ver_support*100)
+            this.state.parameters.minVS= window.dataSetInfo.min_ver_support*100;
+        if(this.state.parameters.maxVS< window.dataSetInfo.min_ver_support*100)
+            this.state.parameters.maxVS= window.dataSetInfo.min_ver_support*100;
+    }
 
-    async serachTirps() {     
-        let body = {
-            data_set_name: window.selectedDataSet,            
-            startsList: this.state.startsList,
-            containList: this.state.containList,
-            endsList: this.state.endsList,
-            minHS: this.state.parameters.minHS,
-            minHS: this.state.parameters.maxHS,
-            minHS: this.state.parameters.minVS,
-            minHS: this.state.parameters.maxVS           
-        }
-        let add = window.base_url + "searchTirps";
-        console.log(add)
-        const response = await Axios.post(window.base_url + "/searchTirps", body);
+    async serachTirps() {  
+        this.checkParameters(); 
+        const formData = new FormData();
+        formData.append( "data_set_name", window.selectedDataSet);
+        formData.append( "startsList", this.state.startList);
+        formData.append( "containList", this.state.containList);
+        formData.append( "endsList", this.state.endList);
+        formData.append( "minHS", this.state.parameters.minHS);
+        formData.append( "maxHS", this.state.parameters.maxHS);
+        formData.append( "minVS", this.state.parameters.minVS);
+        formData.append( "maxVS", this.state.parameters.maxVS);
+        // let body = {
+        //     data_set_name: window.selectedDataSet,            
+        //     startsList: this.state.startList,
+        //     containList: this.state.containList,
+        //     endsList: this.state.endList,
+        //     minHS: this.state.parameters.minHS,
+        //     maxHS: this.state.parameters.maxHS,
+        //     minVS: this.state.parameters.minVS,
+        //     maxVS: this.state.parameters.maxVS           
+        // }      
+        const config = {
+            headers: {
+              "content-type": "multipart/form-data",
+              "x-access-token": cookies.get("auth-token"),
+            },
+          };
+
+        const response = await Axios.post(window.base_url + "/searchTirps", formData, config);
+        if (!response.statusText == "OK") {
+            throw response;
+        }         
         let results = response.data['Results'];
         let max_mmd = 0;
         this.setState({finalResults: []});
         for (var result in results) {
             let res = results[result].split(',')
-            if (parseFloat(res[7]) > max_mmd)
-                max_mmd = parseFloat(res[7])
-            if (this.state.maxSize != '' && this.state.maxSize != undefined) {
-                if (res[4] >= this.state.minSize && res[4] <= this.state.maxSize)
-                    this.state.finalResults.push(res)
-            }
-            else {
-                if (res[4] >= this.state.minSize)
-                    this.state.finalResults.push(res)
-            }
+            if (parseFloat(res[7]) > max_mmd){
+                max_mmd = parseFloat(res[7]);
+                if (this.state.parameters.maxSize != '' && this.state.parameters.maxSize != undefined) {
+                    if (res[4] >= this.state.parameters.minSize && res[4] <= this.state.parameters.maxSize){
+                        this.state.finalResults.push(res)
+                    }                      
+                }
+                else {
+                    if (res[4] >= this.state.parameter.minSize){
+                        this.state.finalResults.push(res)
+                    }                      
+                }
+            }          
         }
 
         window.searchFinalResults = this.state.finalResults;
@@ -148,6 +184,7 @@ class TIRPsSearch extends Component {
                             <Col sm={4}>
                                 <SearchIntervals
                                     title="Start With"
+                                    isAllSelected={this.state.isAllSelected}
                                     intervals={this.state.dictionary_states}
                                     changeList={this.changeStartList.bind(this)}
                                 />
@@ -155,6 +192,7 @@ class TIRPsSearch extends Component {
                             <Col sm={4}>
                                 <SearchIntervals
                                     title="Contains"
+                                    isAllSelected={this.state.isAllSelected}
                                     intervals={this.state.dictionary_states}
                                     changeList={this.changeContainList.bind(this)}
                                 />
@@ -162,6 +200,7 @@ class TIRPsSearch extends Component {
                             <Col sm={4}>
                                 <SearchIntervals
                                     title="Ends With"
+                                    isAllSelected={this.state.isAllSelected}
                                     intervals={this.state.dictionary_states}
                                     changeList={this.changeEndList.bind(this)}
                                 />

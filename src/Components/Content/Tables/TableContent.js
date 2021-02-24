@@ -39,27 +39,6 @@ class TableContent extends Component {
     isDataDisplaeyd: false
   };
 
-  getAllDatasets() {
-    const url = window.base_url + "/getAllDataSets";
-    return Axios.get(url);
-  }
-
-  //yiftah
-  getAllReadyDatasets() {
-    const url = window.base_url + "/getDataSets";
-    return Axios.get(url);
-  }
-
-  getDataOnDataset(id) {
-    const url = window.base_url + "/getDataOnDataset?id=" + id;
-    const config = {
-      headers: {
-        "x-access-token": cookies.get("auth-token"),
-      },
-    };
-    return Axios.get(url, config);
-  }
-
   constructor(props) {
     super(props);
     if (
@@ -107,6 +86,29 @@ class TableContent extends Component {
       });
     }
   }
+
+  getAllDatasets() {
+    const url = window.base_url + "/getAllDataSets";
+    return Axios.get(url);
+  }
+
+  //yiftah
+  getAllReadyDatasets() {
+    const url = window.base_url + "/getDataSets";
+    return Axios.get(url);
+  }
+
+  getDataOnDataset(id) {
+    const url = window.base_url + "/getDataOnDataset?id=" + id;
+    const config = {
+      headers: {
+        "x-access-token": cookies.get("auth-token"),
+      },
+    };
+    return Axios.get(url, config);
+  }
+
+  
   //yiftah
   StartVisualization = (id) => {
     sessionStorage.setItem("datasetReadyName", id);
@@ -181,7 +183,7 @@ class TableContent extends Component {
       }
     ;
     return (
-      <HashRouter history={history}>
+      <HashRouter>
         <br />
         <Workflow />
         <br />

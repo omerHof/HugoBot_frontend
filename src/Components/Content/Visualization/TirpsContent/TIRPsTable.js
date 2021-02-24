@@ -286,7 +286,7 @@ class TIRPsTable extends Component {
                     responsive={true}
                     striped={true}
                     hover={true}
-                    scroll={true}
+                    // scroll={true}
                   >
                     {this.renderTableHeader()}
                     <tbody>{this.renderTableData()}</tbody>

@@ -26,7 +26,7 @@ class TirpsContent extends Component {
 
   render() {
     return (
-      <HashRouter history={History}>
+      <HashRouter >
         <Switch>
         <Route path={"/TirpsApp/DatasetInfo"}>
             <Container>

@@ -35,7 +35,7 @@ class Navigation extends Component {
       that.forceUpdate();
     });
     return (
-      <HashRouter history={History}>
+      <HashRouter>
         <Navbar fixed="top" className={"bg-hugobot"} variant={"dark"}>
           <div className={"navbar navbar-left"}>
             <Link to={"/"}>
