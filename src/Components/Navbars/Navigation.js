@@ -48,7 +48,7 @@ class Navigation extends Component {
           <div className={"row justify-Content-center"}>
             <Navbar.Brand>
               <Link to={"/"}>
-                <h4>Karma Lego Web</h4>
+                <h4>KarmaLegoWeb</h4>
               </Link>
             </Navbar.Brand>
           </div>
