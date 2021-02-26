@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Form, Table, Button } from "react-bootstrap";
+import { Card, Form, Modal, Button } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import { Link, HashRouter } from "react-router-dom";
 import "../../../../resources/style/colors.css";
@@ -11,7 +11,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import history from "../../../../History";
 import Popup from "reactjs-popup";
-
+import TirpMatrix from "../TirpsContent/TirpMatrix";
+import { useState } from "react";
 // import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import Axios from "axios";
 import cookies from "js-cookie";
@@ -28,6 +29,7 @@ class TIRPsTable extends Component {
     data: [],
     selected: [],
     showPopup: false,
+    modalShow: false,
   };
   constructor(props) {
     super(props);
@@ -310,6 +312,10 @@ class TIRPsTable extends Component {
       showPopup: !this.state.showPopup,
     });
   }
+  setModalShow(value) {
+    this.state.modalShow = value;
+    this.forceUpdate();
+  }
   render() {
     let that = this;
     window.addEventListener("ReloadEntitiesTable", function () {
@@ -323,6 +329,8 @@ class TIRPsTable extends Component {
       selected: this.state.selected,
       onSelect: this.handleOnSelect,
     };
+    // const [modalShow, setModalShow] = React.useState(false);
+
     const defaultSorted = [
       {
         dataField: "Symbol",
@@ -385,10 +393,16 @@ class TIRPsTable extends Component {
               table={this.state.currentRow}
               type_of_comp="tirp"
             ></SelectedTIRPTable>
-            <button onClick={this.togglePopup.bind(this)}>show popup</button>
-            {this.state.showPopup ? (
-              <Popup text="Close Me" closePopup={this.togglePopup.bind(this)} />
-            ) : null}
+            <Button variant="primary" onClick={() => this.setModalShow(true)}>
+              Launch vertically centered modal
+            </Button>
+
+            <TirpMatrix
+              className="popup"
+              show={this.state.modalShow}
+              row={this.state.currentRow}
+              onHide={() => this.setModalShow(false)}
+            ></TirpMatrix>
           </Col>
         </Row>
 

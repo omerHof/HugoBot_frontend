@@ -12,6 +12,9 @@ import WeightsForm from "./WeightsForm";
 import SelectedTIRPTable from "./SelectedTIRPTable";
 import Axios from "axios";
 import cookies from "js-cookie";
+import TirpMatrix from "../TirpsContent/TirpMatrix";
+import WeightsPop from "./WeightsPop";
+
 /**
  * this class contains the display of the the table from table content
  */
@@ -26,6 +29,8 @@ class TIRPsTable extends Component {
     weighted_mmd: 33,
     data: [],
     selected: [],
+    modalShow: false,
+    weightsModalShow: false,
   };
   constructor(props) {
     super(props);
@@ -36,6 +41,7 @@ class TIRPsTable extends Component {
     this.state.weighted_vs = value[0];
     this.state.weighted_mhs = value[1];
     this.state.weighted_mmd = value[2];
+    this.renderTableData();
     this.forceUpdate();
   };
 
@@ -427,6 +433,16 @@ class TIRPsTable extends Component {
     }
   };
 
+  setModalShow(value) {
+    this.state.modalShow = value;
+    this.forceUpdate();
+  }
+  setWeightsModalShow(value) {
+    this.state.weightsModalShow = value;
+    this.renderTableData();
+    this.forceUpdate();
+  }
+
   render() {
     let that = this;
     window.addEventListener("ReloadEntitiesTable", function () {
@@ -497,8 +513,32 @@ class TIRPsTable extends Component {
               table={this.state.currentRow}
               type_of_comp="disc"
             ></SelectedTIRPTable>
+            <Button variant="primary" onClick={() => this.setModalShow(true)}>
+              Launch vertically centered modal
+            </Button>
+            <TirpMatrix
+              className="popup"
+              show={this.state.modalShow}
+              row={this.state.currentRow}
+              onHide={() => this.setModalShow(false)}
+            ></TirpMatrix>
           </Col>
         </Row>
+
+        <Button
+          variant="primary"
+          onClick={() => this.setWeightsModalShow(true)}
+        >
+          Select Weights
+        </Button>
+        <WeightsPop
+          className="popupWeights"
+          show={this.state.weightsModalShow}
+          // render={this.renderTableData}
+          onHide={() => this.setWeightsModalShow(false)}
+          onUpdate={this.changeWeightsValue}
+        ></WeightsPop>
+
         <WeightsForm onUpdate={this.changeWeightsValue} />
         <Row>
           <Col sm={4}>
