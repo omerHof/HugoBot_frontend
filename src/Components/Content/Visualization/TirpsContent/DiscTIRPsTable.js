@@ -14,6 +14,7 @@ import Axios from "axios";
 import cookies from "js-cookie";
 import TirpMatrix from "../TirpsContent/TirpMatrix";
 import WeightsPop from "./WeightsPop";
+import DTirpBarPlot from "./DTirpBarPlot";
 
 /**
  * this class contains the display of the the table from table content
@@ -149,7 +150,7 @@ class TIRPsTable extends Component {
             id={"toy_example-btn"}
             onClick={() => this.go_to_next_level(tirp)}
           >
-            <i className="fas fa-download" id={"toy_example-icon"} />
+            <i className="fas fa-caret-down" id={"toy_example-icon"} />
           </Button>
         );
       }
@@ -485,7 +486,7 @@ class TIRPsTable extends Component {
             <Card>
               <Card.Header className={"bg-hugobot"}>
                 <Card.Text className={"text-hugobot text-hugoob-advanced"}>
-                  Tirp's Table{" "}
+                Discriminative Tirp's Table{" "}
                 </Card.Text>
               </Card.Header>
               <Card.Body>
@@ -513,24 +514,13 @@ class TIRPsTable extends Component {
               table={this.state.currentRow}
               type_of_comp="disc"
             ></SelectedTIRPTable>
-            <Button variant="primary" onClick={() => this.setModalShow(true)}>
-              Launch vertically centered modal
-            </Button>
-            <TirpMatrix
-              className="popup"
-              show={this.state.modalShow}
-              row={this.state.currentRow}
-              onHide={() => this.setModalShow(false)}
-            ></TirpMatrix>
-          </Col>
-        </Row>
-
-        <Button
-          variant="primary"
+            <Button
+          variant="primary" style={{marginRight: '2%'}}
           onClick={() => this.setWeightsModalShow(true)}
         >
           Select Weights
         </Button>
+        <div className="overlay"> 
         <WeightsPop
           className="popupWeights"
           show={this.state.weightsModalShow}
@@ -538,13 +528,28 @@ class TIRPsTable extends Component {
           onHide={() => this.setWeightsModalShow(false)}
           onUpdate={this.changeWeightsValue}
         ></WeightsPop>
-
         <WeightsForm onUpdate={this.changeWeightsValue} />
+        </div>
+            <Button variant="primary" onClick={() => this.setModalShow(true)}>
+              Get Relations
+            </Button>
+            <TirpMatrix
+              className="popupWeights"
+              show={this.state.modalShow}
+              row={this.state.currentRow}
+              onHide={() => this.setModalShow(false)}
+            ></TirpMatrix>
+          </Col>
+        </Row>        
         <Row>
-          <Col sm={4}>
+          <Col sm={5}>
             <TIRPsPie row={this.state.currentRow}></TIRPsPie>
           </Col>
-          <Col sm={8}>
+          <Col sm={2}>
+            <DTirpBarPlot row={this.state.currentRow}></DTirpBarPlot>
+          </Col>
+
+          <Col sm={5}>
             <TIRPTimeLine
               row={this.state.currentRow}
               type_of_comp="disc"

@@ -165,6 +165,14 @@ class TIRPTimeLine extends Component {
               loader={<div>Loading Chart</div>}
               data={this.state.timeLineDataSet}
               rootProps={{ "data-testid": "2" }}
+              options={{
+                timeline:{
+                  rowLabelStyle: {
+                    fontSize: 16,
+                    color: '#603913',
+                  },
+                }
+              }}
             />
           </Card.Body>
         </Card>

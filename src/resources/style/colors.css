@@ -6,9 +6,18 @@
   color: white;
 }
 
+.selected-btn{
+  background-color: blue !important;
+}
+
 .bg-hugobot a:hover {
   text-decoration: none;
   color: rgb(248, 247, 183);
+}
+
+.bg-hugobot a:focus {
+  text-decoration: none;
+  background-color: #26a69a;
 }
 
 .text-hugobot {
@@ -53,11 +62,18 @@
   font-size: large;
   color: black;
 }
+.fat_label{
+  width: 200%;
+  margin-right: 100%;
+}
 
 .fix-margin {
   margin-top: 20px;
   height: 50%;
   width: 50%;
+}
+.margin_it{
+  margin-left: 3%;
 }
 
 .vertical-scroll-advanced {
@@ -106,11 +122,40 @@
 }
 
 .popupWeights {
-  height: 50%;
   width: 50%;
-  margin-top: 15%;
-  padding-top: 0%;
+  margin-top: 1%;
+  padding-top: 0px;
+  background: rgb(209, 60, 60,0);
+  max-height: unset;
+  box-shadow: transparent;
 }
 
 .popupBody {
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup1 {
+  margin: 70px auto;
+  padding: 20px;
+  background: rgb(209, 60, 60);
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+

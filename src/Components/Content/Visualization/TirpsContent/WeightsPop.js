@@ -19,27 +19,21 @@ class WeightsPop extends Component {
     this.state.weighted_mhs = value[1];
     this.state.weighted_mmd = value[2];
     this.props.onUpdate(value);
+    this.props.onHide(true)
   };
 
   render() {
     return (
-      <Modal
+      <Modal 
         {...this.props}
         size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
-          </Modal.Title>
-        </Modal.Header>
         <Modal.Body>
           <WeightsForm onUpdate={this.changeWeightsValue2} />
         </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.props.onHide}>Close</Button>
-        </Modal.Footer>
+        
       </Modal>
     );
   }

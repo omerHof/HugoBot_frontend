@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../../../resources/style/colors.css";
-import { Button } from "react-bootstrap";
+import { Button,Card } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 
 class TirpMatrix extends Component {
@@ -67,13 +67,14 @@ class TirpMatrix extends Component {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="popupBody">
-          <h4>Centered Modal</h4>
+        <Modal.Body>
+          <Card>
+          <Card.Header className={"bg-hugobot"}>
+            <Card.Text className={"text-hugobot text-hugoob-advanced"}>
+              Relations{" "}
+            </Card.Text>
+          </Card.Header>
+          <Card.Body>
           <table
             style={{
               borderWidth: "2px",
@@ -83,6 +84,8 @@ class TirpMatrix extends Component {
           >
             {this.draw()}
           </table>
+          </Card.Body>
+        </Card>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.onHide}>Close</Button>

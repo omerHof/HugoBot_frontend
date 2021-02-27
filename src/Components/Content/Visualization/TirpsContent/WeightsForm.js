@@ -51,15 +51,15 @@ class WeightsForm extends Component {
 
         <Form onSubmit={this.onSubmit}>
           <Row>
-            <Col>
+            <Col >
             <Form.Label className={"text-bold-black"} >Vertical Support</Form.Label>
             <Form.Control type = 'number' name="weighted_vs" placeholder="34" onChange={this.onChange} />
             </Col>
             <Col>
-            <Form.Label className={"text-bold-black"}>Mean Horizontal Support </Form.Label>
+            <Form.Label className={"text-bold-black fat_label"}>Mean Horizontal Support </Form.Label>
             <Form.Control type = 'number' name = "weighted_mhs" placeholder="33" onChange={this.onChange} />
             </Col>
-            <Col>
+            <Col className={"margin_it"}>
             <Form.Label className={"text-bold-black"}>Mean Mean Duration </Form.Label>
             <Form.Control type = 'number' name = "weighted_mmd" placeholder="33" onChange={this.onChange} />
             </Col>

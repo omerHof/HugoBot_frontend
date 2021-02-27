@@ -245,7 +245,7 @@ class TIRPsTable extends Component {
   };
 
   get_columns = () => {
-    const headerSortingStyle = { backgroundColor: "#c8e6c9" };
+    const headerSortingStyle = { backgroundColor: "#c8e6c9"};
 
     const columns = [
       {
@@ -393,8 +393,8 @@ class TIRPsTable extends Component {
               table={this.state.currentRow}
               type_of_comp="tirp"
             ></SelectedTIRPTable>
-            <Button variant="primary" onClick={() => this.setModalShow(true)}>
-              Launch vertically centered modal
+            <Button style={{width:"100%"}} variant="primary" onClick={() => this.setModalShow(true)}>
+              Get Relations
             </Button>
 
             <TirpMatrix

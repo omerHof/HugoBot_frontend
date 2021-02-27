@@ -32,9 +32,9 @@ class Landing extends Component {
           <Card.Text className={"text-hugobot"}> </Card.Text>
         </Card.Header>
 
-        <Card.Text>
+        <Card.Text className={"text-hugoob-advanced"}>
           {this.renderTableData()}
-          {"Welcome " + this.state.name + ", choose your next step"}
+          <h4>{"Welcome " + this.state.name + ", choose your next step"}</h4>
         </Card.Text>
 
         <Card.Body>

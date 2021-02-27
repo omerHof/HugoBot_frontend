@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Chart from "react-google-charts";
-import { ButtonGroup, ToggleButton, Card } from "react-bootstrap";
+import { ButtonGroup, ToggleButton, Card,Col,Row } from "react-bootstrap";
 
 class TIRPsPie extends Component {
   state = {
@@ -20,13 +20,13 @@ class TIRPsPie extends Component {
   ToggleButtonPie = () => {
     const radios = Object.keys(this.state.Pie1_prop);
     return (
-      <ButtonGroup toggle>
+      <ButtonGroup toggle style={{width:'100%'}}>
         {radios.map((radio, idx) => (
           <ToggleButton
             className={"bg-hugobot"}
             key={idx}
-            type="radio"
-            variant="secondary"
+            type="checkbox"
+            variant="info"
             name="radio"
             value={radio}
             onChange={(e) => this.temp(radio)}
@@ -66,17 +66,17 @@ class TIRPsPie extends Component {
   drawPie = () => {
     let pie_title = "Class 1 - " + window.dataSetInfo.class_name;
     if (this.props.type_of_comp === "tirp") {
-      return this.renderTirpPie(this.state.pie1_propAsArray, pie_title);
+      return this.renderTirpPie(this.state.pie1_propAsArray, pie_title,"500px");
     } else {
       let pie0_title = "Class 0 - " + window.dataSetInfo.second_class_name;
       return this.renderDiscTirpPie(pie_title, pie0_title);
     }
   };
 
-  renderTirpPie = (data, pie_title) => {
+  renderTirpPie = (data, pie_title,width) => {
     return (
       <Chart
-        width={"500px"}
+        width={width}
         height={"300px"}
         chartType="PieChart"
         loader={<div>Loading Chart</div>}
@@ -97,10 +97,14 @@ class TIRPsPie extends Component {
 
   renderDiscTirpPie = (pie_title, pie0_title) => {
     return (
-      <div>
-        {this.renderTirpPie(this.state.pie1_propAsArray, pie_title)}
-        {this.renderTirpPie(this.state.pie0_propAsArray, pie0_title)}
-      </div>
+      <Row>
+        <Col sm={3} style={{marginRight:'15%'}}>
+        {this.renderTirpPie(this.state.pie1_propAsArray, pie_title,"400px")}
+        </Col>
+        <Col sm={3}>
+        {this.renderTirpPie(this.state.pie0_propAsArray, pie0_title,"400px")}
+        </Col>
+      </Row>
     );
   };
 
