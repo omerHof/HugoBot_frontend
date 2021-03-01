@@ -24,10 +24,12 @@ class SearchIntervals extends Component {
         }
         else {
             newSelected = this.state.selected.filter(x => x !== row.id);
-        }
+        }             
         this.setState({ selected: newSelected });
         this.props.changeList(newSelected);
-    }
+        let isAllSelected = (newSelected.length==this.state.data.length);
+        this.props.changeAllselected(isAllSelected)  
+    }  
 
     handleOnSelectAll = (isSelect, rows) => {
         let newSelected = [];
@@ -36,6 +38,7 @@ class SearchIntervals extends Component {
         }
         this.setState({ selected: newSelected });
         this.props.changeList(newSelected);
+        this.props.changeAllselected(isSelect);
     }
 
 

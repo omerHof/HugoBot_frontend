@@ -31,7 +31,9 @@ class TIRPsSearch extends Component {
         },        
         minMMD: 0,
         maxMMD: 100,
-        isAllSelected: true,
+        isAllStartSelected: true,
+        isAllContainSelected: true,
+        isAllEndSelected: true,
 
         // parameters for showing results
         finalResults: []
@@ -88,8 +90,16 @@ class TIRPsSearch extends Component {
         this.setState({ endList: newList });
     }
 
-    changeIsAllSelected(ans){
-        this.setState()
+    changeIsStartAllSelected(ans){
+        this.setState({isAllStartSelected: ans})
+    }
+
+    changeIsContainllSelected(ans){
+        this.setState({isAllContainSelected: ans})
+    }
+
+    changeIsEndAllSelected(ans){
+        this.setState({isAllEndSelected: ans})
     }
 
     changeParameter = (event) =>{
@@ -121,9 +131,19 @@ class TIRPsSearch extends Component {
         this.checkParameters(); 
         const formData = new FormData();
         formData.append( "data_set_name", window.selectedDataSet);
-        formData.append( "startsList", this.state.startList);
-        formData.append( "containList", this.state.containList);
-        formData.append( "endsList", this.state.endList);
+        if(this.state.isAllStartSelected)
+            formData.append( "startsList", []);
+        else
+            formData.append( "startsList", this.state.startList);
+        if(this.state.isAllContainSelected)
+            formData.append( "containList", []);
+        else
+            formData.append( "containList", this.state.containList);
+        if(this.state.isAllEndSelected)
+            formData.append( "endsList",[]);   
+        else
+            formData.append( "endsList", this.state.endList);        
+       
         formData.append( "minHS", this.state.parameters.minHS);
         formData.append( "maxHS", this.state.parameters.maxHS);
         formData.append( "minVS", this.state.parameters.minVS);
@@ -184,7 +204,8 @@ class TIRPsSearch extends Component {
                             <Col sm={4}>
                                 <SearchIntervals
                                     title="Start With"
-                                    isAllSelected={this.state.isAllSelected}
+                                    isAllSelected={this.state.isAllStartSelected}
+                                    changeAllselected={this.changeIsStartAllSelected.bind(this)}
                                     intervals={this.state.dictionary_states}
                                     changeList={this.changeStartList.bind(this)}
                                 />
@@ -192,7 +213,8 @@ class TIRPsSearch extends Component {
                             <Col sm={4}>
                                 <SearchIntervals
                                     title="Contains"
-                                    isAllSelected={this.state.isAllSelected}
+                                    isAllSelected={this.state.isAllContainSelected}
+                                    changeAllselected={this.changeIsContainllSelected.bind(this)}
                                     intervals={this.state.dictionary_states}
                                     changeList={this.changeContainList.bind(this)}
                                 />
@@ -200,7 +222,8 @@ class TIRPsSearch extends Component {
                             <Col sm={4}>
                                 <SearchIntervals
                                     title="Ends With"
-                                    isAllSelected={this.state.isAllSelected}
+                                    isAllSelected={this.state.isAllEndSelected}
+                                    changeAllselected={this.changeIsEndAllSelected.bind(this)}
                                     intervals={this.state.dictionary_states}
                                     changeList={this.changeEndList.bind(this)}
                                 />
