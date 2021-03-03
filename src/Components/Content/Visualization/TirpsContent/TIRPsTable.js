@@ -338,8 +338,8 @@ class TIRPsTable extends Component {
       },
     ];
     return (
-      <Container fluid>
-        <HashRouter>
+      <Container fluid h-250>
+        <HashRouter >
           <Link
             className={
               sessionStorage.getItem("Workflow").localeCompare("Disc") === 0
@@ -355,7 +355,7 @@ class TIRPsTable extends Component {
           </Link>
           {this.drawNavbar()}
         </HashRouter>
-        <Row>
+        <Row h-25>
           <Col sm={10}>
             <Card>
               <Card.Header className={"bg-hugobot"}>
