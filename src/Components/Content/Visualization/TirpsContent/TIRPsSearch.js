@@ -191,7 +191,7 @@ class TIRPsSearch extends Component {
     showResults() {
         if (!this.state.showGraph) {
             this.setState({ showGraph: true })
-        }       
+        }
     }
 
     render() {
@@ -240,7 +240,11 @@ class TIRPsSearch extends Component {
                 </Row>
                 <Row>
                     <Col>
-                        {this.state.showGraph ? <SearchGraph minVS={this.state.parameters.minVS}/> : null}
+                        {this.state.showGraph ? <SearchGraph
+                            minVS={this.state.parameters.minVS} 
+                            minHS={this.state.parameters.minHS}
+                            minMMD={this.state.minMMD}
+                            /> : null}
                     </Col>
                     <Col>
                         <SearchMeanPresentation />

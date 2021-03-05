@@ -5,8 +5,6 @@ import Chart from "react-google-charts";
 import SearchAxisPop from "./SearchAxisPop";
 
 
-const DiaplayEnum = Object.freeze({ "vhd": 1, "vdh": 2, "hvd": 3, "hdv": 4, "dvh": 5, "dhv": 6 });
-
 class SearchGraph extends Component {
 
     state = {
@@ -16,15 +14,18 @@ class SearchGraph extends Component {
         mhs: [],
         sizes: [],
         mmd: [],
-        diaplay: { "vs": 1, "mhs": 2, "mmd": 3 },
-        AxisModalShow: false,
+        measureToAxis: { "vs": 1, "mhs": 2, "mmd": 3 },
+        axisToMeasure: {1: "vs", 2: "mhs", 3: "mmd"},
+        measures: {"vs": "Vertical Support", "mhs": "Mean Horizontal Support", "mmd": "Mean Mean Duration"},
+        minMeasures:{},
+        AxisModalShow: false
     };
 
     constructor(props) {
         super(props);
+        this.extractData();
+       
 
-
-        this.extractData()
     }
 
     extractData() {
@@ -37,7 +38,10 @@ class SearchGraph extends Component {
             this.state.sizes.push(parseFloat(curr_result[4]));
             this.state.mmd.push(parseFloat(curr_result[7]));
         }
-
+        this.state.minMeasures.vs = this.props.minVS;
+        this.state.minMeasures.hs = this.props.minHS;
+        this.state.minMeasures.mmd = this.props.minMMD;
+       
     }
 
     setModalShow(value) {
@@ -49,29 +53,29 @@ class SearchGraph extends Component {
         this.forceUpdate();
     }
 
-    changeAxis(vs, mhs, mmd) {
-        this.setState({
-            display: {
-                vs: vs,
-                mhs: mhs,
-                mmd: mmd
-            }
-        })
-        // this.handleDataPositions();
+    changeAxis(measureToAxis, axisToMeasure) {
+        let x=5;
+        this.setState({measureToAxis: measureToAxis, axisToMeasure: axisToMeasure })
+        let y=6;
     }
 
     handleDataPositions() {
         let data = [];
-        // data[0] = Array.from(Array(window.searchFinalResults.length).keys()).map(String)
         data[0] = Array(window.searchFinalResults.length).join(".").split(".");
-        data[this.state.diaplay.vs] = this.state.vs;
-        data[this.state.diaplay.mhs] = this.state.mhs;
-        data[this.state.diaplay.mmd] = this.state.mmd;
+        data[this.state.measureToAxis.vs] = this.state.vs;
+        data[this.state.measureToAxis.mhs] = this.state.mhs;
+        data[this.state.measureToAxis.mmd] = this.state.mmd;
         data[4] = this.state.sizes;
-        // data[5] = this.state.sizes;
         data = this.transpose(data)
-        const titles = ["ID", "VS", "MHS", "MMD", "TIRP Size"]
+
+        let titles = [];
+        titles[0] = "ID";
+        titles[1] = this.state.axisToMeasure[1].toUpperCase();
+        titles[2] = this.state.axisToMeasure[2].toUpperCase();
+        titles[3] = this.state.axisToMeasure[3].toUpperCase();
+        titles[4] = "TIRP Size";
         data.unshift(titles);
+
         return data;
     }
 
@@ -91,7 +95,13 @@ class SearchGraph extends Component {
                     options={{
                         colorAxis: { colors: ['white', 'blue'] },
                         sizeAxis: { maxSize: 5, minSize: 5 },
-                        hAxis: { baseline: parseInt(this.props.minVS) }
+                        hAxis: {
+                             baseline: this.state.minMeasures[this.state.axisToMeasure[1]] ,
+                             title: this.state.measures[this.state.axisToMeasure[1]]
+                        },
+                        vAxis: {
+                             title: this.state.measures[this.state.axisToMeasure[2]]
+                        },
                     }}
                     rootProps={{ 'data-testid': '2' }}
                 />
@@ -105,10 +115,11 @@ class SearchGraph extends Component {
                 <div className="overlay">
                     <SearchAxisPop
                         className="popupWeights"
-                        show={this.state.AxisModalShow}
-                        // render={this.renderTableData}
+                        show={this.state.AxisModalShow}                      
                         onHide={() => this.setAxisModalShow(false)}
                         onUpdate={this.changeAxis.bind(this)}
+                        axisToMeasure={this.state.axisToMeasure}
+                        measureToAxis={this.state.measureToAxis}
                     ></SearchAxisPop>
                     
                 </div>
