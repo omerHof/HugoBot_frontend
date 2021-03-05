@@ -542,14 +542,14 @@ class TIRPsTable extends Component {
           </Col>
         </Row>        
         <Row>
-          <Col sm={5}>
+          <Col lg={4}>
             <TIRPsPie row={this.state.currentRow}></TIRPsPie>
           </Col>
-          <Col sm={2}>
+          <Col lg={3}>
             <DTirpBarPlot row={this.state.currentRow}></DTirpBarPlot>
           </Col>
 
-          <Col sm={5}>
+          <Col lg={5}>
             <TIRPTimeLine
               row={this.state.currentRow}
               type_of_comp="disc"

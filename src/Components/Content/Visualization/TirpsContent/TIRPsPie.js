@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Chart from "react-google-charts";
-import { ButtonGroup, ToggleButton, Card,Col,Row } from "react-bootstrap";
+import { ToggleButtonGroup , ToggleButton, Card,Col,Row } from "react-bootstrap";
 
 class TIRPsPie extends Component {
   state = {
@@ -8,6 +8,7 @@ class TIRPsPie extends Component {
     pie1_propAsArray: [],
     pie0_prop: [],
     pie0_propAsArray: [],
+    idxChoosen: 0,
   };
   constructor(props) {
     super(props);
@@ -20,26 +21,29 @@ class TIRPsPie extends Component {
   ToggleButtonPie = () => {
     const radios = Object.keys(this.state.Pie1_prop);
     return (
-      <ButtonGroup toggle style={{width:'100%'}}>
+      <ToggleButtonGroup defaultValue={0} name="options" style={{width:'100%'}}>
         {radios.map((radio, idx) => (
           <ToggleButton
             className={"bg-hugobot"}
             key={idx}
-            type="checkbox"
-            variant="info"
+            type="radio"
+            color = "info"
             name="radio"
-            value={radio}
-            onChange={(e) => this.temp(radio)}
+            value={idx}
+            onChange={(e) => this.temp(radio,idx)}
           >
             {radio}
           </ToggleButton>
         ))}
-      </ButtonGroup>
+      </ToggleButtonGroup>
     );
   };
 
-  temp = (name) => {
+  
+
+  temp = (name,idx) => {
     this.updatePieValues(name);
+    this.state.idxChoosen = idx;
     this.forceUpdate();
   };
   updatePieValues = (name) => {
@@ -66,18 +70,18 @@ class TIRPsPie extends Component {
   drawPie = () => {
     let pie_title = "Class 1 - " + window.dataSetInfo.class_name;
     if (this.props.type_of_comp === "tirp") {
-      return this.renderTirpPie(this.state.pie1_propAsArray, pie_title,"500px");
+      return this.renderTirpPie(this.state.pie1_propAsArray, pie_title,"100%",false);
     } else {
       let pie0_title = "Class 0 - " + window.dataSetInfo.second_class_name;
       return this.renderDiscTirpPie(pie_title, pie0_title);
     }
   };
 
-  renderTirpPie = (data, pie_title,width) => {
+  renderTirpPie = (data, pie_title,width,show) => {
     return (
-      <Chart
+      <Chart 
         width={width}
-        height={"300px"}
+        height={"200px"}
         chartType="PieChart"
         loader={<div>Loading Chart</div>}
         data={data}
@@ -98,11 +102,11 @@ class TIRPsPie extends Component {
   renderDiscTirpPie = (pie_title, pie0_title) => {
     return (
       <Row>
-        <Col sm={3} style={{marginRight:'15%'}}>
-        {this.renderTirpPie(this.state.pie1_propAsArray, pie_title,"400px")}
+        <Col sm={3} style={{marginRight:'20%'}}>
+        {this.renderTirpPie(this.state.pie1_propAsArray, pie_title,"350px",false)}
         </Col>
-        <Col sm={3}>
-        {this.renderTirpPie(this.state.pie0_propAsArray, pie0_title,"400px")}
+        <Col sm={3} style={{zIndex:'0'}}>
+        {this.renderTirpPie(this.state.pie0_propAsArray, pie0_title,"350px",true)}
         </Col>
       </Row>
     );
@@ -115,7 +119,7 @@ class TIRPsPie extends Component {
     ) {
       this.state.Pie1_prop = this.props.row._TIRP__supporting_entities_properties;
       this.state.Pie0_prop = this.props.row._TIRP__supporting_entities_properties_class_1;
-      this.updatePieValues(Object.keys(this.state.Pie1_prop)[0]);
+      this.updatePieValues(Object.keys(this.state.Pie1_prop)[this.state.idxChoosen]);
     }
 
     let that = this;
