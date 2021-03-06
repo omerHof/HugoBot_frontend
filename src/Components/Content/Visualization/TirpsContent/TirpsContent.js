@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import { Redirect, Route, HashRouter, Switch } from "react-router-dom";
 
-
 import DatasetInfo from "./DatasetInfo";
 import Analysis from "./Analysis";
 import States from "./States";
@@ -13,7 +12,7 @@ import DiscriminativeTIRPs from "./DiscriminativeTIRPs";
 import TIRPsSearch from "./TIRPsSearch";
 import PTIRPsSearch from "./PTIRPsSearch";
 import History from "../../../../History";
-import "../visualization.css"
+import "../visualization.css";
 
 /**
  * in this class you can see the content of the main navbar.
@@ -21,18 +20,15 @@ import "../visualization.css"
  */
 
 class TirpsContent extends Component {
- 
-
-
   render() {
     return (
-      <HashRouter >
+      <HashRouter>
         <Switch>
-        <Route path={"/TirpsApp/DatasetInfo"}>
+          <Route path={"/TirpsApp/DatasetInfo"}>
             <Container>
               <DatasetInfo />
             </Container>
-          </Route>        
+          </Route>
           <Route path={"/TirpsApp/Analysis"}>
             <Container>
               <Analysis />
