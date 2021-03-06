@@ -6,6 +6,16 @@ class Landing extends Component {
     name: "",
   };
 
+  componentDidMount() {
+    if (sessionStorage.getItem("user").localeCompare("true") !== 0) {
+      window.open("#/Login", "_self");
+    }
+
+    sessionStorage.setItem("dataSet", "false");
+    window.dispatchEvent(new Event("ReloadTable1"));
+    window.dispatchEvent(new Event("ReloadDataSet"));
+  }
+
   renderTableData = () => {
     let tables = JSON.parse(sessionStorage.allReadyTables);
     return tables.rows.map((iter, idx) => {
