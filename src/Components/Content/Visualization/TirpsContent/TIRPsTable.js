@@ -245,7 +245,7 @@ class TIRPsTable extends Component {
   };
 
   get_columns = () => {
-    const headerSortingStyle = { backgroundColor: "#c8e6c9"};
+    const headerSortingStyle = { backgroundColor: "#c8e6c9" };
 
     const columns = [
       {
@@ -307,6 +307,18 @@ class TIRPsTable extends Component {
       }));
     }
   };
+
+  checkIfRoot = () => {
+    if (
+      (window.pathOfTirps && window.pathOfTirps.length < 1) ||
+      this.state.currentRow._TIRP__rel.length === 0
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   togglePopup() {
     this.setState({
       showPopup: !this.state.showPopup,
@@ -339,7 +351,7 @@ class TIRPsTable extends Component {
     ];
     return (
       <Container fluid h-250>
-        <HashRouter >
+        <HashRouter>
           <Link
             className={
               sessionStorage.getItem("Workflow").localeCompare("Disc") === 0
@@ -356,6 +368,27 @@ class TIRPsTable extends Component {
           {this.drawNavbar()}
         </HashRouter>
         <Row h-25>
+          <Col sm={2}>
+            <SelectedTIRPTable
+              table={this.state.currentRow}
+              type_of_comp="tirp"
+            ></SelectedTIRPTable>
+            <Button
+              disabled={this.checkIfRoot()}
+              style={{ width: "100%" }}
+              variant="primary"
+              onClick={() => this.setModalShow(true)}
+            >
+              Get Relations
+            </Button>
+
+            <TirpMatrix
+              className="popup"
+              show={this.state.modalShow}
+              row={this.state.currentRow}
+              onHide={() => this.setModalShow(false)}
+            ></TirpMatrix>
+          </Col>
           <Col sm={10}>
             <Card>
               <Card.Header className={"bg-hugobot"}>
@@ -387,22 +420,6 @@ class TIRPsTable extends Component {
                 </div>
               </Card.Body>
             </Card>
-          </Col>
-          <Col sm={2}>
-            <SelectedTIRPTable
-              table={this.state.currentRow}
-              type_of_comp="tirp"
-            ></SelectedTIRPTable>
-            <Button style={{width:"100%"}} variant="primary" onClick={() => this.setModalShow(true)}>
-              Get Relations
-            </Button>
-
-            <TirpMatrix
-              className="popup"
-              show={this.state.modalShow}
-              row={this.state.currentRow}
-              onHide={() => this.setModalShow(false)}
-            ></TirpMatrix>
           </Col>
         </Row>
 

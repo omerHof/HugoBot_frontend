@@ -160,18 +160,18 @@ class TIRPTimeLine extends Component {
           </Card.Header>
           <Card.Body>
             <Chart
-              height={"200px"}
+              height={"250px"}
               chartType="Timeline"
               loader={<div>Loading Chart</div>}
               data={this.state.timeLineDataSet}
               rootProps={{ "data-testid": "2" }}
               options={{
-                timeline:{
+                timeline: {
                   rowLabelStyle: {
                     fontSize: 16,
-                    color: '#603913',
+                    color: "#603913",
                   },
-                }
+                },
               }}
             />
           </Card.Body>

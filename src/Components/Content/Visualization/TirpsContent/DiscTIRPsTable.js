@@ -434,6 +434,17 @@ class TIRPsTable extends Component {
     }
   };
 
+  checkIfRoot = () => {
+    if (
+      (window.pathOfTirps && window.pathOfTirps.length < 1) ||
+      this.state.currentRow._TIRP__rel.length === 0
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   setModalShow(value) {
     this.state.modalShow = value;
     this.forceUpdate();
@@ -482,11 +493,47 @@ class TIRPsTable extends Component {
           {this.drawNavbar()}
         </HashRouter>
         <Row>
+          <Col sm={2}>
+            <SelectedTIRPTable
+              table={this.state.currentRow}
+              type_of_comp="disc"
+            ></SelectedTIRPTable>
+            <Button
+              variant="primary"
+              style={{ marginRight: "2%" }}
+              onClick={() => this.setWeightsModalShow(true)}
+            >
+              Select Weights
+            </Button>
+            <div className="overlay">
+              <WeightsPop
+                className="popupWeights"
+                show={this.state.weightsModalShow}
+                // render={this.renderTableData}
+                onHide={() => this.setWeightsModalShow(false)}
+                onUpdate={this.changeWeightsValue}
+              ></WeightsPop>
+              <WeightsForm onUpdate={this.changeWeightsValue} />
+            </div>
+            <Button
+              disabled={this.checkIfRoot()}
+              variant="primary"
+              onClick={() => this.setModalShow(true)}
+            >
+              Get Relations
+            </Button>
+            <TirpMatrix
+              className="popupWeights"
+              show={this.state.modalShow}
+              row={this.state.currentRow}
+              onHide={() => this.setModalShow(false)}
+            ></TirpMatrix>
+          </Col>
           <Col sm={10}>
             <Card>
               <Card.Header className={"bg-hugobot"}>
                 <Card.Text className={"text-hugobot text-hugoob-advanced"}>
-                Discriminative Tirp's Table{" "}
+                  Discriminative Tirp's Table{" "}
                 </Card.Text>
               </Card.Header>
               <Card.Body>
@@ -509,38 +556,7 @@ class TIRPsTable extends Component {
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={2}>
-            <SelectedTIRPTable
-              table={this.state.currentRow}
-              type_of_comp="disc"
-            ></SelectedTIRPTable>
-            <Button
-          variant="primary" style={{marginRight: '2%'}}
-          onClick={() => this.setWeightsModalShow(true)}
-        >
-          Select Weights
-        </Button>
-        <div className="overlay"> 
-        <WeightsPop
-          className="popupWeights"
-          show={this.state.weightsModalShow}
-          // render={this.renderTableData}
-          onHide={() => this.setWeightsModalShow(false)}
-          onUpdate={this.changeWeightsValue}
-        ></WeightsPop>
-        <WeightsForm onUpdate={this.changeWeightsValue} />
-        </div>
-            <Button variant="primary" onClick={() => this.setModalShow(true)}>
-              Get Relations
-            </Button>
-            <TirpMatrix
-              className="popupWeights"
-              show={this.state.modalShow}
-              row={this.state.currentRow}
-              onHide={() => this.setModalShow(false)}
-            ></TirpMatrix>
-          </Col>
-        </Row>        
+        </Row>
         <Row>
           <Col lg={4}>
             <TIRPsPie row={this.state.currentRow}></TIRPsPie>

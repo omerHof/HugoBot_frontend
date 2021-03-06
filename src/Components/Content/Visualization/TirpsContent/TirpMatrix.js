@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../../../resources/style/colors.css";
-import { Button,Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 
 class TirpMatrix extends Component {
@@ -10,14 +10,16 @@ class TirpMatrix extends Component {
   };
   constructor(props) {
     super(props);
-    this.state.row = props.row;
+    this.state.row = this.props.row;
     if ((this.props.show == true) & (window.pathOfTirps.length > 0)) {
       this.DrawMatrix();
     }
   }
 
   DrawMatrix = () => {
-    let currTirp = window.pathOfTirps[window.pathOfTirps.length - 1];
+    // window.pathOfTirps.push(this.state.row);
+    // let currTirp = window.pathOfTirps[window.pathOfTirps.length - 1];
+    let currTirp = this.props.row;
     let symbols = currTirp._TIRP__symbols;
     let relations = currTirp._TIRP__rel;
     let matrix = new Array(symbols.length);
@@ -69,23 +71,23 @@ class TirpMatrix extends Component {
       >
         <Modal.Body>
           <Card>
-          <Card.Header className={"bg-hugobot"}>
-            <Card.Text className={"text-hugobot text-hugoob-advanced"}>
-              Relations{" "}
-            </Card.Text>
-          </Card.Header>
-          <Card.Body>
-          <table
-            style={{
-              borderWidth: "2px",
-              borderColor: "#aaaaaa",
-              borderStyle: "solid",
-            }}
-          >
-            {this.draw()}
-          </table>
-          </Card.Body>
-        </Card>
+            <Card.Header className={"bg-hugobot"}>
+              <Card.Text className={"text-hugobot text-hugoob-advanced"}>
+                Relations{" "}
+              </Card.Text>
+            </Card.Header>
+            <Card.Body>
+              <table
+                style={{
+                  borderWidth: "2px",
+                  borderColor: "#aaaaaa",
+                  borderStyle: "solid",
+                }}
+              >
+                {this.draw()}
+              </table>
+            </Card.Body>
+          </Card>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.onHide}>Close</Button>
