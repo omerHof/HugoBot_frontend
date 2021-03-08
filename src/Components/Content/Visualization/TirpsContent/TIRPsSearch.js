@@ -239,14 +239,14 @@ class TIRPsSearch extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sm={9}>
                         {this.state.showGraph ? <SearchGraph
                             minVS={this.state.parameters.minVS} 
                             minHS={this.state.parameters.minHS}
                             minMMD={this.state.minMMD}
                             /> : null}
                     </Col>
-                    <Col>
+                    <Col sm={3}>
                         <SearchMeanPresentation />
                     </Col>
                 </Row>

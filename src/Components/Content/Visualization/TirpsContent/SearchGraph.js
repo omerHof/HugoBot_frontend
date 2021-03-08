@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import Chart from "react-google-charts";
-import { Button, ToggleButton, Card } from "react-bootstrap";
+import { Button, Row, Col, Card } from "react-bootstrap";
 import Chart from "react-google-charts";
 import SearchAxisPop from "./SearchAxisPop";
 
@@ -15,16 +15,16 @@ class SearchGraph extends Component {
         sizes: [],
         mmd: [],
         measureToAxis: { "vs": 1, "mhs": 2, "mmd": 3 },
-        axisToMeasure: {1: "vs", 2: "mhs", 3: "mmd"},
-        measures: {"vs": "Vertical Support", "mhs": "Mean Horizontal Support", "mmd": "Mean Mean Duration"},
-        minMeasures:{},
+        axisToMeasure: { 1: "vs", 2: "mhs", 3: "mmd" },
+        measures: { "vs": "Vertical Support", "mhs": "Mean Horizontal Support", "mmd": "Mean Mean Duration" },
+        minMeasures: {},
         AxisModalShow: false
     };
 
     constructor(props) {
         super(props);
         this.extractData();
-       
+
 
     }
 
@@ -41,7 +41,7 @@ class SearchGraph extends Component {
         this.state.minMeasures.vs = this.props.minVS;
         this.state.minMeasures.hs = this.props.minHS;
         this.state.minMeasures.mmd = this.props.minMMD;
-       
+
     }
 
     setModalShow(value) {
@@ -54,9 +54,9 @@ class SearchGraph extends Component {
     }
 
     changeAxis(measureToAxis, axisToMeasure) {
-        let x=5;
-        this.setState({measureToAxis: measureToAxis, axisToMeasure: axisToMeasure })
-        let y=6;
+        let x = 5;
+        this.setState({ measureToAxis: measureToAxis, axisToMeasure: axisToMeasure })
+        let y = 6;
     }
 
     handleDataPositions() {
@@ -83,45 +83,97 @@ class SearchGraph extends Component {
         return matrix[0].map((col, i) => matrix.map(row => row[i]));
     }
 
+    onSelect(chartWrapper) {
+        console.log("SELECTED");
+        // const chart = chartWrapper.getChart()
+        // const selection = chart.getSelection()
+        // if (selection.length === 1) {
+        //     const [selectedItem] = selection;
+        //     const dataTable = chartWrapper.getDataTable();
+        //     const { row, column } = selectedItem;
+        //     const value =  dataTable.getValue(row, column);
+        // }
+    }
+
+
+
     render() {
         return (
             <div>
+
                 <Chart
-                    width={'1200px'}
-                    height={'600px'}
+                    // width={'1200px'}
+                    height={'400px'}
                     chartType="BubbleChart"
+                    chartEvents={[
+                        {
+                            eventName: 'select',
+                            callback: ({ chartWrapper }) => {
+                                this.onSelect(chartWrapper);
+                                // const chart = chartWrapper.getChart()
+                                // const selection = chart.getSelection()
+                                // if (selection.length === 1) {
+                                //   const [selectedItem] = selection
+                                //   const dataTable = chartWrapper.getDataTable()
+                                //   const { row, column } = selectedItem
+                                //   alert(
+                                //     'You selected : ' +
+                                //       JSON.stringify({
+                                //         row,
+                                //         column,
+                                //         value: dataTable.getValue(row, column),
+                                //       }),
+                                //     null,
+                                //     2,
+                                //   )
+                                // }
+                                // console.log(selection)
+                            },
+                        },
+                    ]}
                     loader={<div>Loading Chart</div>}
                     data={this.handleDataPositions()}
                     options={{
+                        title: window.selectedDataSet + ": " + window.searchFinalResults.length
+                            + " TIRPs having >= " + this.state.minMeasures.vs + "% Vertical Support "
+                            + " \uD83D\uDD35" + " Bubble Color Tone: " + this.state.measures[this.state.axisToMeasure[3]],
+                        chartArea: { left: 80 },
                         colorAxis: { colors: ['white', 'blue'] },
+                        legend: {
+                            position: 'right'
+                        },
                         sizeAxis: { maxSize: 5, minSize: 5 },
                         hAxis: {
-                             baseline: this.state.minMeasures[this.state.axisToMeasure[1]] ,
-                             title: this.state.measures[this.state.axisToMeasure[1]]
+                            baseline: this.state.minMeasures[this.state.axisToMeasure[1]],
+                            title: this.state.measures[this.state.axisToMeasure[1]]
                         },
                         vAxis: {
-                             title: this.state.measures[this.state.axisToMeasure[2]]
+                            baseline: this.state.minMeasures[this.state.axisToMeasure[2]],
+                            title: this.state.measures[this.state.axisToMeasure[2]]
                         },
                     }}
                     rootProps={{ 'data-testid': '2' }}
-                />
+                >
+                </Chart>
+
                 <Button
                     variant="primary" style={{ marginRight: '2%' }}
                     onClick={() => this.setAxisModalShow(true)}
                 >
                     Select Axis
-                </Button>
-                
+                        </Button>
+
+
                 <div className="overlay">
                     <SearchAxisPop
                         className="popupWeights"
-                        show={this.state.AxisModalShow}                      
+                        show={this.state.AxisModalShow}
                         onHide={() => this.setAxisModalShow(false)}
                         onUpdate={this.changeAxis.bind(this)}
                         axisToMeasure={this.state.axisToMeasure}
                         measureToAxis={this.state.measureToAxis}
                     ></SearchAxisPop>
-                    
+
                 </div>
             </div>
 
