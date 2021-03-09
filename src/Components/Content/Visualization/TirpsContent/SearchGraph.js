@@ -28,9 +28,9 @@ class SearchGraph extends Component {
 
     }
 
-    extractData() {
+    extractData() { // extract the results from the backend
         for (let result in window.searchFinalResults) {
-            let curr_result = window.searchFinalResults[parseInt(result)];
+            let curr_result = window.searchFinalResults[parseInt(result)]; //check here fot more details
             this.state.symbols.push(curr_result[0]);
             this.state.relations.push(curr_result[1]);
             this.state.vs.push(parseFloat((curr_result[2] / window.num_of_entities * 100).toFixed(0)));
@@ -59,7 +59,7 @@ class SearchGraph extends Component {
         let y = 6;
     }
 
-    handleDataPositions() {
+    handleDataPositions() { // arange the display of results from the backend
         let data = [];
         data[0] = Array(window.searchFinalResults.length).join(".").split(".");
         data[this.state.measureToAxis.vs] = this.state.vs;
@@ -85,14 +85,15 @@ class SearchGraph extends Component {
 
     onSelect(chartWrapper) {
         console.log("SELECTED");
-        // const chart = chartWrapper.getChart()
-        // const selection = chart.getSelection()
-        // if (selection.length === 1) {
-        //     const [selectedItem] = selection;
-        //     const dataTable = chartWrapper.getDataTable();
-        //     const { row, column } = selectedItem;
-        //     const value =  dataTable.getValue(row, column);
-        // }
+        const chart = chartWrapper.getChart()
+        const selection = chart.getSelection()
+
+        if (selection.length === 1) {
+            const [selectedItem] = selection;
+            const dataTable = chartWrapper.getDataTable();
+            const { row, column } = selectedItem;
+            const value =  dataTable.getValue(row, column);
+        }
     }
 
 
@@ -110,8 +111,8 @@ class SearchGraph extends Component {
                             eventName: 'select',
                             callback: ({ chartWrapper }) => {
                                 this.onSelect(chartWrapper);
-                                // const chart = chartWrapper.getChart()
-                                // const selection = chart.getSelection()
+                                const chart = chartWrapper.getChart()
+                                const selection = chart.getSelection()
                                 // if (selection.length === 1) {
                                 //   const [selectedItem] = selection
                                 //   const dataTable = chartWrapper.getDataTable()
