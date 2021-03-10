@@ -33,7 +33,12 @@ class TIRPsTable extends Component {
   };
   constructor(props) {
     super(props);
-    this.renderTableData();
+    if (window.PassedFromSearch) {
+      window.PassedFromSearch = false;
+      this.draw_from_search();
+    } else {
+      this.renderTableData();
+    }
   }
 
   componentDidMount() {
@@ -44,6 +49,37 @@ class TIRPsTable extends Component {
     sessionStorage.setItem("dataSet", "false");
     window.dispatchEvent(new Event("ReloadTable1"));
     window.dispatchEvent(new Event("ReloadDataSet"));
+  }
+
+  draw_from_search() {
+    for (var i = 0; i < window.pathOfTirps.length - 1; i++) {
+      window.pathOfTirps[i].partOfPath = true;
+    }
+
+    window.pathOfTirps[window.pathOfTirps.length - 1].partOfPath = false;
+
+    if (window.pathOfTirps.length > 1) {
+      this.state.currentTirps =
+        window.pathOfTirps[window.pathOfTirps.length - 2]._TIRP__childes;
+    } else {
+      this.state.currentTirps = window.rootElement;
+    }
+
+    this.renderTableData();
+    let md =
+      window.pathOfTirps[window.pathOfTirps.length - 1]._TIRP__mean_duration;
+    let mh =
+      window.pathOfTirps[window.pathOfTirps.length - 1]
+        ._TIRP__mean_horizontal_support;
+
+    for (let i = 0; i < this.state.data.length; i++) {
+      if (
+        this.state.data[i].Mean_Horizontal_Support === mh &&
+        this.state.data[i].Mean_Mean_Duration === md
+      ) {
+        this.handleOnSelect(this.state.data[i], true);
+      }
+    }
   }
 
   temp = (row) => {
@@ -297,9 +333,10 @@ class TIRPsTable extends Component {
   handleOnSelect = (row, isSelect) => {
     if (isSelect) {
       this.state.selected = [];
-      this.setState(() => ({
-        selected: [...this.state.selected, row.id],
-      }));
+      // this.setState(() => ({
+      //   selected: [...this.state.selected, row.id],
+      // }));
+      this.state.selected = [...this.state.selected, row.id];
       this.temp(row);
     } else {
       this.setState(() => ({

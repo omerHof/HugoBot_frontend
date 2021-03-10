@@ -493,7 +493,7 @@ class TIRPsTable extends Component {
           {this.drawNavbar()}
         </HashRouter>
         <Row>
-          <Col sm={2}>
+          <Col sm={3}>
             <SelectedTIRPTable
               table={this.state.currentRow}
               type_of_comp="disc"
@@ -529,7 +529,7 @@ class TIRPsTable extends Component {
               onHide={() => this.setModalShow(false)}
             ></TirpMatrix>
           </Col>
-          <Col sm={10}>
+          <Col sm={9}>
             <Card>
               <Card.Header className={"bg-hugobot"}>
                 <Card.Text className={"text-hugobot text-hugoob-advanced"}>

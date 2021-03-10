@@ -6,7 +6,7 @@
   color: white;
 }
 
-.selected-btn{
+.selected-btn {
   background-color: blue !important;
 }
 
@@ -41,7 +41,7 @@
 
 .vertical-scroll {
   position: relative;
-  height: 350px;
+  height: 350%;
   overflow: auto;
 }
 
@@ -62,7 +62,7 @@
   font-size: large;
   color: black;
 }
-.fat_label{
+.fat_label {
   width: 200%;
   margin-right: 100%;
 }
@@ -72,7 +72,7 @@
   height: 50%;
   width: 50%;
 }
-.margin_it{
+.margin_it {
   margin-left: 3%;
 }
 
@@ -125,7 +125,7 @@
   width: 50%;
   margin-top: 1%;
   padding-top: 0px;
-  background: rgb(209, 60, 60,0);
+  background: rgb(209, 60, 60, 0);
   max-height: unset;
   box-shadow: transparent;
 }
@@ -159,7 +159,6 @@
   transition: all 5s ease-in-out;
 }
 
-.bringFront{
-  background:rgb(209, 60, 60);;
+.bringFront {
+  background: rgb(209, 60, 60);
 }
-
