@@ -56,43 +56,14 @@ class SearchMeanPresentation extends Component {
     // self.loaded = false;
     // document.getElementById('loader').style.display = "block";
     const formData = new FormData();
+    window.PassedFromSearch = true;
     formData.append("data_set_name", window.selectedDataSet);
     formData.append("symbols", this.props.symbols.replace("(", ""));
     formData.append("relations", this.props.relations);
 
-    this.getPath(formData).then(
-      function (response) {
-        let results = response.data["Path"];
-        let path = [];
-        for (let i = 0; i < results.length; i++) {
-          let tirp = JSON.parse(results[i]);
-          path.push(tirp);
-        }
-        window.PassedFromSearch = true;
-        window.pathOfTirps = path;
-        // to={"/TirpsApp/TIRPs"}
-        // $location.path("/tirps");
-        // $rootScope.location = 'TIRPs';
-        // return (
-        //   <div>
-        //     <Link to="/TirpsApp/TIRPs">hello</Link>
-        //   </div>
-        // );
-        // this.setState({ redirect: true });
-      },
-
-      function (response) {
-        alert("Something went wrong.\n" + "Please Try Again");
-        // $rootScope.location = 'Files';
-        // $scope.$apply(function () {
-        //   $location.path("/");
-      }
-    );
-    this.state.redirect = true;
-    // this.props.history.push("/TirpsApp/TIRPs");
-    this.forceUpdate();
+    this.getPath(formData)
   }
-  getPath(formData) {
+  async getPath(formData) {
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -101,8 +72,23 @@ class SearchMeanPresentation extends Component {
     };
     const url = window.base_url + "/find_Path_of_tirps";
 
-    return Axios.post(url, formData, config);
+    const res = await Axios.post(url, formData, config);
+    if (!res.statusText == "OK") {
+      alert("Something went wrong.\n" + "Please Try Again");
+    } else {
+      let results = res.data["Path"];
+      let path = [];
+      for (let i = 0; i < results.length; i++) {
+        let tirp = JSON.parse(results[i]);
+        path.push(tirp);
+      }
+      window.pathOfTirps = path;
+      this.state.redirect = true;
+      this.forceUpdate();
+    }
+    
   }
+
 
   render() {
     let that = this;
