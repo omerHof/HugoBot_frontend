@@ -1,11 +1,17 @@
 import React, { Component } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import {
+  Container,
+  ToggleButtonGroup,
+  ToggleButton,
+  Col,
+  Row,
+} from "react-bootstrap";
+
 import SearchGraph from "./SearchGraph";
 import SearchIntervals from "./SearchIntervals";
 import SearchLimits from "./SearchLimits";
 import SearchMeanPresentation from "./SearchMeanPresentation";
+import SearchTable from "./SearchTable"
 import Axios from "axios";
 import cookies from "js-cookie";
 
@@ -33,6 +39,7 @@ class TIRPsSearch extends Component {
     isAllEndSelected: true,
 
     // parameters for showing results
+    showResult: false,
     showGraph: false,
     finalResults: [],
   };
@@ -173,11 +180,49 @@ class TIRPsSearch extends Component {
 
     window.searchFinalResults = this.state.finalResults;
     this.showResults();
-  }
+    this.forceUpdate();
+  };
+
+  showTableOrGraph = () => {
+    const radios = ['Graph','Table'];
+    return (
+      <Col sm={8}>
+      <ToggleButtonGroup
+        defaultValue={0}
+        name="options"
+        style={{ width: "100%" }}
+      >
+        {radios.map((radio, idx) => (
+          <ToggleButton
+            className={"bg-hugobot"}
+            key={idx}
+            type="radio"
+            color="info"
+            name="radio"
+            value={idx}
+            onChange={(e) => this.setTableOrGraph(radio)}
+          >
+            {radio}
+          </ToggleButton>
+        ))}
+      </ToggleButtonGroup>
+      </Col>
+    );
+  };
+
+  setTableOrGraph = (name) => {
+    if (name==="Graph"){
+      this.setState({ showGraph: true });
+    }else {
+      this.setState({ showGraph: false });
+    }
+    this.forceUpdate();
+  };
 
   showResults() {
-    if (!this.state.showGraph) {
-      this.setState({ showGraph: true });
+    if (!this.state.showResult) {
+      this.state.showResult=true;
+      this.state.showGraph=true;
     }
   }
 
@@ -227,13 +272,20 @@ class TIRPsSearch extends Component {
         </Row>
         <Row>
           <Col sm={12}>
-            {this.state.showGraph ? (
+          {!this.state.showResult ? null: this.showTableOrGraph()},
+          {this.state.showResult && this.state.showGraph ? 
               <SearchGraph
                 minVS={this.state.parameters.minVS}
                 minHS={this.state.parameters.minHS}
                 minMMD={this.state.minMMD}
               />
-            ) : null}
+              : null}
+          {this.state.showResult && !this.state.showGraph ?
+              <SearchTable
+                minVS={this.state.parameters.minVS}
+                minHS={this.state.parameters.minHS}
+                minMMD={this.state.minMMD}
+              />: null} 
           </Col>
         </Row>
       </Container>
