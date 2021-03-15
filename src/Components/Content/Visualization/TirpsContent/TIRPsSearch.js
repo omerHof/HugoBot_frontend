@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import {
-  Container,
-  ToggleButtonGroup,
-  ToggleButton,
-  Col,
-  Row,
-} from "react-bootstrap";
+import {  Container,  ToggleButtonGroup,  ToggleButton,  Col,  Row} from "react-bootstrap";
 
 import SearchGraph from "./SearchGraph";
 import SearchIntervals from "./SearchIntervals";
 import SearchLimits from "./SearchLimits";
-import SearchMeanPresentation from "./SearchMeanPresentation";
 import SearchTable from "./SearchTable"
 import Axios from "axios";
 import cookies from "js-cookie";
@@ -125,6 +118,7 @@ class TIRPsSearch extends Component {
     this.checkParameters();
     const formData = new FormData();
     formData.append("data_set_name", window.selectedDataSet);
+    formData.append("search_in_class_1", "");
 
     if (this.state.isAllStartSelected) formData.append("startsList", []);
     else formData.append("startsList", this.state.startList);
@@ -224,6 +218,7 @@ class TIRPsSearch extends Component {
       this.state.showResult=true;
       this.state.showGraph=true;
     }
+
   }
 
   render() {

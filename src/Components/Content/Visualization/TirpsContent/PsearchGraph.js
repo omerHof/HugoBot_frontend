@@ -2,24 +2,29 @@ import React, { Component } from "react";
 // import Chart from "react-google-charts";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import Chart from "react-google-charts";
-import SearchAxisPop from "./SearchAxisPop";
+import PsearchAxisPop from "./PsearchAxisPop";
 import SearchMeanPresentation from "./SearchMeanPresentation";
 
-class SearchGraph extends Component {
+class PsearchGraph extends Component {
   state = {
+    labelClass0: "" ,
+    labelClass1: "" ,
     symbols: [],
     relations: [],
-    vs: [],
-    mhs: [],
+    vs0: [],
+    vs1: [],
+    delta_mhs: [],   
     sizes: [],
-    mmd: [],
+    delta_mmd:[],  
     location: 0,
-    measureToAxis: { vs: 1, mhs: 2, mmd: 3 },
-    axisToMeasure: { 1: "vs", 2: "mhs", 3: "mmd" },
+    measureToAxis: { vs0: 1, vs1: 2, dmmd: 3, dmhs: 4 },
+    axisToMeasure: { 1: "vs0", 2: "vs1", 3: "dmmd", 4: "dmhs" },
     measures: {
-      vs: "Vertical Support",
-      mhs: "Mean Horizontal Support",
-      mmd: "Mean Mean Duration",
+      vs0: "vs0",      
+      vs1: "vs1",     
+      dmhs: "Delta M.H.S",
+      dmmd: "Delta M.M.D",
+      
     },
     minMeasures: {},
     AxisModalShow: false,
@@ -33,17 +38,38 @@ class SearchGraph extends Component {
   
 
   extractData() {
+    this.state.labelClass0 = window.name_of_class_0 != '' ? window.name_of_class_0 : "Class 0";
+    this.state.labelClass1 = window.name_of_class_1 != '' ? window.name_of_class_1 : "Class 1";    
     // extract the results from the backend
-    for (let result in window.searchFinalResults) {
-      let curr_result = window.searchFinalResults[parseInt(result)]; //check here fot more details
+    for (let result in window.PsearchFinalResults) {
+      let curr_result = window.PsearchFinalResults[parseInt(result)]; //check here fot more details
+      let exist_in_class_1 = (curr_result[15] == 'True');
+      let exist_in_class_0 = (curr_result[16] == 'True');
+      let vs0 =  parseFloat(((curr_result[2] / window.num_of_entities) * 100).toFixed(0));
+      let vs1 = parseFloat(curr_result[5]);
+      if (!exist_in_class_0)
+      {
+        vs0 = window.dataSetInfo.min_ver_support;
+        vs1 = curr_result[5]/window.num_of_entities_class_1;
+      }
+      else{
+        if (exist_in_class_1)
+        {
+            vs1 = vs1/window.num_of_entities_class_1;          
+        }
+        else // only 0
+        {
+            vs1 = vs1*2
+        }
+      }  
+      this.state.vs0.push(vs0)
+      this.state.vs1.push(parseFloat((vs1*100).toFixed(0)))
       this.state.symbols.push(curr_result[0]);
       this.state.relations.push(curr_result[1]);
-      this.state.vs.push(
-        parseFloat(((curr_result[2] / window.num_of_entities) * 100).toFixed(0))
-      );
-      this.state.mhs.push(parseFloat(curr_result[3]));
+      this.state.delta_mhs.push( parseFloat(Math.abs(parseFloat(curr_result[3])- parseFloat(curr_result[6])).toFixed(2)));
+      this.state.delta_mmd.push( parseFloat(Math.abs(parseFloat(curr_result[7])- parseFloat(curr_result[8])).toFixed(2))/100);      
       this.state.sizes.push(parseFloat(curr_result[4]));
-      this.state.mmd.push(parseFloat(curr_result[7]));
+     
     }
     this.state.minMeasures.vs = this.props.minVS;
     this.state.minMeasures.hs = this.props.minHS;
@@ -60,22 +86,21 @@ class SearchGraph extends Component {
   }
 
   changeAxis(measureToAxis, axisToMeasure) {
-    let x = 5;
     this.setState({
       measureToAxis: measureToAxis,
       axisToMeasure: axisToMeasure,
     });
-    let y = 6;
   }
 
   handleDataPositions() {
     // arange the display of results from the backend
     let data = [];
-    data[0] = Array(window.searchFinalResults.length).join(".").split(".");
-    data[this.state.measureToAxis.vs] = this.state.vs;
-    data[this.state.measureToAxis.mhs] = this.state.mhs;
-    data[this.state.measureToAxis.mmd] = this.state.mmd;
-    data[4] = this.state.sizes;
+    data[0] = Array(window.PsearchFinalResults.length).join(".").split(".");
+    data[this.state.measureToAxis.vs0] = this.state.vs0;
+    data[this.state.measureToAxis.vs1] = this.state.vs1;
+    data[this.state.measureToAxis.dmmd] = this.state.delta_mmd; 
+    data[this.state.measureToAxis.dmhs] = this.state.delta_mhs;
+       
     data = this.transpose(data);
 
     let titles = [];
@@ -83,7 +108,7 @@ class SearchGraph extends Component {
     titles[1] = this.state.axisToMeasure[1].toUpperCase();
     titles[2] = this.state.axisToMeasure[2].toUpperCase();
     titles[3] = this.state.axisToMeasure[3].toUpperCase();
-    titles[4] = "TIRP Size";
+    titles[4] = this.state.axisToMeasure[4].toUpperCase();
     data.unshift(titles);
 
     return data;
@@ -100,11 +125,7 @@ class SearchGraph extends Component {
 
     if (selection.length === 1) {
       this.state.location = selection[0].row;
-      this.forceUpdate();
-      // const [selectedItem] = selection;
-      // const dataTable = chartWrapper.getDataTable();
-      // const { row, column } = selectedItem;
-      // const value =  dataTable.getValue(row, column);
+      this.forceUpdate();   
     }
   }
   draw_selected_tirp() {
@@ -146,19 +167,21 @@ class SearchGraph extends Component {
                 title:
                   window.selectedDataSet +
                   ": " +
-                  window.searchFinalResults.length +
-                  " TIRPs having >= " +
-                  this.state.minMeasures.vs +
-                  "% Vertical Support " +
+                  window.PsearchFinalResults.length +
+                  " TIRPs " +
+                  //  having >= " +
+                  // this.state.minMeasures.vs +
+                  // "% Vertical Support " +
                   " \uD83D\uDD35" +
                   " Bubble Color Tone: " +
-                  this.state.measures[this.state.axisToMeasure[3]],
+                  this.state.measures[this.state.axisToMeasure[3]]+
+                  " \uD83D\uDD35" + " Bubble Size: " + this.state.measures[this.state.axisToMeasure[4]],
                 chartArea: { left: 80 },
-                colorAxis: { colors: ["white", "blue"] },
+                colorAxis: { colors: ["white", "#1150AC"] },
                 legend: {
                   position: "right",
                 },
-                sizeAxis: { maxSize: 5, minSize: 5 },
+                // sizeAxis: { maxSize: 5, minSize: 5 },
                 hAxis: {
                   baseline: this.state.minMeasures[this.state.axisToMeasure[1]],
                   title: this.state.measures[this.state.axisToMeasure[1]],
@@ -183,18 +206,18 @@ class SearchGraph extends Component {
         </Button>
 
         <div className="overlay">
-          <SearchAxisPop
+          <PsearchAxisPop
             className="popupWeights"
             show={this.state.AxisModalShow}
             onHide={() => this.setAxisModalShow(false)}
             onUpdate={this.changeAxis.bind(this)}
             axisToMeasure={this.state.axisToMeasure}
             measureToAxis={this.state.measureToAxis}
-          ></SearchAxisPop>
+          ></PsearchAxisPop>
         </div>
       </div>
     );
   }
 }
 
-export default SearchGraph;
+export default PsearchGraph;

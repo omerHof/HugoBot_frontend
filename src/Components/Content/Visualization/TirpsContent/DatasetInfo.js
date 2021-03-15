@@ -42,6 +42,8 @@ class DatasetInfo extends Component {
       });
       window.num_of_entities = this.datasetInfo[0].num_of_entities;
       window.num_of_entities_class_1 = this.datasetInfo[0].num_of_entities_class_1;
+      window.name_of_class_0 = this.datasetInfo[0].second_class_name;
+      window.name_of_class_1 = this.datasetInfo[0].class_name;
       this.forceUpdate();
     });
   }

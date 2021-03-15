@@ -17,6 +17,12 @@
     background: none;    
 } 
 
+.navbar-tirps li a:focus{
+    text-decoration: none;     
+    background-color:#94d49b;
+    height: 68px;
+} 
+
 .intervals label{
     color: rgb(23, 139, 168);
     font-size: medium;
