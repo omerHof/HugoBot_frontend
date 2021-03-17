@@ -33,7 +33,7 @@ class TIRPsSearch extends Component {
 
     // parameters for showing results
     showResult: false,
-    showGraph: false,
+    showGraph: true,
     finalResults: [],
   };
 
@@ -175,6 +175,7 @@ class TIRPsSearch extends Component {
     window.searchFinalResults = this.state.finalResults;
     this.showResults();
     this.forceUpdate();
+    // this.setState({state: this.state})
   };
 
   showTableOrGraph = () => {
@@ -214,11 +215,10 @@ class TIRPsSearch extends Component {
   };
 
   showResults() {
-    if (!this.state.showResult) {
+    if (!this.state.showResult) {      
       this.state.showResult=true;
-      this.state.showGraph=true;
     }
-
+    this.setState({state: this.state})
   }
 
   render() {
@@ -267,15 +267,16 @@ class TIRPsSearch extends Component {
         </Row>
         <Row>
           <Col sm={12}>
-          {!this.state.showResult ? null: this.showTableOrGraph()},
-          {this.state.showResult && this.state.showGraph ? 
+          {this.showTableOrGraph()},
+          {this.state.showGraph ? 
               <SearchGraph
                 minVS={this.state.parameters.minVS}
                 minHS={this.state.parameters.minHS}
                 minMMD={this.state.minMMD}
+                showResult={this.state.showResult}
               />
               : null}
-          {this.state.showResult && !this.state.showGraph ?
+          {!this.state.showGraph ?
               <SearchTable
                 minVS={this.state.parameters.minVS}
                 minHS={this.state.parameters.minHS}

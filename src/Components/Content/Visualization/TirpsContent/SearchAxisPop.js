@@ -36,58 +36,47 @@ class SearchAxisPop extends Component {
             <div className="axis">
                 <Row>
                     <Col >
-                        {/* <Form.Group as={Row} >
-                        <Col sm="3"> */}
-                            <Form.Label className={"text-bold-black"} >X Axis</Form.Label>
-                          {/* </Col>
-                          <Col sm="8"> */}
-                            <Form.Control name="1" as="select" defaultValue={this.state.axisToMeasure[1]} onChange={this.onChange.bind(this)}>
-                                <option value="vs">Vertical Support</option>
-                                <option value="mhs">Mean Horizontal Support</option>
-                                <option value="mmd">Mean Mean Duration</option>
-                            </Form.Control>
-                            {/* </Col>
-                        </Form.Group> */}
+
+                        <Form.Label className={"text-bold-black"} >X Axis</Form.Label>
+
+                        <Form.Control name="1" as="select" defaultValue={this.state.axisToMeasure[1]} onChange={this.onChange.bind(this)}>
+                            <option value="vs">Vertical Support</option>
+                            <option value="mhs">Mean Horizontal Support</option>
+                            <option value="mmd">Mean Mean Duration</option>
+                        </Form.Control>
+
                     </Col>
 
                     <Col>
-                       {/* <Form.Group as={Row} >
-                           <Col sm="2"> */}
-                                <Form.Label className={"text-bold-black fat_label"}> Y Axis     </Form.Label>
-                           {/* </Col>
-                           <Col sm="8"> */}
-                                <Form.Control name="2" as="select" defaultValue={this.state.axisToMeasure[2]} onChange={this.onChange.bind(this)}>
-                                    <option value="vs">Vertical Support</option>
-                                    <option value="mhs">Mean Horizontal Support</option>
-                                    <option value="mmd">Mean Mean Duration</option>
-                                </Form.Control>
-                           {/* </Col>
-                       </Form.Group> */}
+
+                        <Form.Label className={"text-bold-black fat_label"}> Y Axis     </Form.Label>
+
+                        <Form.Control name="2" as="select" defaultValue={this.state.axisToMeasure[2]} onChange={this.onChange.bind(this)}>
+                            <option value="vs">Vertical Support</option>
+                            <option value="mhs">Mean Horizontal Support</option>
+                            <option value="mmd">Mean Mean Duration</option>
+                        </Form.Control>
+
                     </Col>
                     <Col>
-                       {/* <Form.Group as={Row}>
-                       <Col sm="4"> */}
-                                <Form.Label className={"text-bold-black"}>Bubble Color </Form.Label>
-                           {/* </Col>
-                           <Col sm="8"> */}
-                            <Form.Control name="3" as="select" defaultValue={this.state.axisToMeasure[3]} onChange={this.onChange.bind(this)}>
-                                <option value="vs">Vertical Support</option>
-                                <option value="mhs">Mean Horizontal Support</option>
-                                <option value="mmd">Mean Mean Duration</option>
-                            </Form.Control>
-                            {/* </Col>
-                       </Form.Group> */}
+
+                        <Form.Label className={"text-bold-black"}>Bubble Color </Form.Label>
+
+                        <Form.Control name="3" as="select" defaultValue={this.state.axisToMeasure[3]} onChange={this.onChange.bind(this)}>
+                            <option value="vs">Vertical Support</option>
+                            <option value="mhs">Mean Horizontal Support</option>
+                            <option value="mmd">Mean Mean Duration</option>
+                        </Form.Control>
                     </Col>
                     <Col>
-                    <Form.Label className={"text-bold-black"}></Form.Label>
-                   <center>
-                  
-                        <Button className={"bg-hugobot fix-margin"} onClick={this.onSubmit.bind(this)}>
+                        <Form.Label className={"text-bold-black"}></Form.Label>
+                        <center>
+                            <Button className={"bg-hugobot fix-margin"} onClick={this.onSubmit.bind(this)}>
                                 Change Axis
                             </Button>
-                   </center>
+                        </center>
                     </Col>
-                </Row>             
+                </Row>
             </div>
         );
     }

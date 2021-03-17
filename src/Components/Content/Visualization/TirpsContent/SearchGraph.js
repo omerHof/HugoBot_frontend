@@ -6,7 +6,7 @@ import SearchAxisPop from "./SearchAxisPop";
 import SearchMeanPresentation from "./SearchMeanPresentation";
 
 class SearchGraph extends Component {
-  state = {
+  state = {    
     symbols: [],
     relations: [],
     vs: [],
@@ -27,10 +27,16 @@ class SearchGraph extends Component {
 
   constructor(props) {
     super(props);
-    this.extractData();
+    if(props.showResult){
+      this.extractData();
+    }   
   }
 
-
+  componentDidUpdate(){
+    if(this.props.showResult){
+      this.extractData();
+    }
+  } 
 
   extractData() {
     // extract the results from the backend
@@ -59,33 +65,51 @@ class SearchGraph extends Component {
   //   this.forceUpdate();
   // }
 
-  changeAxis(measureToAxis, axisToMeasure) {
-    let x = 5;
+  changeAxis(measureToAxis, axisToMeasure) {   
     this.setState({
       measureToAxis: measureToAxis,
       axisToMeasure: axisToMeasure,
-    });
-    let y = 6;
+    });   
   }
 
   handleDataPositions() {
+    
     // arange the display of results from the backend
     let data = [];
-    data[0] = Array(window.searchFinalResults.length).join(".").split(".");
-    data[this.state.measureToAxis.vs] = this.state.vs;
-    data[this.state.measureToAxis.mhs] = this.state.mhs;
-    data[this.state.measureToAxis.mmd] = this.state.mmd;
-    data[4] = this.state.sizes;
-    data = this.transpose(data);
+    if(this.props.showResult){     
+      data[0] = Array(window.searchFinalResults.length).join(".").split(".");
+      data[this.state.measureToAxis.vs] = this.state.vs;
+      data[this.state.measureToAxis.mhs] = this.state.mhs;
+      data[this.state.measureToAxis.mmd] = this.state.mmd;
+      data[4] = this.state.sizes;
+      data = this.transpose(data);
+    }
+    else{
+      data[0] = [null];
+      data[this.state.measureToAxis.vs] = [0];
+      data[this.state.measureToAxis.mhs] = [0];
+      data[this.state.measureToAxis.mmd] = [0];
+      // data[4] = [undefined];
+      data = this.transpose(data);
+    }
+   
 
     let titles = [];
-    titles[0] = "ID";
-    titles[1] = this.state.axisToMeasure[1].toUpperCase();
-    titles[2] = this.state.axisToMeasure[2].toUpperCase();
-    titles[3] = this.state.axisToMeasure[3].toUpperCase();
-    titles[4] = "TIRP Size";
+    if(this.props.showResult){   
+      titles[0] = "ID";
+      titles[1] = this.state.axisToMeasure[1].toUpperCase();
+      titles[2] = this.state.axisToMeasure[2].toUpperCase();
+      titles[3] = this.state.axisToMeasure[3].toUpperCase();
+      titles[4] = "TIRP Size";
+    }
+    else{
+      titles[0] = "";
+      titles[1] = "";
+      titles[2] = "";
+      titles[3] = "";
+    }
+   
     data.unshift(titles);
-
     return data;
   }
 
@@ -143,18 +167,25 @@ class SearchGraph extends Component {
               loader={<div>Loading Chart</div>}
               data={this.handleDataPositions()}
               options={{
-                title:
-                  window.selectedDataSet +
-                  ": " +
-                  window.searchFinalResults.length +
-                  " TIRPs having >= " +
-                  this.state.minMeasures.vs +
-                  "% Vertical Support " +
-                  " \uD83D\uDD35" +
-                  " Bubble Color Tone: " +
-                  this.state.measures[this.state.axisToMeasure[3]],
+                bubble:{
+                  opacity:this.props.showResult? 0.8 : 0
+                },
+                // title:
+                //   window.selectedDataSet +
+                //   ": " +
+                //   window.searchFinalResults.length +
+                //   " TIRPs having >= " +
+                //   this.state.minMeasures.vs +
+                //   "% Vertical Support " +
+                //   " \uD83D\uDD35" +
+                //   " Bubble Color Tone: " +
+                //   this.state.measures[this.state.axisToMeasure[3]],
                 chartArea: { left: 80 },
                 colorAxis: { colors: ["white", "blue"] },
+                // explorer:
+                // {
+                //   // maxZoomIn: 5
+                // },
                 legend: {
                   position: "right",
                 },
