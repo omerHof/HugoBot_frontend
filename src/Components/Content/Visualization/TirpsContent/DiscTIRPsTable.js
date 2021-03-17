@@ -36,7 +36,13 @@ class TIRPsTable extends Component {
   constructor(props) {
     super(props);
     this.changeWeightsValue = this.changeWeightsValue.bind(this);
-    this.renderTableData();
+    if (window.PassedFromSearch) {
+      window.PassedFromSearch = false;
+      this.draw_from_search();
+    } else {
+      this.renderTableData();
+    }
+    // this.renderTableData();
   }
   changeWeightsValue = (value) => {
     this.state.weighted_vs = value[0];
@@ -74,6 +80,34 @@ class TIRPsTable extends Component {
   //     </thead>
   //   );
   // };
+
+  draw_from_search() {
+    for (var i = 0; i < window.pathOfTirps.length - 1; i++) {
+      window.pathOfTirps[i].partOfPath = true;
+    }
+
+    window.pathOfTirps[window.pathOfTirps.length - 1].partOfPath = false;
+
+    if (window.pathOfTirps.length > 1) {
+      this.state.currentTirps =
+        window.pathOfTirps[window.pathOfTirps.length - 2]._TIRP__childes;
+    } else {
+      this.state.currentTirps = window.rootElement;
+    }
+
+    this.renderTableData();
+    let md =
+      window.pathOfTirps[window.pathOfTirps.length - 1]._TIRP__mean_duration;
+    let mh =
+      window.pathOfTirps[window.pathOfTirps.length - 1]
+        ._TIRP__mean_horizontal_support;
+
+    for (let i = 0; i < this.state.data.length; i++) {
+      if (this.state.data[i].MH1 === mh && this.state.data[i].MMD1 === md) {
+        this.handleOnSelect(this.state.data[i], true);
+      }
+    }
+  }
 
   renderTableData = () => {
     let tables = [];
@@ -420,12 +454,27 @@ class TIRPsTable extends Component {
     return columns;
   };
 
+  // handleOnSelect = (row, isSelect) => {
+  //   if (isSelect) {
+  //     this.state.selected = [];
+  //     this.setState(() => ({
+  //       selected: [...this.state.selected, row.id],
+  //     }));
+  //     this.temp(row);
+  //   } else {
+  //     this.setState(() => ({
+  //       selected: this.state.selected.filter((x) => x !== row.id),
+  //     }));
+  //   }
+  // };
+
   handleOnSelect = (row, isSelect) => {
     if (isSelect) {
       this.state.selected = [];
-      this.setState(() => ({
-        selected: [...this.state.selected, row.id],
-      }));
+      // this.setState(() => ({
+      //   selected: [...this.state.selected, row.id],
+      // }));
+      this.state.selected = [...this.state.selected, row.id];
       this.temp(row);
     } else {
       this.setState(() => ({
