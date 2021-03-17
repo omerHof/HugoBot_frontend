@@ -170,7 +170,13 @@ class SearchGraph extends Component {
               }}
               rootProps={{ "data-testid": "2" }}
             ></Chart>
-            <SearchAxisPop
+            
+          </Col>
+          <Col sm={2}>{this.draw_selected_tirp()}</Col>
+        </Row>
+        <Row>
+          <Col >
+          <SearchAxisPop
               className="popupWeights"
               // show={this.state.AxisModalShow}
               // onHide={() => this.setAxisModalShow(false)}
@@ -179,20 +185,7 @@ class SearchGraph extends Component {
               measureToAxis={this.state.measureToAxis}
             ></SearchAxisPop>
           </Col>
-          <Col sm={2}>{this.draw_selected_tirp()}</Col>
-        </Row>
-        {/* 
-        <Button
-          variant="primary"
-          style={{ marginRight: "2%" }}
-          onClick={() => this.setAxisModalShow(true)}
-        >
-          Select Axis
-        </Button> */}
-
-
-
-
+        </Row>    
       </div>
     );
   }

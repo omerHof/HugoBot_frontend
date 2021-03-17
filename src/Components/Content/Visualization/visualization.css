@@ -32,6 +32,10 @@
     /* float:left; */
 }
 
+.react-bootstrap-table th, td{
+    width: 0; 
+    text-align:inherit;
+}
 
 .vertical-scroll-intervals {
     position: relative;
@@ -52,12 +56,11 @@
 .btable thead{     
     background-color: rgb(86, 90, 90); 
     color: #d7dfdf;  
-    /* overflow: auto;    */
  } 
 
 .btable tbody th, td{
-    padding: 0;  
-    /* font-size: smaller; */
+    padding: 0; 
+     
 }
 
 .btable input[type="checkbox"] {
@@ -66,7 +69,7 @@
     opacity: 1;  
 }
 
-.limitsTable {
+.limitsTable{
      table-layout: fixed;
 }
 
@@ -86,19 +89,33 @@
 
 .limitsTable .shirtcol{
     width: 10%; 
+    font-size: medium;
+}
+
+.limitsTable .smallcol{
+    font-size: x-small;
 }
 
 
 .limitsTable td, th{
-    /* width: 30%; 
-    text-align:center; */
+    width: 30%; 
+    text-align:center;
+}
+
+.limitsTable thead th{ 
+    vertical-align: top;
+}
+
+.axis button{
+    /* vertical-align:initial; */
+    margin-top: 10px;
 }
 
 
-.limitsTable .childrenOneLine .OneLine{
+/* .limitsTable .childrenOneLine */
+ .OneLine{
     display:inline;
 }
-
 
 
 .limits{

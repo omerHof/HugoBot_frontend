@@ -27,64 +27,68 @@ class SearchAxisPop extends Component {
         if (Number(name)) {
             name = Number(name);
             this.state.measureToAxis[val] = name;
-            this.state.axisToMeasure[name] = val;          
+            this.state.axisToMeasure[name] = val;
         }
     }
 
     render() {
         return (
-            // <Modal
-            //     {...this.props}
-            //     size="xl"
-            //     aria-labelledby="contained-modal-title-vcenter"
-            //     centered
-            // >
-            //     <Modal.Body>
-                    // <Card>
-                    //     <Card.Header className={"bg-hugobot"}>
-                    //         <Card.Text className={"text-hugobot text-hugoob-advanced"}>
-                    //             Select Axis{" "}
-                    //         </Card.Text>
-                    //     </Card.Header>
-                    //     <Card.Body>
+            <div className="axis">
+                <Row>
+                    <Col >
+                        {/* <Form.Group as={Row} >
+                        <Col sm="3"> */}
+                            <Form.Label className={"text-bold-black"} >X Axis</Form.Label>
+                          {/* </Col>
+                          <Col sm="8"> */}
+                            <Form.Control name="1" as="select" defaultValue={this.state.axisToMeasure[1]} onChange={this.onChange.bind(this)}>
+                                <option value="vs">Vertical Support</option>
+                                <option value="mhs">Mean Horizontal Support</option>
+                                <option value="mmd">Mean Mean Duration</option>
+                            </Form.Control>
+                            {/* </Col>
+                        </Form.Group> */}
+                    </Col>
 
-                            // <Form onSubmit={this.onSubmit.bind(this)} role="form">
-                            //     <Form.Group>
-                                 <div>
-                                        <Form.Label className={"text-bold-black"} >X Axis</Form.Label>
-                                        <Form.Control name="1" as="select" defaultValue={this.state.axisToMeasure[1]} onChange={this.onChange.bind(this)}>
-                                            <option value="vs">Vertical Support</option>
-                                            <option value="mhs">Mean Horizontal Support</option>
-                                            <option value="mmd">Mean Mean Duration</option>
-                                        </Form.Control>
-                                     
-                                        <Form.Label className={"text-bold-black fat_label"}>Y Axis </Form.Label>
-                                        <Form.Control name="2" as="select" defaultValue={this.state.axisToMeasure[2]} onChange={this.onChange.bind(this)}>
-                                            <option value="vs">Vertical Support</option>
-                                            <option value="mhs">Mean Horizontal Support</option>
-                                            <option value="mmd">Mean Mean Duration</option>
-                                        </Form.Control>
-                                     
-                                        <Form.Label className={"text-bold-black"}>Bubble Color </Form.Label>
-                                        <Form.Control name="3" as="select" defaultValue={this.state.axisToMeasure[3]} onChange={this.onChange.bind(this)}>
-                                            <option value="vs">Vertical Support</option>
-                                            <option value="mhs">Mean Horizontal Support</option>
-                                            <option value="mmd">Mean Mean Duration</option>
-                                        </Form.Control>
-                                     {/* / </Form.Group> */}
-                                     
-                                     <Button className={"bg-hugobot fix-margin"}onClick={this.onSubmit.bind(this)}>
-                                        Submit
-                                     </Button>
-                                 </div>
-
-                            // </Form>
-
-                    //     </Card.Body>
-                    // </Card>
-            //     </Modal.Body>
-
-            // </Modal>
+                    <Col>
+                       {/* <Form.Group as={Row} >
+                           <Col sm="2"> */}
+                                <Form.Label className={"text-bold-black fat_label"}> Y Axis     </Form.Label>
+                           {/* </Col>
+                           <Col sm="8"> */}
+                                <Form.Control name="2" as="select" defaultValue={this.state.axisToMeasure[2]} onChange={this.onChange.bind(this)}>
+                                    <option value="vs">Vertical Support</option>
+                                    <option value="mhs">Mean Horizontal Support</option>
+                                    <option value="mmd">Mean Mean Duration</option>
+                                </Form.Control>
+                           {/* </Col>
+                       </Form.Group> */}
+                    </Col>
+                    <Col>
+                       {/* <Form.Group as={Row}>
+                       <Col sm="4"> */}
+                                <Form.Label className={"text-bold-black"}>Bubble Color </Form.Label>
+                           {/* </Col>
+                           <Col sm="8"> */}
+                            <Form.Control name="3" as="select" defaultValue={this.state.axisToMeasure[3]} onChange={this.onChange.bind(this)}>
+                                <option value="vs">Vertical Support</option>
+                                <option value="mhs">Mean Horizontal Support</option>
+                                <option value="mmd">Mean Mean Duration</option>
+                            </Form.Control>
+                            {/* </Col>
+                       </Form.Group> */}
+                    </Col>
+                    <Col>
+                    <Form.Label className={"text-bold-black"}></Form.Label>
+                   <center>
+                  
+                        <Button className={"bg-hugobot fix-margin"} onClick={this.onSubmit.bind(this)}>
+                                Change Axis
+                            </Button>
+                   </center>
+                    </Col>
+                </Row>             
+            </div>
         );
     }
 }

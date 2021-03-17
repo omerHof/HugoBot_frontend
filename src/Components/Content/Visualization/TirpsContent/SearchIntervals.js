@@ -82,7 +82,7 @@ class SearchIntervals extends Component {
                         filterPosition="top"
                         selectRow={selectRow}
                         classes="btable"
-                        striped={true}
+                        // striped={true}
                         hover={true}
                     />
                 </div>
