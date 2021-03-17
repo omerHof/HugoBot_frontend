@@ -32,7 +32,7 @@ class SearchMeanPresentation extends Component {
         </thead>
         <tbody>
           <tr>
-            <th>Current level</th>
+            <th>Total levels</th>
             <td>{this.props.currentLevel}</td>
           </tr>
           <tr>

@@ -383,7 +383,7 @@ class TIRPsTable extends Component {
     const defaultSorted = [
       {
         dataField: "Symbol",
-        order: "desc",
+        order: "asc",
       },
     ];
     return (
