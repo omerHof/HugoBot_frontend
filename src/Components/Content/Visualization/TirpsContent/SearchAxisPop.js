@@ -18,7 +18,7 @@ class SearchAxisPop extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         this.props.onUpdate(this.state.measureToAxis, this.state.axisToMeasure);
-        this.props.onHide(true)
+        // this.props.onHide(true)
     }
 
     onChange = (event) => {
@@ -33,57 +33,58 @@ class SearchAxisPop extends Component {
 
     render() {
         return (
-            <Modal
-                {...this.props}
-                size="xl"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
-                <Modal.Body>
-                    <Card>
-                        <Card.Header className={"bg-hugobot"}>
-                            <Card.Text className={"text-hugobot text-hugoob-advanced"}>
-                                Select Axis{" "}
-                            </Card.Text>
-                        </Card.Header>
-                        <Card.Body>
+            // <Modal
+            //     {...this.props}
+            //     size="xl"
+            //     aria-labelledby="contained-modal-title-vcenter"
+            //     centered
+            // >
+            //     <Modal.Body>
+                    // <Card>
+                    //     <Card.Header className={"bg-hugobot"}>
+                    //         <Card.Text className={"text-hugobot text-hugoob-advanced"}>
+                    //             Select Axis{" "}
+                    //         </Card.Text>
+                    //     </Card.Header>
+                    //     <Card.Body>
 
-                            <Form onSubmit={this.onSubmit.bind(this)} role="form">
+                            // <Form onSubmit={this.onSubmit.bind(this)} role="form">
+                            //     <Form.Group>
+                                 <div>
+                                        <Form.Label className={"text-bold-black"} >X Axis</Form.Label>
+                                        <Form.Control name="1" as="select" defaultValue={this.state.axisToMeasure[1]} onChange={this.onChange.bind(this)}>
+                                            <option value="vs">Vertical Support</option>
+                                            <option value="mhs">Mean Horizontal Support</option>
+                                            <option value="mmd">Mean Mean Duration</option>
+                                        </Form.Control>
+                                     
+                                        <Form.Label className={"text-bold-black fat_label"}>Y Axis </Form.Label>
+                                        <Form.Control name="2" as="select" defaultValue={this.state.axisToMeasure[2]} onChange={this.onChange.bind(this)}>
+                                            <option value="vs">Vertical Support</option>
+                                            <option value="mhs">Mean Horizontal Support</option>
+                                            <option value="mmd">Mean Mean Duration</option>
+                                        </Form.Control>
+                                     
+                                        <Form.Label className={"text-bold-black"}>Bubble Color </Form.Label>
+                                        <Form.Control name="3" as="select" defaultValue={this.state.axisToMeasure[3]} onChange={this.onChange.bind(this)}>
+                                            <option value="vs">Vertical Support</option>
+                                            <option value="mhs">Mean Horizontal Support</option>
+                                            <option value="mmd">Mean Mean Duration</option>
+                                        </Form.Control>
+                                     {/* / </Form.Group> */}
+                                     
+                                     <Button className={"bg-hugobot fix-margin"}onClick={this.onSubmit.bind(this)}>
+                                        Submit
+                                     </Button>
+                                 </div>
 
-                                <Form.Group>
-                                    <Form.Label className={"text-bold-black"} >X Axis</Form.Label>
-                                    <Form.Control name="1" as="select" defaultValue={this.state.axisToMeasure[1]} onChange={this.onChange.bind(this)}>
-                                        <option value="vs">Vertical Support</option>
-                                        <option value="mhs">Mean Horizontal Support</option>
-                                        <option value="mmd">Mean Mean Duration</option>
-                                    </Form.Control>
+                            // </Form>
 
-                                    <Form.Label className={"text-bold-black fat_label"}>Y Axis </Form.Label>
-                                    <Form.Control name="2" as="select" defaultValue={this.state.axisToMeasure[2]} onChange={this.onChange.bind(this)}>
-                                        <option value="vs">Vertical Support</option>
-                                        <option value="mhs">Mean Horizontal Support</option>
-                                        <option value="mmd">Mean Mean Duration</option>
-                                    </Form.Control>
+                    //     </Card.Body>
+                    // </Card>
+            //     </Modal.Body>
 
-                                    <Form.Label className={"text-bold-black"}>Bubble Color </Form.Label>
-                                    <Form.Control name="3" as="select" defaultValue={this.state.axisToMeasure[3]} onChange={this.onChange.bind(this)}>
-                                        <option value="vs">Vertical Support</option>
-                                        <option value="mhs">Mean Horizontal Support</option>
-                                        <option value="mmd">Mean Mean Duration</option>
-                                    </Form.Control>
-                                </Form.Group>
-
-                                <Button className={"bg-hugobot fix-margin"} type="submit">
-                                    Submit
-                                </Button>
-
-                            </Form>
-
-                        </Card.Body>
-                    </Card>
-                </Modal.Body>
-
-            </Modal>
+            // </Modal>
         );
     }
 }

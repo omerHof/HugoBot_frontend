@@ -230,7 +230,7 @@ class TIRPsSearch extends Component {
             <Row>
               <Col sm={4}>
                 <SearchIntervals
-                  title="Start With"
+                  title="First"
                   isAllSelected={this.state.isAllStartSelected}
                   changeAllselected={this.changeIsStartAllSelected.bind(this)}
                   intervals={this.state.dictionary_states}
@@ -239,7 +239,7 @@ class TIRPsSearch extends Component {
               </Col>
               <Col sm={4}>
                 <SearchIntervals
-                  title="Contains"
+                  title="Intermediate"
                   isAllSelected={this.state.isAllContainSelected}
                   changeAllselected={this.changeIsContainllSelected.bind(this)}
                   intervals={this.state.dictionary_states}
@@ -248,7 +248,7 @@ class TIRPsSearch extends Component {
               </Col>
               <Col sm={4}>
                 <SearchIntervals
-                  title="Ends With"
+                  title="Last"
                   isAllSelected={this.state.isAllEndSelected}
                   changeAllselected={this.changeIsEndAllSelected.bind(this)}
                   intervals={this.state.dictionary_states}

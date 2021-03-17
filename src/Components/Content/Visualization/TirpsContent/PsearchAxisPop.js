@@ -75,7 +75,7 @@ class PsearchAxisPop extends Component {
                                         <option value="dmhs">Delta M.H.S</option>
                                     </Form.Control>
 
-                                    <Form.Label className={"text-bold-black"}>Bubble Color </Form.Label>
+                                    <Form.Label className={"text-bold-black"}>Bubble Size </Form.Label>
                                     <Form.Control name="4" as="select" defaultValue={this.state.axisToMeasure[4]} onChange={this.onChange.bind(this)}>
                                         <option value="vs0">Vertical Support Class 0</option>
                                         <option value="vs1">Vertical Support Class 1</option>

@@ -29,11 +29,11 @@ class TirpsContent extends Component {
               <DatasetInfo />
             </Container>
           </Route>
-          <Route path={"/TirpsApp/Analysis"}>
+          {/* <Route path={"/TirpsApp/Analysis"}>
             <Container>
               <Analysis />
             </Container>
-          </Route>
+          </Route> */}
           <Route path={"/TirpsApp/States"}>
             <Container>
               <States />

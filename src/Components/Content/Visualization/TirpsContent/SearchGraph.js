@@ -30,7 +30,7 @@ class SearchGraph extends Component {
     this.extractData();
   }
 
-  
+
 
   extractData() {
     // extract the results from the backend
@@ -50,14 +50,14 @@ class SearchGraph extends Component {
     this.state.minMeasures.mmd = this.props.minMMD;
   }
 
-  setModalShow(value) {
-    this.state.modalShow = value;
-    this.forceUpdate();
-  }
-  setAxisModalShow(value) {
-    this.state.AxisModalShow = value;
-    this.forceUpdate();
-  }
+  // setModalShow(value) {
+  //   this.state.modalShow = value;
+  //   this.forceUpdate();
+  // }
+  // setAxisModalShow(value) {
+  //   this.state.AxisModalShow = value;
+  //   this.forceUpdate();
+  // }
 
   changeAxis(measureToAxis, axisToMeasure) {
     let x = 5;
@@ -136,7 +136,7 @@ class SearchGraph extends Component {
                 {
                   eventName: "select",
                   callback: ({ chartWrapper }) => {
-                    this.onSelect(chartWrapper);                 
+                    this.onSelect(chartWrapper);
                   },
                 },
               ]}
@@ -170,28 +170,29 @@ class SearchGraph extends Component {
               }}
               rootProps={{ "data-testid": "2" }}
             ></Chart>
+            <SearchAxisPop
+              className="popupWeights"
+              // show={this.state.AxisModalShow}
+              // onHide={() => this.setAxisModalShow(false)}
+              onUpdate={this.changeAxis.bind(this)}
+              axisToMeasure={this.state.axisToMeasure}
+              measureToAxis={this.state.measureToAxis}
+            ></SearchAxisPop>
           </Col>
           <Col sm={2}>{this.draw_selected_tirp()}</Col>
         </Row>
-
+        {/* 
         <Button
           variant="primary"
           style={{ marginRight: "2%" }}
           onClick={() => this.setAxisModalShow(true)}
         >
           Select Axis
-        </Button>
+        </Button> */}
 
-        <div className="overlay">
-          <SearchAxisPop
-            className="popupWeights"
-            show={this.state.AxisModalShow}
-            onHide={() => this.setAxisModalShow(false)}
-            onUpdate={this.changeAxis.bind(this)}
-            axisToMeasure={this.state.axisToMeasure}
-            measureToAxis={this.state.measureToAxis}
-          ></SearchAxisPop>
-        </div>
+
+
+
       </div>
     );
   }

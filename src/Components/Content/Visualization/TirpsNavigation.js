@@ -21,11 +21,11 @@ class TirpsNavigation extends Component {
                                 <i className="fas fa-info"></i> Dataset Information
                             </NavLink>
                         </li>
-                        <li>
+                        {/* <li>
                             <NavLink to={"/TirpsApp/Analysis"}>
                             <i className="fas fa-chart-line"></i> Analysis
                             </NavLink>
-                        </li>
+                        </li> */}
                         <li>
                             <NavLink to={"/TirpsApp/States"}>                                
                             <i className="fas fa-bars"></i> States

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 
 class SearchIntervals extends Component {
     state = {
@@ -50,7 +51,13 @@ class SearchIntervals extends Component {
         },
         {
             dataField: 'name',
-            text: 'Interval`s name'
+            text: 'Symbol',
+            filter: textFilter(
+                {style: {
+                height: 'inherit',
+                fontSize: 'small'
+            }
+            })
         }];
 
         const selectRow = {
@@ -67,10 +74,12 @@ class SearchIntervals extends Component {
             <div className="intervals">
                 <label >{this.props.title}</label>
                 <div className="vertical-scroll-intervals">
-                    <BootstrapTable
+                    <BootstrapTable                        
                         keyField='id'
                         data={this.state.data}
                         columns={columns}
+                        filter={ filterFactory() }
+                        filterPosition="top"
                         selectRow={selectRow}
                         classes="btable"
                         striped={true}
