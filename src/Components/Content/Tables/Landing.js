@@ -17,10 +17,12 @@ class Landing extends Component {
   }
 
   renderTableData = () => {
-    let tables = JSON.parse(sessionStorage.allReadyTables);
-    return tables.rows.map((iter, idx) => {
-      this.state.name = iter["username"];
-    });
+    if (sessionStorage.allReadyTables) {
+      let tables = JSON.parse(sessionStorage.allReadyTables);
+      return tables.rows.map((iter, idx) => {
+        this.state.name = iter["username"];
+      });
+    }
   };
 
   onClick = () => {

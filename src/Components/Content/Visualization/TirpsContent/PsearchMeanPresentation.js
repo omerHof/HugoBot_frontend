@@ -27,25 +27,30 @@ class SearchMeanPresentation extends Component {
         <thead>
           <tr>
             <th>Metric</th>
-            <th>Difference between populations</th>
+            <th>Class1</th>
+            <th>Class0</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <th>Current level</th>
             <td>{this.props.currentLevel}</td>
+            <td>{this.props.currentLevel}</td>
           </tr>
           <tr>
             <th>Vertical support</th>
-            <td>{Math.abs(this.props.vs1 - this.props.vs0)}</td>
+            <td>{this.props.vs1}</td>
+            <td>{this.props.vs0}</td>
           </tr>
           <tr>
             <th>Mean horizontal_support</th>
-            <td>{this.props.mhs.toFixed(2)}</td>
+            <td>{this.props.mhs1}</td>
+            <td>{this.props.mhs0}</td>
           </tr>
           <tr>
             <th>Mean mean duration</th>
-            <td>{this.props.mmd.toFixed(2)}</td>
+            <td>{this.props.mmd1}</td>
+            <td>{this.props.mmd0}</td>
           </tr>
         </tbody>
       </div>

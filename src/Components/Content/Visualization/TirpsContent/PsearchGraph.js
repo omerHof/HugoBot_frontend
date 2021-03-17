@@ -13,8 +13,12 @@ class PsearchGraph extends Component {
     relations: [],
     vs0: [],
     vs1: [],
+    mhs0: [],
+    mhs1: [],
     delta_mhs: [],
     sizes: [],
+    mmd0: [],
+    mmd1: [],
     delta_mmd: [],
     location: 0,
     measureToAxis: { vs0: 1, vs1: 2, dmmd: 3, dmhs: 4 },
@@ -59,8 +63,12 @@ class PsearchGraph extends Component {
           vs1 = vs1 * 2;
         }
       }
-      this.state.vs0.push(vs0);
-      this.state.vs1.push(parseFloat((vs1 * 100).toFixed(0)));
+      this.state.vs1.push(vs0);
+      this.state.vs0.push(parseFloat((vs1 * 100).toFixed(0)));
+      this.state.mhs0.push(curr_result[6]);
+      this.state.mhs1.push(curr_result[3]);
+      this.state.mmd0.push(curr_result[8]);
+      this.state.mmd1.push(curr_result[7]);
       this.state.symbols.push(curr_result[0]);
       this.state.relations.push(curr_result[1]);
       this.state.delta_mhs.push(
@@ -143,8 +151,10 @@ class PsearchGraph extends Component {
         <PsearchMeanPresentation
           vs1={this.state.vs1[location]}
           vs0={this.state.vs0[location]}
-          mmd={this.state.delta_mmd[location]}
-          mhs={this.state.delta_mhs[location]}
+          mmd1={this.state.mmd1[location]}
+          mmd0={this.state.mmd0[location]}
+          mhs1={this.state.mhs1[location]}
+          mhs0={this.state.mhs0[location]}
           currentLevel={this.state.sizes[location]}
           symbols={this.state.symbols[location]}
           relations={this.state.relations[location]}
