@@ -4,7 +4,7 @@ import { Container, ToggleButtonGroup, ToggleButton, Col, Row } from "react-boot
 import PsearchGraph from "./PsearchGraph";
 import SearchIntervals from "./SearchIntervals";
 import SearchLimits from "./SearchLimits";
-import SearchTable from "./SearchTable"
+import PSearchTable from "./PSearchTable"
 import Axios from "axios";
 import cookies from "js-cookie";
 
@@ -278,7 +278,7 @@ class PTIRPsSearch extends Component {
                             />
                             : null}
                         {this.state.showResult && !this.state.showGraph ?
-                            <SearchTable
+                            <PSearchTable
                                 minVS={this.state.parameters.minVS}
                                 minHS={this.state.parameters.minHS}
                                 minMMD={this.state.minMMD}
