@@ -11,7 +11,6 @@ class SearchTable extends Component {
     mhs: [],
     sizes: [],
     mmd: [],
-    data: [],
     state_dictionary: [],
     rowSelectedId:0,
     selected: [],
@@ -20,10 +19,19 @@ class SearchTable extends Component {
 
   constructor(props) {
     super(props);
-    this.init_state_dict();
-    this.extractData();
-    this.renderTableData();
+    this.init_state_dict(); 
+    if(this.props.showResult){
+      this.extractData(); 
+     
+    }    
   }
+
+  componentDidUpdate(){
+    this.init_state_dict();
+    if(this.props.showResult){
+      this.extractData(); 
+    }
+  } 
 
   init_state_dict() {
     let tables = JSON.parse(window.States);
@@ -50,6 +58,13 @@ class SearchTable extends Component {
   }
 
   extractData() {
+    this.state.symbols =[];
+    this.state.relations=[];
+    this.state.vs=[];
+    this.state.mhs=[];
+    this.state.sizes=[];
+    this.state.mmd=[];
+
     // extract the results from the backend
     for (let result in window.searchFinalResults) {
       let curr_result = window.searchFinalResults[parseInt(result)]; //check here fot more details
@@ -62,16 +77,14 @@ class SearchTable extends Component {
       this.state.sizes.push(parseFloat(curr_result[4]));
       this.state.mmd.push(parseFloat(curr_result[7]));
     }
-    this.state.minMeasures.vs = this.props.minVS;
-    this.state.minMeasures.hs = this.props.minHS;
-    this.state.minMeasures.mmd = this.props.minMMD;
   }
 
+
   renderTableData = () => {
-    this.state.data = [];
+    let data = [];
     var i;
     for (i = 0; i < this.state.sizes.length; i++) {
-      this.state.data.push({
+      data.push({
         id: i,
         Level: this.state.sizes[i],
         Symbol: this.getSymbols(this.state.symbols[i]),
@@ -81,6 +94,7 @@ class SearchTable extends Component {
         Mean_Mean_Duration: this.state.mmd[i],
       })
     }
+    return data;
   };
 
   getSymbols(tirp) {
@@ -147,6 +161,7 @@ class SearchTable extends Component {
     return columns;
   };
 
+  
 
   handleOnSelect = (row, isSelect) => {
     if (isSelect) {
@@ -179,17 +194,17 @@ class SearchTable extends Component {
     return (
       <Row>
         <Col sm={9}>
-          <Card>
+          {/* <Card>
             <Card.Header className={"bg-hugobot"}>
               <Card.Text className={"text-hugobot text-hugoob-advanced"}>
                 Tirp's Table{" "}
               </Card.Text>
             </Card.Header>
-            <Card.Body className={"text-hugobot"}>
+            <Card.Body className={"text-hugobot"}> */}
               <div className="vertical-scroll-tirp">
                 <BootstrapTable
                   keyField="id"
-                  data={this.state.data}
+                  data={ this.renderTableData()}
                   columns={this.get_columns()}
                   selectRow={selectRow}
                   striped={true}
@@ -199,8 +214,8 @@ class SearchTable extends Component {
                   noDataIndication="Table is Empty"
                 />
               </div>
-            </Card.Body>
-          </Card>
+            {/* </Card.Body> */}
+          {/* </Card> */}
         </Col>
         <Col sm={2}>
         <SearchMeanPresentation

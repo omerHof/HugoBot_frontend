@@ -32,7 +32,7 @@ class TIRPsSearch extends Component {
     isAllEndSelected: true,
 
     // parameters for showing results
-    showResult: false,
+    // showResult: false,
     showGraph: true,
     finalResults: [],
   };
@@ -72,27 +72,33 @@ class TIRPsSearch extends Component {
 
   //binding with the child "SearchIntervals"
   changeStartList(newList) {
-    this.setState({ startList: newList });
+    this.state.startList = newList;
+    // this.setState({ startList: newList });
   }
 
   changeContainList(newList) {
-    this.setState({ containList: newList });
+    this.state.containList = newList;
+    // this.setState({ containList: newList });
   }
 
   changeEndList(newList) {
-    this.setState({ endList: newList });
+    this.state.endList = newList;
+    // this.setState({ endList: newList });
   }
 
   changeIsStartAllSelected(ans) {
-    this.setState({ isAllStartSelected: ans });
+    this.state.isAllStartSelected = ans;
+    // this.setState({ isAllStartSelected: ans });
   }
 
   changeIsContainllSelected(ans) {
-    this.setState({ isAllContainSelected: ans });
+    this.state.isAllContainSelected = ans;
+    // this.setState({ isAllContainSelected: ans });
   }
 
   changeIsEndAllSelected(ans) {
-    this.setState({ isAllEndSelected: ans });
+    this.state.isAllEndSelected = ans;
+    // this.setState({ isAllEndSelected: ans });
   }
 
   changeParameter = (event) => {
@@ -277,10 +283,8 @@ class TIRPsSearch extends Component {
               />
               : null}
           {!this.state.showGraph ?
-              <SearchTable
-                minVS={this.state.parameters.minVS}
-                minHS={this.state.parameters.minHS}
-                minMMD={this.state.minMMD}
+              <SearchTable               
+                showResult={this.state.showResult}
               />: null} 
           </Col>
         </Row>

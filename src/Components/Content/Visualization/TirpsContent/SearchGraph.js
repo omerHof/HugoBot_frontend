@@ -40,6 +40,13 @@ class SearchGraph extends Component {
 
   extractData() {
     // extract the results from the backend
+    this.state.symbols =[];
+    this.state.relations=[];
+    this.state.vs=[];
+    this.state.mhs=[];
+    this.state.sizes=[];
+    this.state.mmd=[];
+    
     for (let result in window.searchFinalResults) {
       let curr_result = window.searchFinalResults[parseInt(result)]; //check here fot more details
       this.state.symbols.push(curr_result[0]);
