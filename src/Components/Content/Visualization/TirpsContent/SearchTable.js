@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import { Card,Row, Col, Modal, Button } from "react-bootstrap";
-import SearchMeanPresentation from "./SearchMeanPresentation";
 
 class SearchTable extends Component {
   state = {
@@ -159,21 +158,23 @@ class SearchTable extends Component {
       },
     ];
     return columns;
-  };
-
-  
+  };  
 
   handleOnSelect = (row, isSelect) => {
-    if (isSelect) {
-      this.state.selected = [];
-      this.state.selected = [...this.state.selected,row.Vertical_Support,row.Mean_Horizontal_Support,row.Mean_Mean_Duration,row.Level,row.Symbol,row.Relation,row.id];
-      this.state.rowSelectedId = row.id
-    } else {
-      this.setState(() => ({
-        selected: this.state.selected.filter((x) => x !== row.id),
-      }));
+    let selected = [];
+    if (isSelect) {      
+      selected = [
+        row.Vertical_Support,
+        row.Mean_Horizontal_Support,
+        row.Mean_Mean_Duration,row.Level,
+        this.state.symbols[row.id],
+        row.Relation,row.id
+      ];      
     }
-    this.forceUpdate();
+    else {      
+        selected.filter((x) => x !== row.id);
+    }
+    this.props.handleOnSelect(selected);    
   };
 
   render() {
@@ -193,7 +194,7 @@ class SearchTable extends Component {
     ];
     return (
       <Row>
-        <Col sm={9}>
+        <Col>
           {/* <Card>
             <Card.Header className={"bg-hugobot"}>
               <Card.Text className={"text-hugobot text-hugoob-advanced"}>
@@ -217,16 +218,16 @@ class SearchTable extends Component {
             {/* </Card.Body> */}
           {/* </Card> */}
         </Col>
-        <Col sm={2}>
-        <SearchMeanPresentation
+        {/* <Col sm={2}> */}
+        {/* <SearchMeanPresentation
           vs={this.state.selected[0]}
           mmd={this.state.selected[1]}
           mhs={this.state.selected[2]}
           currentLevel={this.state.selected[3]}
           symbols={this.state.symbols[this.state.rowSelectedId]}
           relations={this.state.selected[5]}
-        ></SearchMeanPresentation>
-      </Col>
+        ></SearchMeanPresentation> */}
+      {/* </Col> */}
       </Row>
     )
   }

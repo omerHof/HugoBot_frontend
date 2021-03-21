@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import {  Container,  ToggleButtonGroup,  ToggleButton,  Col,  Row} from "react-bootstrap";
+import { Container, ToggleButtonGroup, ToggleButton, Col, Row } from "react-bootstrap";
 
 import SearchGraph from "./SearchGraph";
 import SearchIntervals from "./SearchIntervals";
 import SearchLimits from "./SearchLimits";
 import SearchTable from "./SearchTable"
+import SearchMeanPresentation from "./SearchMeanPresentation";
+
 import Axios from "axios";
 import cookies from "js-cookie";
 
@@ -30,11 +32,10 @@ class TIRPsSearch extends Component {
     isAllStartSelected: true,
     isAllContainSelected: true,
     isAllEndSelected: true,
-
-    // parameters for showing results
-    // showResult: false,
     showGraph: true,
     finalResults: [],
+    canExplore: false,
+    selected: []
   };
 
   constructor(props) {
@@ -179,56 +180,59 @@ class TIRPsSearch extends Component {
     }
 
     window.searchFinalResults = this.state.finalResults;
-    this.showResults();
+    if (!this.state.showResult) {
+      this.state.showResult = true;
+    }
+    this.setState({ state: this.state })
     this.forceUpdate();
-    // this.setState({state: this.state})
   };
 
   showTableOrGraph = () => {
-    const radios = ['Graph','Table'];
+    const radios = ['Graph', 'Table'];
     return (
-      <Col sm={8}>
-      <ToggleButtonGroup
-        defaultValue={0}
-        name="options"
-        style={{ width: "100%" }}
-      >
-        {radios.map((radio, idx) => (
-          <ToggleButton
-            className={"bg-hugobot"}
-            key={idx}
-            type="radio"
-            color="info"
-            name="radio"
-            value={idx}
-            onChange={(e) => this.setTableOrGraph(radio)}
-          >
-            {radio}
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
+      <Col sm={12}>
+        <ToggleButtonGroup
+          defaultValue={0}
+          name="options"
+          style={{ width: "100%" }}
+        >
+          {radios.map((radio, idx) => (
+            <ToggleButton
+              className={"bg-hugobot"}
+              key={idx}
+              type="radio"
+              color="info"
+              name="radio"
+              value={idx}
+              onChange={(e) => this.setTableOrGraph(radio)}
+            >
+              {radio}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
       </Col>
     );
   };
 
   setTableOrGraph = (name) => {
-    if (name==="Graph"){
+    if (name === "Graph") {
       this.setState({ showGraph: true });
-    }else {
+    } else {
       this.setState({ showGraph: false });
     }
     this.forceUpdate();
   };
 
-  showResults() {
-    if (!this.state.showResult) {      
-      this.state.showResult=true;
-    }
-    this.setState({state: this.state})
+  handleOnSelect(newSelected) {
+    this.setState({
+      selected: newSelected,
+      canExplore: true
+    })
   }
 
+
+
   render() {
-    // var changeStartList = this.changeStartList;
     return (
       <Container fluid>
         <Row>
@@ -271,21 +275,37 @@ class TIRPsSearch extends Component {
             />
           </Col>
         </Row>
+
         <Row>
-          <Col sm={12}>
+       
+          <Col sm={8}>
           {this.showTableOrGraph()},
-          {this.state.showGraph ? 
-              <SearchGraph
+          {this.state.showGraph ?
+            <SearchGraph
                 minVS={this.state.parameters.minVS}
                 minHS={this.state.parameters.minHS}
                 minMMD={this.state.minMMD}
                 showResult={this.state.showResult}
-              />
-              : null}
+                handleOnSelect={this.handleOnSelect.bind(this)}
+            />
+          : null}
+
           {!this.state.showGraph ?
-              <SearchTable               
+              <SearchTable
+                handleOnSelect={this.handleOnSelect.bind(this)}
                 showResult={this.state.showResult}
-              />: null} 
+              /> : null}
+          </Col>
+          <Col sm={3}>
+            <SearchMeanPresentation
+              canExplore={this.state.canExplore}
+              vs={this.state.selected[0]}
+              mmd={this.state.selected[1]}
+              mhs={this.state.selected[2]}
+              currentLevel={this.state.selected[3]}
+              symbols={this.state.selected[4]}
+              relations={this.state.selected[5]}
+            ></SearchMeanPresentation>
           </Col>
         </Row>
       </Container>

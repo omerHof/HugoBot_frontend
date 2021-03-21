@@ -72,7 +72,7 @@ class SearchAxisPop extends Component {
                         <Form.Label className={"text-bold-black"}></Form.Label>
                         <center>
                             <Button className={"bg-hugobot fix-margin"} onClick={this.onSubmit.bind(this)}>
-                                Change Axis
+                                Switch
                             </Button>
                         </center>
                     </Col>

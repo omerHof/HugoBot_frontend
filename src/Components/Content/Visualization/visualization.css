@@ -88,7 +88,7 @@
 }
 
 .limitsTable .shirtcol{
-    width: 10%; 
+    width: 19%; 
     font-size: medium;
 }
 
@@ -98,7 +98,7 @@
 
 
 .limitsTable td, th{
-    width: 30%; 
+    width: 27%; 
     text-align:center;
 }
 
@@ -121,6 +121,10 @@
 .limits{
     margin-top: 35px;
 }
+
+.presentation-card {   
+    margin-top: 0;
+  }
 
 
 

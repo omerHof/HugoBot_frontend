@@ -13,7 +13,7 @@ class SearchGraph extends Component {
     mhs: [],
     sizes: [],
     mmd: [],
-    location: 0,
+    // location: 0,
     measureToAxis: { vs: 1, mhs: 2, mmd: 3 },
     axisToMeasure: { 1: "vs", 2: "mhs", 3: "mmd" },
     measures: {
@@ -63,14 +63,6 @@ class SearchGraph extends Component {
     this.state.minMeasures.mmd = this.props.minMMD;
   }
 
-  // setModalShow(value) {
-  //   this.state.modalShow = value;
-  //   this.forceUpdate();
-  // }
-  // setAxisModalShow(value) {
-  //   this.state.AxisModalShow = value;
-  //   this.forceUpdate();
-  // }
 
   changeAxis(measureToAxis, axisToMeasure) {   
     this.setState({
@@ -79,8 +71,7 @@ class SearchGraph extends Component {
     });   
   }
 
-  handleDataPositions() {
-    
+  handleDataPositions() {    
     // arange the display of results from the backend
     let data = [];
     if(this.props.showResult){     
@@ -125,40 +116,44 @@ class SearchGraph extends Component {
   }
 
   onSelect(chartWrapper) {
-    console.log("SELECTED");
     const chart = chartWrapper.getChart();
     const selection = chart.getSelection();
-
+    let selected = [];
     if (selection.length === 1) {
-      this.state.location = selection[0].row;
-      this.forceUpdate();
-      // const [selectedItem] = selection;
-      // const dataTable = chartWrapper.getDataTable();
-      // const { row, column } = selectedItem;
-      // const value =  dataTable.getValue(row, column);
+      const location = selection[0].row;
+      selected = [
+        this.state.vs[location],
+        this.state.mhs[location],
+        this.state.mmd[location],
+        this.state.sizes[location],
+        this.state.symbols[location],
+        this.state.relations[location]
+      ];  
     }
+    this.props.handleOnSelect(selected)
   }
-  draw_selected_tirp() {
-    const location = this.state.location;
-    if (location != 0) {
-      return (
-        <SearchMeanPresentation
-          vs={this.state.vs[location]}
-          mmd={this.state.mmd[location]}
-          mhs={this.state.mhs[location]}
-          currentLevel={this.state.sizes[location]}
-          symbols={this.state.symbols[location]}
-          relations={this.state.relations[location]}
-        ></SearchMeanPresentation>
-      );
-    }
-  }
+
+  // draw_selected_tirp() {
+  //   const location = this.state.location;
+  //   if (location != 0) {
+  //     return (
+  //       <SearchMeanPresentation
+  //         vs={this.state.vs[location]}
+  //         mmd={this.state.mmd[location]}
+  //         mhs={this.state.mhs[location]}
+  //         currentLevel={this.state.sizes[location]}
+  //         symbols={this.state.symbols[location]}
+  //         relations={this.state.relations[location]}
+  //       ></SearchMeanPresentation>
+  //     );
+  //   }
+  // }
 
   render() {
     return (
       <div>
         <Row>
-          <Col sm={9}>
+          <Col >
             <Chart
               // width={'1200px'}
               height={"400px"}
@@ -185,14 +180,9 @@ class SearchGraph extends Component {
                 //   this.state.minMeasures.vs +
                 //   "% Vertical Support " +
                 //   " \uD83D\uDD35" +
-                //   " Bubble Color Tone: " +
-                //   this.state.measures[this.state.axisToMeasure[3]],
+              
                 chartArea: { left: 80 },
-                colorAxis: { colors: ["white", "blue"] },
-                // explorer:
-                // {
-                //   // maxZoomIn: 5
-                // },
+                colorAxis: { colors: ["white", "blue"] },              
                 legend: {
                   position: "right",
                 },
@@ -210,14 +200,12 @@ class SearchGraph extends Component {
             ></Chart>
             
           </Col>
-          <Col sm={2}>{this.draw_selected_tirp()}</Col>
+          {/* <Col sm={2}>{this.draw_selected_tirp()}</Col> */}
         </Row>
         <Row>
           <Col >
           <SearchAxisPop
-              className="popupWeights"
-              // show={this.state.AxisModalShow}
-              // onHide={() => this.setAxisModalShow(false)}
+              className="popupWeights"            
               onUpdate={this.changeAxis.bind(this)}
               axisToMeasure={this.state.axisToMeasure}
               measureToAxis={this.state.measureToAxis}

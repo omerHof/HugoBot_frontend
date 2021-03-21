@@ -16,45 +16,9 @@ class SearchMeanPresentation extends Component {
   constructor(props) {
     super(props);
   }
+  // 
 
-  renderSelectedTirp = () => {
-    return this.renderTirpTable(); // in future add if disc
-  };
-
-  renderTirpTable = () => {
-    return (
-      <div>
-        <thead>
-          <tr>
-            <th>Metric</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Total levels</th>
-            <td>{this.props.currentLevel}</td>
-          </tr>
-          <tr>
-            <th>Vertical support</th>
-            <td>{this.props.vs}</td>
-          </tr>
-          <tr>
-            <th>Mean horizontal_support</th>
-            <td>{this.props.mhs}</td>
-          </tr>
-          <tr>
-            <th>Mean mean duration</th>
-            <td>{this.props.mmd}</td>
-          </tr>
-        </tbody>
-      </div>
-    );
-  };
-
-  findTirp() {
-    // self.loaded = false;
-    // document.getElementById('loader').style.display = "block";
+  findTirp() {   
     const formData = new FormData();
     window.PassedFromSearch = true;
     formData.append("data_set_name", window.selectedDataSet);
@@ -63,6 +27,7 @@ class SearchMeanPresentation extends Component {
 
     this.getPath(formData)
   }
+
   async getPath(formData) {
     const config = {
       headers: {
@@ -86,7 +51,7 @@ class SearchMeanPresentation extends Component {
       this.state.redirect = true;
       this.forceUpdate();
     }
-    
+
   }
 
 
@@ -104,24 +69,45 @@ class SearchMeanPresentation extends Component {
       );
     }
     return (
-      <Card>
+      <Card className="presentation-card">
         <Card.Header className={"bg-hugobot"}>
           <Card.Text className={"text-hugobot text-hugoob-advanced"}>
-            Selected TIRP info{" "}
+            Selected TIRP info
           </Card.Text>
         </Card.Header>
         <Card.Body className={"text-hugobot"}>
-          <div className="vertical-scroll vertical-scroll-advanced">
-            <Table responsive={true} striped={true} bordered={true}>
-              {this.renderSelectedTirp()}
-            </Table>
-          </div>
+          <Table responsive={true} striped={true} bordered={true}>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Total levels</th>
+                <td>{this.props.currentLevel}</td>
+              </tr>
+              <tr>
+                <th>Vertical support</th>
+                <td>{this.props.vs}</td>
+              </tr>
+              <tr>
+                <th>Mean horizontal_support</th>
+                <td>{this.props.mhs}</td>
+              </tr>
+              <tr>
+                <th>Mean mean duration</th>
+                <td>{this.props.mmd}</td>
+              </tr>
+            </tbody>
+          </Table>
           <Button
             className="btn btn-primary"
             style={{ width: "100%" }}
             variant="primary"
             onClick={() => this.findTirp()}
-            // to="/TirpsApp/TIRPs"
+            disabled={!this.props.canExplore}
           >
             Explore TIRP
           </Button>
