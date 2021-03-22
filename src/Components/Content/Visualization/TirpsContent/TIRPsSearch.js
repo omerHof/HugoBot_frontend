@@ -198,7 +198,7 @@ class TIRPsSearch extends Component {
         >
           {radios.map((radio, idx) => (
             <ToggleButton
-              className={"bg-hugobot"}
+              className={"bg-hugobot-toggle-button"}
               key={idx}
               type="radio"
               color="info"
@@ -296,8 +296,11 @@ class TIRPsSearch extends Component {
                 showResult={this.state.showResult}
               /> : null}
           </Col>
-          <Col sm={3}>
-            <SearchMeanPresentation
+          <Col sm={4}>
+            <Row>
+              <Col sm={1}></Col>
+              <Col sm={11}>
+              <SearchMeanPresentation           
               canExplore={this.state.canExplore}
               vs={this.state.selected[0]}
               mmd={this.state.selected[1]}
@@ -306,6 +309,10 @@ class TIRPsSearch extends Component {
               symbols={this.state.selected[4]}
               relations={this.state.selected[5]}
             ></SearchMeanPresentation>
+            </Col>
+              {/* <Col sm={1}></Col> */}
+            </Row>
+            
           </Col>
         </Row>
       </Container>

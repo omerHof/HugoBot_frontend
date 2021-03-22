@@ -6,7 +6,7 @@ import SearchAxisPop from "./SearchAxisPop";
 import SearchMeanPresentation from "./SearchMeanPresentation";
 
 class SearchGraph extends Component {
-  state = {    
+  state = {
     symbols: [],
     relations: [],
     vs: [],
@@ -27,26 +27,26 @@ class SearchGraph extends Component {
 
   constructor(props) {
     super(props);
-    if(props.showResult){
-      this.extractData();
-    }   
-  }
-
-  componentDidUpdate(){
-    if(this.props.showResult){
+    if (props.showResult) {
       this.extractData();
     }
-  } 
+  }
+
+  componentDidUpdate() {
+    if (this.props.showResult) {
+      this.extractData();
+    }
+  }
 
   extractData() {
     // extract the results from the backend
-    this.state.symbols =[];
-    this.state.relations=[];
-    this.state.vs=[];
-    this.state.mhs=[];
-    this.state.sizes=[];
-    this.state.mmd=[];
-    
+    this.state.symbols = [];
+    this.state.relations = [];
+    this.state.vs = [];
+    this.state.mhs = [];
+    this.state.sizes = [];
+    this.state.mmd = [];
+
     for (let result in window.searchFinalResults) {
       let curr_result = window.searchFinalResults[parseInt(result)]; //check here fot more details
       this.state.symbols.push(curr_result[0]);
@@ -64,17 +64,17 @@ class SearchGraph extends Component {
   }
 
 
-  changeAxis(measureToAxis, axisToMeasure) {   
+  changeAxis(measureToAxis, axisToMeasure) {
     this.setState({
       measureToAxis: measureToAxis,
       axisToMeasure: axisToMeasure,
-    });   
+    });
   }
 
-  handleDataPositions() {    
+  handleDataPositions() {
     // arange the display of results from the backend
     let data = [];
-    if(this.props.showResult){     
+    if (this.props.showResult) {
       data[0] = Array(window.searchFinalResults.length).join(".").split(".");
       data[this.state.measureToAxis.vs] = this.state.vs;
       data[this.state.measureToAxis.mhs] = this.state.mhs;
@@ -82,7 +82,7 @@ class SearchGraph extends Component {
       data[4] = this.state.sizes;
       data = this.transpose(data);
     }
-    else{
+    else {
       data[0] = [null];
       data[this.state.measureToAxis.vs] = [0];
       data[this.state.measureToAxis.mhs] = [0];
@@ -90,23 +90,23 @@ class SearchGraph extends Component {
       // data[4] = [undefined];
       data = this.transpose(data);
     }
-   
+
 
     let titles = [];
-    if(this.props.showResult){   
+    if (this.props.showResult) {
       titles[0] = "ID";
       titles[1] = this.state.axisToMeasure[1].toUpperCase();
       titles[2] = this.state.axisToMeasure[2].toUpperCase();
       titles[3] = this.state.axisToMeasure[3].toUpperCase();
       titles[4] = "TIRP Size";
     }
-    else{
+    else {
       titles[0] = "";
       titles[1] = "";
       titles[2] = "";
       titles[3] = "";
     }
-   
+
     data.unshift(titles);
     return data;
   }
@@ -128,7 +128,7 @@ class SearchGraph extends Component {
         this.state.sizes[location],
         this.state.symbols[location],
         this.state.relations[location]
-      ];  
+      ];
     }
     this.props.handleOnSelect(selected)
   }
@@ -155,7 +155,7 @@ class SearchGraph extends Component {
         <Row>
           <Col >
             <Chart
-              // width={'1200px'}
+              // width={'110%'}
               height={"400px"}
               chartType="BubbleChart"
               chartEvents={[
@@ -169,8 +169,8 @@ class SearchGraph extends Component {
               loader={<div>Loading Chart</div>}
               data={this.handleDataPositions()}
               options={{
-                bubble:{
-                  opacity:this.props.showResult? 0.8 : 0
+                bubble: {
+                  opacity: this.props.showResult ? 0.8 : 0
                 },
                 // title:
                 //   window.selectedDataSet +
@@ -178,14 +178,19 @@ class SearchGraph extends Component {
                 //   window.searchFinalResults.length +
                 //   " TIRPs having >= " +
                 //   this.state.minMeasures.vs +
-                //   "% Vertical Support " +
-                //   " \uD83D\uDD35" +
-              
-                chartArea: { left: 80 },
-                colorAxis: { colors: ["white", "blue"] },              
-                legend: {
-                  position: "right",
+                //   "% Vertical Support ",
+                // titlePosition: 'none',
+
+
+                chartArea: { left: 80, top: 10, width:'85%',height:'75%' },
+                colorAxis: {
+                  colors: ["white", "blue"]
+                  ,
+                  legend: {
+                    position: "bottom",
+                  },
                 },
+
                 sizeAxis: { maxSize: 5, minSize: 5 },
                 hAxis: {
                   baseline: this.state.minMeasures[this.state.axisToMeasure[1]],
@@ -198,20 +203,20 @@ class SearchGraph extends Component {
               }}
               rootProps={{ "data-testid": "2" }}
             ></Chart>
-            
+
           </Col>
           {/* <Col sm={2}>{this.draw_selected_tirp()}</Col> */}
         </Row>
         <Row>
           <Col >
-          <SearchAxisPop
-              className="popupWeights"            
+            <SearchAxisPop
+              className="popupWeights"
               onUpdate={this.changeAxis.bind(this)}
               axisToMeasure={this.state.axisToMeasure}
               measureToAxis={this.state.measureToAxis}
             ></SearchAxisPop>
           </Col>
-        </Row>    
+        </Row>
       </div>
     );
   }

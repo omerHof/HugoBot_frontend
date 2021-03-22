@@ -202,7 +202,7 @@ class SearchTable extends Component {
               </Card.Text>
             </Card.Header>
             <Card.Body className={"text-hugobot"}> */}
-              <div className="vertical-scroll-tirp">
+              <div className="search-table">
                 <BootstrapTable
                   keyField="id"
                   data={ this.renderTableData()}
@@ -210,6 +210,7 @@ class SearchTable extends Component {
                   selectRow={selectRow}
                   striped={true}
                   hover={true}
+                  classes="stable"
                   scroll={true}
                   defaultSorted={defaultSorted}
                   noDataIndication="Table is Empty"

@@ -122,9 +122,39 @@
     margin-top: 35px;
 }
 
-.presentation-card {   
+.presentation-card { 
+    width: 90%;  
     margin-top: 0;
-  }
+    align-self: center;
+}
+
+.bg-hugobot-toggle-button{
+    height: 49px;
+    background-color: #2d3e50;
+    line-height: 45px;
+    font-weight: bold;
+    font-size: large;
+    text-transform: none;
+    /* border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0; */
+}
+
+.search-table{
+    position: relative;
+  /* height: 400px; */
+  max-height: 320px;
+  overflow: auto;
+  border-style: solid;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: rgb(194, 194, 233);
+  /* border: rgb(41, 40, 39);   */
+}
+
+.stable {
+    margin-bottom: 0;
+}
+
+
 
 
 
