@@ -1,9 +1,14 @@
 
 .navbar-tirps{ 
     position: fixed;  
-    z-index: 1;  
+    z-index: 10;  
     background-color:#f1fafa;
     margin-top: -5px;     
+}
+
+.navbar-tirps ul{
+    vertical-align: middle;
+
 }
 
 .navbar-tirps li a{  

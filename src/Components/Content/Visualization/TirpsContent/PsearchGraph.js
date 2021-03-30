@@ -28,8 +28,7 @@ class PsearchGraph extends Component {
       dmhs: "Delta M.H.S",
       dmmd: "Delta M.M.D",
     },
-    minMeasures: {},
-    AxisModalShow: false,
+    minMeasures: {}
   };
 
   constructor(props) {
@@ -103,10 +102,7 @@ class PsearchGraph extends Component {
     this.state.modalShow = value;
     this.forceUpdate();
   }
-  setAxisModalShow(value) {
-    this.state.AxisModalShow = value;
-    this.forceUpdate();
-  }
+
 
   changeAxis(measureToAxis, axisToMeasure) {
     this.setState({
@@ -178,7 +174,7 @@ class PsearchGraph extends Component {
         this.state.symbols[location],
         this.state.relations[location]
       ];
-      this.props.handleOnSelect(selected);    
+      this.props.handleOnSelect(selected);
     }
   }
 
@@ -232,24 +228,14 @@ class PsearchGraph extends Component {
           </Col>
         </Row>
 
-        <Button
-          variant="primary"
-          style={{ marginRight: "2%" }}
-          onClick={() => this.setAxisModalShow(true)}
-        >
-          Select Axis
-        </Button>
 
-        <div className="overlay">
-          <PsearchAxisPop
-            className="popupWeights"
-            show={this.state.AxisModalShow}
-            onHide={() => this.setAxisModalShow(false)}
-            onUpdate={this.changeAxis.bind(this)}
-            axisToMeasure={this.state.axisToMeasure}
-            measureToAxis={this.state.measureToAxis}
-          ></PsearchAxisPop>
-        </div>
+        <PsearchAxisPop
+          className="popupWeights"
+          onUpdate={this.changeAxis.bind(this)}
+          axisToMeasure={this.state.axisToMeasure}
+          measureToAxis={this.state.measureToAxis}
+        ></PsearchAxisPop>
+
       </div>
     );
   }

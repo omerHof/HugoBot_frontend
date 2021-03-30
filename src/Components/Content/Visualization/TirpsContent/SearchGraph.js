@@ -21,8 +21,7 @@ class SearchGraph extends Component {
       mhs: "Mean Horizontal Support",
       mmd: "Mean Mean Duration",
     },
-    minMeasures: {},
-    AxisModalShow: false,
+    minMeasures: {} 
   };
 
   constructor(props) {
@@ -154,15 +153,7 @@ class SearchGraph extends Component {
               options={{
                 bubble: {
                   opacity: this.props.showResult ? 0.8 : 0
-                },
-                // title:
-                //   window.selectedDataSet +
-                //   ": " +
-                //   window.searchFinalResults.length +
-                //   " TIRPs having >= " +
-                //   this.state.minMeasures.vs +
-                //   "% Vertical Support ",
-                // titlePosition: 'none',
+                },                
                 chartArea: { left: 80, top: 10, width:'85%',height:'75%' },
                 colorAxis: {
                   colors: ["white", "blue"]

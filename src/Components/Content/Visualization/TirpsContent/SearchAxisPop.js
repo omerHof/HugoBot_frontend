@@ -18,7 +18,6 @@ class SearchAxisPop extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         this.props.onUpdate(this.state.measureToAxis, this.state.axisToMeasure);
-        // this.props.onHide(true)
     }
 
     onChange = (event) => {
@@ -72,7 +71,7 @@ class SearchAxisPop extends Component {
                         <Form.Label className={"text-bold-black"}></Form.Label>
                         <center>
                             <Button className={"bg-hugobot fix-margin"} onClick={this.onSubmit.bind(this)}>
-                                Switch
+                                Set
                             </Button>
                         </center>
                     </Col>
