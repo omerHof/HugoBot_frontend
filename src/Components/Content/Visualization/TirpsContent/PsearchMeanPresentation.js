@@ -17,46 +17,6 @@ class SearchMeanPresentation extends Component {
     super(props);
   }
 
-  renderSelectedTirp = () => {
-    return this.renderTirpTable(); // in future add if disc
-  };
-
-  renderTirpTable = () => {
-    return (
-      <div>
-        <thead>
-          <tr>
-            <th>Metric</th>
-            <th>Class1</th>
-            <th>Class0</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Current level</th>
-            <td>{this.props.currentLevel}</td>
-            <td>{this.props.currentLevel}</td>
-          </tr>
-          <tr>
-            <th>Vertical support</th>
-            <td>{this.props.vs1}</td>
-            <td>{this.props.vs0}</td>
-          </tr>
-          <tr>
-            <th>Mean horizontal_support</th>
-            <td>{this.props.mhs1}</td>
-            <td>{this.props.mhs0}</td>
-          </tr>
-          <tr>
-            <th>Mean mean duration</th>
-            <td>{this.props.mmd1}</td>
-            <td>{this.props.mmd0}</td>
-          </tr>
-        </tbody>
-      </div>
-    );
-  };
-
   findTirp() {
     // self.loaded = false;
     // document.getElementById('loader').style.display = "block";
@@ -107,7 +67,7 @@ class SearchMeanPresentation extends Component {
       );
     }
     return (
-      <Card>
+      <Card className="presentation-card">
         <Card.Header className={"bg-hugobot"}>
           <Card.Text className={"text-hugobot text-hugoob-advanced"}>
             Selected TIRP info{" "}
@@ -116,7 +76,35 @@ class SearchMeanPresentation extends Component {
         <Card.Body className={"text-hugobot"}>
           <div className="vertical-scroll vertical-scroll-advanced">
             <Table responsive={true} striped={true} bordered={true}>
-              {this.renderSelectedTirp()}
+            <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Class1</th>
+                  <th>Class0</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Current level</th>
+                  <td>{this.props.currentLevel}</td>
+                  <td>{this.props.currentLevel}</td>
+                </tr>
+                <tr>
+                  <th>Vertical support</th>
+                  <td>{this.props.vs1}</td>
+                  <td>{this.props.vs0}</td>
+                </tr>
+                <tr>
+                  <th>Mean horizontal_support</th>
+                  <td>{this.props.mhs1}</td>
+                  <td>{this.props.mhs0}</td>
+                </tr>
+                <tr>
+                  <th>Mean mean duration</th>
+                  <td>{this.props.mmd1}</td>
+                  <td>{this.props.mmd0}</td>
+                </tr>
+              </tbody>
             </Table>
           </div>
           <Button
@@ -124,7 +112,7 @@ class SearchMeanPresentation extends Component {
             style={{ width: "100%" }}
             variant="primary"
             onClick={() => this.findTirp()}
-            // to="/TirpsApp/TIRPs"
+            disabled={!this.props.canExplore}
           >
             Explore TIRP
           </Button>

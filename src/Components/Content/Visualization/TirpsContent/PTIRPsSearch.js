@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Container, ToggleButtonGroup, ToggleButton, Col, Row } from "react-bootstrap";
-
-import PsearchGraph from "./PsearchGraph";
 import SearchIntervals from "./SearchIntervals";
 import SearchLimits from "./SearchLimits";
+import PsearchGraph from "./PsearchGraph";
 import PSearchTable from "./PSearchTable"
+import PsearchMeanPresentation from "./PsearchMeanPresentation";
 import Axios from "axios";
 import cookies from "js-cookie";
 
@@ -36,8 +36,11 @@ class PTIRPsSearch extends Component {
 
         // parameters for showing results
         showResult: false,
-        showGraph: false,
+        showGraph: true,
+        canExplore: false,
         finalResults: [],
+        selected: []
+
     };
 
     constructor(props) {
@@ -68,34 +71,33 @@ class PTIRPsSearch extends Component {
             this.state.startList.push(iter.StateID);
             this.state.containList.push(iter.StateID);
             this.state.endList.push(iter.StateID);
-
             this.state.dictionary_states[iter.StateID] = name;
         });
     }
 
     //binding with the child "SearchIntervals"
     changeStartList(newList) {
-        this.setState({ startList: newList });
+        this.state.startList = newList;
     }
 
     changeContainList(newList) {
-        this.setState({ containList: newList });
+        this.state.containList = newList;
     }
 
     changeEndList(newList) {
-        this.setState({ endList: newList });
+        this.state.endList = newList;
     }
 
     changeIsStartAllSelected(ans) {
-        this.setState({ isAllStartSelected: ans });
+        this.state.isAllStartSelected = ans;
     }
 
     changeIsContainllSelected(ans) {
-        this.setState({ isAllContainSelected: ans });
+        this.state.isAllContainSelected = ans;
     }
 
     changeIsEndAllSelected(ans) {
-        this.setState({ isAllEndSelected: ans });
+        this.state.isAllEndSelected = ans;
     }
 
     changeParameter = (event) => {
@@ -116,6 +118,7 @@ class PTIRPsSearch extends Component {
         if (this.state.parameters.maxVS < window.dataSetInfo.min_ver_support * 100)
             this.state.parameters.maxVS = window.dataSetInfo.min_ver_support * 100;
     }
+
     async serachTirps() {
         this.checkParameters();
         const formData = new FormData();
@@ -175,14 +178,17 @@ class PTIRPsSearch extends Component {
         }
 
         window.PsearchFinalResults = this.state.finalResults;
-        this.showResults();
+        if (!this.state.showResult) {
+            this.state.showResult = true;
+        }
+        this.setState({ state: this.state })
         this.forceUpdate();
     };
 
     showTableOrGraph = () => {
         const radios = ['Graph', 'Table'];
         return (
-            <Col sm={8}>
+            <Col sm={12}>
                 <ToggleButtonGroup
                     defaultValue={0}
                     name="options"
@@ -190,7 +196,7 @@ class PTIRPsSearch extends Component {
                 >
                     {radios.map((radio, idx) => (
                         <ToggleButton
-                            className={"bg-hugobot"}
+                            className={"bg-hugobot-toggle-button"}
                             key={idx}
                             type="radio"
                             color="info"
@@ -215,12 +221,13 @@ class PTIRPsSearch extends Component {
         this.forceUpdate();
     };
 
-    showResults() {
-        if (!this.state.showResult) {
-            this.state.showResult = true;
-            this.state.showGraph = true;
-        }
+    handleOnSelect(newSelected) {
+        this.setState({
+            selected: newSelected,
+            canExplore: true
+        })
     }
+
 
 
     render() {
@@ -267,22 +274,52 @@ class PTIRPsSearch extends Component {
                         />
                     </Col>
                 </Row>
+
                 <Row>
-                    <Col sm={12}>
-                        {!this.state.showResult ? null : this.showTableOrGraph()},
-          {this.state.showResult && this.state.showGraph ?
+                    <Col sm={8}>
+                        {this.showTableOrGraph()},
+                        {this.state.showGraph
+                            ?
                             <PsearchGraph
                                 minVS={this.state.parameters.minVS}
                                 minHS={this.state.parameters.minHS}
                                 minMMD={this.state.minMMD}
+                                showResult={this.state.showResult}
+                                handleOnSelect={this.handleOnSelect.bind(this)}
                             />
-                            : null}
-                        {this.state.showResult && !this.state.showGraph ?
+                            :
+                            null
+                        }
+                        {!this.state.showGraph
+                            ?
                             <PSearchTable
-                                minVS={this.state.parameters.minVS}
-                                minHS={this.state.parameters.minHS}
-                                minMMD={this.state.minMMD}
-                            /> : null}
+                                handleOnSelect={this.handleOnSelect.bind(this)}
+                                showResult={this.state.showResult}
+                               
+                            />
+                            :
+                            null
+                        }
+                    </Col>
+                    <Col sm={4}>
+                        <Row>
+                            <Col sm={1}></Col>
+                            <Col sm={11}>
+                                <PsearchMeanPresentation
+                                    canExplore={this.state.canExplore}
+                                    vs1={this.state.selected[0]}
+                                    vs0={this.state.selected[1]}
+                                    mmd1={this.state.selected[4]}
+                                    mmd0={this.state.selected[5]}
+                                    mhs1={this.state.selected[2]}
+                                    mhs0={this.state.selected[3]}
+                                    currentLevel={this.state.selected[6]}
+                                    symbols={this.state.selected[7]}
+                                    relations={this.state.selected[8]}
+                                ></PsearchMeanPresentation>
+                            </Col>
+                        </Row>
+
                     </Col>
                 </Row>
             </Container>

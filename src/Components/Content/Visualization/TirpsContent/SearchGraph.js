@@ -87,7 +87,6 @@ class SearchGraph extends Component {
       data[this.state.measureToAxis.vs] = [0];
       data[this.state.measureToAxis.mhs] = [0];
       data[this.state.measureToAxis.mmd] = [0];
-      // data[4] = [undefined];
       data = this.transpose(data);
     }
 
@@ -133,22 +132,6 @@ class SearchGraph extends Component {
     this.props.handleOnSelect(selected)
   }
 
-  // draw_selected_tirp() {
-  //   const location = this.state.location;
-  //   if (location != 0) {
-  //     return (
-  //       <SearchMeanPresentation
-  //         vs={this.state.vs[location]}
-  //         mmd={this.state.mmd[location]}
-  //         mhs={this.state.mhs[location]}
-  //         currentLevel={this.state.sizes[location]}
-  //         symbols={this.state.symbols[location]}
-  //         relations={this.state.relations[location]}
-  //       ></SearchMeanPresentation>
-  //     );
-  //   }
-  // }
-
   render() {
     return (
       <div>
@@ -180,18 +163,19 @@ class SearchGraph extends Component {
                 //   this.state.minMeasures.vs +
                 //   "% Vertical Support ",
                 // titlePosition: 'none',
-
-
                 chartArea: { left: 80, top: 10, width:'85%',height:'75%' },
                 colorAxis: {
                   colors: ["white", "blue"]
                   ,
                   legend: {
                     position: "bottom",
-                  },
+                  }
                 },
 
-                sizeAxis: { maxSize: 5, minSize: 5 },
+                sizeAxis: { 
+                  minSize: this.props.showResult ? 5 : 0 ,
+                  maxSize: this.props.showResult ? 5 : 0
+                },
                 hAxis: {
                   baseline: this.state.minMeasures[this.state.axisToMeasure[1]],
                   title: this.state.measures[this.state.axisToMeasure[1]],
@@ -205,7 +189,6 @@ class SearchGraph extends Component {
             ></Chart>
 
           </Col>
-          {/* <Col sm={2}>{this.draw_selected_tirp()}</Col> */}
         </Row>
         <Row>
           <Col >

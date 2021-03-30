@@ -32,9 +32,10 @@ class TIRPsSearch extends Component {
     isAllStartSelected: true,
     isAllContainSelected: true,
     isAllEndSelected: true,
+    showResult: false,
     showGraph: true,
-    finalResults: [],
     canExplore: false,
+    finalResults: [],
     selected: []
   };
 
@@ -66,40 +67,32 @@ class TIRPsSearch extends Component {
       this.state.startList.push(iter.StateID);
       this.state.containList.push(iter.StateID);
       this.state.endList.push(iter.StateID);
-
       this.state.dictionary_states[iter.StateID] = name;
     });
   }
 
-  //binding with the child "SearchIntervals"
   changeStartList(newList) {
     this.state.startList = newList;
-    // this.setState({ startList: newList });
   }
 
   changeContainList(newList) {
     this.state.containList = newList;
-    // this.setState({ containList: newList });
   }
 
   changeEndList(newList) {
     this.state.endList = newList;
-    // this.setState({ endList: newList });
   }
 
   changeIsStartAllSelected(ans) {
     this.state.isAllStartSelected = ans;
-    // this.setState({ isAllStartSelected: ans });
   }
 
   changeIsContainllSelected(ans) {
     this.state.isAllContainSelected = ans;
-    // this.setState({ isAllContainSelected: ans });
   }
 
   changeIsEndAllSelected(ans) {
     this.state.isAllEndSelected = ans;
-    // this.setState({ isAllEndSelected: ans });
   }
 
   changeParameter = (event) => {
@@ -280,7 +273,8 @@ class TIRPsSearch extends Component {
        
           <Col sm={8}>
           {this.showTableOrGraph()},
-          {this.state.showGraph ?
+          {this.state.showGraph
+           ?
             <SearchGraph
                 minVS={this.state.parameters.minVS}
                 minHS={this.state.parameters.minHS}
@@ -288,13 +282,19 @@ class TIRPsSearch extends Component {
                 showResult={this.state.showResult}
                 handleOnSelect={this.handleOnSelect.bind(this)}
             />
-          : null}
+            :
+             null
+          }
 
-          {!this.state.showGraph ?
+          {!this.state.showGraph
+           ?
               <SearchTable
                 handleOnSelect={this.handleOnSelect.bind(this)}
                 showResult={this.state.showResult}
-              /> : null}
+              />
+            : 
+            null
+          }
           </Col>
           <Col sm={4}>
             <Row>
@@ -310,9 +310,7 @@ class TIRPsSearch extends Component {
               relations={this.state.selected[5]}
             ></SearchMeanPresentation>
             </Col>
-              {/* <Col sm={1}></Col> */}
-            </Row>
-            
+            </Row>            
           </Col>
         </Row>
       </Container>

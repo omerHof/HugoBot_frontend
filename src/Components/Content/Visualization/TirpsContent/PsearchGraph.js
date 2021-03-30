@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import Chart from "react-google-charts";
 import PsearchAxisPop from "./PsearchAxisPop";
-import PsearchMeanPresentation from "./PsearchMeanPresentation";
 
 class PsearchGraph extends Component {
   state = {
@@ -35,7 +34,15 @@ class PsearchGraph extends Component {
 
   constructor(props) {
     super(props);
-    this.extractData();
+    if (props.showResult) {
+      this.extractData();
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.showResult) {
+      this.extractData();
+    }
   }
 
   extractData() {
@@ -111,22 +118,42 @@ class PsearchGraph extends Component {
   handleDataPositions() {
     // arange the display of results from the backend
     let data = [];
-    data[0] = Array(window.PsearchFinalResults.length).join(".").split(".");
-    data[this.state.measureToAxis.vs0] = this.state.vs0;
-    data[this.state.measureToAxis.vs1] = this.state.vs1;
-    data[this.state.measureToAxis.dmmd] = this.state.delta_mmd;
-    data[this.state.measureToAxis.dmhs] = this.state.delta_mhs;
+    if (this.props.showResult) {
+      data[0] = Array(window.PsearchFinalResults.length).join(".").split(".");
+      data[this.state.measureToAxis.vs0] = this.state.vs0;
+      data[this.state.measureToAxis.vs1] = this.state.vs1;
+      data[this.state.measureToAxis.dmmd] = this.state.delta_mmd;
+      data[this.state.measureToAxis.dmhs] = this.state.delta_mhs;
+      data = this.transpose(data);
+    }
+    else {
+      data[0] = [null];
+      data[this.state.measureToAxis.vs0] = [0];
+      data[this.state.measureToAxis.vs1] = [0];
+      data[this.state.measureToAxis.dmmd] = [0];
+      data[this.state.measureToAxis.dmhs] = [0];
+      data = this.transpose(data);
+    }
 
-    data = this.transpose(data);
 
     let titles = [];
-    titles[0] = "ID";
-    titles[1] = this.state.axisToMeasure[1].toUpperCase();
-    titles[2] = this.state.axisToMeasure[2].toUpperCase();
-    titles[3] = this.state.axisToMeasure[3].toUpperCase();
-    titles[4] = this.state.axisToMeasure[4].toUpperCase();
-    data.unshift(titles);
+    if (this.props.showResult) {
+      titles[0] = "ID";
+      titles[1] = this.state.axisToMeasure[1].toUpperCase();
+      titles[2] = this.state.axisToMeasure[2].toUpperCase();
+      titles[3] = this.state.axisToMeasure[3].toUpperCase();
+      titles[4] = this.state.axisToMeasure[4].toUpperCase();
+    }
 
+    else {
+      titles[0] = "";
+      titles[1] = "";
+      titles[2] = "";
+      titles[3] = "";
+      titles[4] = "";
+    }
+
+    data.unshift(titles);
     return data;
   }
 
@@ -135,31 +162,23 @@ class PsearchGraph extends Component {
   }
 
   onSelect(chartWrapper) {
-    console.log("SELECTED");
     const chart = chartWrapper.getChart();
     const selection = chart.getSelection();
-
+    let selected = [];
     if (selection.length === 1) {
-      this.state.location = selection[0].row;
-      this.forceUpdate();
-    }
-  }
-  draw_selected_tirp() {
-    const location = this.state.location;
-    if (location != 0) {
-      return (
-        <PsearchMeanPresentation
-          vs1={this.state.vs1[location]}
-          vs0={this.state.vs0[location]}
-          mmd1={this.state.mmd1[location]}
-          mmd0={this.state.mmd0[location]}
-          mhs1={this.state.mhs1[location]}
-          mhs0={this.state.mhs0[location]}
-          currentLevel={this.state.sizes[location]}
-          symbols={this.state.symbols[location]}
-          relations={this.state.relations[location]}
-        ></PsearchMeanPresentation>
-      );
+      const location = selection[0].row;
+      selected = [
+        this.state.vs0[location],
+        this.state.vs1[location],
+        this.state.mhs0[location],
+        this.state.mhs1[location],
+        this.state.mmd0[location],
+        this.state.mmd1[location],
+        this.state.sizes[location],
+        this.state.symbols[location],
+        this.state.relations[location]
+      ];
+      this.props.handleOnSelect(selected);    
     }
   }
 
@@ -167,7 +186,7 @@ class PsearchGraph extends Component {
     return (
       <div>
         <Row>
-          <Col sm={9}>
+          <Col>
             <Chart
               // width={'1200px'}
               height={"400px"}
@@ -183,26 +202,22 @@ class PsearchGraph extends Component {
               loader={<div>Loading Chart</div>}
               data={this.handleDataPositions()}
               options={{
-                title:
-                  window.selectedDataSet +
-                  ": " +
-                  window.PsearchFinalResults.length +
-                  " TIRPs " +
-                  //  having >= " +
-                  // this.state.minMeasures.vs +
-                  // "% Vertical Support " +
-                  " \uD83D\uDD35" +
-                  " Bubble Color Tone: " +
-                  this.state.measures[this.state.axisToMeasure[3]] +
-                  " \uD83D\uDD35" +
-                  " Bubble Size: " +
-                  this.state.measures[this.state.axisToMeasure[4]],
-                chartArea: { left: 80 },
-                colorAxis: { colors: ["white", "#1150AC"] },
-                legend: {
-                  position: "right",
+                bubble: {
+                  opacity: this.props.showResult ? 0.8 : 0
                 },
-                // sizeAxis: { maxSize: 5, minSize: 5 },
+                chartArea: { left: 80, top: 10, width: '85%', height: '75%' },
+                colorAxis: {
+                  colors: ["blue", "black"],
+                  legend: {
+                    position: "bottom",
+                  }
+                },
+
+
+                sizeAxis: {
+                  minSize: this.props.showResult ? 5 : 0,
+                  maxSize: this.props.showResult ? 30 : 0
+                },
                 hAxis: {
                   baseline: this.state.minMeasures[this.state.axisToMeasure[1]],
                   title: this.state.measures[this.state.axisToMeasure[1]],
@@ -215,7 +230,6 @@ class PsearchGraph extends Component {
               rootProps={{ "data-testid": "2" }}
             ></Chart>
           </Col>
-          <Col sm={2}>{this.draw_selected_tirp()}</Col>
         </Row>
 
         <Button

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { Card,Row, Col, Modal, Button } from "react-bootstrap";
+import { Card, Row, Col, Modal, Button } from "react-bootstrap";
 
 class SearchTable extends Component {
   state = {
@@ -10,27 +10,24 @@ class SearchTable extends Component {
     mhs: [],
     sizes: [],
     mmd: [],
-    state_dictionary: [],
-    rowSelectedId:0,
-    selected: [],
-    location: 0,
+    state_dictionary: []
   };
 
   constructor(props) {
     super(props);
-    this.init_state_dict(); 
-    if(this.props.showResult){
-      this.extractData(); 
-     
-    }    
+    this.init_state_dict();
+    if (this.props.showResult) {
+      this.extractData();
+
+    }
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     this.init_state_dict();
-    if(this.props.showResult){
-      this.extractData(); 
+    if (this.props.showResult) {
+      this.extractData();
     }
-  } 
+  }
 
   init_state_dict() {
     let tables = JSON.parse(window.States);
@@ -57,12 +54,12 @@ class SearchTable extends Component {
   }
 
   extractData() {
-    this.state.symbols =[];
-    this.state.relations=[];
-    this.state.vs=[];
-    this.state.mhs=[];
-    this.state.sizes=[];
-    this.state.mmd=[];
+    this.state.symbols = [];
+    this.state.relations = [];
+    this.state.vs = [];
+    this.state.mhs = [];
+    this.state.sizes = [];
+    this.state.mmd = [];
 
     // extract the results from the backend
     for (let result in window.searchFinalResults) {
@@ -158,32 +155,31 @@ class SearchTable extends Component {
       },
     ];
     return columns;
-  };  
+  };
 
   handleOnSelect = (row, isSelect) => {
     let selected = [];
-    if (isSelect) {      
+    if (isSelect) {
       selected = [
         row.Vertical_Support,
         row.Mean_Horizontal_Support,
-        row.Mean_Mean_Duration,row.Level,
+        row.Mean_Mean_Duration, row.Level,
         this.state.symbols[row.id],
-        row.Relation,row.id
-      ];      
+        row.Relation, row.id
+      ];
     }
-    else {      
-        selected.filter((x) => x !== row.id);
+    else {
+      selected.filter((x) => x !== row.id);
     }
-    this.props.handleOnSelect(selected);    
+    this.props.handleOnSelect(selected);
   };
 
   render() {
     const selectRow = {
-      mode: "checkbox",
+      mode: "radio",
       bgColor: "#AED6F1",
       hideSelectColumn: true,
       clickToSelect: true,
-      selected: this.state.selected,
       onSelect: this.handleOnSelect,
     };
     const defaultSorted = [
@@ -195,40 +191,21 @@ class SearchTable extends Component {
     return (
       <Row>
         <Col>
-          {/* <Card>
-            <Card.Header className={"bg-hugobot"}>
-              <Card.Text className={"text-hugobot text-hugoob-advanced"}>
-                Tirp's Table{" "}
-              </Card.Text>
-            </Card.Header>
-            <Card.Body className={"text-hugobot"}> */}
-              <div className="search-table">
-                <BootstrapTable
-                  keyField="id"
-                  data={ this.renderTableData()}
-                  columns={this.get_columns()}
-                  selectRow={selectRow}
-                  striped={true}
-                  hover={true}
-                  classes="stable"
-                  scroll={true}
-                  defaultSorted={defaultSorted}
-                  noDataIndication="Table is Empty"
-                />
-              </div>
-            {/* </Card.Body> */}
-          {/* </Card> */}
+          <div className="search-table">
+            <BootstrapTable
+              keyField="id"
+              data={this.renderTableData()}
+              columns={this.get_columns()}
+              selectRow={selectRow}
+              striped={true}
+              hover={true}
+              classes="stable"
+              scroll={true}
+              defaultSorted={defaultSorted}
+              noDataIndication="Table is Empty"
+            />
+          </div>
         </Col>
-        {/* <Col sm={2}> */}
-        {/* <SearchMeanPresentation
-          vs={this.state.selected[0]}
-          mmd={this.state.selected[1]}
-          mhs={this.state.selected[2]}
-          currentLevel={this.state.selected[3]}
-          symbols={this.state.symbols[this.state.rowSelectedId]}
-          relations={this.state.selected[5]}
-        ></SearchMeanPresentation> */}
-      {/* </Col> */}
       </Row>
     )
   }
