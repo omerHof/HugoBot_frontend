@@ -99,6 +99,7 @@ class Visualization extends Component {
                   this.getKLOutput(datasetName, disc_id, kl_id)
                     .then((KLResponse) => {
                       if (KLResponse.status < 400) {
+                      
                         this.setState({
                           data_set_name: datasetName,
                           username: UsernameResponse.data["Name"],
@@ -127,7 +128,7 @@ class Visualization extends Component {
   }
 
   getUsername = () => {
-    const url = "/api/getUserName";
+    const url = window.base_url + "/getUserName";
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -138,7 +139,7 @@ class Visualization extends Component {
   };
 
   getRawDataFile = (dataset_name) => {
-    const url = "/api/getRawDataFile?id=" + dataset_name;
+    const url = window.base_url + "/getRawDataFile?id=" + dataset_name;
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -151,7 +152,11 @@ class Visualization extends Component {
 
   getStatesFile = (dataset_name, disc_id) => {
     const url =
-      "/api/getStatesFile?dataset_id=" + dataset_name + "&disc_id=" + disc_id;
+      window.base_url +
+      "/getStatesFile?dataset_id=" +
+      dataset_name +
+      "&disc_id=" +
+      disc_id;
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -164,8 +169,8 @@ class Visualization extends Component {
 
   getKLOutput = (dataset_name, disc_id, kl_id) => {
     const url =
-      "/api/getKLOutput?" +
-      "dataset_id=" +
+      window.base_url +
+      "/getKLOutput?dataset_id=" +
       dataset_name +
       "&disc_id=" +
       disc_id +
@@ -183,8 +188,8 @@ class Visualization extends Component {
 
   getKLClassOutput = (dataset_name, disc_id, kl_id, num_class) => {
     const url =
-      "/api/getKLOutput?" +
-      "dataset_id=" +
+      window.base_url +
+      "/getKLOutput?dataset_id=" +
       dataset_name +
       "&disc_id=" +
       disc_id +
