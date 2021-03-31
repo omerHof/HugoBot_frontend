@@ -33,7 +33,7 @@ class UploadDataset extends Component{
     render() {
         // window.addEventListener("click",this.testFunc)
         return (
-            <HashRouter   history={history}>
+            <HashRouter>
                 <br/>
                 <UploadWorkflow/>
                 <br/>

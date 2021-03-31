@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Form, Modal, Button } from "react-bootstrap";
+import { Card, Table, Button, Row, Col } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import { Link, HashRouter } from "react-router-dom";
 import "../../../../resources/style/colors.css";
@@ -7,16 +7,15 @@ import "../../../../resources/style/workflow.css";
 import TIRPsPie from "./TIRPsPie";
 import TIRPTimeLine from "./TIRPTimeLine";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import history from "../../../../History";
-import Popup from "reactjs-popup";
-import TirpMatrix from "../TirpsContent/TirpMatrix";
-import { useState } from "react";
-// import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import WeightsForm from "./WeightsForm";
+import SelectedTIRPTable from "./SelectedTIRPTable";
 import Axios from "axios";
 import cookies from "js-cookie";
-import SelectedTIRPTable from "./SelectedTIRPTable";
+import TirpMatrix from "../TirpsContent/TirpMatrix";
+import WeightsPop from "./WeightsPop";
+import DTirpBarPlot from "./DTirpBarPlot";
+
 /**
  * this class contains the display of the the table from table content
  */
@@ -26,20 +25,32 @@ class TIRPsTable extends Component {
     currentRow: [],
     currentTirps: [],
     loadingNextLevel: false,
+    weighted_vs: 34,
+    weighted_mhs: 33,
+    weighted_mmd: 33,
     data: [],
     selected: [],
-    showPopup: false,
     modalShow: false,
+    weightsModalShow: false,
   };
   constructor(props) {
     super(props);
+    this.changeWeightsValue = this.changeWeightsValue.bind(this);
     if (window.PassedFromSearch) {
       window.PassedFromSearch = false;
       this.draw_from_search();
     } else {
       this.renderTableData();
     }
+    // this.renderTableData();
   }
+  changeWeightsValue = (value) => {
+    this.state.weighted_vs = value[0];
+    this.state.weighted_mhs = value[1];
+    this.state.weighted_mmd = value[2];
+    this.renderTableData();
+    this.forceUpdate();
+  };
 
   componentDidMount() {
     if (sessionStorage.getItem("user").localeCompare("true") !== 0) {
@@ -50,6 +61,25 @@ class TIRPsTable extends Component {
     window.dispatchEvent(new Event("ReloadTable1"));
     window.dispatchEvent(new Event("ReloadDataSet"));
   }
+
+  // renderTableHeader = () => {
+  //   return (
+  //     <thead>
+  //       <tr>
+  //         <th> Next </th>
+  //         <th> Relation </th>
+  //         <th> Symbol </th>
+  //         <th> Score </th>
+  //         <th> VS.1 </th>
+  //         <th> VS.0 </th>
+  //         <th> MHS.1 </th>
+  //         <th> MHS.0 </th>
+  //         <th> MMD.1 </th>
+  //         <th> MMD.0 </th>
+  //       </tr>
+  //     </thead>
+  //   );
+  // };
 
   draw_from_search() {
     for (var i = 0; i < window.pathOfTirps.length - 1; i++) {
@@ -73,14 +103,54 @@ class TIRPsTable extends Component {
         ._TIRP__mean_horizontal_support;
 
     for (let i = 0; i < this.state.data.length; i++) {
-      if (
-        this.state.data[i].Mean_Horizontal_Support === mh &&
-        this.state.data[i].Mean_Mean_Duration === md
-      ) {
+      if (this.state.data[i].MH1 === mh && this.state.data[i].MMD1 === md) {
         this.handleOnSelect(this.state.data[i], true);
       }
     }
   }
+
+  renderTableData = () => {
+    let tables = [];
+    if (this.state.currentTirps.length == 0) {
+      tables = this.props.table;
+    } else {
+      tables = this.state.currentTirps;
+    }
+    this.state.data = [];
+
+    return tables.map((iter, idx) => {
+      if (this.state.currentRow.length == 0) {
+        this.state.currentRow = iter;
+      }
+      this.state.data.push({
+        id: idx,
+        Next: this.hasChild(iter),
+        Relation: this.getRel(iter),
+        Symbol: iter["_TIRP__symbols"][iter["_TIRP__symbols"].length - 1],
+        Score: parseFloat(this.getScore(iter)),
+        VS1:
+          "" +
+          (
+            (iter["_TIRP__vertical_support"] / window.window.num_of_entities) *
+            100
+          ).toFixed(1) +
+          "%",
+        VS0:
+          "" +
+          (
+            (iter["_TIRP__vertical_support_class_1"] /
+              window.window.num_of_entities_class_1) *
+            100
+          ).toFixed(1) +
+          "%",
+        MH1: iter["_TIRP__mean_horizontal_support"],
+        MH0: iter["_TIRP__mean_horizontal_support_class_1"],
+        MMD1: iter["_TIRP__mean_duration"],
+        MMD0: iter["_TIRP__mean_duration_class_1"],
+        iter: iter,
+      });
+    });
+  };
 
   temp = (row) => {
     this.state.currentRow = row.iter;
@@ -119,6 +189,64 @@ class TIRPsTable extends Component {
         );
       }
     }
+  };
+
+  getScore = (tirp) => {
+    if (tirp == undefined) return "";
+    let vs0 = 0;
+    let vs1 = 0;
+    if (tirp._TIRP__exist_in_class0)
+      vs0 = (
+        (this.getAmountInstancesClass0(tirp) / window.num_of_entities).toFixed(
+          2
+        ) * 100
+      ).toFixed(0);
+
+    if (tirp._TIRP__exist_in_class1 || !tirp._TIRP__exist_in_class0)
+      vs1 = (
+        (
+          this.getAmountInstancesClass1(tirp) / window.num_of_entities_class_1
+        ).toFixed(2) * 100
+      ).toFixed(0);
+
+    let delta_vs = Math.abs(vs0 - vs1);
+    let delta_mhs = Math.abs(
+      tirp._TIRP__mean_horizontal_support -
+        tirp._TIRP__mean_horizontal_support_class_1
+    );
+    let delta_mmd = Math.abs(
+      tirp._TIRP__mean_duration - tirp._TIRP__mean_duration_class_1
+    );
+
+    let score = 0;
+    score =
+      this.state.weighted_vs * delta_vs +
+      this.state.weighted_mhs * delta_mhs +
+      this.state.weighted_mmd * delta_mmd;
+    return (score / 100).toFixed(1);
+  };
+
+  getAmountInstancesClass1 = (tirp) => {
+    if (tirp == undefined) return "";
+    if (tirp._TIRP__exist_in_class1 || !tirp._TIRP__exist_in_class0)
+      return tirp._TIRP__vertical_support_class_1;
+    else
+      return (
+        "<" +
+        (
+          window.dataSetInfo.min_ver_support * window.num_of_entities_class_1
+        ).toFixed(0)
+      );
+  };
+
+  getAmountInstancesClass0 = (tirp) => {
+    if (tirp == undefined) return "";
+    if (tirp._TIRP__exist_in_class0) return tirp._TIRP__vertical_support;
+    else
+      return (
+        "<" +
+        (window.dataSetInfo.min_ver_support * window.num_of_entities).toFixed(0)
+      );
   };
 
   go_to_next_level = (tirp) => {
@@ -199,39 +327,6 @@ class TIRPsTable extends Component {
     return false;
   };
 
-  renderTableData = () => {
-    let tables = [];
-    if (this.state.currentTirps.length == 0) {
-      tables = this.props.table;
-    } else {
-      tables = this.state.currentTirps;
-    }
-    this.state.data = [];
-
-    return tables.map((iter, idx) => {
-      if (this.state.currentRow.length == 0) {
-        this.state.currentRow = iter;
-      }
-      this.state.data.push({
-        id: idx,
-        Next: this.hasChild(iter),
-        // Next: "ff",
-        Relation: this.getRel(iter),
-        Symbol: iter["_TIRP__symbols"][iter["_TIRP__symbols"].length - 1],
-        Vertical_Support:
-          "" +
-          (
-            (iter["_TIRP__vertical_support"] / window.window.num_of_entities) *
-            100
-          ).toFixed(1) +
-          "%",
-        Mean_Horizontal_Support: iter["_TIRP__mean_horizontal_support"],
-        Mean_Mean_Duration: iter["_TIRP__mean_duration"],
-        iter: iter,
-      });
-    });
-  };
-
   createNavbar = (levelName, index) => {
     return (
       <Link
@@ -304,22 +399,51 @@ class TIRPsTable extends Component {
         headerSortingStyle,
       },
       {
-        dataField: "Vertical_Support",
-        text: "Vertical Support",
+        dataField: "Score",
+        text: "Score",
         sort: true,
         headerSortingStyle,
       },
       {
-        dataField: "Mean_Horizontal_Support",
-        text: "Mean Horizontal Support",
+        dataField: "VS1",
+        text: "VS.1",
         sort: true,
         headerSortingStyle,
       },
       {
-        dataField: "Mean_Mean_Duration",
-        text: "Mean Mean Duration",
+        dataField: "VS0",
+        text: "VS.0",
         sort: true,
         headerSortingStyle,
+      },
+      {
+        dataField: "MH1",
+        text: "MHS.1",
+        sort: true,
+        headerSortingStyle,
+      },
+      {
+        dataField: "MH0",
+        text: "MHS.0",
+        sort: true,
+        headerSortingStyle,
+      },
+      {
+        dataField: "MMD1",
+        text: "MMD.1",
+        sort: true,
+        headerSortingStyle,
+      },
+      {
+        dataField: "MMD0",
+        text: "MMD.0",
+        sort: true,
+        headerSortingStyle,
+      },
+      {
+        dataField: "iter",
+        text: "iter",
+        hidden: true,
       },
       {
         dataField: "iter",
@@ -329,6 +453,20 @@ class TIRPsTable extends Component {
     ];
     return columns;
   };
+
+  // handleOnSelect = (row, isSelect) => {
+  //   if (isSelect) {
+  //     this.state.selected = [];
+  //     this.setState(() => ({
+  //       selected: [...this.state.selected, row.id],
+  //     }));
+  //     this.temp(row);
+  //   } else {
+  //     this.setState(() => ({
+  //       selected: this.state.selected.filter((x) => x !== row.id),
+  //     }));
+  //   }
+  // };
 
   handleOnSelect = (row, isSelect) => {
     if (isSelect) {
@@ -356,15 +494,16 @@ class TIRPsTable extends Component {
     }
   };
 
-  togglePopup() {
-    this.setState({
-      showPopup: !this.state.showPopup,
-    });
-  }
   setModalShow(value) {
     this.state.modalShow = value;
     this.forceUpdate();
   }
+  setWeightsModalShow(value) {
+    this.state.weightsModalShow = value;
+    this.renderTableData();
+    this.forceUpdate();
+  }
+
   render() {
     let that = this;
     window.addEventListener("ReloadEntitiesTable", function () {
@@ -378,16 +517,14 @@ class TIRPsTable extends Component {
       selected: this.state.selected,
       onSelect: this.handleOnSelect,
     };
-    // const [modalShow, setModalShow] = React.useState(false);
-
     const defaultSorted = [
       {
         dataField: "Symbol",
-        order: "asc",
+        order: "desc",
       },
     ];
     return (
-      <Container fluid h-250>
+      <Container fluid>
         <HashRouter>
           <Link
             className={
@@ -404,46 +541,56 @@ class TIRPsTable extends Component {
           </Link>
           {this.drawNavbar()}
         </HashRouter>
-        <Row h-25>
-          <Col sm={2}>
+        <Row>
+          <Col sm={3}>
             <SelectedTIRPTable
               table={this.state.currentRow}
-              type_of_comp="tirp"
+              type_of_comp="disc"
             ></SelectedTIRPTable>
             <Button
+              variant="primary"
+              style={{ marginRight: "2%" }}
+              onClick={() => this.setWeightsModalShow(true)}
+            >
+              Select Weights
+            </Button>
+            <div className="overlay">
+              <WeightsPop
+                className="popupWeights"
+                show={this.state.weightsModalShow}
+                // render={this.renderTableData}
+                onHide={() => this.setWeightsModalShow(false)}
+                onUpdate={this.changeWeightsValue}
+              ></WeightsPop>
+              <WeightsForm onUpdate={this.changeWeightsValue} />
+            </div>
+            <Button
               disabled={this.checkIfRoot()}
-              style={{ width: "100%" }}
               variant="primary"
               onClick={() => this.setModalShow(true)}
             >
               Get Relations
             </Button>
-
             <TirpMatrix
-              className="popup"
+              className="popupWeights"
               show={this.state.modalShow}
               row={this.state.currentRow}
               onHide={() => this.setModalShow(false)}
             ></TirpMatrix>
           </Col>
-          <Col sm={10}>
+          <Col sm={9}>
             <Card>
               <Card.Header className={"bg-hugobot"}>
                 <Card.Text className={"text-hugobot text-hugoob-advanced"}>
-                  Tirp's Table{" "}
+                  Discriminative Tirp's Table{" "}
                 </Card.Text>
               </Card.Header>
-              <Card.Body className={"text-hugobot"}>
-                {/* <Table
-                  responsive={true}
-                  striped={true}
-                  hover={true}
-                  scroll={true}
-                >
-                  {this.renderTableHeader()}
-                  <tbody>{this.renderTableData()}</tbody>
-                </Table> */}
+              <Card.Body>
                 <div className="vertical-scroll-tirp">
+                  {/* <Table striped={true} hover={true} scroll={true}>
+                    {this.renderTableHeader()}
+                    <tbody>{this.renderTableData()}</tbody>
+                  </Table> */}
                   <BootstrapTable
                     keyField="id"
                     data={this.state.data}
@@ -459,18 +606,18 @@ class TIRPsTable extends Component {
             </Card>
           </Col>
         </Row>
-
         <Row>
-          <Col sm={4}>
-            <TIRPsPie
-              row={this.state.currentRow}
-              type_of_comp="tirp"
-            ></TIRPsPie>
+          <Col lg={4}>
+            <TIRPsPie row={this.state.currentRow}></TIRPsPie>
           </Col>
-          <Col sm={8}>
+          <Col lg={3}>
+            <DTirpBarPlot row={this.state.currentRow}></DTirpBarPlot>
+          </Col>
+
+          <Col lg={5}>
             <TIRPTimeLine
               row={this.state.currentRow}
-              type_of_comp="tirp"
+              type_of_comp="disc"
             ></TIRPTimeLine>
           </Col>
         </Row>

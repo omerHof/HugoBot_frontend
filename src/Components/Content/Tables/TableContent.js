@@ -12,12 +12,14 @@ import DiscretizationTable from "./DiscretizationTable";
 import history from "../../../History";
 import HomeTable from "./HomeTable";
 import HomeTableReady from "./HomeTableReady";
+import Landing from "./Landing";
 import Info from "./infoComponents/Info";
 import TirpsApp from "../Visualization/TirpsApp";
 import RunKarmaLego from "../Integration/RunKarmaLego";
 import TIMTable from "./TIMTable";
 import Visualization from "./Visualization";
 import Workflow from "./Workflow";
+
 
 /**
  * this class renders all the data of the home page.
@@ -33,28 +35,9 @@ class TableContent extends Component {
     InfoTable: [],
     DiscretizationTable: [],
     TIMTable: [],
+    isNewData: false,
+    isDataDisplaeyd: false
   };
-
-  getAllDatasets() {
-    const url = window.base_url + "/getAllDataSets";
-    return Axios.get(url);
-  }
-
-  //yiftah
-  getAllReadyDatasets() {
-    const url = window.base_url + "/getDataSets";
-    return Axios.get(url);
-  }
-
-  getDataOnDataset(id) {
-    const url = window.base_url + "/getDataOnDataset?id=" + id;
-    const config = {
-      headers: {
-        "x-access-token": cookies.get("auth-token"),
-      },
-    };
-    return Axios.get(url, config);
-  }
 
   constructor(props) {
     super(props);
@@ -103,6 +86,29 @@ class TableContent extends Component {
       });
     }
   }
+
+  getAllDatasets() {
+    const url = window.base_url + "/getAllDataSets";
+    return Axios.get(url);
+  }
+
+  //yiftah
+  getAllReadyDatasets() {
+    const url = window.base_url + "/getDataSets";
+    return Axios.get(url);
+  }
+
+  getDataOnDataset(id) {
+    const url = window.base_url + "/getDataOnDataset?id=" + id;
+    const config = {
+      headers: {
+        "x-access-token": cookies.get("auth-token"),
+      },
+    };
+    return Axios.get(url, config);
+  }
+
+  
   //yiftah
   StartVisualization = (id) => {
     sessionStorage.setItem("datasetReadyName", id);
@@ -145,32 +151,53 @@ class TableContent extends Component {
       });
   };
 
+  DisplayNewData = () => {
+    this.setState({isNewData : true, isDataDisplaeyd: true});   
+  }
+
+  DisplayoldData = () => {
+    this.setState({isNewData : false, isDataDisplaeyd: true});   
+  }
+
   render() {
     let that = this;
     window.addEventListener("ReloadTableContent", function () {
       that.forceUpdate();
-    });
+      
+    })
+    const isNewData = this.state.isNewData;
+    const isDiaplaeyd = this.state.isDataDisplaeyd;
+      let displaesData;
+      if (!isNewData & isDiaplaeyd) {
+        displaesData = <HomeTableReady
+        HomeTable={this.state.HomeTableReady}
+        StartVisualization={this.StartVisualization}
+        />;
+      }     
+      if (isNewData & isDiaplaeyd){
+        displaesData = <HomeTable
+          HomeTable={this.state.HomeTable}
+          CollectData={this.CollectData}
+        />;
+        
+      }
+    ;
     return (
-      <HashRouter history={history}>
+      <HashRouter>
         <br />
         <Workflow />
         <br />
         <Container>
           <Route exact={true} path={"/Home"}>
-            <HomeTable
-              HomeTable={this.state.HomeTable}
-              CollectData={this.CollectData}
-            />
-            <HomeTableReady
-              HomeTable={this.state.HomeTableReady}
-              StartVisualization={this.StartVisualization}
-            />
+            <Landing new={this.DisplayNewData} old={this.DisplayoldData} />
+            {displaesData}
+        
           </Route>
           <Route path={"/Home/Info"}>
             <Info />
           </Route>
           <Route path={"/TirpsApp"}>
-            <TirpsApp/>
+            <TirpsApp />
           </Route>
           <Route path={"/Home/Disc"}>
             <AddConfigCard />

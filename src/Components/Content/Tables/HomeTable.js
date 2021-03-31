@@ -158,12 +158,10 @@ class HomeTable extends Component {
     return (
       <Card>
         <Card.Header className={"bg-hugobot"}>
-          <Card.Text className={"text-hugobot"}>
-          Datasets
-          </Card.Text>
+          <Card.Text className={"text-hugobot"}>Datasets</Card.Text>
         </Card.Header>
         <Card.Body>
-          <Button
+          {/* <Button
             className={"btn-hugobot"}
             href={"#/Upload/Metadata"}
             onClick={this.onClick}
@@ -172,7 +170,7 @@ class HomeTable extends Component {
             <i className="fas fa-upload" />
             &nbsp; Upload Dataset
           </Button>
-          <br />
+          <br /> */}
           <br />
           <Table striped={true} bordered={true} hover={true}>
             {this.renderTableHeader()}

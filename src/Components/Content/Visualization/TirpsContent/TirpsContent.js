@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import { Redirect, Route, HashRouter, Switch } from "react-router-dom";
 
-
 import DatasetInfo from "./DatasetInfo";
 import Analysis from "./Analysis";
 import States from "./States";
@@ -13,7 +12,7 @@ import DiscriminativeTIRPs from "./DiscriminativeTIRPs";
 import TIRPsSearch from "./TIRPsSearch";
 import PTIRPsSearch from "./PTIRPsSearch";
 import History from "../../../../History";
-import "../visualization.css"
+import "../visualization.css";
 
 /**
  * in this class you can see the content of the main navbar.
@@ -21,23 +20,20 @@ import "../visualization.css"
  */
 
 class TirpsContent extends Component {
- 
-
-
   render() {
     return (
-      <HashRouter history={History}>
+      <HashRouter>
         <Switch>
-        <Route path={"/TirpsApp/DatasetInfo"}>
+          <Route path={"/TirpsApp/DatasetInfo"}>
             <Container>
               <DatasetInfo />
             </Container>
-          </Route>        
-          <Route path={"/TirpsApp/Analysis"}>
+          </Route>
+          {/* <Route path={"/TirpsApp/Analysis"}>
             <Container>
               <Analysis />
             </Container>
-          </Route>
+          </Route> */}
           <Route path={"/TirpsApp/States"}>
             <Container>
               <States />
@@ -49,22 +45,22 @@ class TirpsContent extends Component {
             </Container>
           </Route>
           <Route path={"/TirpsApp/TIRPs"}>
-            <Container>
+            <Container fluid>
               <TIRPs />
             </Container>
           </Route>
           <Route path={"/TirpsApp/DiscriminativeTIRPs"}>
-            <Container>
+            <Container fluid>
               <DiscriminativeTIRPs />
             </Container>
           </Route>
           <Route path={"/TirpsApp/TIRPsSearch"}>
-            <Container>
+            <Container fluid>
               <TIRPsSearch />
             </Container>
           </Route>
           <Route path={"/TirpsApp/PTIRPsSearch"}>
-            <Container>
+            <Container fluid>
               <PTIRPsSearch />
             </Container>
           </Route>
