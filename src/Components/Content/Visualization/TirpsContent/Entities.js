@@ -127,15 +127,17 @@ class Entities extends Component {
     return (
       <Card>
         <Card.Header className={"bg-hugobot"}>
-          <Card.Text className={"text-hugobot"}>Entities </Card.Text>
+          <Card.Text className={"text-hugobot text-hugoob-advanced"}>Entities </Card.Text>
         </Card.Header>
         <Card.Body>
+        <div className="vertical-scroll-entities-state vertical-scroll-advanced">
           <Table striped={true} bordered={true} hover={true}>
             {this.renderTableHeader()}
 
             {this.renderTableFilter()}
             <tbody>{this.renderTableData()}</tbody>
           </Table>
+          </div>
         </Card.Body>
       </Card>
     );

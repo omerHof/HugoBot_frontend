@@ -13,19 +13,14 @@ import "./visualization.css";
 class TirpsNavigation extends Component {
     render() {
         return (
-            <HashRouter history={History}>
+            <HashRouter>
                 <Navbar className={"navbar-tirps"} variant={"light"}>
                     <ul>
                         <li>
                             <NavLink to={"/TirpsApp/DatasetInfo"}>
                                 <i className="fas fa-info"></i> Dataset Information
                             </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={"/TirpsApp/Analysis"}>
-                            <i className="fas fa-chart-line"></i> Analysis
-                            </NavLink>
-                        </li>
+                        </li>                    
                         <li>
                             <NavLink to={"/TirpsApp/States"}>                                
                             <i className="fas fa-bars"></i> States

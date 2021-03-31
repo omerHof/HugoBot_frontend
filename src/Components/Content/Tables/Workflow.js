@@ -30,10 +30,10 @@ class Workflow extends Component{
     render() {
         let  that = this;
         window.addEventListener("ReloadDataSet", function(){that.forceUpdate()});
-        console.log("Info: " + sessionStorage.getItem("Workflow"))
+        // console.log("Info: " + sessionStorage.getItem("Workflow"))
         return (
             <Container fluid={true}>
-                <HashRouter   history={History}>
+                <HashRouter>
                     {sessionStorage.getItem("dataSet").localeCompare("true")===0 ? (
                         <div>
                             <Link className={sessionStorage.getItem("Workflow").localeCompare("Info") === 0 ?

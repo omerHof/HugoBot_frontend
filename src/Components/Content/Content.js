@@ -22,7 +22,7 @@ import "../../resources/style/colors.css";
 class Content extends Component {
   render() {
     return (
-      <HashRouter history={history}>
+      <HashRouter >
         <Switch>
           <Route path={"/Home"}>
             <TableContent />

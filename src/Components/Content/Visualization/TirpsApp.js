@@ -21,13 +21,21 @@ class TirpsApp extends Component {
     this.getRoot(datasetName);
     this.getFullEntities(datasetName);
     this.getFullStates(datasetName);
+    this.getMetaData(datasetName);
     window.states = [];
+    window.pathOfTirps = [];
   };
+  // get metadata on dataset
+  async getMetaData(dataSetName) {
+    this.getDataOnDataset(window.selectedDataSet).then((response) => {
+      window.dataSetInfo = response.data["DataSets"][0];
+    });
+  }
 
   //get root for the TIRPs page
   async getRoot(dataSetName) {
     const formData = new FormData();
-    formData.append('data_set_name', dataSetName)
+    formData.append("data_set_name", dataSetName);
     const url = window.base_url + "/initiateTirps";
     const config = {
       headers: {
@@ -38,15 +46,14 @@ class TirpsApp extends Component {
     const res = await Axios.post(url, formData, config);
     if (!res.statusText == "OK") {
       throw res;
-    }
-    else {
+    } else {
       const arrOfRoot = res.data.Root;
       let jsons = [];
       for (let i = 0; i < arrOfRoot.length; i++) {
         let tirp = JSON.parse(arrOfRoot[i]);
         jsons.push(tirp);
       }
-      window.rootElement = jsons;   
+      window.rootElement = jsons;
     }
 
     // Axios.post(url, formData, config).then((response) => {
@@ -113,6 +120,23 @@ class TirpsApp extends Component {
     const url = window.base_url + "/getStates";
     const formData = new FormData();
     formData.append("data_set_name", datasetName);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        "x-access-token": cookies.get("auth-token"),
+      },
+    };
+    return Axios.post(url, formData, config);
+  }
+
+  getDataOnDataset(id) {
+    const url = window.base_url + "/getDataSets";
+    let body = {
+      data_set_name: id,
+    };
+    const formData = new FormData();
+    // formData.append("file", file);
+    formData.append("data_set_name", id);
     const config = {
       headers: {
         "content-type": "multipart/form-data",

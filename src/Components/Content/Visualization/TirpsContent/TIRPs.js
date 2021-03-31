@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TIRPsTable from "./TIRPsTable";
-
+import Container from "react-bootstrap/Container";
 class TIRPs extends Component{    
     state = {
         currentLevel: []
@@ -8,14 +8,16 @@ class TIRPs extends Component{
     constructor(props) {
         super(props);        
         this.state.currentLevel = window.rootElement;        
-        let x = 5;
     }
 
     render() {
         return(
-            <TIRPsTable
-            table={this.state.currentLevel}
-            ></TIRPsTable>
+            <Container fluid>
+                <TIRPsTable
+                    table={this.state.currentLevel}
+                ></TIRPsTable>
+            </Container>
+            
         )
     }
 }
