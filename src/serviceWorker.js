@@ -9,7 +9,7 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
-window.base_url = "http://127.0.0.1:443"; //change to: "https://cdalab.ise.bgu.ac.il/api"
+window.base_url = "http://127.0.0.1:8080"; //change to: "https://cdalab.ise.bgu.ac.il/api"
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
     // [::1] is the IPv6 localhost address.

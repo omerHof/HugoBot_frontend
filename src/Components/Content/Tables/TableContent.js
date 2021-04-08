@@ -42,7 +42,7 @@ class TableContent extends Component {
   constructor(props) {
     super(props);
     if (
-      !("allTables" in sessionStorage) ||
+      ("allTables" in sessionStorage) ||
       ("datasetUploaded" in sessionStorage &&
         sessionStorage.getItem("datasetUploaded") === "true")
     ) {
