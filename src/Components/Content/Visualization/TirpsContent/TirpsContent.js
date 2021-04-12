@@ -13,6 +13,7 @@ import TIRPsSearch from "./TIRPsSearch";
 import PTIRPsSearch from "./PTIRPsSearch";
 import History from "../../../../History";
 import "../visualization.css";
+import App from "../../Tali/NewProject/App";
 
 /**
  * in this class you can see the content of the main navbar.
@@ -62,6 +63,11 @@ class TirpsContent extends Component {
           <Route path={"/TirpsApp/PTIRPsSearch"}>
             <Container fluid>
               <PTIRPsSearch />
+            </Container>
+          </Route>
+          <Route path={"/TirpsApp/Tali"}>
+            <Container fluid>
+              <App/>
             </Container>
           </Route>
           <Redirect from={"/TirpsApp"} to={"/TirpsApp/DatasetInfo"} />

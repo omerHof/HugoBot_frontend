@@ -13,6 +13,7 @@ import UploadDataset from "./UploadDataset/UploadDataset";
 import TirpsApp from "./Visualization/TirpsApp";
 
 import "../../resources/style/colors.css";
+import App from "./Tali/NewProject/App";
 
 /**
  * in this class you can see the content of the main navbar.
@@ -55,6 +56,9 @@ class Content extends Component {
               <UploadDataset />
             </Container>
           </Route>
+          {/* <Route path="/Tali">            
+            <App />           
+          </Route> */}
           <Redirect from={"/"} to={"/Home"} />
         </Switch>
       </HashRouter>

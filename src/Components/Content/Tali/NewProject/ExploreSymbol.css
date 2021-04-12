@@ -1,0 +1,48 @@
+.symbols{
+    display: flex;
+    flex-direction: row;
+}
+
+.symbols div{
+    align-items: center;
+} 
+.exploreScreen{
+    padding: 1%;
+}
+
+
+.exploreScreen div{
+    width: 100%;
+}
+
+.beforeSymbols{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.afterSymbols{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.centerSymbol{
+    margin-top: 10%;
+    margin-left: 1%;
+    margin-right: 1%;
+
+}
+
+
+.matrix{
+    margin-left: 25%;
+    margin-top: 3%;
+}
+.arrows{
+    height: 25%;
+}
+.TIRP{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

@@ -41,12 +41,14 @@ class TableContent extends Component {
 
   constructor(props) {
     super(props);
+    // i changed here the condition , was ! before all the condition
     if (
-      ("allTables" in sessionStorage) ||
+      !("allTables" in sessionStorage) ||
       ("datasetUploaded" in sessionStorage &&
         sessionStorage.getItem("datasetUploaded") === "true")
     ) {
       this.getAllDatasets().then((response) => {
+        console.log("here");
         if (response.status < 400) {
           let data1 = response.data;
           let i;

@@ -50,7 +50,17 @@ class TirpsNavigation extends Component {
                             <NavLink to={"/TirpsApp/PTIRPsSearch"}>
                             <i className="fas fa-search"></i> PTIRPs Search
                             </NavLink>
-                        </li>                        
+                        </li>   
+                        <li>
+                            <NavLink to={"/TirpsApp/Tali"}>
+                            <i className="fas fa-tree"></i> Tirp Symbols
+                            </NavLink>
+                        </li>        
+                        {/* <li>
+                            <NavLink to={"/TirpsApp/PTIRPsSearch"}>
+                            <i className="fas fa-chart-line"></i> Raw Data
+                            </NavLink>
+                        </li>                   */}
                     </ul>
                 </Navbar>
             </HashRouter>
