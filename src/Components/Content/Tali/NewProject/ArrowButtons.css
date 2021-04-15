@@ -1,28 +1,70 @@
-.prefixArrow > img{
-    max-width: 100%;
-    /* max-height: 30%; */
-    max-height: 150px;
+a{
+    cursor: pointer;
+    margin-bottom: 5%;
+}
+a.nextArrow{
+    height:40px;
+    line-height:40px;
+    vertical-align:middle;
+    text-align:center;
+    padding:0 50px;
+    color:#ffffff;
+    background-color:#007bff;
+    position:relative;
+    display:inline-block;
+    margin-left: 43%;
+}
+a.nextArrow:after{
+    position:absolute;
+    right:-20px;
+    content:" ";
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 20px 0 20px 20px;
+    border-color: transparent transparent transparent #007bff;
+}
+a.nextArrow:hover{
+    background-color:red;
+}
+a.nextArrow:hover:after{
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 20px 0 20px 20px;
+    border-color: transparent transparent transparent #ff1e00;
+}
+a.prefixArrow{
+    height:40px;
+    line-height:40px;
+    vertical-align:middle;
+    text-align:center;
+    padding:0 50px;
+    color:#ffffff;
+    background-color:#007bff;
+    position:relative;
+    display:inline-block;
+    margin-left: 43%;
+}
+a.prefixArrow:after{
+    position:absolute;
+    left: -20px;
     transform: rotate(180deg);
-    cursor: pointer;
-    margin-left: 20%;
+    content:" ";
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 20px 0 20px 20px;
+    border-color: transparent transparent transparent #007bff;
+    
 }
-
-.prefixArrow > img:hover{
-    box-shadow: 0 0 0 3px #00d10a;
-    transition: .5s ease;
+a.prefixArrow:hover{
+    background-color:#00ff15;
 }
-
-.nextArrow > img{
-    max-width: 100%;
-    /* max-height: 30%; */
-    max-height: 150px;
-    transform: rotate(0deg);
-    cursor: pointer;
-    margin-left: 20%;
-}
-
-
-.nextArrow > img:hover{
-    box-shadow: 0 0 0 3px #d10e00;
-    transition: .5s ease;
+a.prefixArrow:hover:after{
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 20px 0 20px 20px;
+    border-color: transparent transparent transparent #00ff15;
 }

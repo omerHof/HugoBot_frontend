@@ -13,12 +13,14 @@ const ArrowButtons = (props) => {
 
   return (
       <div className={className.current}>
-        <img 
+        {/* <img 
             src={arrowImg} 
             alt=""
             onClick = {props.arrowClicked}
+            style={{'color':'red'}}
             >
-        </img>
+        </img> */}
+        <a className={className.current} onClick={props.arrowClicked}></a>
     </div>
   );
 }

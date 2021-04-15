@@ -70,7 +70,7 @@ const App = (props) => {
  }
 
   useEffect(() => {
-    let url = 'http://127.0.0.1:5000/vectorSymbols';
+    let url = 'http://127.0.0.1:8080/vectorSymbols';
     Axios.get(url).then(
       (response)=>{
         const relationVectorsJson = response.data;
@@ -94,9 +94,10 @@ const App = (props) => {
           relationsVectorsList.current.push(relationsVector);
         }
         setReadyToExplore(true);
+        console.log("1")
       }
       );
-      url = 'http://127.0.0.1:5000/tirps';
+      url = 'http://127.0.0.1:8080/tirps';
       Axios.get(url).then(
         (response)=>{
           let tirpsJson =  response.data;
@@ -105,6 +106,7 @@ const App = (props) => {
             tirpsList.current.push(tirp);
           }
           setTirpsReady(true);
+          console.log("2")
         })
   },[]);
 
@@ -149,8 +151,10 @@ const App = (props) => {
  
   return (
     <div>
+      
       {tirpsReady && readyToExplore?
       <ChooseTirpSymbol
+      {...console.log("hi")}
       tirps = {tirpsList.current}
       getTirpBySymbols={getTirpBySymbols}
       getNextVectorTirps={getNextVectorTirps}
@@ -158,20 +162,10 @@ const App = (props) => {
       getSymbolVector={getSymbolVector}
       getAllTirps={getAllTirps}
       />
+      
     
       :null}
     </div>
-        // {readyToExplore && tirp!==null?
-        // <ChooseTirpSymbol>
-
-        // </ChooseTirpSymbol>
-        // <ExploreSymbol 
-        //     tirp={tirp} 
-        //     focusSymbol={focusSymbol} 
-        //     getNextVectorTirps={getNextVectorTirps}
-        //     getPrevVectorTirps={getPrevVectorTirps}
-        //   />
-        // :null}
   );
 }
 

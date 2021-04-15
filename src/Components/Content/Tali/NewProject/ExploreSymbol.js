@@ -260,7 +260,8 @@ const ExploreSymbol = (props) => {
             <div className="symbols">
                
                 <div className="beforeSymbols">
-                    <div className="arrows">
+                    
+                    <div className="arrowsBefore">
                         <ArrowButtons
                         isPrefix={true}
                         arrowClicked={()=>arrowClicked(true)}

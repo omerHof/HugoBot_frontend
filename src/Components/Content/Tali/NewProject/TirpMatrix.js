@@ -31,15 +31,9 @@ const TirpMatrix = (props) => {
     return (
         <div className="tirpMatrix" >
                 <ReactBootstrap.Table
-                    className="table table-bordered" 
-                    style={{'fontSize':'large',
-                            'background':'#ccffff',
-                            'width':'50%',
-                            'height':'50%'
-                        }}
+                    className="tirpMatrixTable" 
                     >
-                        <thead 
-                            style={{'fontWeight': 'bold'}}>
+                        <thead >
                            <tr>
                                 {symbols.map((_,index)=>{
                                                 return[

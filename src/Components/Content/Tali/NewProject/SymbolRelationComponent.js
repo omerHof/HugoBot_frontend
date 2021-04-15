@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import * as ReactBootstrap from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
+import './SymbolRelationComponent.css';
+
 
 const SymbolRelationComponent = (props) => {
 
@@ -38,13 +40,14 @@ const SymbolRelationComponent = (props) => {
         <div className="symbolRelationTable" 
             style={
                 needToClear?{'border':'3px solid rgb(0, 0, 0)'}
-                :getBorderColor()}>
+                :
+                getBorderColor()}
+                >
                 <ReactBootstrap.Table
-                    className="table table-bordered" 
-                    style={{'fontSize':'large','background':'#e6ffff'}}
+                    className="componentTable" 
                     onClick={props.symbolClicked}
                     >
-                        <thead className="thead-dark">
+                        <thead>
                             <tr>
                                 <th>Symbol: {props.symbol}</th>
                             </tr>

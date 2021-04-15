@@ -1,3 +1,12 @@
 .tirpMatrix{
-  margin-left: 0%;
+  margin-left: 1%;
+  margin-top: 3%;
+}
+.tirpMatrixTable{
+  background-color: rgb(255, 255, 251);
+  border: 3px solid rgb(14, 173, 236);
+  font-size: large;
+}
+.tirpMatrixTable thead{
+  font-weight: bold ;
 }

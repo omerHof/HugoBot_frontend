@@ -33,16 +33,9 @@
 
 }
 
-
-.matrix{
-    margin-left: 25%;
-    margin-top: 3%;
-}
-.arrows{
-    height: 25%;
-}
 .TIRP{
     display: flex;
     flex-direction: row;
     align-items: center;
 }
+

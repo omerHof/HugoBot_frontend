@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as ReactBootstrap from 'react-bootstrap';
-
+import './CenterSymbol.css';
 
 const CenterSymbol = (props) => {
     const relationsJson = {
@@ -11,12 +11,9 @@ const CenterSymbol = (props) => {
 
     return (
         <ReactBootstrap.Table 
-            className="table table-bordered" 
-            style={
-                {'fontSize':'large',
-                }
-            }>
-             <thead className="thead-dark">
+            className="centerComponentTable" 
+            >
+             <thead>
                 <tr>
                 <th>Symbol: {props.symbol}</th>
                 </tr>
