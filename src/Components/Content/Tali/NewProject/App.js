@@ -51,7 +51,11 @@ const App = (props) => {
     const numSupEnt = tirp['num_supporting_entities'];
     const meanHorSup =tirp['mean_horizontal_support'];
     const occurences = tirp['occurences'];
-    const newTirp = new TIRP(size,symbols,relations,numSupEnt,meanHorSup,occurences);
+    const mean_of_first_interval = tirp['mean_of_first_interval'];
+    const mean_offset_from_first_symbol = tirp['mean_offset_from_first_symbol'];
+
+    const newTirp = new TIRP(size,symbols,relations,numSupEnt,meanHorSup,
+      occurences,mean_of_first_interval,mean_offset_from_first_symbol);
     return newTirp;
     }
 

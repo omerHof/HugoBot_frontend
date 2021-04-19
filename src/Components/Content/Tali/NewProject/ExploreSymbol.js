@@ -4,6 +4,7 @@ import SymbolRelationList from './SymbolRelationList';
 import CenterSymbol from './CenterSymbol';
 import ArrowButtons from './ArrowButtons';
 import TirpMatrix from './TirpMatrix';
+import TIRPTimeLine from './TIRPTimeLine';
 
 const ExploreSymbol = (props) => {
    
@@ -253,9 +254,7 @@ const ExploreSymbol = (props) => {
         <div>
         <div className="exploreScreen">
             <div className="TIRP">
-                <h3>Tirp: {tirp.printSymbols()}</h3>
-                <h3> ---------- </h3>
-                <h3>Relations: {tirp.printRelations()}</h3>
+                <h3>Tirp: {tirp.printSymbols()} Relations:{tirp.printRelations()}</h3>
             </div>
             <div className="symbols">
                
@@ -312,12 +311,20 @@ const ExploreSymbol = (props) => {
                     />
                 </div>
             </div>
-            <div className="matrix">
-                <TirpMatrix
-                tirp={tirp}
-                />
+            <div className="metrics">
+                <div className="matrix">
+                    <TirpMatrix
+                    tirp={tirp}
+                    />
+                </div>
+                <div className="timeline">
+                    <TIRPTimeLine
+                        tirp={tirp}
+                    />
+                </div>
             </div>
-        </div>
+            </div>
+            
         </div>
     );
   }

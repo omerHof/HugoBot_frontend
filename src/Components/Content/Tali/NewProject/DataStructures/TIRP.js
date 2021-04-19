@@ -1,12 +1,14 @@
 export  default class TIRP {  
     constructor(size, symbols, relations, numSupportEntities,
-        meanHorSup, occurences) {
+        meanHorSup, occurences,mean_of_first_interval,mean_offset_from_first_symbol) {
       this.size = size;
       this.symbols = symbols;
       this.relations = relations;
       this.numSupportEntities = numSupportEntities;
       this.meanHorSup = meanHorSup;
       this.occurences = occurences;
+      this.mean_of_first_interval = mean_of_first_interval;
+      this.mean_offset_from_first_symbol = mean_offset_from_first_symbol;
       this.name=[];
     }
 
@@ -16,6 +18,8 @@ export  default class TIRP {
     getNumSupEnt= ()=> this.numSupportEntities;
     getMeanHorSup= ()=> this.meanHorSup;
     getOccurences= ()=> this.occurences;
+    get_mean_of_first_interval= ()=> this.mean_of_first_interval;
+    get_mean_offset_from_first_symbol= ()=> this.mean_offset_from_first_symbol;
     getName = ()=>this.name;
     getLastSymbol = ()=>this.symbols[this.symbols.length-1]
     getFirstSymbol = ()=>this.symbols[0]

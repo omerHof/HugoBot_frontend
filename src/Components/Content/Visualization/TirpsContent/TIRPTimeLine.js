@@ -19,6 +19,11 @@ class TIRPTimeLine extends Component {
       this.state.durationOfFirstIntervalClass1 = this.state.currTirp._TIRP__mean_of_first_interval_class_1;
       this.state.timesClass1 = this.state.currTirp._TIRP__mean_offset_from_first_symbol_class_1;
     }
+    console.log(this.state.currTirp);
+    console.log(this.state.durationOfFirstInterval);
+    console.log(this.state.symbols);
+
+
   }
 
   drawTimeLine = () => {
