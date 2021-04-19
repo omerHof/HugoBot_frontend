@@ -43,7 +43,7 @@ class TableContent extends Component {
     super(props);
     // i changed here the condition , was ! before all the condition
     if (
-      !("allTables" in sessionStorage) ||
+      ("allTables" in sessionStorage) ||
       ("datasetUploaded" in sessionStorage &&
         sessionStorage.getItem("datasetUploaded") === "true")
     ) {
